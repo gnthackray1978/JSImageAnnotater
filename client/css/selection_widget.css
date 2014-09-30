@@ -1,0 +1,131 @@
+﻿
+
+canvas {
+    position: absolute;
+    top:0px;
+    left: 0px;
+    z-index:-1;
+}
+
+
+
+
+#dataInfo b {
+    display: block;
+    font-size: 8pt;
+}
+
+
+#dataInfo input[type=text] {
+    display: block;
+    height: 18px;
+}
+
+
+
+#topbar {
+    display: block;
+    background-color: aliceblue;
+    height: 30px;
+}
+
+#defaultFile {
+    display: inline;
+
+}
+
+#fileinput {
+    display: inline;
+     width: 250px;
+}
+
+.filterTable
+{
+    /*width: 250px;*/
+  height:75px;
+    max-height: 400px;
+    top: 0px;
+   overflow: auto;
+}
+
+.filterYear
+{
+    width: 70px;
+ 
+}
+
+.filterTable
+{
+    /*width: 250px;*/
+  height:75px;
+    max-height: 400px;
+    top: 0px;
+   overflow: auto;
+}
+
+.selection_container {
+    border: thin solid #000000;
+     background:#fff;
+    height: 145px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    top: 30px;
+    position: relative;
+}
+
+.leftcontent {
+    position: absolute;
+    left:1%;
+    width:20%;
+    top:10px;
+    background:#fff;
+  }
+
+.centerleftcontent {
+    position: absolute;
+    left:22%;
+    width:28%;
+    top:10px;
+    background:#fff;
+  }
+
+.centerrightcontent {
+    position: absolute;
+    left:51%;
+    width:28%;
+    top:10px;
+    background:#fff;
+  }
+
+.rightcontent {
+    position: absolute;
+    left: 80%;
+    width: 19%;
+    top: 10px;
+    background: #fff;
+   
+}
+
+.right_inner {
+
+     margin-top: 10px;
+     margin-left: 25px;
+}
+
+  #rightcontent, #centerrightcontent, #centerleftcontent, #leftcontent {
+  
+  }
+
+
+  .displayPanel
+{
+    display: block;
+    
+}
+    
+.hidePanel
+{
+    display: none;
+        
+    }
+    
