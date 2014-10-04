@@ -9,7 +9,6 @@ var app      = express();
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var configDB = require('./config/database.js');
-var configFB = require('./config/auth.js');
 
 
 
@@ -39,9 +38,9 @@ app.configure(function() {
 
 	app.use(express.compress());
 
-	console.log('static contents at: ' + __dirname + '/client');
+	console.log('static contents at: ' + __dirname + '\\client');
 
-	app.use(express.static(__dirname + '/public', { maxAge: oneDay }));
+	app.use(express.static(__dirname + '/client', { maxAge: oneDay }));
 	// set up our express application
 	app.use(express.logger('dev')); // log every request to the console
 	app.use(express.cookieParser()); // read cookies (needed for auth)
@@ -51,10 +50,8 @@ app.configure(function() {
 	app.use(express.bodyParser());
     app.use(express.methodOverride());
 	
-	app.use(passport.initialize());
-	app.use(passport.session()); // persistent login sessions
-	app.use(flash()); // use connect-flash for flash messages stored in session
-		
+
+	
 	
 	
 	
