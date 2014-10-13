@@ -79,6 +79,11 @@ var TreeBase = function () {
 
     this.lastClickedPosX = 0;
     this.lastClickedPosY = 0;
+    
+    this.currentNode= {
+        x:0,
+        y:0
+    };
 
 };
 
@@ -138,7 +143,10 @@ TreeBase.prototype = {
 
         this.topSpan = this.original_topSpan;
         
-
+        this.currentNode = {
+            x:0,
+            y:0
+        };
 
 
     },
@@ -343,39 +351,24 @@ TreeBase.prototype = {
     },
    
     SetMouse: function (x, y, mousestate) {
-
-        //console.log('base setmouse: ' + x + ',' +y);
-
+ 
         this.mouse_x = x;
         this.mouse_y = y;
         if (mousestate == undefined) mousestate = false;
-
-//        if (this.initial_mouse_x === 0) {
-//            this.initial_mouse_x = this.mouse_x;
-//        }
-
-//        if (this.initial_mouse_y === 0) {
-//            this.initial_mouse_y = this.mouse_y;
-//        }
-
-
-//        if (this.mouse_x < this.centrePoint) {
-//            this.xFromCentre = this.centrePoint - this.mouse_x;
-//        }
-//        else {
-//            if (this.centrePoint < 0) {
-//                this.xFromCentre = this.mouse_x + Math.abs(this.centrePoint);
-//            }
-//            else {
-//                this.xFromCentre = this.mouse_x - this.centrePoint;
-//            }
-
-//            this.xFromCentre = this.xFromCentre - (this.xFromCentre * 2);
-//        }
-
+ 
         var mouseLink = this.links.LinkContainingPoint(this.mouse_x, this.mouse_y);
 
         var buttonLink = this.buttonLinks.LinkContainingPoint(this.mouse_x, this.mouse_y);
+
+
+
+
+        
+        
+ 
+
+
+
 
 
         if (mouseLink !== null || buttonLink !== null) {
@@ -390,6 +383,7 @@ TreeBase.prototype = {
         }
 
     },
+    
     GetChildDisplayStatus: function (person) {
 
         var isDisplayed = true;
@@ -415,6 +409,8 @@ TreeBase.prototype = {
 
     PerformClick: function (x, y) {
 
+        
+        
         this.lastClickedPosY = y;
         this.lastClickedPosX = x;
 

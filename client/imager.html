@@ -1,0 +1,139 @@
+
+
+<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Gedcom loader</title> 
+    <link href="css/selection_widget.css" rel="stylesheet" />
+    <link href="css/tree.css" rel="stylesheet" />
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="Libs/jquery.js"></script>
+
+   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    
+
+   <script src="Diagrams/Data/Bio.js"></script>
+
+   <script src="DataLoader/fakeTree.js"></script>
+
+
+    <script src="DataLoader/dataLoader.js"></script>
+    <script src="DataLoader/gedPreLoader.js"></script>
+    <script src="DataLoader/gedAncPreLoader.js"></script>
+       
+
+    <script src="Libs/extensions.js"></script>
+       
+  
+    <script src="Libs/util_func.js"></script>
+
+    <script src="UI/SelectorImager.js"></script>
+  
+    <script src="UI/AutoLoader.js"></script>
+    <script src="Diagrams/static/treeUI.js" type="text/javascript"></script>
+    <script src="Diagrams/static/BaseTree.js" type="text/javascript"></script>
+    <script src="Diagrams/static/DescendantTree.js" type="text/javascript"></script>
+
+    <script src="Diagrams/static/ImageViewer.js"></script>
+    <script src="Diagrams/static/AncestorTree.js"></script>
+
+    
+    <script src="Diagrams/static/DiagramRunner.js"></script>
+
+
+    <script src="Diagrams/commonSettings/map_settings.js" type="text/javascript"></script>
+    <script src="Diagrams/types/Edge.js" type="text/javascript"></script>
+    <script src="Diagrams/types/Node.js" type="text/javascript"></script>
+    <script src="Diagrams/types/Vector.js" type="text/javascript"></script>
+    <script src="Diagrams/map_graph.js" type="text/javascript"></script>
+    <script src="Diagrams/map_handler.js" type="text/javascript"></script>
+    <script src="Diagrams/map_layout.js" type="text/javascript"></script>
+ 
+    <script src="Diagrams/libs/map_utils.js" type="text/javascript"></script>
+    <script src="Diagrams/map_current_tree.js" type="text/javascript"></script>
+    <script src="Diagrams/map_combined_renderer.js" type="text/javascript"></script> 
+    <script src="Diagrams/ForceDirect.js" type="text/javascript"></script>
+
+
+
+
+    <script src="imagemain.js"></script>
+
+  
+
+</head> 
+<body> 
+    
+    <div id ="minimized_options" class ="hidePanel">
+        <input id ="show_dataLoader" class ="options_button" type="submit" value="Load Data" />               
+        <input id ="show_controls" class ="options_button" type="submit" value="Controls" />
+        <input id ="show_debugbox" class ="options_button" type="submit" value="Debug Window" />
+        <input id ="show_imageUI" class ="options_button" type="submit" value="Image UI" />
+    </div>
+     
+    
+    <div id="imageLoader" class="hidePanel" title="Load IMAGE">
+        <!--<div id ="topbar">  <a id ='chooseFileLnk' href ="">Choose File</a> <a id ='selectPersonLnk' href ="">Select Person</a>  </div>-->
+        <div id="panelA" class="displayPanel">
+            <b>Select file or use default</b>
+            <br /> 
+            <input type="file" id="fileinput" />
+            <br />
+            <b>Diagram type</b>
+            <br>
+            <input type="radio" name="type_sel" value="editor">Standard Editor
+            <br>
+            <input id="btnRunImage" type="submit" value="Draw" />
+        </div>
+
+        <div id="panelB" class="hidePanel">
+
+
+        </div>
+    </div>
+    
+
+
+    <div id ="map_message" class ="hidePanel" title="Diag Info">
+        <div class = "map_year"><span>Year: </span><span id ="map_year" >1650</span></div> 
+        <div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> 
+        <div class = "map_year"><span>X Pos: </span><span id ="map_X" >0</span></div> 
+        <div class = "map_year"><span>Y Pos: </span><span id ="map_Y" >0</span></div> 
+        <div class = "map_year"><span>Nodes: </span><span id ="nodes" >0</span><span> Energy: </span><span id ="energy" >0</span></div> 
+
+    </div>
+
+    <div id = "map_control" class ="hidePanel" title="Controls">
+        <div id = "up" class = "u button_box"><span></span></div>
+        <div id = "dn" class = "d button_box"><span></span></div>
+        <div id = "we" class = "w button_box"><span></span></div>
+        <div id = "no" class = "n button_box"><span></span></div>
+        <div id = "es" class = "e button_box"><span></span></div>
+        <div id = "so" class = "s button_box"><span></span></div>
+    </div>
+  
+     <div id = "map_imageUI" class ="hidePanel" title="ImageUI">
+        <b>Controls</b>
+        <br>
+        <input id ="btnAddNote" type="submit" value="Add" />
+        <input id ="btnCancel" type="submit" value="Cancel" style="display: none;"/>
+        <input id ="btnDeleteNote" type="submit" value="Delete" />
+        <input id ="btnSaveNote" type="submit" value="Save" />
+        <br>
+        <b>Info</b>
+        <div id = "noteIdData" class = "map_year"><span></span></div>
+        <div id = "xData" class = "map_year"><span></span></div>
+        <div id = "yData" class = "map_year"><span></span></div>
+        <div id = "x2Data" class = "map_year"><span></span></div>
+        <div id = "y2Data" class = "map_year"><span></span></div>
+        <div id = "noteContentData" class = "map_year"><span></span></div>
+    </div>
+    
+
+
+    <canvas id="myCanvas" >    
+    </canvas>
+ 
+
+</body>
+</html>
