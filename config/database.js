@@ -1,28 +1,30 @@
 var mongoose = require('mongoose');
 
-var cats = new mongoose.Schema({
-	 // _id: Schema.Types.Mixed
-	  setId: { type: Number},
-	  description: { type: String} 
+var notes = new mongoose.Schema({
+	  urlId: { type: Number},
+	  X: { type: Number} ,
+	  Y: { type: Number} ,
+	  Width: { type: Number} ,
+	  Height: { type: Number} ,
+	  Note: { type: String} ,
+	  Level: { type: Number}
 });
 
-var ques = new mongoose.Schema({
-	  category: { type: Number, trim: true},
-	  question: { type: String, trim: true},
-	  type: { type: String, trim: true},
-	  answers: { type : Array , "default" : []}
+var urls = new mongoose.Schema({
+  	urlId: { type: Number},
+  	url: { type: String} ,
+  	urlName: { type: String} ,
+  	urlDescription: { type: String} ,
+  	urlGroup: { type: String},
+    urlDefault : { type: Boolean}
 });
-
-
-
 
 var settings  = {
-	'url' : 'mongodb://georgequestions:george1978@ds049868.mongolab.com:49868/questions'	
+	'url' : 'mongodb://georgeannotations:george1978@ds041140.mongolab.com:41140/annotations'	
 };
 
 module.exports.settings = settings;
 
-module.exports.ques = ques;
+module.exports.notes = notes;
 
-module.exports.cats = cats;
-
+module.exports.urls = urls;

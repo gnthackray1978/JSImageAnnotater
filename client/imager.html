@@ -3,62 +3,32 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-	<title>Gedcom loader</title> 
-    <link href="css/selection_widget.css" rel="stylesheet" />
-    <link href="css/tree.css" rel="stylesheet" />
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <script src="Libs/jquery.js"></script>
+<title>Gedcom loader</title>
 
-   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    
+<link href="css/selection_widget.css" rel="stylesheet" />
+<link href="css/tree.css" rel="stylesheet" />
+<link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 
-   <script src="Diagrams/Data/Bio.js"></script>
+<script src="app/libs/jquery.js"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
-   <script src="DataLoader/fakeTree.js"></script>
+<script src="app/libs/extensions.js"></script>
+<script src="app/libs/util_func.js"></script>
 
+<script src="app/model/faketree.js" type="text/javascript"></script>
 
-    <script src="DataLoader/dataLoader.js"></script>
-    <script src="DataLoader/gedPreLoader.js"></script>
-    <script src="DataLoader/gedAncPreLoader.js"></script>
-       
-
-    <script src="Libs/extensions.js"></script>
-       
-  
-    <script src="Libs/util_func.js"></script>
-
-    <script src="UI/SelectorImager.js"></script>
-  
-    <script src="UI/AutoLoader.js"></script>
-    <script src="Diagrams/static/treeUI.js" type="text/javascript"></script>
-    <script src="Diagrams/static/BaseTree.js" type="text/javascript"></script>
-    <script src="Diagrams/static/DescendantTree.js" type="text/javascript"></script>
-
-    <script src="Diagrams/static/ImageViewer.js"></script>
-    <script src="Diagrams/static/AncestorTree.js"></script>
-
-    
-    <script src="Diagrams/static/DiagramRunner.js"></script>
+<script src="app/views/AnnotaterView.js"></script>
+<script src="app/views/DiagramUI.js" type="text/javascript"></script>
 
 
-    <script src="Diagrams/commonSettings/map_settings.js" type="text/javascript"></script>
-    <script src="Diagrams/types/Edge.js" type="text/javascript"></script>
-    <script src="Diagrams/types/Node.js" type="text/javascript"></script>
-    <script src="Diagrams/types/Vector.js" type="text/javascript"></script>
-    <script src="Diagrams/map_graph.js" type="text/javascript"></script>
-    <script src="Diagrams/map_handler.js" type="text/javascript"></script>
-    <script src="Diagrams/map_layout.js" type="text/javascript"></script>
- 
-    <script src="Diagrams/libs/map_utils.js" type="text/javascript"></script>
-    <script src="Diagrams/map_current_tree.js" type="text/javascript"></script>
-    <script src="Diagrams/map_combined_renderer.js" type="text/javascript"></script> 
-    <script src="Diagrams/ForceDirect.js" type="text/javascript"></script>
+<script src="app/model/BaseTree.js" type="text/javascript"></script>
 
+<script src="app/model/ImageViewer.js"></script>
 
+<script src="app/controller/DiagramRunner.js"></script>
 
-
-    <script src="imagemain.js"></script>
-
+<script src="app/imagemain.js"></script>
+	
   
 
 </head> 
@@ -73,22 +43,51 @@
      
     
     <div id="imageLoader" class="hidePanel" title="Load IMAGE">
-        <!--<div id ="topbar">  <a id ='chooseFileLnk' href ="">Choose File</a> <a id ='selectPersonLnk' href ="">Select Person</a>  </div>-->
+        <div id ="topbar"> 
+        <a id ='chooseFileLnk' href ="">Choose File</a> 
+        <a id ='selectPersonLnk' href ="">Add file</a>
+        </div>
         <div id="panelA" class="displayPanel">
-            <b>Select file or use default</b>
-            <br /> 
-            <input type="file" id="fileinput" />
-            <br />
-            <b>Diagram type</b>
-            <br>
-            <input type="radio" name="type_sel" value="editor">Standard Editor
-            <br>
+            <b>Filter:</b>
+            <br/>
+            <input id="txtFilter" type="text" /><input id="btnFilterUrl" type="submit" value="?" />
+            <br/>
+            <b>Select File:</b>
+            <br/>
+            <select id="fileList" name="sometext" size="3">
+              <option>text1</option>
+              <option>text2</option>
+              <option>text3</option> 
+            </select>
+            <br/>
+            <br/>
             <input id="btnRunImage" type="submit" value="Draw" />
         </div>
 
         <div id="panelB" class="hidePanel">
-
-
+          <b>ID:</b>
+          <br/>
+          <input id="txtUrlId" type="text" />
+          <br/>
+          <b>Name:</b>
+          <br/>
+          <input id="txtName" type="text" />
+          <br/>
+          <b>URL:</b>
+          <br/>
+          <input id="txtUrl" type="text" />
+          <br/>
+          <b>Group:</b>
+          <br/>
+          <input id="txtGroup" type="text" />
+          <br/>
+          <input type="checkbox" id="txtDefault">Default
+          <br/>
+          <div>
+              <input id ="btnNewURL" type="submit" value="New" />
+              <input id ="btnSaveURL" type="submit" value="Save" />
+              <input id ="btnDelURL" type="submit" value="Delete" />
+          </div>
         </div>
     </div>
     
@@ -117,6 +116,7 @@
         <br>
         <input id ="btnAddNote" type="submit" value="Add" />
         <input id ="btnCancel" type="submit" value="Cancel" style="display: none;"/>
+        
         <input id ="btnDeleteNote" type="submit" value="Delete" />
         <input id ="btnSaveNote" type="submit" value="Save" />
         <br>

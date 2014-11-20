@@ -2,10 +2,15 @@
 
 // set up ======================================================================
 // get all the tools we need
-var express  = require('express');
- 
 var http     = require('http');
-var app      = express();
+
+var express        = require('express');
+var morgan         = require('morgan');
+var bodyParser     = require('body-parser');
+var methodOverride = require('method-override');
+var app            = express();
+var request        = require('request');
+
 var port     = process.env.PORT || 8080;
 var mongoose = require('mongoose');
 var configDB = require('./config/database.js');
@@ -15,7 +20,7 @@ var configDB = require('./config/database.js');
 // configuration ===============================================================
 mongoose.connect(configDB.settings.url, function (err, res) {
   if (err) {
-	console.log ('ERROR connecting to: ' + configD.settings.url + '. ' + err);
+	console.log ('ERROR connecting to: ' + configDB.settings.url + '. ' + err);
   } else {
 	console.log ('Succeeded connected to: ' + configDB.settings.url);
 	 
@@ -30,38 +35,35 @@ mongoose.connect(configDB.settings.url, function (err, res) {
 });
   
 
+ 
+var oneDay = 1;
 
+// set up our express application
 
-app.configure(function() {
+console.log('static contents at: ' + __dirname + '\\client');
+app.use(express.static(__dirname + '/client', { maxAge: oneDay }));
+app.use(morgan('dev')); 											// log every request to the console
+app.use(bodyParser.json());
+app.use(methodOverride()); 											// simulate DELETE and PUT 
+ 
+ 
+// Make our db accessible to our router
 
-	var oneDay = 1
-
-	app.use(express.compress());
-
-	console.log('static contents at: ' + __dirname + '\\client');
-
-	app.use(express.static(__dirname + '/client', { maxAge: oneDay }));
-	// set up our express application
-	app.use(express.logger('dev')); // log every request to the console
-	app.use(express.cookieParser()); // read cookies (needed for auth)
-	app.use(express.bodyParser()); // get information from html forms
-
-	  
-	app.use(express.bodyParser());
-    app.use(express.methodOverride());
-	
-
-	
-	
-	
-	
-	 
+app.use(function(req,res,next){
+    console.log('Time: %d', Date.now());
+	req.NotesModel = mongoose.model('notes', configDB.notes);
+ 	req.UrlsModel = mongoose.model('urls', configDB.urls);
+	next();
 });
+
 
 console.log('routing...');
 
+
+
+
 // routes ======================================================================
-require('./app/routes.js')(app,express); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app,express,request); // load our routes and pass in our app and fully configured passport
 
 // launch ======================================================================
 app.listen(port);

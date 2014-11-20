@@ -1,0 +1,6 @@
+rename personid to something more appropriate
+load labels from database
+remove all the unneeded crap from the generations array
+sort out generations property of fakedata
+cast the canvas coords correctly
+fix the zoom for newly added labels!
