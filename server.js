@@ -53,6 +53,7 @@ app.use(function(req,res,next){
     console.log('Time: %d', Date.now());
 	req.NotesModel = mongoose.model('notes', configDB.notes);
  	req.UrlsModel = mongoose.model('urls', configDB.urls);
+ 	req.OptionsModel = mongoose.model('options', configDB.options);
 	next();
 });
 

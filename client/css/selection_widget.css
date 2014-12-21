@@ -7,7 +7,33 @@ canvas {
     z-index:-1;
 }
 
+#txtChosenColour{
+    display: inline;
+    width: 80px;
+}
 
+#optionGroup {
+    border-width : 3px;
+    border:blue;
+    margin-top: 10px;
+    margin-bottom:10px;
+    
+}
+
+#optionGroup input {
+    margin: 3px;
+   
+}
+
+#optionGroup select {
+    margin: 3px;
+   
+}
+
+#optionGroup div {
+    margin-top: 3px;
+   
+}
 
 
 #dataInfo b {

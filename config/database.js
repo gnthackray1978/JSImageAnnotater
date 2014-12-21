@@ -1,13 +1,28 @@
 var mongoose = require('mongoose');
 
+var options = new mongoose.Schema({
+    LayerId: { type: Number},
+    UrlId: { type: Number},
+    DefaultFont: { type: String} ,
+    DefaultNoteColour: { type: String} ,
+    DefaultEditorFontColour: { type: String} ,
+    DefaultEditorBorderColour: { type: String} ,
+    DefaultNoteFontColour: { type: String} ,
+    IsTransparent: { type: Boolean},
+    Visible: { type: Boolean}
+});
+
 var notes = new mongoose.Schema({
-	  urlId: { type: Number},
+	  Annotation: { type: String} ,
+	  Index: { type: Number},
+	  UrlId: { type: Number},
 	  X: { type: Number} ,
 	  Y: { type: Number} ,
 	  Width: { type: Number} ,
 	  Height: { type: Number} ,
-	  Note: { type: String} ,
-	  Level: { type: Number}
+	  D: { type: Number} ,
+	  Layer: { type: Number},
+	  Visible : { type: Boolean}
 });
 
 var urls = new mongoose.Schema({
@@ -28,3 +43,5 @@ module.exports.settings = settings;
 module.exports.notes = notes;
 
 module.exports.urls = urls;
+
+module.exports.options = options;
