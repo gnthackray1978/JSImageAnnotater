@@ -4,15 +4,12 @@
 var TreeBase = function () {
 
     this.qryString = '';
-    this.refreshData =false;
+    
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
 
-    this.buttonLinks = [];
-    this.links = [];
-
-    this.inLink = false;
-
+ 
+  
     this.nodestore = new FakeData();
 
     this.centrePoint = 400.0;
@@ -41,12 +38,9 @@ var TreeBase = function () {
 
     this.zoomAmount = 8; //int
 
-    this.sourceId = null;
-
 
     this.selectedNoteId = '';
-    this.selectedPersonX = 0;
-    this.selectedPersonY = 0;
+ 
     this.treeUI;
 
     this.lastClickedPosX = 0;
@@ -282,27 +276,10 @@ TreeBase.prototype = {
 
     },
    
-    SetMouse: function (x, y, mousestate) {
+    SetMouse: function (x, y) {
  
         this.mouse_x = x;
         this.mouse_y = y;
-        if (mousestate == undefined) mousestate = false;
- 
-        var mouseLink = this.links.LinkContainingPoint(this.mouse_x, this.mouse_y);
-
-        var buttonLink = this.buttonLinks.LinkContainingPoint(this.mouse_x, this.mouse_y);
-
-
-        if (mouseLink !== null || buttonLink !== null) {
-            document.body.style.cursor = 'pointer';
-         //   console.log(mouseLink.action);
-        }
-        else {
-            if (mousestate == false)
-                document.body.style.cursor = 'default';
-            else
-                document.body.style.cursor = 'move';
-        }
 
     },
     
@@ -359,8 +336,6 @@ TreeBase.prototype = {
         }
 
         var nodeId = this.selectedNoteId;
-        var _xpos = this.selectedPersonX;
-        var _ypos = this.selectedPersonY;
 
         this.ComputeLocations();
 

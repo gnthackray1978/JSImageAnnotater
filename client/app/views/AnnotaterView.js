@@ -542,6 +542,18 @@ AnnotaterView.prototype.UpdateOptions = function(data, firstHex){
 };
 
 
+//CALLED FROM MODEL AND UPDATES OPTIONS DATA TO UI
+AnnotaterView.prototype.UpdateInfoWindow = function(data){
+    
+    $("#map_image").html(data.title);
+    $("#map_zoom").html(data.zoomlevel);
+    $("#map_dims").html(data.dims);
+    $("#map_noteCount").html(data.noteCount);
+    $("#map_count").html(data.size);
+      
+};
+
+
 //COLOUR PICKER BUTTON CLICKED
 //SAVES COLOUR BACK TO MODEL
 AnnotaterView.prototype.ColourPickerClicked = function (action,saveFunc){

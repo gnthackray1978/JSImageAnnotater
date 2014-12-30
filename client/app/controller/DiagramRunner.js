@@ -4,7 +4,7 @@ var JSMaster, AncUtils, QryStrUtils, AncTree, Tree;
 
 
 
-var DiagramRunner = function (gedPreLoader, treeModel, colourPicker) {
+var DiagramRunner = function (treeModel, colourPicker) {
     this.ancTree = null;
     this.ancUtils = new AncUtils();
     this.treeUI = null;
@@ -14,14 +14,74 @@ var DiagramRunner = function (gedPreLoader, treeModel, colourPicker) {
     this.textarea = null;
     
     this.ancTree = treeModel;
-    this.loader = gedPreLoader;
+  //  this.loader = nodeStore;
     this.colourPicker = colourPicker;
     
 };
 
 DiagramRunner.prototype = {
     
-    init:function(x,y){
+    
+    startFromDrive: function(){
+        
+        //  if (this.ancTree !== null) {
+            
+        //     this.ancTree.EnableRun(false);
+        //     this.ancTree.GetUrls();
+            
+        //  };
+         
+         
+         if(this.colourPicker!== null){
+             this.colourPicker.CreateComponentList();
+             
+         }
+         
+         
+         //init drive here
+         var that = this;
+          
+         that.ancTree.nodestore.init(function(){
+            //set image 
+            
+                that.ancTree.LoadBackgroundImage(function(id){
+                    // run the graphics loop
+                    that.treeUI = new TreeUI(1, function (treeUI) {
+                    var canvas = document.getElementById("myCanvas");
+              
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+        
+                    that.ancTree.nodestore.GetGenerations(id, function(){
+                        
+                        console.log('got data starting app');
+                        
+                        setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
+         
+                        that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+        
+        
+                        that.ancTree.treeUI = treeUI;
+                        that.ancTree.selectedNoteId = id;
+                        that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+                        that.ancTree.UpdateGenerationState();
+                        that.ancTree.ScaleToScreen();
+                       
+                    });
+                });
+            });
+            
+            
+            
+            
+            
+            
+        
+        });
+        
+    },
+    
+    init:function(){
     
          if (this.ancTree !== null) {
             
@@ -61,7 +121,7 @@ DiagramRunner.prototype = {
                 that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
                 that.ancTree.UpdateGenerationState();
                 that.ancTree.ScaleToScreen();
-                that.ancTree.refreshData = false;
+               
             });
         });
     },
@@ -121,17 +181,7 @@ DiagramRunner.prototype = {
 
             this.ancTree.PerformClick(x, y);
         
-        //    this.ancTree.UpdateGenerationState();
-
-            if (this.ancTree.refreshData) {                    
-                this.getData(this, this.ancTree.selectedNoteId, this.ancTree.selectedPersonX, this.ancTree.selectedPersonY);                    
-            }
-    
-
             this._moustQueue[this._moustQueue.length] = new Array(1000000, 1000000);
-            
-            //return any selected nodes to the ui
-            //should we call a draw stuff method here?
             
         }
     },
@@ -183,23 +233,7 @@ DiagramRunner.prototype = {
     },
     
     
-    //COLOUR PICKER 
-    colourPickerClicked: function(callback){
-        this.colourPicker.init(callback);  
-         
-    },
 
-    saveColourComponentToModel: function(companentId, hex){
-        this.ancTree.setColourComponentHex(companentId, hex);
-    },
-
-    SetModelUpdateColourPickerComponents:function(action){
-         this.colourPicker.updateComponentList = action;
-    },
-
-    getColourComponentHex: function(companentId){
-        return this.ancTree.getColourComponentHex(companentId);
-    },
 
 
 
@@ -222,12 +256,38 @@ DiagramRunner.prototype = {
         this.ancTree.updateOptions = action;
     },
     
+    SetUpdateInfoWindow:function(action){
+        this.ancTree.updateInfoWindow = action;
+    },
+    
     SetGetTextAreaDetails:function(action){
         this.ancTree.getTextAreaDetails = action;
     },
     SetRunButtonUpdate:function(action){
         this.ancTree.updateRunButtonUI = action;
     },
+    
+    
+    
+    //COLOUR PICKER 
+    colourPickerClicked: function(callback){
+        this.colourPicker.init(callback);  
+         
+    },
+
+    saveColourComponentToModel: function(companentId, hex){
+        this.ancTree.setColourComponentHex(companentId, hex);
+    },
+
+    SetModelUpdateColourPickerComponents:function(action){
+         this.colourPicker.updateComponentList = action;
+    },
+
+    getColourComponentHex: function(companentId){
+        return this.ancTree.getColourComponentHex(companentId);
+    },
+    
+    // URLS 
     
     URLNew:function(){
         
@@ -260,7 +320,7 @@ DiagramRunner.prototype = {
         }
     },
    
-     URLFilterList:function(filter){
+    URLFilterList:function(filter){
         
         if (this.ancTree !== null) {
 

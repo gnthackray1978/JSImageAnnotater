@@ -6,14 +6,65 @@ var TreeBase, TreeUI;
 
 
 
-var ImageViewer = function () {
 
-   // $.extend(this, new TreeBase());
- 
+var ImageViewer = function (nodestore, urlstore) {
 
     this.currentZoomPercentage = 100;
 
     this.canvas = document.getElementById("myCanvas");
+
+    this.qryString = '';
+    
+    this.screenHeight = 0.0;
+    this.screenWidth = 0.0;
+
+    this.urlWriter = urlstore;
+    this.nodestore = nodestore;
+    this.view = 1;
+
+
+    this.centrePoint = 400.0;
+    this.centreVerticalPoint = 0.0;
+    this.zoomLevel = 0.0;
+    this.centrePointXOffset = 0.0;
+    this.centrePointYOffset = 0.0;
+
+    this.zoomPercentage = 0.0;
+
+
+    this.mouse_x = 0; //int
+    this.mouse_y = 0; //int
+
+    this.drawingX1 = 0.0;
+    this.drawingX2 = 0.0;
+    this.drawingY1 = 0.0;
+    this.drawingY2 = 0.0;
+
+    this.drawingCentre = 0.0;
+    this.drawingWidth = 0.0;
+    this.drawingHeight = 0.0;
+
+    this.mouseXPercLocat = 0.0;
+    this.mouseYPercLocat = 0.0;
+
+    this.zoomAmount = 8; //int
+
+
+    this.selectedNoteId = '';
+ 
+    
+
+    this.lastClickedPosX = 0;
+    this.lastClickedPosY = 0;
+    this.treeUI;
+    this.currentNode= {
+        x:0,
+        y:0
+    };
+    
+    
+    
+
 
 
     //functions
@@ -25,6 +76,7 @@ var ImageViewer = function () {
     this.updateUrlList = 1;
     this.updateRunButtonUI =1;
     this.updateOptions=1;
+    this.updateInfoWindow=1;
     this.getTextAreaDetails =1;
     
     this.clearTextArea = 1;
@@ -47,7 +99,7 @@ var ImageViewer = function () {
     this.options = {};
 };
 
-ImageViewer.prototype = new TreeBase();
+//ImageViewer.prototype = new TreeBase();
 
 ImageViewer.prototype.ChangeAngle= function (direction){
     
@@ -79,20 +131,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
                     this.currentNode.x = vidx; 
                     this.currentNode.y = hidx;  
                 }
-                
-                // var tpx2 = this.nodestore.generations[vidx][hidx].X +this.nodestore.generations[vidx][hidx].Width;
-                // var tpy2 = this.nodestore.generations[vidx][hidx].Y +this.nodestore.generations[vidx][hidx].Height;
-                
-                // if (this.nodestore.generations[vidx][hidx].X <= x &&  tpx2 >= x) 
-                // {
-                //      //console.log('matched x');
-                     
-                //      if (this.nodestore.generations[vidx][hidx].Y <= y && tpy2 >= y)                      
-                //      {
-                //         this.currentNode.x = vidx; 
-                //         this.currentNode.y = hidx;  
-                //      } 
-                // }
+               
             }
             
             hidx++;
@@ -209,10 +248,6 @@ ImageViewer.prototype.DrawTree= function () {
         console.log('Error Drawing Persons');
         console.log(err);
     }
-
-
-
-
 
 };
 
@@ -346,30 +381,7 @@ ImageViewer.prototype.SaveNoteClicked=function(){
     console.log('save note');
 
     var data = this.getTextAreaDetails();
-    
-   // data.x1 += this.centrePoint;
-   // data.x2 += this.centrePoint;
-   // data.y1 += this.centreVerticalPoint;
-   // data.y2 += this.centreVerticalPoint;
-    
-    
-    
-    
-    //var initWidth = this.nodestore.initialGenerations[0][0].Width;
- 
-   // var checkedPIncrease = ((this.nodestore.generations[0][0].Width - initWidth) / initWidth) * 100;
-    
- //   checkedPIncrease = 0-checkedPIncrease;
-    
-    
-    // change by percentage
-    // console.log('percentage: '+checkedPIncrease);
-    
-    // data.width =data.width +  ((data.width/100) * checkedPIncrease);
-    // data.height =data.height +  ((data.height/100) * checkedPIncrease);
-    // data.x =data.x +  ((data.x/100) * checkedPIncrease);
-    // data.y =data.y +  ((data.y/100) * checkedPIncrease);
-    
+
    // console.log('change: '+w + '-'+ data.width );
     
     this.selectedNoteId = this.nodestore.WriteTextArea(this.selectedNoteId,data);
@@ -382,6 +394,8 @@ ImageViewer.prototype.SaveNoteClicked=function(){
     
     //refresh the drawing
     this.DrawTree();
+    
+    that.UpdateInfo();
 };
 
 ImageViewer.prototype.CancelAdd= function () {
@@ -418,46 +432,42 @@ ImageViewer.prototype.EnableRun = function(status){
 //url stuff
 
 ImageViewer.prototype.URLSave=function( urlName, url, urlGroup,urlDefault, successMethod){
-    
-    console.log('save url ' +this.urlId + ' ' + urlName + ' ' +  url + ' ' + urlGroup);
-    var that = this;
-    
-    var result = {
-        "urlId" : this.urlId,
-        "url" : url,
-        "urlName" : urlName,
-        "urlGroup" : urlGroup,
-        "urlDefault" :urlDefault
-    };
-
-    var stringy = JSON.stringify(result);
-
-    $.ajax({
-            type: "POST",
-            async: false,
-            url: this.baseUrl  + '/notes/urls/',
-            data: stringy,
-            contentType: "application/json",
-            dataType: "JSON",
-            success: function(jsonData) {
-                successMethod(jsonData.urlId);
-            }
-        });
- 
-    
+    this.urlWriter(urlName, url, urlGroup,urlDefault, successMethod);
 };
 
 ImageViewer.prototype.URLDelete=function(urlId){
-    console.log('delete url ' +urlId);
+    this.urlWriter.Delete(urlId);
 };
 
 ImageViewer.prototype.URLChanged=function(urlId, response){
     var that = this;
     
     this.urlId = urlId;
+
+    this.urlWriter.UrlChanged(urlId, function(ajaxResult) {
+             
+        that.setImageObject(urlId,ajaxResult);
+        
+        console.log('image loaded');
+        response(ajaxResult);
+    });
     
+};
+       
+       
+ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
     
-    var setImageObject = function(imageData,jsonData ){
+    var that = this;
+    this.nodestore.GetImageData(function(data){
+        that.urlId = data.urlId;
+        that.setImageObject(data.urlId,data, imageLoaded);
+    });
+};
+       
+       
+ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
+        
+        var that = this;
         
         that.imageData = jsonData;
         
@@ -485,68 +495,41 @@ ImageViewer.prototype.URLChanged=function(urlId, response){
               
              console.log('setImageObject imageData wdth: ' + that.imageData.width);
              that.EnableRun(true);
+             
+             that.UpdateInfo();
+             
+             if(callback)
+                callback(urlId);
         }); 
       
-    };
-    
-   
-    
-    
-    // get url data here 
-     $.ajax({
-
-         type: "GET",
-         async: false,
-         url: this.baseUrl  + '/notes/urls/urlid/'+ this.urlId,
-         contentType: "application/json",
-         dataType: "JSON",
-         success: function(ajaxResult) {
-             
-            setImageObject(that.imageData, ajaxResult);
-            
-            
-            //that.generations[0][0]
-            console.log('image loaded');
-            response(ajaxResult);
-         },
-         error: function() {
-            alert('Error loading data');
-         }
-     });
-    
 };
-        
+    
+ImageViewer.prototype.UpdateInfo = function(){
+    
+     var imdat = {
+         
+         title : this.imageData.title,
+         zoomlevel: this.zoomPercentage +'%',
+         dims : 'w: ' + this.imageData.width + ' h:' + this.imageData.height,
+         noteCount: this.nodestore.generations.length,
+         size : 'unk'
+     };
+     
+     this.updateInfoWindow(imdat);
+};
+
 ImageViewer.prototype.GetUrls=function(filter){
     //https://jsimageannotater-gnthackray1978.c9.io
     
-    console.log('GetUrls');
-    
-    
-     
-    var url = this.baseUrl  + '/notes/urls/';
-    
-    if(filter)
-        url += filter;
-    
     var that = this;
     
-     $.ajax({
+    console.log('GetUrls');
 
-         type: "GET",
-         async: false,
-         url: url,
-         contentType: "application/json",
-         dataType: "JSON",
-         success: function(jsonData) {
-            that.updateUrlList(jsonData);
-         },
-         error: function(e) {
-            alert('Error loading data' + e);
-         }
-     });
-        
-    
-    
+    this.urlWriter.GetUrls(filter, function(urlList){
+        that.updateUrlList(urlList);
+    });
+
+ 
 };
      
      
@@ -555,74 +538,31 @@ ImageViewer.prototype.GetUrls=function(filter){
 //options
 ImageViewer.prototype.getOptions =function(urlId){
     console.log('GetUrls');
-
-    var url = this.baseUrl  + '/notes/option/'+urlId;
-
+    
     var that = this;
     
-    $.ajax({
-
-         type: "GET",
-         async: false,
-         url: url,
-         contentType: "application/json",
-         dataType: "JSON",
-         success: function(jsonData) {
-            
-            
-            if(jsonData.length > 0){
+    that.nodestore.GetOptions(urlId, function(jsonData){
+         if(jsonData.length > 0){
                 // we are in the future going to have many layers
                 // currently we have 1 layer so just default to that
                 // which is always going to be layer 0
                 that.options = jsonData[0];
                 that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
             }
-         },
-         error: function(e) {
-            alert('Error loading data' + e);
-         }
-     });
-     
+    });
+ 
 };
-        
-        
-        
+     
 ImageViewer.prototype.saveOptions =function(options){
-    //this.options = options;
-    
     console.log('save option ' +options);
     
     var that = this;
  
- 
     this.options.DefaultFont = options.font;
     this.options.IsTransparent = options.isTransparent;
 
+    that.nodestore.SaveOptions(this.options);
 
-//   LayerId: { type: Number},
-//     UrlId: { type: Number},
-//     DefaultFont: { type: String} ,
-//     DefaultNoteColour: { type: String} ,
-//     DefaultEditorFontColour: { type: String} ,
-//     DefaultEditorBorderColour: { type: String} ,
-//     DefaultNoteFontColour: { type: String} ,
-//     IsTransparent: { type: Boolean},
-//     Visible: { type: Boolean}
-
-    var stringy = JSON.stringify(this.options);
-
-    $.ajax({
-            type: "POST",
-            async: false,
-            url: this.baseUrl  + '/notes/option/',
-            data: stringy,
-            contentType: "application/json",
-            dataType: "JSON",
-            success: function(jsonData) {
-                console.log(jsonData);
-             //   successMethod(jsonData.urlId);
-            }
-        });
 }
 
 ImageViewer.prototype.setColourComponentHex =function(componentId, hex){
@@ -645,7 +585,6 @@ ImageViewer.prototype.setColourComponentHex =function(componentId, hex){
     }
     
 };
-
 
 ImageViewer.prototype.getColourComponentHex =function(componentId){
     
@@ -670,3 +609,266 @@ ImageViewer.prototype.getColourComponentHex =function(componentId){
     
 };
 
+
+
+
+ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
+
+        this.centrePoint = 0.0;
+        this.centreVerticalPoint = 0.0;
+
+
+        this.screenHeight = screen_height;
+        this.screenWidth = screen_width;
+
+        this.zoomPercentage = zoomPerc;
+
+        this.currentNode = {
+            x:0,
+            y:0
+        };
+};
+    
+ImageViewer.prototype.MoveTree = function (direction) {
+        // console.log('move tree' + direction);
+
+        if (direction == 'SOUTH') this.centreVerticalPoint -= 1;
+        if (direction == 'NORTH') this.centreVerticalPoint += 1;
+        if (direction == 'EAST') this.centrePoint += 1;
+        if (direction == 'WEST') this.centrePoint -= 1;
+
+
+        if (direction == 'UP' || direction == 'DOWN') {
+
+            var x = this.screenWidth / 2;
+            var y = this.screenHeight / 2;
+
+            if (this.lastClickedPosY != 0 && this.lastClickedPosX != 0) {
+      
+                this.SetMouse(this.lastClickedPosX, this.lastClickedPosY);
+            } else {
+                this.SetMouse(x, y);
+            }
+            
+
+
+            this.SetZoomStart();
+
+            this.SetCentrePoint(1000000, 1000000);
+
+
+            if (direction == 'UP') {
+                this.ZoomIn();
+            }
+            else {
+                this.ZoomOut();
+            }
+
+
+        }
+        else {
+            this.DrawTree();
+        }
+
+    },
+    
+ImageViewer.prototype.SetZoom = function (percentage) {
+
+
+        if (percentage !== 0.0) {
+            var _workingtp = 0.0;
+      
+            //zoom drawing components 
+            this.zoomPercentage += percentage;
+            this.zoomLevel += percentage;
+          
+            this.ComputeLocations();
+
+            // have some sort of override here for when we dont want to be zooming from mouse poisitons
+            // or when we init the diagram
+            this.GetPercDistances();
+         
+            this.centreVerticalPoint += (this.drawingHeight / 100) * (this.percY1 - this.mouseYPercLocat);
+
+            
+            
+            //mouseXPercLocat is the position of the mouse x in the drawing as a percentage 
+            //when the zoom was started
+            
+            // by subtracting the 2 positions we can work out how much to move the diagream 
+            // to keep it in the same place
+            
+            var debugCentrePoint = this.centrePoint ;
+            
+            console.log('SetZoom init values: ip: ' + this.mouseXPercLocat + ' px1: ' + this.percX1 + ' dw: ' + this.drawingWidth + ' centre point: '+ this.centrePoint);
+            
+            this.centrePoint += (this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat);
+
+            console.log('SetZoom centrepoint moved: ' + (this.percX1 - this.mouseXPercLocat) + '% from ' +debugCentrePoint + ' to ' +  this.centrePoint);
+
+            this.ComputeLocations();
+            
+            console.log('SetZoom drawing width: ' + this.drawingWidth);
+        }  
+
+       // console.log('zoom percentage ' + this.zoomPercentage);
+
+        this.DrawTree();
+
+};
+    
+ImageViewer.prototype.SetZoomStart = function () {
+        this.GetPercDistances();
+        this.mouseXPercLocat = this.percX1;
+        this.mouseYPercLocat = this.percY1;
+};
+
+ImageViewer.prototype.ScaleToScreen = function(){
+      
+      
+      // call this so that drawingwidth is set
+     this.ComputeLocations();
+      
+      var screenWidth =   screen.width;
+     var currentDrawingWidth = this.drawingWidth;
+     
+     console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
+     
+     
+     
+      var sizeDifference = (screenWidth - currentDrawingWidth);
+      
+      var avgSize = (currentDrawingWidth + screenWidth) / 2;
+     
+      console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
+     
+      var percentageDiff = 0;
+      
+      if((sizeDifference / currentDrawingWidth) !=0)
+        percentageDiff = (sizeDifference / currentDrawingWidth) * 100;
+      
+      
+      console.log('ScaleToScreen: set zoom ' + percentageDiff + '%');
+      
+      
+      this.mouseXPercLocat = 0;
+      this.mouseYPercLocat = 0;
+   
+      // make sure we dont get the mouses position 
+      // when we clicked the draw button.
+      this.mouse_x = 0;
+      this.mouse_y = 0;
+      
+      
+      this.SetZoom(percentageDiff);
+      
+      
+      
+};
+    
+ImageViewer.prototype.GetPercDistances = function () {
+
+        // percX1 = the position of mouse x,  expressed as a percentage of the drawing.
+        
+        
+        var _distanceFromX1 = 0.0;
+        var _distanceFromY1 = 0.0;
+        var _onePercentDistance = 0.0;
+
+        this.percX1 = 0.0;
+        this.percY1 = 0.0;
+
+
+        this.drawingWidth = this.drawingX2 - this.drawingX1;
+        this.drawingHeight = this.drawingY2 - this.drawingY1;
+
+        if (this.drawingWidth !== 0 && this.drawingHeight !== 0) {
+            if (this.drawingX1 > 0) {
+                _distanceFromX1 = this.mouse_x - this.drawingX1; //;
+            }
+            else {
+                _distanceFromX1 = Math.abs(this.drawingX1) + this.mouse_x;
+            }
+
+            _onePercentDistance = this.drawingWidth / 100;
+            
+            console.log('GetPercDistances: dfx1 ' + _distanceFromX1 + ' 1px ' + _onePercentDistance);
+            
+            if(_distanceFromX1 !=0)
+                this.percX1 = _distanceFromX1 / _onePercentDistance;
+            
+                
+
+
+            if (this.drawingY1 > 0) {
+                _distanceFromY1 = this.mouse_y - this.drawingY1; // ;                
+            }
+            else {
+                _distanceFromY1 = Math.abs(this.drawingY1) + this.mouse_y;
+            }
+
+            _onePercentDistance = this.drawingHeight / 100;
+            this.percY1 = _distanceFromY1 / _onePercentDistance;
+
+        }
+
+    },
+   
+ImageViewer.prototype.SetMouse = function (x, y) {
+ 
+        this.mouse_x = x;
+        this.mouse_y = y;
+
+};
+    
+ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
+
+        if(this.addNode) return;
+
+        if (param_x == 1000000 && param_y == 1000000) {
+            this.centrePointXOffset = 0;
+            this.centrePointYOffset = 0;
+        }
+        else {
+
+            if (this.centrePointXOffset === 0) {
+
+                this.centrePointXOffset = this.centrePoint - param_x;
+            }
+            else {
+          //      console.log('SetCentrePoint: cp ' + this.centrePoint + ' param_x ' + param_x + ' cpxoffset '  +this.centrePointXOffset );
+                this.centrePoint = param_x + this.centrePointXOffset;
+            }
+
+
+            if (this.centrePointYOffset === 0) {
+                this.centrePointYOffset = this.centreVerticalPoint - param_y;
+            }
+            else {
+
+                this.centreVerticalPoint = param_y + this.centrePointYOffset;
+            }
+
+        }
+
+        // console.log('setcentrepoint: '+ this.centrePointXOffset + ' ' + this.centrePoint);
+}; //end set centre point
+    
+    
+ImageViewer.prototype.ZoomIn = function () {
+        this.zoomAmount++;
+        this.SetZoom(this.zoomAmount);
+    };
+    
+    
+ImageViewer.prototype.ZoomOut = function () {
+        if (this.zoomAmount > 7)
+            this.zoomAmount--;
+
+        this.SetZoom(this.zoomAmount - (this.zoomAmount * 2));
+        //  SetZoom(zoomAmount - (zoomAmount * 2));
+    };
+   
+
+    
+   

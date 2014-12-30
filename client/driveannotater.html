@@ -3,16 +3,18 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-<title>Gedcom loader</title>
+<title>Drive loader</title>
 
 <link href="css/selection_widget.css" rel="stylesheet" />
 <link href="css/tree.css" rel="stylesheet" />
 <link href="css/fontselector.css" rel="stylesheet" >
 <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 
+
 <script src="app/libs/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
+   
+<script src="app/drivelib.js" type="text/javascript"></script>   
 <script src="app/libs/jquery.fontselector.js"></script>
 <script src="app/libs/extensions.js"></script>
 <script src="app/libs/util_func.js"></script>
@@ -24,7 +26,7 @@
 <script src="app/views/DiagramUI.js" type="text/javascript"></script>
 
 
-<script src="app/model/BaseTree.js" type="text/javascript"></script>
+
 
 <script src="app/model/ImageViewer.js"></script>
 
@@ -33,7 +35,11 @@
 <script src="app/imagemain.js"></script>
 	
   
-
+ <script src="https://apis.google.com/js/client.js?onload=handleClientLoad" type="text/javascript" ></script>
+    
+    
+    
+    
 </head> 
 <body> 
     
@@ -97,11 +103,11 @@
 
 
     <div id ="map_message" class ="hidePanel" title="Diag Info">
-        <div class = "map_year"><span>Year: </span><span id ="map_year" >1650</span></div> 
+        <div class = "map_year"><span></span><span id ="map_image" >unknown</span></div> 
         <div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> 
-        <div class = "map_year"><span>X Pos: </span><span id ="map_X" >0</span></div> 
-        <div class = "map_year"><span>Y Pos: </span><span id ="map_Y" >0</span></div> 
-        <div class = "map_year"><span>Nodes: </span><span id ="nodes" >0</span><span> Energy: </span><span id ="energy" >0</span></div> 
+        <div class = "map_year"><span>Image dims: </span><span id ="map_dims" >0</span></div> 
+        <div class = "map_year"><span>Note Count: </span><span id ="map_noteCount" >0</span></div> 
+        <div class = "map_year"><span>Size KB: </span><span id ="map_count" >0</span></div> 
 
     </div>
 

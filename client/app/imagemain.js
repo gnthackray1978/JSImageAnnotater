@@ -1,12 +1,50 @@
 
-
+function handleClientLoad() {
+     
+  //  var _myDrive = new MyDrive();
+    
+  //  _myDrive.init();
+    
+    // load main image somehow
+    // run application
+    loadAll(true);
+}
 
 $(document).ready(function () {
 
 
-    var diagramRunner =  new DiagramRunner(new FakeData(), new ImageViewer(), new ColourPicker());
+    //new FakeData(), 
+
+   // loadAll();
+    
+});
+
+
+ 
+ 
+function loadAll (drive){
+  
+    var data;
+  
+   
+    if(drive) {
+        data = new MyDrive();
+    }
+    else {
+        data = new MongoNoteData();
+    }
+    
+    var noteDataManager = new NoteDataManager(data);
+    
+   
+    var diagramRunner =  new DiagramRunner(new ImageViewer(noteDataManager, new UrlWriter()), new ColourPicker());
 
     var appView = new AnnotaterView(diagramRunner);
+
+    //this will be changed to be added in the constructor
+    diagramRunner.ancTree.view = appView;
+
+
 
     diagramRunner.SetNodeSelectionUI(appView.DisplayNodeSelection);
     
@@ -16,23 +54,39 @@ $(document).ready(function () {
     diagramRunner.SetRunButtonUpdate(appView.DisplayUpdateRunButton);
     
     diagramRunner.SetClearTextArea(appView.ClearActiveTextArea);
+    
     diagramRunner.SetGetTextAreaDetails(appView.GetTextAreaDetails);
     diagramRunner.SetLoadUrls(appView.FillUrls);
     diagramRunner.SetOptionsUpdate(appView.UpdateOptions);
     
+    diagramRunner.SetUpdateInfoWindow(appView.UpdateInfoWindow);
+    
     // populates list of components
     diagramRunner.SetModelUpdateColourPickerComponents(appView.UpdateColourPickerComponents);
 
+
+
+
+
     appView.InitPanelVisibility();
 
-    appView.ApplicationRun($.proxy(diagramRunner.init, diagramRunner));
 
-    // image ui buttons
 
+    if(drive){
+        appView.ApplicationRun($.proxy(diagramRunner.startFromDrive, diagramRunner));
+    }
+    else
+    {
+        appView.ApplicationRun($.proxy(diagramRunner.init, diagramRunner));
+        appView.RunButtonClicked($.proxy(diagramRunner.run, diagramRunner));
+    }
+
+
+
+
+
+    
     appView.AngleChangeClicked($.proxy(diagramRunner.angleChanged, diagramRunner));
-
-    appView.RunButtonClicked($.proxy(diagramRunner.run, diagramRunner));
-
     appView.SaveOptionsClicked($.proxy(diagramRunner.saveOptionsClicked, diagramRunner));
     
     
@@ -71,21 +125,19 @@ $(document).ready(function () {
    
     appView.Delete($.proxy(diagramRunner.deleteNote, diagramRunner));
    
-   
-    //URL operations
-    appView.URLFilterList($.proxy(diagramRunner.URLFilterList, diagramRunner));
-    
-    appView.URLNew($.proxy(diagramRunner.URLNew, diagramRunner));
-    
-    appView.URLSave($.proxy(diagramRunner.URLSave, diagramRunner), $.proxy(diagramRunner.URLFilterList, diagramRunner) );
-    
-    appView.URLDelete($.proxy(diagramRunner.URLDelete, diagramRunner));
-    
-    appView.URLChanged($.proxy(diagramRunner.URLChanged, diagramRunner));
-    
-    
-    
-});
-
-
- 
+   if(!drive){
+        //URL operations
+        appView.URLFilterList($.proxy(diagramRunner.URLFilterList, diagramRunner));
+        
+        appView.URLNew($.proxy(diagramRunner.URLNew, diagramRunner));
+        
+        appView.URLSave($.proxy(diagramRunner.URLSave, diagramRunner), $.proxy(diagramRunner.URLFilterList, diagramRunner) );
+        
+        appView.URLDelete($.proxy(diagramRunner.URLDelete, diagramRunner));
+        
+        appView.URLChanged($.proxy(diagramRunner.URLChanged, diagramRunner));
+     
+   }
+     
+     
+};

@@ -1,17 +1,23 @@
 //http://www.w3schools.com/jsref/jsref_cos.asp
 //http://classroom.synonym.com/coordinates-distances-angles-2732.html
 
-var FakeData = function () {
+var NoteDataManager = function (data) {
  
     this.generations = [];
     this.initialGenerations =[];
     this.urlId =0;
-    this.baseUrl = 'https://jsimageannotater-gnthackray1978.c9.io';
-//this.loader = new FakeData();
+   
+    this._noteDll = data;
+    //new MongoNoteData();
+    
 };
 
 
-FakeData.prototype = {
+NoteDataManager.prototype = {
+
+    init: function(loaded){
+        this._noteDll.init(loaded);
+    },
 
     GetGenerations: function (urlId, callback) {
         this.urlId = urlId;
@@ -24,40 +30,28 @@ FakeData.prototype = {
 
         var that =this;
 
-         $.ajax({
-             type: "GET",
-             async: false,
-             url: this.baseUrl  + '/notes/'+urlId,
-             contentType: "application/json",
-             dataType: "JSON",
-             success: function(ajaxResult) {
-                console.log('loaded');
-               // console.log(ajaxResult);
+        this._noteDll.GetNoteData(urlId,function(ajaxResult) {
+            var idx =0;
+            while(idx < ajaxResult.length){
                 
-                var idx =0;
+                that.AddData(1,ajaxResult[idx].Index, 
+                                ajaxResult[idx].X, 
+                                ajaxResult[idx].Y, 
+                                ajaxResult[idx].Width, 
+                                ajaxResult[idx].Height, 
+                                ajaxResult[idx].D, 
+                                ajaxResult[idx].Annotation);
                 
-                while(idx < ajaxResult.length){
-                    
-                    that.AddData(1,ajaxResult[idx].Index, 
-                                    ajaxResult[idx].X, 
-                                    ajaxResult[idx].Y, 
-                                    ajaxResult[idx].Width, 
-                                    ajaxResult[idx].Height, 
-                                    ajaxResult[idx].D, 
-                                    ajaxResult[idx].Annotation);
-                    
-                    idx++;
-                }
-                
-                that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
-                
-                
-                callback();
-             },
-             error: function() {
-                alert('Error loading data');
-             }
-         });
+                idx++;
+            }
+            
+            that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+            
+            
+            callback();
+        });
+
+
     
     },
     
@@ -150,24 +144,6 @@ FakeData.prototype = {
             console.log('NOT MATCH:' +  x + ' ' + y + ' '+ node.X + ' ' + node.Y + ' ' + node.Width + ' ' + node.Height + ' ' + node.D);
             return false;
         }
-        
-        // var c2 = document.getElementById('myCanvas').getContext('2d');
-        // c2.strokeStyle="red";
-      
-
-        // c2.beginPath();
-        // c2.moveTo(coords.x1, coords.y1);
-        // c2.lineTo(coords.x2, coords.y2);
-        
-        
-        
-        // c2.lineTo(coords.x3, coords.y3);
-        // c2.lineTo(coords.x4, coords.y4);
-        
-        //  c2.closePath();
-         
-        // c2.stroke();
- 
         
     },
     
@@ -320,7 +296,7 @@ FakeData.prototype = {
                 console.log('AddData writeInitialData updating generations');
                 that.initialGenerations[1][index]= initialValueNode;
             }
-            
+           
             that.WriteToDB(initialValueNode);
         };
 
@@ -353,8 +329,65 @@ FakeData.prototype = {
     },
     
     WriteToDB: function(note){
+        this._noteDll.WriteNoteData(note);
+    },
+    
+    GetOptions: function (urlId,callback) {
+        this._noteDll.GetOptions(urlId,callback);
+    },
+    
+    SaveOptions: function (options) {
+        this._noteDll.SaveOptions(options);
+    },
+    GetImageData: function (callback) {
+        this._noteDll.GetImageData(callback);
+    }
+};
+
+
+
+
+var MongoNoteData = function () {
+ 
+ 
+    this.baseUrl = 'https://jsimageannotater-gnthackray1978.c9.io';
+
+};
+
+
+MongoNoteData.prototype = {
+    
+    init:function(){
         
-        console.log('attempting to post to db');
+    },
+    
+    GetImageData: function(callback){
+        //dummy values not intended to be used
+        var imageData = {url: 'test'};
+        
+        callback(imageData);
+    },
+    
+    GetNoteData: function (urlId, callback) {
+        
+         $.ajax({
+             type: "GET",
+             async: false,
+             url: this.baseUrl  + '/notes/'+urlId,
+             contentType: "application/json",
+             dataType: "JSON",
+             success: function(ajaxResult) {
+                console.log('loaded');
+                callback(ajaxResult);
+             },
+             error: function() {
+                alert('Error loading data');
+             }
+         });
+    },
+    
+    WriteNoteData: function (note) {
+        
         var stringy = JSON.stringify(note);
     
         $.ajax({
@@ -365,6 +398,47 @@ FakeData.prototype = {
                 contentType: "application/json",
                 dataType: "JSON"
             });
+    },
+
+    GetOptions: function (urlId,callback) {
+ 
+        var url = this.baseUrl  + '/notes/option/'+urlId;
+
+        var that = this;
+        
+        $.ajax({
+    
+             type: "GET",
+             async: false,
+             url: url,
+             contentType: "application/json",
+             dataType: "JSON",
+             success: function(jsonData) {
+                callback(jsonData);
+             },
+             error: function(e) {
+                alert('Error loading data' + e);
+             }
+         });
+ 
+    },
+    
+    SaveOptions: function (options) {
+        
+        var stringy = JSON.stringify(options);
+    
+        $.ajax({
+                type: "POST",
+                async: false,
+                url: this.baseUrl  + '/notes/option/',
+                data: stringy,
+                contentType: "application/json",
+                dataType: "JSON",
+                success: function(jsonData) {
+                    console.log(jsonData);
+                }
+        });
     }
+    
     
 };
