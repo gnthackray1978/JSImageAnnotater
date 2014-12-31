@@ -61,25 +61,27 @@ var ImageViewer = function (nodestore, urlstore) {
         x:0,
         y:0
     };
-    
-    
-    
-
-
 
     //functions
     
-    this.displayNodeInfo=1;//delegate
-    this.updateAddButtonUI = 1;
+  //  this.displayNodeInfo=1;//delegate
+    //this.updateAddButtonUI = 1;//DisplayUpdateNoteAdd
     //this.updateSaveButtonUI = 1;
-    this.updateDeleteButtonUI = 1;
-    this.updateUrlList = 1;
-    this.updateRunButtonUI =1;
-    this.updateOptions=1;
-    this.updateInfoWindow=1;
-    this.getTextAreaDetails =1;
+    //this.updateDeleteButtonUI = 1;//DisplayUpdateDelete
     
-    this.clearTextArea = 1;
+  //  this.updateRunButtonUI =1;//DisplayUpdateRunButton
+    //this.updateOptions=1;//UpdateOptions
+    //this.clearTextArea = 1;//ClearActiveTextArea
+    
+    
+    this.updateUrlList = 1;
+    
+    
+   // this.updateInfoWindow=1;//UpdateInfoWindow
+    
+ //   this.getTextAreaDetails =1;//GetTextAreaDetails
+    
+    
     
     
     // modes delete add etc
@@ -154,12 +156,15 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             var width = currentNode.Width;
             var note = currentNode.Annotation;
             this.selectedNoteId = this.nodestore.generations[this.currentNode.x][this.currentNode.y].Index;
-            this.displayNodeInfo(currentNode.X, currentNode.Y,width,height,currentNode.D,note,this.options);
+            //DisplayNodeSelection
+            //this.displayNodeInfo(currentNode.X, currentNode.Y,width,height,currentNode.D,note,this.options);
+            this.view.DisplayNodeSelection(currentNode.X, currentNode.Y,width,height,currentNode.D,note,this.options);
         }
         else
         {
             this.selectedNoteId =0;
-            this.displayNodeInfo(x, y,70,25,15,'',this.options);
+            //this.displayNodeInfo(x, y,70,25,15,'',this.options);
+            this.view.DisplayNodeSelection(x, y,70,25,15,'',this.options);
         }
     
     }
@@ -189,7 +194,8 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     }
     
     if(!this.addNode)
-        this.clearTextArea();
+        this.view.ClearActiveTextArea();
+    //    this.clearTextArea();
     
 };
 
@@ -380,7 +386,7 @@ ImageViewer.prototype.SaveNoteClicked=function(){
     
     console.log('save note');
 
-    var data = this.getTextAreaDetails();
+    var data = this.view.GetTextAreaDetails();
 
    // console.log('change: '+w + '-'+ data.width );
     
@@ -388,9 +394,12 @@ ImageViewer.prototype.SaveNoteClicked=function(){
  
     this.addNode = false;
     
-    this.updateAddButtonUI(this.addNode);
+   // this.updateAddButtonUI(this.addNode);
+    this.view.DisplayUpdateNoteAdd(this.addNode);
     
-    this.clearTextArea();
+    //this.clearTextArea();
+    this.view.ClearActiveTextArea();
+    
     
     //refresh the drawing
     this.DrawTree();
@@ -400,16 +409,17 @@ ImageViewer.prototype.SaveNoteClicked=function(){
 
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
-    
-    this.updateAddButtonUI(this.addNode);
-    this.clearTextArea();
+    this.view.DisplayUpdateNoteAdd(this.addNode);
+    //this.updateAddButtonUI(this.addNode);
+    //this.clearTextArea();
+    this.view.ClearActiveTextArea();
 };
 
 
 ImageViewer.prototype.EnableAdd= function () {
     this.addNode = true;
-    
-    this.updateAddButtonUI(this.addNode);
+    this.view.DisplayUpdateNoteAdd(this.addNode);
+    //this.updateAddButtonUI(this.addNode);
 };
 
 ImageViewer.prototype.DeleteNoteMode=function(){
@@ -418,13 +428,16 @@ ImageViewer.prototype.DeleteNoteMode=function(){
         this.deleteNode =false;
     else
         this.deleteNode =true;
-        
-    this.updateDeleteButtonUI(this.deleteNode);
+        //DisplayUpdateDelete
+    //this.updateDeleteButtonUI(this.deleteNode);
+    this.view.DisplayUpdateDelete(this.deleteNode);
 };
 
 ImageViewer.prototype.EnableRun = function(status){
   
-    this.updateRunButtonUI(status);
+    //this.updateRunButtonUI(status);
+    
+    this.view.DisplayUpdateRunButton(status);
 };
 
 
@@ -515,7 +528,8 @@ ImageViewer.prototype.UpdateInfo = function(){
          size : 'unk'
      };
      
-     this.updateInfoWindow(imdat);
+     //this.updateInfoWindow(imdat);
+     this.view.UpdateInfoWindow(imdat);
 };
 
 ImageViewer.prototype.GetUrls=function(filter){
@@ -547,7 +561,9 @@ ImageViewer.prototype.getOptions =function(urlId){
                 // currently we have 1 layer so just default to that
                 // which is always going to be layer 0
                 that.options = jsonData[0];
-                that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+                //that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+                that.view.UpdateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+                
             }
     });
  

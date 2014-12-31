@@ -196,13 +196,13 @@ DiagramRunner.prototype = {
         this.ancTree.childlessMarriages = null;
     },
     
-    SetNodeSelectionUI:function(action){
+    // SetNodeSelectionUI:function(action){
         
-        // set delegate to be used in diagram displayer
-        this.ancTree.displayNodeInfo = action;
+    //     // set delegate to be used in diagram displayer
+    //     this.ancTree.displayNodeInfo = action;
         
    
-    },
+    // },
 
     angleChanged:function(direction){
         this.ancTree.ChangeAngle(direction);
@@ -231,41 +231,36 @@ DiagramRunner.prototype = {
     saveOptionsClicked:function(options){
         this.ancTree.saveOptions(options);
     },
-    
-    
 
-
-
-
-
-
-    SetClearTextArea:function(action){
-        this.ancTree.clearTextArea = action;
-    },
+    // SetClearTextArea:function(action){
+    //     this.ancTree.clearTextArea = action;
+    // },
     
+    //
+    // SetAddButtonUpdate:function(action){
+    //     this.ancTree.updateAddButtonUI = action;
+    // },
     
-    SetAddButtonUpdate:function(action){
-        this.ancTree.updateAddButtonUI = action;
-    },
+    // SetDeleteButtonUpdate:function(action){
+    //     this.ancTree.updateDeleteButtonUI = action;
+    // },
     
-    SetDeleteButtonUpdate:function(action){
-        this.ancTree.updateDeleteButtonUI = action;
-    },
+    // SetRunButtonUpdate:function(action){
+    //     this.ancTree.updateRunButtonUI = action;
+    // },
     
-    SetOptionsUpdate:function(action){
-        this.ancTree.updateOptions = action;
-    },
+    // SetOptionsUpdate:function(action){
+    //     this.ancTree.updateOptions = action;
+    // },
     
-    SetUpdateInfoWindow:function(action){
-        this.ancTree.updateInfoWindow = action;
-    },
+    // SetUpdateInfoWindow:function(action){
+    //     this.ancTree.updateInfoWindow = action;
+    // },
     
-    SetGetTextAreaDetails:function(action){
-        this.ancTree.getTextAreaDetails = action;
-    },
-    SetRunButtonUpdate:function(action){
-        this.ancTree.updateRunButtonUI = action;
-    },
+    // SetGetTextAreaDetails:function(action){
+    //     this.ancTree.getTextAreaDetails = action;
+    // },
+    
     
     
     

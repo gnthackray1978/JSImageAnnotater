@@ -46,20 +46,25 @@ function loadAll (drive){
 
 
 
-    diagramRunner.SetNodeSelectionUI(appView.DisplayNodeSelection);
+ //   diagramRunner.SetNodeSelectionUI(appView.DisplayNodeSelection);
     
-    diagramRunner.SetAddButtonUpdate(appView.DisplayUpdateNoteAdd);
-    diagramRunner.SetDeleteButtonUpdate(appView.DisplayUpdateDelete);
+//    diagramRunner.SetAddButtonUpdate(appView.DisplayUpdateNoteAdd);
+  // diagramRunner.SetDeleteButtonUpdate(appView.DisplayUpdateDelete);
     
-    diagramRunner.SetRunButtonUpdate(appView.DisplayUpdateRunButton);
+  //  diagramRunner.SetRunButtonUpdate(appView.DisplayUpdateRunButton);
     
-    diagramRunner.SetClearTextArea(appView.ClearActiveTextArea);
+  //  diagramRunner.SetOptionsUpdate(appView.UpdateOptions);
     
-    diagramRunner.SetGetTextAreaDetails(appView.GetTextAreaDetails);
+    
+    
+ //   diagramRunner.SetClearTextArea(appView.ClearActiveTextArea);
+    
+ //   diagramRunner.SetGetTextAreaDetails(appView.GetTextAreaDetails);
+    
     diagramRunner.SetLoadUrls(appView.FillUrls);
-    diagramRunner.SetOptionsUpdate(appView.UpdateOptions);
     
-    diagramRunner.SetUpdateInfoWindow(appView.UpdateInfoWindow);
+    
+ //   diagramRunner.SetUpdateInfoWindow(appView.UpdateInfoWindow);
     
     // populates list of components
     diagramRunner.SetModelUpdateColourPickerComponents(appView.UpdateColourPickerComponents);
