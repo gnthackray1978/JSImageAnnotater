@@ -223,7 +223,7 @@ ImageViewer.prototype.DrawTree= function () {
 
     try {
         var that = this;
-        
+        var layers ; // this needs doing better!!
         var drawNotes = function() {
 
            var vidx = 1;
@@ -263,8 +263,8 @@ ImageViewer.prototype.DrawTree= function () {
         
         
         // get list of visible layers here
-        that.nodestore.GetVisibleLayer(function(layers){
-
+        that.nodestore.GetVisibleLayer(function(players){
+            layers = players;
             if(containsLevel(layers,1))
                 that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
              else
