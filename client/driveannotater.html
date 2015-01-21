@@ -6,7 +6,6 @@
 <title>Drive loader</title>
 
 <link href="css/selection_widget.css" rel="stylesheet" />
-<link href="css/tree.css" rel="stylesheet" />
 <link href="css/fontselector.css" rel="stylesheet" >
 <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 
@@ -14,23 +13,27 @@
 <script src="app/libs/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
    
-<script src="app/drivelib.js" type="text/javascript"></script>   
+   
 <script src="app/libs/jquery.fontselector.js"></script>
 <script src="app/libs/extensions.js"></script>
 <script src="app/libs/util_func.js"></script>
+<script src="app/libs/CanvasTools.js" type="text/javascript"></script>
+
+<script src="app/data/drivelib.js" type="text/javascript"></script>
+<script src="app/data/MongoUrlData.js" type="text/javascript"></script>
+<script src="app/data/MongoNoteData.js" type="text/javascript"></script>
+
 <script src="app/model/ColourPicker.js" type="text/javascript"></script>
-<script src="app/model/faketree.js" type="text/javascript"></script>
-<script src="app/model/urlWriter.js" type="text/javascript"></script>
+<script src="app/model/NoteDataManager.js" type="text/javascript"></script>
+<script src="app/model/Image.js"></script>
+<script src="app/model/Layer.js"></script>
 
 <script src="app/views/AnnotaterView.js"></script>
-<script src="app/views/DiagramUI.js" type="text/javascript"></script>
 
 
 
-
-<script src="app/model/ImageViewer.js"></script>
-
-<script src="app/controller/DiagramRunner.js"></script>
+<script src="app/controller/DiagramController.js"></script>
+<script src="app/controller/LayerController.js"></script>
 
 <script src="app/imagemain.js"></script>
 	
@@ -48,6 +51,7 @@
         <input id ="show_controls" class ="options_button" type="submit" value="Controls" />
         <input id ="show_debugbox" class ="options_button" type="submit" value="Debug Window" />
         <input id ="show_imageUI" class ="options_button" type="submit" value="Image UI" />
+        <input id ="show_layers" class ="options_button" type="submit" value="Layers" />
     </div>
      
     
@@ -100,9 +104,55 @@
         </div>
     </div>
     
+     <div id ="map_layers" class ="hidePanel" title="Layer Info">
+       <b id = "controllabel">Select layer</b>
+     
+       <br/>
+       <div class = "toprow">
+            <div class = "headletter">S</div>
+            <div class = "headletter">V</div>
+            <div class = "headname">Name</div>
+            <div class = "headorder">Order</div>    
+            <div class = "headletter">D</div>
+       </div>
+       <br/>    
+       <div id = 'layerslist'>
+           <!--<div class = "row">-->
+           <!--     <input class = "rowid" type="hidden" value="1">-->
+           <!--     <div class = "col letter"><input type="submit" value = "S"></div>-->
+           <!--     <div class = "col letter"><input type="submit" value = "V"></div>-->
+           <!--     <div class = "col name"><input type="text" value = "Image"/></div>-->
+           <!--     <div class = "col order"><input  type="text" value = "1"/></div>-->
+           <!--     <div class = "col letter"><input  type="submit" value = "X"/></div>    -->
+           <!--</div>                                   -->
+           <!--<br/>-->
+           <!--<div class = "row">-->
+           <!--     <div class = "col letter"><input type="submit" value = "S"></div>-->
+           <!--     <div class = "col letter"><input type="submit" value = "V"></div>-->
+           <!--     <div class = "col name"><input type="text" value = "Image"/></div>-->
+           <!--     <div class = "col order"><input  type="text" value = "1"/></div>-->
+           <!--     <div class = "col letter"><input  type="submit" value = "X"/></div>-->
+           <!-- </div>                                   -->
+           <!-- <br/>-->
+           <!-- <div class = "row">-->
+           <!--     <div class = "col letter"><input type="submit" value = "S"></div>-->
+           <!--     <div class = "col letter"><input type="submit" value = "V"></div>-->
+           <!--     <div class = "col name"><input type="text" value = "Image"/></div>-->
+           <!--     <div class = "col order"><input type="text" value = "1"/></div>-->
+           <!--     <div class = "col letter"><input  type="submit" value = "X"/></div>-->
+           <!-- </div>                                   -->
+        </div>
+               
+               
+        <br/>
+        <div class = "row">                
+            <div class = "save"><input id = "btnSaveLayers" type="submit" value="Save" /></div>
+            <div class = "new"><input id = "btnNewLayer" type="submit" value="New" /></div>
+        </div>
+               
+    </div>
 
-
-    <div id ="map_message" class ="hidePanel" title="Diag Info">
+    <div id = "map_message" class ="hidePanel" title="Diag Info">
         <div class = "map_year"><span></span><span id ="map_image" >unknown</span></div> 
         <div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> 
         <div class = "map_year"><span>Image dims: </span><span id ="map_dims" >0</span></div> 
@@ -120,7 +170,7 @@
         <div id = "so" class = "s button_box"><span></span></div>
     </div>
   
-     <div id = "map_imageUI" class ="hidePanel" title="ImageUI">
+    <div id = "map_imageUI" class ="hidePanel" title="ImageUI">
         <b id = "controllabel">select mode</b>
         <br>
         <input id ="btnAddNote" type="submit" value="Add" />

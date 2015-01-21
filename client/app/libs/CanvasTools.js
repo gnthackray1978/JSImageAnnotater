@@ -1,17 +1,16 @@
-var TreeUI = function (modelCode, callback) {
-
+var CanvasTools = function () {
    this.ctx = document.getElementById('myCanvas').getContext('2d');
    this.canvas = document.getElementById("myCanvas");
-   
-   callback(this);
 };
 
-TreeUI.prototype = {
+
+
+CanvasTools.prototype = {
 
     DrawImage: function (node,  imgUrl, func) {
 
     //    console.log('attempting to draw :' + imgUrl);
-         //  var reader = new FileReader();
+
         var x = node.X;
         var y = node.Y;
 
@@ -19,7 +18,8 @@ TreeUI.prototype = {
         var height = node.Height;
         
         var img = new Image;
-        img.src = imgUrl;// URL.createObjectURL(testimage);
+        
+        img.src = imgUrl;
         var that = this;
         img.onload = function () {
 
@@ -32,7 +32,6 @@ TreeUI.prototype = {
             func();
         }
 
-        //  reader.readAsDataURL(input.target.files[0]);
     },
     
     ClearCanvas: function (x, y, w, h) {
@@ -100,5 +99,6 @@ TreeUI.prototype = {
         this.ctx.closePath();
         this.ctx.restore();
   
+        return idx;
     },
 };

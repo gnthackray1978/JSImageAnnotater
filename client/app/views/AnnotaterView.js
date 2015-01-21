@@ -33,80 +33,28 @@ AngleUtils.prototype = {
   
 
 /** @constructor */
-function AnnotaterView(diagramRunner) {       
-    this.diagramRunner =diagramRunner;
+function AnnotaterView() {       
+   
     this.textarea = null;
  
    
-
+    this._pickEnabled =false;
     this.showGed = true;
     this.showMapControls = true;
     this.showDebug = true;
     this.showDataControls = true;
     this.showImageUI = true;
+    this.showLayers = true;
     this.dataLoader = true;
     this.millisecondsInterval =1000;
+    this.selectedFontChanged;
+    
+    
+    this.layerButtonCallback;
+    this.layerInputCallback;
 } 
 
 
-
-    
-    
-AnnotaterView.prototype.ApplicationRun = function (action) {
-
-        action();
-    };
-
- 
-   //wtf is for ? looks unusued
-AnnotaterView.prototype.RunDiagClicked = function (idx, action) {
-    $('#btnRunImage').click(function (e) {
-
-            action(idx);
-
-            e.preventDefault();
-        });
-};
-
-AnnotaterView.prototype.GetAngle = function () {
-
-},
-
-AnnotaterView.prototype.AngleChangeClicked = function (action) {
-        var that = this;
-        
-        
-        
-        //that.textarea.style.transform = 'rotate('+ angle +'deg)';
-        
-        var moveTextArea = function(offset){
-            
-            var angleUtils = new AngleUtils();
-            
-            var a = angleUtils.getAngle();
-            
-            if(a!= 1000){
-                a = a + offset;
-                var newprop =  'rotate('+ a  +'deg)';
-                $('textarea.info').css('transform',newprop);
-            }
-            
-        };
-        
-        $('#btnAngleDown').click(function (e) {
-            action('down');
-           
-            moveTextArea(-1);
-            
-            e.preventDefault();
-        });
-        
-        $('#btnAngleUp').click(function (e) {
-            action('up');
-            moveTextArea(1);
-            e.preventDefault();
-        });
-    };
     
 AnnotaterView.prototype.InitPanelVisibility = function () {
 
@@ -229,29 +177,13 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 that.showImageUI = true;
             }
         });
-        
-        $('#btnOptions').click(function (e) {
-            $("#optionGroup").toggle();
-            $("#btnAddNote").toggle();
-            $("#btnDeleteNote").toggle();
-            $('#btnSaveOptions').toggle();
-            $('#btnPickColour').toggle();
-            if($("#btnOptions").val() == 'Cancel'){
-                $("#btnOptions").val('Options');
-            }
-            else
-            {
-                $("#btnOptions").val('Cancel');
-            }
-            
-            var myDDL = $('#colourComponentList');
-            myDDL[0].selectedIndex = 0;
-        });
 
 		$('#fontSelect').fontSelector({
 			'hide_fallbacks' : true,
 			'initial' : 'Courier New,Courier New,Courier,monospace',
-		//	'selected' : function(style) { alert("S1: " + style); },
+			'selected' : function(style) { 
+			    that.selectedFontChanged(style);
+			},
 			'fonts' : [
 				'Arial,Arial,Helvetica,sans-serif',
 				'Arial Black,Arial Black,Gadget,sans-serif',
@@ -270,15 +202,45 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 				]
 		});
 
+
+        $('#show_layers').click(function (e) {
+
+            if (that.showLayers) {
+                $("#map_layers").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_layers"]').css("width", "293px");
+           
+                $("#map_layers").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showLayers = false;
+            } else {
+                $("#map_layers").dialog("close");
+                that.showLayers = true;
+            }
+        });
+        
+       
+        $('#map_layers').live("dialogclose", function(){
+           that.showLayers = true;
+        });
+
+
         // hide options box to start with
 	    $("#optionGroup").toggle();
      
         $("#angleGroup").toggle();
       
-        $('#btnPickColour').click(function (e) {
-            
-        });  
+         
     };
+
+
 
 AnnotaterView.prototype.hideLoader = function (action) {
 
@@ -288,12 +250,12 @@ AnnotaterView.prototype.hideLoader = function (action) {
     
 AnnotaterView.prototype.SaveNote = function (action) {
 
-        var that = this;
-        $('#btnSaveNote').click(function (e) {
-            action();
-            e.preventDefault();
-        });               
-    };
+    var that = this;
+    $('#btnSaveNote').click(function (e) {
+        action(that.GetTextAreaDetails());
+        e.preventDefault();
+    });               
+};
     
 AnnotaterView.prototype.Cancel = function (action) {
         var that = this;
@@ -320,7 +282,6 @@ AnnotaterView.prototype.Delete = function (action) {
         e.preventDefault();
     });        
 };
-
 
 
 // ok so when this click happens we need to determine 
@@ -406,6 +367,8 @@ AnnotaterView.prototype.Dispose = function (action) {
         action();
 };
 
+
+// the options param is only used here for altering the note text area styling
 AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,note,options) {
 
         var that = this;
@@ -424,20 +387,14 @@ AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,
                 document.addEventListener('mousemove', drag);
                 document.addEventListener('mouseup', stopDrag);
         };
-        
-       
+
         if (!that.textarea) {
             that.textarea = document.createElement('textarea');
             that.textarea.className = 'info';
             that.textarea.addEventListener('mousedown', mouseDownOnTextarea);
             document.body.appendChild(that.textarea);
         }
-        
-      //  var canvas = document.getElementById("myCanvas");
-         
-      //  var new_x = x - canvas.offsetLeft,
-      //      new_y = y - canvas.offsetTop;
-            
+
         height = height -5;
         
         that.textarea.value = note;
@@ -446,31 +403,36 @@ AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,
         that.textarea.style.height = height + 'px';
         that.textarea.style.width = width + 'px';
         that.textarea.style.fontWeight = 'bold';
-        
-        that.textarea.style.color = options.DefaultEditorFontColour;
-        
-        
-        
+
         that.textarea.style.transform = 'rotate('+ angle +'deg)';
         that.textarea.style.transformOrigin = '0% 0%';
         
-        if(!options.IsTransparent)
-            that.textarea.style.backgroundColor = options.DefaultNoteColour;
-        else
-            that.textarea.style.backgroundColor = 'transparent';
+        if(options.FontSize){
+            if(options.FontSize > 25 ) options.FontSize = 25;
             
-        this.textarea.style.borderColor = options.DefaultEditorBorderColour;
+            $('textarea.info').css('font-size',options.FontSize + 'pt');
+        }
+        
+        $('textarea.info').css('color',options.DefaultEditorFontColour);
+        
+      
+       // that.textarea.style.color = options.DefaultEditorFontColour;
+        
+        if(!options.IsTransparent)
+            $('textarea.info').css('background-color',options.DefaultNoteColour);
+        else
+            $('textarea.info').css('background-color','transparent');
+            //that.textarea.style.backgroundColor = 'transparent';  //that.textarea.style.backgroundColor = options.DefaultNoteColour;
+        
+        $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
+       // this.textarea.style.borderColor = options.DefaultEditorBorderColour;
         
         
         
-        //data.DefaultNoteColour;
-        //data.IsTransparent;
-        
-        // we need to somehow pass in the dims from the imageviewer
-        // we also need to receive permission from imageviewer to do this in the first place
-        // so what pass in a call back xxx
-        
-        // handle textarea load here like with perform click
+        // enable buttons to control formatting of newly created textarea
+        $("#angleGroup").show(); 
+        $("#optionGroup").show();
+        $('#btnPickColour').show();
 };
 
 AnnotaterView.prototype.ClearActiveTextArea = function () {
@@ -492,11 +454,12 @@ AnnotaterView.prototype.GetTextAreaDetails = function () {
         var w = $(this.textarea).css( "width").replace("px","");
         
         var text = $(this.textarea).val();
-        
-      //  b = Number(t) + Number(b);
-       // r = Number(l) + Number(r)+5;
+         
         
         var angleUtils = new AngleUtils();
+        
+        // this needs changing to get this stuff out of the model!
+        var options = this._getOptionDetails(true);
         
         var result = {
             "x" : x,
@@ -504,41 +467,13 @@ AnnotaterView.prototype.GetTextAreaDetails = function () {
             "width" : Number(w)+5,
             "height" : h,
             "d":angleUtils.getAngle(),
-            "text" : text
+            "text" : text,
+            "options" : options
         };
         
         
         return result;
     }
-};
-
-//SAVE OPTIONS CLICKED
-AnnotaterView.prototype.SaveOptionsClicked = function(action){
-        var that = this;
-        
-        $('#btnSaveOptions').click(function (e) {            
-        
-        var options = {
-            "hexval": $("#txtChosenColour").val(),
-            "font" :  $('#fontSelect').fontSelector('selected'),
-            "isTransparent" : $("#chkTransparentBackground").val()
-        }
-        
-        e.preventDefault();
-        
-        action(options);
-    });   
-};
-
-//CALLED FROM MODEL AND UPDATES OPTIONS DATA TO UI
-AnnotaterView.prototype.UpdateOptions = function(data, firstHex){
- 
-        $("#txtChosenColour").css("background-color", firstHex);
-        $("#txtChosenColour").val(firstHex);
-
-        $("#chkTransparentBackground").val(data.IsTransparent);
-        
-        $('#fontSelect').fontSelector('select',data.DefaultFont);
 };
 
 
@@ -553,35 +488,252 @@ AnnotaterView.prototype.UpdateInfoWindow = function(data){
       
 };
 
+// LAYERS
+AnnotaterView.prototype.SetLayers= function (layers){
+    
+        
+    var idx =0;
+    
+    var constructRow = function(id, name, visible, current,order){
+        
+        var html = '<div class = "row">';
+        
+       
+        if(current)
+            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "S" style="color:green "></div>';
+        else
+            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "s" style="color: red"></div>';
+            
+        if(visible)
+            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible" value = "V" style="color: green"></div>';
+        else
+            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible"  value = "v" style="color: red"></div>';
 
-//COLOUR PICKER BUTTON CLICKED
-//SAVES COLOUR BACK TO MODEL
-AnnotaterView.prototype.ColourPickerClicked = function (action,saveFunc){
+        html +=  '<div class = "col name"><input type="text" data-id = "'+ id +'" data-prop = "name"  value = "'+ name +'"/></div>';
+        html +=  '<div class = "col order"><input  type="text" data-id = "'+ id +'" data-prop = "order"  value = "'+ order +'"/></div>';
+        
+      
+        html +=  '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
+        
+        html += '</div>';
+        html += '<br/>';
+        
+        return html;
+    };
+    
+    var content ='';
+    while(idx < layers.length){
+        content += constructRow(layers[idx].id, layers[idx].name, layers[idx].visible, layers[idx].current,layers[idx].order);
+        idx++;
+    }
+    
+    $('#layerslist').html(content);
+    
+    if(this.layerInputCallback)
+        this.QryInputState(this.layerInputCallback)
+    
+    if(this.layerButtonCallback)
+        this.QryLayerButtonState(this.layerButtonCallback)
+};
+
+AnnotaterView.prototype.QryNewState = function (callback) {
+   
+    $('#btnNewLayer').click(function (e) {
+        callback();
+    });
+};
+
+AnnotaterView.prototype.QrySaveState = function (callback) {
+   
+    $('#btnSaveLayers').click(function (e) {
+        callback();
+    });
+};
+
+AnnotaterView.prototype.QryInputState = function (callback) {
    
    
-    $('#btnPickColour').click(function (e) {            
-
-        action(function(rgb,hex){
-            // we need to call imageviewer here
-            // pass in the new values
-            // or else save them locally somehow
+    
+    this.layerInputCallback=callback;
+   
+    $( "#layerslist input[type='text']" ).change(function(e) {
+        var d;
+ 
+        if($(e.target).data().prop == 'name'){
+            d = {
+                id: $(e.target).data().id,
+                value: $(e.target).text(),
+                type : 'name'
+            };
+            callback(d);
+        }
+        
+        if($(e.target).data().prop == 'order'){
+           
+            d = {
+                id: $(e.target).data().id,
+                value: $(e.target).text(),
+                type : 'order'
+            };
             
-            $("#txtChosenColour").val("#"+hex);
-            $("#txtChosenColour").css("background-color", "#"+hex);
-            
-            $( "#colourComponentList option:selected" ).each(function() {
-              
-                saveFunc($( this ).val(), "#"+hex);
-            });
-        });
+            callback(d);
+        }
+    });
 
+   
+};
+
+
+
+AnnotaterView.prototype.QryLayerButtonState = function (callback) {
+   
+    this.layerButtonCallback=callback;
+   
+    $('#layerslist input').click(function (e) {
+        console.log(e);
+        //which button was pressed 
+        //rowid
+        //property being changed
+        //new value
+        var n,d;
+ 
+        
+        if($(e.target).data().prop == 'current'){
+            if($(e.target).val() =='S')
+                n= false;
+            else
+                n =true;
+                
+            d = {
+                id: $(e.target).data().id,
+                value: n,
+                type : 'current'
+            };
+            callback(d);
+        }
+        
+        if($(e.target).data().prop == 'visible'){
+            if($(e.target).val() =='V')
+                n= false;
+            else
+                n =true;
+        
+            d = {
+                id: $(e.target).data().id,
+                value: n,
+                type : 'visible'
+            };
+            
+            callback(d);
+        }
+        
+        if($(e.target).data().prop == 'delete'){
+            d = {
+                id: $(e.target).data().id,
+                value: '',
+                type : 'delete'
+            };
+            
+            callback(d);
+        }
+        
+    }); 
+};
+
+
+
+
+
+
+
+
+//OPTIONS
+
+
+AnnotaterView.prototype._getOptionDetails= function (includeColour){
+    var currentComponent =1;
+
+    $( "#colourComponentList option:selected" ).each(function() {
+        currentComponent = $( this ).val();
+    });
+
+
+    var options = {
+        "hexval": (includeColour ? $("#txtChosenColour").val() : undefined) ,
+        "DefaultFont" :  $('#fontSelect').fontSelector('selected'),
+        "IsTransparent" : $("#chkTransparentBackground").is(":checked"),
+        "componentId" : currentComponent
+    };
+    
+    return options;
+};
+
+//
+
+AnnotaterView.prototype.AngleChangeClicked = function (action) {
+    
+    var moveTextArea = function(offset){
+        
+        var angleUtils = new AngleUtils();
+        
+        var a = angleUtils.getAngle();
+        
+        if(a!= 1000){
+            a = a + offset;
+            var newprop =  'rotate('+ a  +'deg)';
+            $('textarea.info').css('transform',newprop);
+        }
+        
+    };
+    
+    $('#btnAngleDown').click(function (e) {
+        action('down');
+       
+        moveTextArea(-1);
+        
         e.preventDefault();
     });
-}
+    
+    $('#btnAngleUp').click(function (e) {
+            action('up');
+            moveTextArea(1);
+            e.preventDefault();
+        });
+};
 
-//POPULATES COLOUR PICKER COMPONENT LIST
-AnnotaterView.prototype.UpdateColourPickerComponents = function (data){
-    var that = this;
+
+
+/*COMMANDS*/
+
+AnnotaterView.prototype.SetOptions = function(options, currentColour){
+
+    // the other defaults only updated when combo box gets changed         
+    $("#txtChosenColour").css("background-color", currentColour);
+    $("#txtChosenColour").val(currentColour);
+
+    $("#chkTransparentBackground").val(options.IsTransparent);
+    
+    $('#fontSelect').fontSelector('select',options.DefaultFont);
+    
+    $('textarea.info').css('color',options.DefaultEditorFontColour);
+    
+    $('textarea.info').css('font-family',$('#fontSelect').fontSelector('selected'));
+ 
+    if(!options.IsTransparent)
+        $('textarea.info').css('background-color',options.DefaultNoteColour);
+    else
+        $('textarea.info').css('background-color','transparent');
+  
+    $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
+};
+
+AnnotaterView.prototype.SetChosenColour = function (hex) {
+    $("#txtChosenColour").val(hex);
+    $("#txtChosenColour").css("background-color", "#"+hex);
+};
+
+AnnotaterView.prototype.SetColourComponents = function (data){
+ 
     var output = [];
     
     $.each(data, function(key, value)
@@ -595,31 +747,177 @@ AnnotaterView.prototype.UpdateColourPickerComponents = function (data){
    // myDDL[0].selectedIndex = 0;
 }
 
-//LIST CHANGED AND UI UPDATED
-//get existing hex value for component
-AnnotaterView.prototype.ColourComponentChanged = function (action) {
-    var that = this;
+AnnotaterView.prototype.SetDefaultOptionsUI = function (state) {
+        
+    // this clicks turns on and off default option mode.
+   
+    if(state){
+        $("#optionGroup").hide();
+        $("#btnAddNote").show();
+        $("#btnDeleteNote").show();
+        $('#btnSaveOptions').hide();
+        $('#btnPickColour').hide();
+        $("#btnOptions").val('Options');
+    }
+    else
+    {
+        $("#optionGroup").show();
+        $("#btnAddNote").hide();
+        $("#btnDeleteNote").hide();
+        $('#btnSaveOptions').show();
+        $('#btnPickColour').show();
+        $("#btnOptions").val('Cancel');
+    }
     
-   $("#colourComponentList")
-      .change(function () {
-        
-        var str = "";
-        $( "#colourComponentList option:selected" ).each(function() {
-          str = $( this ).val();
-        });
-        
-        console.log('colour component changed: '+ str);
-      
-        var hex = action(str);
-        
-        $("#txtChosenColour").val(hex);
-        $("#txtChosenColour").css("background-color", "#"+hex);
-        
-      })
-      .change();
+    var myDDL = $('#colourComponentList');
+    myDDL[0].selectedIndex = 0;
 };
 
 
+/*QUERIES*/
+
+//LIST CHANGED AND UI UPDATED
+AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
+    //var that = this;
+    var currentComponent =1;
+
+    $( "#colourComponentList option:selected" ).each(function() {
+        currentComponent = $( this ).val();
+    });
+    
+    $("#colourComponentList")
+      .change(function () {
+        // console.log('colour component changed: '+ str);
+        
+        currentComponent = $( "#colourComponentList option:selected" ).val();
+        
+        action(currentComponent);
+    })
+    .change();
+};
+
+// when picker button clicked this triggers event on model
+AnnotaterView.prototype.QryPickedColour = function (clickResult) {
+            
+    var that = this;
+    
+    // http://www.javascripter.net/faq/rgbtohex.htm
+    function rgbToHex(R,G,B) {
+        
+        return toHex(R)+toHex(G)+toHex(B)
+        
+    }
+            
+    function toHex(n) {
+        n = parseInt(n,10);
+        if (isNaN(n)) return "00";
+        n = Math.max(0,Math.min(n,255));
+        return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
+    }
+            
+            
+    $('#myCanvas').click(function(event){
+        // getting user coordinates
+        if(that._pickEnabled)
+        {
+            var canvas = document.getElementById('myCanvas').getContext('2d');
+            
+            var x = event.pageX - this.offsetLeft;
+            var y = event.pageY - this.offsetTop;
+            
+            // getting image data and RGB values
+            var img_data = canvas.getImageData(x, y, 1, 1).data;
+          
+            var R = img_data[0];
+            var G = img_data[1];
+            var B = img_data[2];  
+            var rgb = R + ',' + G + ',' + B;
+            
+            // convert RGB to HEX
+            var hex = rgbToHex(R,G,B);
+            // making the color the value of the input
+           
+            that.SetChosenColour(hex);
+           
+            if(clickResult)
+                clickResult(rgb,hex);
+            
+            that._pickEnabled = false;                        
+        }
+    });
+
+};
+
+AnnotaterView.prototype.QryPickState = function (callback) {
+    var that = this;
+    
+    $('#btnPickColour').click(function (e) {
+        that._pickEnabled =true;
+        callback(true);
+    }); 
+};
+
+//SAVE DEFAULT OPTIONS CLICKED
+AnnotaterView.prototype.QryDefaultOptions = function(action){
+    var that = this;
+    $('#btnSaveOptions').click(function (e) {            
+        e.preventDefault();
+        action(that._getOptionDetails());
+    });   
+};
+
+AnnotaterView.prototype.QryDefaultOptionsState = function (action) {
+        
+    // this clicks turns on and off default option mode.
+   
+    $('#btnOptions').click(function (e) {
+        if($("#btnOptions").val() == 'Cancel'){
+            action(true);
+        }
+        else
+        {
+            action(false);
+        }
+    });
+};
+
+
+AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
+     var that = this;
+    // $("#fontSelect")
+    //   .change(function () {
+    //     action(that._getOptionDetails());
+    // })
+    // .change();
+    
+    this.selectedFontChanged = function(style){
+        console.log('font changed');
+        action($('#fontSelect').fontSelector('selected'));
+    };
+    
+    
+};
+
+AnnotaterView.prototype.QryTransparencyChanged = function (action) {
+    var that = this;
+    $("#chkTransparentBackground")
+      .change(function () {
+        action($("#chkTransparentBackground").is(":checked"));
+    })
+    .change();
+};
+
+
+
+
+
+
+
+
+/*
+URL
+
+*/
 
 
 //USER CLICKS ADD
@@ -629,10 +927,15 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
     console.log('DisplayUpdateNoteAdd: ' + status);
     if(!status){
         $("#controllabel").html('select edit mode');
+        
+        $("#angleGroup").hide(); 
+        $("#optionGroup").hide();
+        $('#btnPickColour').hide();
     }
     else
     {
         $("#controllabel").html('click drawing to add');
+        
     }
     $("#btnOptions").toggle();
     $("#btnAddNote").toggle();
@@ -643,8 +946,7 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
     //btnDeleteNote
     $("#btnDeleteNote").toggle();
     
-    $("#angleGroup").toggle(); 
- 
+
 };
 
 //USER CLICKS DELETE

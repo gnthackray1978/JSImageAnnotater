@@ -10,6 +10,8 @@ var NoteDataManager = function (data) {
     this._noteDll = data;
     //new MongoNoteData();
     
+  //  this.layers =[];
+    
 };
 
 
@@ -24,7 +26,7 @@ NoteDataManager.prototype = {
         this.generations.push([]);
         this.generations[0] = [];
 
-        this.AddData(0,0,0,0,900,900,0,'empty');
+        this.AddData(0,0,0,0,900,900,0,'empty',true,false, undefined,1);
 
         this.generations[1] = [];
 
@@ -40,7 +42,11 @@ NoteDataManager.prototype = {
                                 ajaxResult[idx].Width, 
                                 ajaxResult[idx].Height, 
                                 ajaxResult[idx].D, 
-                                ajaxResult[idx].Annotation);
+                                ajaxResult[idx].Annotation,
+                                ajaxResult[idx].Visible,
+                                false,
+                                ajaxResult[idx].Options,
+                                ajaxResult[idx].layerId);
                 
                 idx++;
             }
@@ -152,33 +158,35 @@ NoteDataManager.prototype = {
         // get text area contents 
         // make data
     
-        //   var result = {
-        //         "x" : x,
-        //         "y" : y,
-        //         "width" : w+5,
-        //         "height" : h,
-        //         "d":this.getAngle(),
-        //         "text" : text
-        //     };
-            
         if(!note)
             console.log('writetextarea note null or undefined');
           
-        note.noteId = id;
+        note.Index = id;
      
-        if(note.noteId == 0)
-            note.noteId = this.NewId();
+        if(note.Index == 0)
+            note.Index = this.NewId();
         
-        this.AddData(1, note.noteId,note.x,note.y,note.width,note.height,note.d,note.text, true);
+        this.AddData(1, note.Index,note.x,note.y,note.width,note.height,note.d,note.text,true, true, note.options,2);
     
-        return note.noteId;
+        return note.Index;
     },
     
-    AddData: function(genidx,noteId,x,y,width,height,degree,annotation,withInit){
+    WriteNote: function(genidx,index,x,y,width,height,degree,annotation,options,layerId){
+
+        if(index == 0)
+            index = this.NewId();
+        
+        this.AddData(1, index,x,y,width,height,degree,annotation,true, true, options,layerId);
+    
+        return index;
+    },
+    
+    
+    AddData: function(genidx,index,x,y,width,height,degree,annotation,visible,withInit,options,layerId){
  
         var node = {
             Annotation: annotation,
-            Index: noteId,
+            Index: index,
             UrlId: this.urlId,
             Layer:0,
             X:Number(x),
@@ -186,7 +194,9 @@ NoteDataManager.prototype = {
             Width:Number(width),
             Height:Number(height),
             D:Number(degree),
-            Visible: true
+            Visible: visible,
+            Options: options,
+            LayerId : layerId
         };
 
         if(genidx === 0){
@@ -306,7 +316,7 @@ NoteDataManager.prototype = {
         while(idx < this.generations[1].length){
             
             //console.log(this.generations[1][idx].PersonId + ' ' + noteId);
-            if(Number(this.generations[1][idx].Index) === Number(noteId)){
+            if(Number(this.generations[1][idx].Index) === Number(index)){
                 isPresent = true;
                 console.log('AddData updating generations');
                 this.generations[1][idx] =node;
@@ -341,104 +351,24 @@ NoteDataManager.prototype = {
     },
     GetImageData: function (callback) {
         this._noteDll.GetImageData(callback);
-    }
-};
-
-
-
-
-var MongoNoteData = function () {
- 
- 
-    this.baseUrl = 'https://jsimageannotater-gnthackray1978.c9.io';
-
-};
-
-
-MongoNoteData.prototype = {
-    
-    init:function(){
-        
+    },
+    Type : function(){
+        return this._noteDll.Type();
     },
     
-    GetImageData: function(callback){
-        //dummy values not intended to be used
-        var imageData = {url: 'test'};
-        
-        callback(imageData);
+    GetLayers: function (callback) {
+        this._noteDll.GetLayers(callback);
     },
-    
-    GetNoteData: function (urlId, callback) {
-        
-         $.ajax({
-             type: "GET",
-             async: false,
-             url: this.baseUrl  + '/notes/'+urlId,
-             contentType: "application/json",
-             dataType: "JSON",
-             success: function(ajaxResult) {
-                console.log('loaded');
-                callback(ajaxResult);
-             },
-             error: function() {
-                alert('Error loading data');
-             }
-         });
+    SaveLayers: function (data,updateCache) {
+        this._noteDll.SaveLayers(data,updateCache);
     },
-    
-    WriteNoteData: function (note) {
-        
-        var stringy = JSON.stringify(note);
-    
-        $.ajax({
-                type: "POST",
-                async: true,
-                url: this.baseUrl  + '/notes/annotation/',
-                data: stringy,
-                contentType: "application/json",
-                dataType: "JSON"
-            });
+    GetActiveLayer:function(callback){
+        this._noteDll.GetActiveLayer(callback);
     },
-
-    GetOptions: function (urlId,callback) {
- 
-        var url = this.baseUrl  + '/notes/option/'+urlId;
-
-        var that = this;
-        
-        $.ajax({
-    
-             type: "GET",
-             async: false,
-             url: url,
-             contentType: "application/json",
-             dataType: "JSON",
-             success: function(jsonData) {
-                callback(jsonData);
-             },
-             error: function(e) {
-                alert('Error loading data' + e);
-             }
-         });
- 
-    },
-    
-    SaveOptions: function (options) {
-        
-        var stringy = JSON.stringify(options);
-    
-        $.ajax({
-                type: "POST",
-                async: false,
-                url: this.baseUrl  + '/notes/option/',
-                data: stringy,
-                contentType: "application/json",
-                dataType: "JSON",
-                success: function(jsonData) {
-                    console.log(jsonData);
-                }
-        });
+    GetVisibleLayer:function(callback){
+        this._noteDll.GetVisibleLayer(callback);
     }
     
-    
 };
+
+

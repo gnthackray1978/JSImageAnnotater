@@ -1,4 +1,4 @@
-var TreeBase, TreeUI;
+var  CanvasTools;
 
 
 
@@ -7,20 +7,18 @@ var TreeBase, TreeUI;
 
 
 
-var ImageViewer = function (nodestore, urlstore) {
-
-    this.currentZoomPercentage = 100;
-
-    this.canvas = document.getElementById("myCanvas");
-
-    this.qryString = '';
+var ImageViewer = function (nodestore,view, urlstore, canvasTools) {
+    //could inject this
+    this._canvasTools = canvasTools;
     
+    this.currentZoomPercentage = 100;
+ 
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
 
     this.urlWriter = urlstore;
     this.nodestore = nodestore;
-    this.view = 1;
+    this.view = view;
 
 
     this.centrePoint = 400.0;
@@ -50,55 +48,40 @@ var ImageViewer = function (nodestore, urlstore) {
     this.zoomAmount = 8; //int
 
 
-    this.selectedNoteId = '';
- 
+    
     
 
     this.lastClickedPosX = 0;
     this.lastClickedPosY = 0;
-    this.treeUI;
+    
     this.currentNode= {
-        x:0,
-        y:0
+        x:-1,
+        y:-1
     };
 
-    //functions
-    
-  //  this.displayNodeInfo=1;//delegate
-    //this.updateAddButtonUI = 1;//DisplayUpdateNoteAdd
-    //this.updateSaveButtonUI = 1;
-    //this.updateDeleteButtonUI = 1;//DisplayUpdateDelete
-    
-  //  this.updateRunButtonUI =1;//DisplayUpdateRunButton
-    //this.updateOptions=1;//UpdateOptions
-    //this.clearTextArea = 1;//ClearActiveTextArea
-    
-    
-    this.updateUrlList = 1;
-    
-    
-   // this.updateInfoWindow=1;//UpdateInfoWindow
-    
- //   this.getTextAreaDetails =1;//GetTextAreaDetails
-    
-    
-    
-    
+
+
     // modes delete add etc
     this.addNode =false;
     this.deleteNode =false;
-    
+    this.optionMode =false;
+    this.pickMode =false;
     
     //ids
     this.urlId =null;
     this.selectedNoteId = 0; // not zero based
+    this.selectedColourComponentId =1;// not zero based
+ 
     this.imageData = null;
-    
-    
-    //settings
-    //https://jsimageannotater-gnthackray1978.c9.io
-    this.baseUrl = 'https://jsimageannotater-gnthackray1978.c9.io';
+     
     this.options = {};
+    this.defaultOptions = {};
+    this.tempOptions = {};
+    
+    
+    
+    
+    
 };
 
 //ImageViewer.prototype = new TreeBase();
@@ -109,7 +92,9 @@ ImageViewer.prototype.ChangeAngle= function (direction){
 
 ImageViewer.prototype.PerformClick= function (x, y) {
         
-        
+    // dont select anything
+    if(this.pickMode) return;
+    
     this.lastClickedPosY = y;
     this.lastClickedPosX = x;
 
@@ -149,6 +134,9 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     // add/edit node
     if(this.addNode)
     {
+        //historic data might not have any options so tempoptions could be used for existing notes
+        this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
+        
         if( this.currentNode.x != -1 && this.currentNode.y != -1)
         {
             var currentNode = this.nodestore.generations[this.currentNode.x][this.currentNode.y];
@@ -157,14 +145,28 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             var note = currentNode.Annotation;
             this.selectedNoteId = this.nodestore.generations[this.currentNode.x][this.currentNode.y].Index;
             //DisplayNodeSelection
-            //this.displayNodeInfo(currentNode.X, currentNode.Y,width,height,currentNode.D,note,this.options);
-            this.view.DisplayNodeSelection(currentNode.X, currentNode.Y,width,height,currentNode.D,note,this.options);
+       
+       
+            var tpOptions = this.defaultOptions;
+                        
+                        
+            if(currentNode.options != undefined){
+                tpOptions = currentNode.options;
+            }
+                        
+            this.view.DisplayNodeSelection(currentNode.X, currentNode.Y,width,height,currentNode.D,note,tpOptions);
+            if(currentNode.options)
+                this._updateOptionsToView(currentNode.options);
+            else
+                this._updateOptionsToView(this.defaultOptions);
         }
         else
         {
+            
+            
             this.selectedNoteId =0;
-            //this.displayNodeInfo(x, y,70,25,15,'',this.options);
-            this.view.DisplayNodeSelection(x, y,70,25,15,'',this.options);
+            this._updateOptionsToView(this.tempOptions);
+            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.tempOptions);
         }
     
     }
@@ -195,12 +197,23 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     
     if(!this.addNode)
         this.view.ClearActiveTextArea();
-    //    this.clearTextArea();
+    
     
 };
 
 ImageViewer.prototype.DrawTree= function () {
 
+    var containsLevel = function(layers, id){
+        var idx =0;
+        
+        while(idx< layers.length){
+            if(layers[idx]==id)
+                return true;
+            idx++;
+        }
+        
+        return false;
+    };
 
     this.ComputeLocations();
     
@@ -209,11 +222,9 @@ ImageViewer.prototype.DrawTree= function () {
     }
 
     try {
-
-   
-       var that = this;
-
-       this.treeUI.DrawImage(this.nodestore.generations[0][0], this.imageData.url , function () {
+        var that = this;
+        
+        var drawNotes = function() {
 
            var vidx = 1;
 
@@ -221,27 +232,45 @@ ImageViewer.prototype.DrawTree= function () {
                 var hidx=0;
                 while (hidx < that.nodestore.generations[vidx].length) {
                     
-                    if(that.nodestore.generations[vidx][hidx].Visible)
+                    
+                    var nlid = that.nodestore.generations[vidx][hidx].LayerId ? that.nodestore.generations[vidx][hidx].LayerId : 2;
+                    
+                    
+                    
+                    if(that.nodestore.generations[vidx][hidx].Visible && containsLevel(layers,nlid))
                     {
+                        var tpOptions = that.defaultOptions;
                         
-                       
-                            
-                        that.treeUI.DrawLabel(
+                        if(that.nodestore.generations[vidx][hidx].Options != undefined){
+                            tpOptions = that.nodestore.generations[vidx][hidx].Options;
+                        }
+                        
+                        tpOptions.FontSize = that._canvasTools.DrawLabel(
                             that.nodestore.generations[vidx][hidx].X,
                             that.nodestore.generations[vidx][hidx].Y,
                             that.nodestore.generations[vidx][hidx].Width,
                             that.nodestore.generations[vidx][hidx].Height,
                             that.nodestore.generations[vidx][hidx].D,
-                            that.nodestore.generations[vidx][hidx].Annotation, that.options);
-                            
+                            that.nodestore.generations[vidx][hidx].Annotation, 
+                            tpOptions);
                     }
                     hidx++;
                 }
                 vidx++;
             }
 
-        });
+        };
         
+        
+        // get list of visible layers here
+        that.nodestore.GetVisibleLayer(function(layers){
+
+            if(containsLevel(layers,1))
+                that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
+             else
+                drawNotes();
+            
+        });
         // we need to check if the selected node has changed if so then update ui
         // also handle when the nodes are clicked on.
         // if something is clicked we have to remove the node
@@ -283,7 +312,7 @@ ImageViewer.prototype.ComputeLocations=function () {
     //this.canvas.width = window.innerWidth;
     //this.canvas.height = window.innerHeight;
 
-    var halfCanvasWidth = (this.canvas.width / 2);
+  //  var halfCanvasWidth = (this.canvas.width / 2);
 
     // adjust centrepoint before we start?
     // no because centre point is the same for all boxs
@@ -374,44 +403,52 @@ ImageViewer.prototype.UpdateGenerationState= function () {
 
 //notes 
 
-ImageViewer.prototype.addNote=function(){
-    console.log('add note');
- // do we ever need to do anything in here?
- // seems not
-};
+ 
 
 
-
-ImageViewer.prototype.SaveNoteClicked=function(){
+ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     console.log('save note');
 
-    var data = this.view.GetTextAreaDetails();
 
    // console.log('change: '+w + '-'+ data.width );
     
-    this.selectedNoteId = this.nodestore.WriteTextArea(this.selectedNoteId,data);
+    if( this.currentNode.x != -1 && this.currentNode.y != -1 && this.currentNode.options !== undefined)
+    {
+        //saveData.options = this._translateViewOptions(saveData.options,saveData.options);
+        saveData.options = this.currentNode.options;
+    }
+    else
+    {
+        saveData.options = this.tempOptions;
+    }
+    
+    var that = this;
+    
+    this.nodestore.GetActiveLayer(function(layerId){
  
-    this.addNode = false;
+        that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
+                                    saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId);
+       
+        that.addNode = false;
+
+        that.view.DisplayUpdateNoteAdd(that.addNode);
+        
+        that.view.ClearActiveTextArea();
+
+        //refresh the drawing
+        that.DrawTree();
+        
+        that.UpdateInfo();
+    })
     
-   // this.updateAddButtonUI(this.addNode);
-    this.view.DisplayUpdateNoteAdd(this.addNode);
-    
-    //this.clearTextArea();
-    this.view.ClearActiveTextArea();
-    
-    
-    //refresh the drawing
-    this.DrawTree();
-    
-    that.UpdateInfo();
+   
 };
 
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
+    
     this.view.DisplayUpdateNoteAdd(this.addNode);
-    //this.updateAddButtonUI(this.addNode);
-    //this.clearTextArea();
     this.view.ClearActiveTextArea();
 };
 
@@ -419,7 +456,9 @@ ImageViewer.prototype.CancelAdd= function () {
 ImageViewer.prototype.EnableAdd= function () {
     this.addNode = true;
     this.view.DisplayUpdateNoteAdd(this.addNode);
-    //this.updateAddButtonUI(this.addNode);
+    
+    this._updateOptionsToView(this.defaultOptions);
+    
 };
 
 ImageViewer.prototype.DeleteNoteMode=function(){
@@ -468,14 +507,7 @@ ImageViewer.prototype.URLChanged=function(urlId, response){
 };
        
        
-ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
-    
-    var that = this;
-    this.nodestore.GetImageData(function(data){
-        that.urlId = data.urlId;
-        that.setImageObject(data.urlId,data, imageLoaded);
-    });
-};
+
        
        
 ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
@@ -496,24 +528,37 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
         
         that.getOptions(urlId);
         
-        
-        
         console.log('setImageObject url: ' + that.imageData.url);
         
-        $("<img/>").attr("src", that.imageData.url).load(function(){
-             var s = {w:this.width, h:this.height};
-                
-             that.imageData.width = s.w;
-             that.imageData.height = s.h;
-              
-             console.log('setImageObject imageData wdth: ' + that.imageData.width);
-             that.EnableRun(true);
-             
-             that.UpdateInfo();
-             
-             if(callback)
+        // if we couldnt populate image width and height when we got the url 
+        // try and work them out 
+        
+        
+        if(that.imageData.width==0 && that.imageData.height ==0)
+        {
+            $("<img/>").attr("src", that.imageData.url).load(function(){
+                 var s = {w:this.width, h:this.height};
+                    
+                 that.imageData.width = s.w;
+                 that.imageData.height = s.h;
+                  
+                 console.log('setImageObject imageData wdth: ' + that.imageData.width);
+                 that.EnableRun(true);
+                 
+                 that.UpdateInfo();
+                 
+                 if(callback)
+                    callback(urlId);
+            }); 
+        }
+        else
+        {
+            that.EnableRun(true);
+            that.UpdateInfo();
+                 
+            if(callback)
                 callback(urlId);
-        }); 
+        }
       
 };
     
@@ -540,7 +585,9 @@ ImageViewer.prototype.GetUrls=function(filter){
     console.log('GetUrls');
 
     this.urlWriter.GetUrls(filter, function(urlList){
-        that.updateUrlList(urlList);
+       // that.updateUrlList(urlList);
+        that.view.FillUrls(urlList);
+        
     });
 
  
@@ -548,8 +595,29 @@ ImageViewer.prototype.GetUrls=function(filter){
      
      
      
-     
 //options
+
+ImageViewer.prototype.CreateComponentList = function(){
+        
+    var component = [];
+    
+    component.push({id: 1, name: 'Background'});
+    component.push({id: 2, name: 'Editor Font'});
+    component.push({id: 3, name: 'Editor Border'});
+    component.push({id: 4, name: 'Note Font'});
+     
+    this.view.SetColourComponents(component);
+};
+
+ImageViewer.prototype.SetDefaultOptionMode = function(state){
+    //after option button clicked then its text changed to cancel thats
+    //how this method is called for cancel and options add
+    this.optionMode =state;
+    
+    this.view.SetDefaultOptionsUI(state);
+};
+
+
 ImageViewer.prototype.getOptions =function(urlId){
     console.log('GetUrls');
     
@@ -560,73 +628,195 @@ ImageViewer.prototype.getOptions =function(urlId){
                 // we are in the future going to have many layers
                 // currently we have 1 layer so just default to that
                 // which is always going to be layer 0
-                that.options = jsonData[0];
+                that.defaultOptions = jsonData[0];
                 //that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
-                that.view.UpdateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+                //that.view.SetOptions(that.defaultOptions,1);//, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
                 
             }
     });
  
 };
      
-ImageViewer.prototype.saveOptions =function(options){
+ImageViewer.prototype.saveDefaultOptions =function(options){
+   
     console.log('save option ' +options);
+
+  //  this._translateViewOptions(options, this.defaultOptions);
+
+    this.nodestore.SaveOptions(this.defaultOptions);
+};
+
+ImageViewer.prototype._translateViewOptions =function(voptions,moptions){
+    //  var options = {
+    //     "hexval": $("#txtChosenColour").val(),
+    //     "font" :  $('#fontSelect').fontSelector('selected'),
+    //     "isTransparent" : $("#chkTransparentBackground").val(),
+    //     "componentId" : currentComponent
+    // };
+     
+     if(voptions.IsTransparent !== undefined)
+        moptions.IsTransparent = voptions.IsTransparent;
+     
+     if(voptions.DefaultFont)
+        moptions.DefaultFont = voptions.DefaultFont;
+    
+     if(moptions!=null && voptions.hexval){
+        switch(Number(this.selectedColourComponentId)){
+            case 1:
+                moptions.DefaultNoteColour = voptions.hexval;
+                break;
+            case 2:
+                moptions.DefaultEditorFontColour = voptions.hexval;
+                break;
+            case 3:
+                moptions.DefaultEditorBorderColour = voptions.hexval;
+                break;
+            case 4:
+                moptions.DefaultNoteFontColour = voptions.hexval;
+                break;
+        }
+    }
+    
+    return moptions;
+};
+
+//called from colour picker when colour changed
+ImageViewer.prototype.updateOptionColour =function(rgb,hex){
+
+    this.setPickState(false);
+
+    var options = {
+        "hexval": '#'+hex,
+        "DefaultFont" :  undefined,
+        "IsTransparent" : undefined,
+        "componentId" : undefined
+    };
+   
+    this._updateOptions(options,true);
+
+};
+
+ImageViewer.prototype.updateOptionFont =function(font){
+
+    var options = {
+        "hexval": undefined,
+        "DefaultFont" :  font,
+        "IsTransparent" : undefined,
+        "componentId" : undefined
+    };
+   
+    this._updateOptions(options,true);
+
+};
+
+ImageViewer.prototype.updateOptionTransparency =function(transparency){
+
+    var options = {
+        "hexval": undefined,
+        "DefaultFont" :  undefined,
+        "IsTransparent" : transparency,
+        "componentId" : undefined
+    };
+   
+    this._updateOptions(options,true);
+
+};
+
+ImageViewer.prototype.updateSelectedComponentId =function(componentId){
+
+    var options = {
+        "hexval": undefined,
+        "DefaultFont" :  undefined,
+        "IsTransparent" : undefined,
+        "componentId" : componentId
+    };
+   
+   
+    this._updateOptions(options,true);
+
+};
+
+ImageViewer.prototype._updateOptionsToView =function(options){
+    
+    var hex;
+    switch(Number(this.selectedColourComponentId)){
+        case 1:
+            hex = options.DefaultNoteColour;
+            break;
+        case 2:
+            hex = options.DefaultEditorFontColour;
+            break;
+        case 3:
+            hex = options.DefaultEditorBorderColour;
+            break;
+        case 4:
+            hex = options.DefaultNoteFontColour;
+            break;
+    }
+    
+    
+    this.view.SetOptions(options,hex);
+};
+
+ImageViewer.prototype._updateOptions =function(options, withUpdate){
     
     var that = this;
- 
-    this.options.DefaultFont = options.font;
-    this.options.IsTransparent = options.isTransparent;
 
-    that.nodestore.SaveOptions(this.options);
-
-}
-
-ImageViewer.prototype.setColourComponentHex =function(componentId, hex){
+    if(options.componentId !== undefined){
+        that.selectedColourComponentId = options.componentId;
+        console.log('compid: ' + that.selectedColourComponentId);
+    }
     
-    if(this.options!=null){
-        switch(Number(componentId)){
-            case 1:
-                this.options.DefaultNoteColour = hex;
-                break;
-            case 2:
-                this.options.DefaultEditorFontColour = hex;
-                break;
-            case 3:
-                this.options.DefaultEditorBorderColour = hex;
-                break;
-            case 4:
-                this.options.DefaultNoteFontColour = hex;
-                break;
+    var finalAction = function(options){
+        if(withUpdate)
+            that._updateOptionsToView(options);
+    };
+    
+    if(this.optionMode){
+        this._translateViewOptions(options,this.defaultOptions);
+        finalAction(this.defaultOptions);
+    }
+    
+    if(this.addNode){
+        if( this.currentNode.x != -1 && this.currentNode.y != -1)
+        {
+            if(this.currentNode.options != undefined){
+              //  options.DefaultFont =this.currentNode.options.DefaultFont;
+              //  options.IsTransparent =this.currentNode.options.IsTransparent;
+                this._translateViewOptions(options, this.currentNode.options);
+                finalAction(this.currentNode.options);
+            }
+            else
+            {
+                //historic data might not have any options set for the note
+                this._translateViewOptions(options,this.tempOptions);
+                finalAction(this.tempOptions);
+            }
+        }
+        else
+        {
+            this._translateViewOptions(options,this.tempOptions);
+            finalAction(this.tempOptions);
         }
     }
-    
 };
 
-ImageViewer.prototype.getColourComponentHex =function(componentId){
+ImageViewer.prototype.setPickState = function(state){
+     
+    this.pickMode =state;
     
-    if(this.options!=null){
-        switch(Number(componentId)){
-            case 1:
-                return this.options.DefaultNoteColour;
-            case 2:
-                return this.options.DefaultEditorFontColour;
-            case 3:
-                return this.options.DefaultEditorBorderColour;
-            case 4:
-                return this.options.DefaultNoteFontColour;
-            default:
-                return "#000000";
-        }
-    }
-    else
-    {
-        return "#000000";
-    }
+},
+
+//map
+
+ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
     
+    var that = this;
+    this.nodestore.GetImageData(function(data){
+        that.urlId = data.urlId;
+        that.setImageObject(data.urlId,data, imageLoaded);
+    });
 };
-
-
-
 
 ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
 
@@ -640,8 +830,8 @@ ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  
         this.zoomPercentage = zoomPerc;
 
         this.currentNode = {
-            x:0,
-            y:0
+            x:-1,
+            y:-1
         };
 };
     

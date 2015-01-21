@@ -26,10 +26,11 @@
 (function( $ ) {
 
   var settings;
-
+ 
   var methods = {
     init : function(options) {
-
+  
+      
       settings = $.extend( {
         'hide_fallbacks' : false,
         'selected' : function(style) {},
@@ -53,7 +54,8 @@
         root.find('span').html(displayName(font).replace(/["']{1}/gi,""));
         root.css('font-family', font);
         selected = font;
-
+       
+          
         root.callback(selected);
       }
 
@@ -125,6 +127,8 @@
         this.find('span').html(font.substr(0, font.indexOf(',')).replace(/["']{1}/gi,""));
         this.css('font-family', font);
         selected = font;
+    
+      
     }
   };
 

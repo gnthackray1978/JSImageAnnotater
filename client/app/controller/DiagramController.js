@@ -1,52 +1,90 @@
-
-var JSMaster, AncUtils, QryStrUtils, AncTree, Tree;
-
-
-
-
-var DiagramRunner = function (treeModel, colourPicker) {
-    this.ancTree = null;
-    this.ancUtils = new AncUtils();
-    this.treeUI = null;
+var DiagramController = function (view, model) {
+ 
     this._moustQueue = [];
     this._mouseDown = false;
+    this._view = view;
     
-    this.textarea = null;
+ //   this.textarea = null;
     
-    this.ancTree = treeModel;
-  //  this.loader = nodeStore;
-    this.colourPicker = colourPicker;
+    this.ancTree = model;
+ 
+  
+    this._view.AngleChangeClicked($.proxy(this.angleChanged, this));
+    this._view.QryDefaultOptions($.proxy(this.qryDefaultOptions, this));
+    this._view.CanvasClick($.proxy(this.canvasClick, this));
+    this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
+    this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
+    this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
+    this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
+    this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
     
+    
+    
+    
+    //get hex whenever listbox changes selection
+    this._view.QrySelectedColourComponent($.proxy(this.qrySelectedColourComponent, this));
+    this._view.QryPickedColour($.proxy(this.qryPickedColour, this));
+    this._view.QryDefaultOptionsState($.proxy(this.qryDefaultOptionsState, this));
+    this._view.QryPickState($.proxy(this.qryPickState, this));
+    this._view.QrySelectedFontChanged($.proxy(this.qrySelectedFontChanged, this));
+    this._view.QryTransparencyChanged($.proxy(this.qryTransparencyChanged, this));
+    
+    
+    //colour picker 
+    //saves colour back to model
+    //this._view.ColourPickerClicked($.proxy(this.colourPickerClicked, this));          
+
+    //note operations
+    this._view.Add($.proxy(this.addButtonClicked, this));
+    
+    this._view.Cancel($.proxy(this.cancelButtonClicked, this));
+    
+    this._view.SaveNote($.proxy(this.saveNote, this));
+   
+    this._view.Delete($.proxy(this.deleteNote, this));
+   
+    if(model.nodestore.Type() == 'AJAX'){
+        //URL operations
+        this._view.URLFilterList($.proxy(this.URLFilterList, this));
+        
+        this._view.URLNew($.proxy(this.URLNew, this));
+        
+        this._view.URLSave($.proxy(this.URLSave, this), $.proxy(this.URLFilterList, this) );
+        
+        this._view.URLDelete($.proxy(this.URLDelete, this));
+        
+        this._view.URLChanged($.proxy(this.URLChanged, this));
+     
+    }
+    
+    this._view.InitPanelVisibility();
+
+ 
+    if(model.nodestore.Type() != 'AJAX'){
+        this.startFromDrive();
+        
+    }
+    else
+    {
+        this.init();
+        
+        this._view.RunButtonClicked($.proxy(this.startFromAjax, this));
+    }
+
+
+
 };
 
-DiagramRunner.prototype = {
+DiagramController.prototype = {
     
     
     startFromDrive: function(){
-        
-        //  if (this.ancTree !== null) {
-            
-        //     this.ancTree.EnableRun(false);
-        //     this.ancTree.GetUrls();
-            
-        //  };
-         
-         
-         if(this.colourPicker!== null){
-             this.colourPicker.CreateComponentList();
-             
-         }
-         
-         
-         //init drive here
-         var that = this;
-          
-         that.ancTree.nodestore.init(function(){
-            //set image 
-            
-                that.ancTree.LoadBackgroundImage(function(id){
-                    // run the graphics loop
-                    that.treeUI = new TreeUI(1, function (treeUI) {
+
+        //init drive here
+        var that = this;
+        that.ancTree.CreateComponentList();
+    
+        that.ancTree.LoadBackgroundImage(function(id){
                     var canvas = document.getElementById("myCanvas");
               
                     canvas.width = window.innerWidth;
@@ -60,70 +98,52 @@ DiagramRunner.prototype = {
          
                         that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
         
-        
-                        that.ancTree.treeUI = treeUI;
                         that.ancTree.selectedNoteId = id;
                         that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
                         that.ancTree.UpdateGenerationState();
                         that.ancTree.ScaleToScreen();
                        
                     });
-                });
             });
-            
-            
-            
-            
-            
-            
-        
-        });
-        
+
     },
     
     init:function(){
     
          if (this.ancTree !== null) {
-            
+            this.ancTree.CreateComponentList();
             this.ancTree.EnableRun(false);
             this.ancTree.GetUrls();
             
          };
-         
-         if(this.colourPicker!== null){
-             this.colourPicker.CreateComponentList();
-             
-         }
     },
         
-    run: function (id) {
-        // id is data thats passed in
-        // for example from a call back
+    startFromAjax: function (id) {
+    
         var that = this;
         //set image 
-        this.treeUI = new TreeUI(1, function (treeUI) {
-            var canvas = document.getElementById("myCanvas");
       
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        var canvas = document.getElementById("myCanvas");
+  
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-            that.ancTree.nodestore.GetGenerations(id, function(){
-                
-                console.log('got data starting app');
-                
-                setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
- 
-                that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+        that.ancTree.nodestore.GetGenerations(id, function(){
+            
+            console.log('got data starting app');
+            
+            setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
+
+            that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
 
 
-                that.ancTree.treeUI = treeUI;
-                that.ancTree.selectedNoteId = id;
-                that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
-                that.ancTree.UpdateGenerationState();
-                that.ancTree.ScaleToScreen();
-               
-            });
+            that.ancTree.selectedNoteId = id;
+            that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+            that.ancTree.UpdateGenerationState();
+            that.ancTree.ScaleToScreen();
+           
         });
+     
     },
      
     boxButtonUp:function(milliseconds){
@@ -195,22 +215,17 @@ DiagramRunner.prototype = {
         this.ancTree.familySpanLines = null;
         this.ancTree.childlessMarriages = null;
     },
-    
-    // SetNodeSelectionUI:function(action){
-        
-    //     // set delegate to be used in diagram displayer
-    //     this.ancTree.displayNodeInfo = action;
-        
-   
-    // },
-
+ 
     angleChanged:function(direction){
         this.ancTree.ChangeAngle(direction);
     },
 
+   
+
     addButtonClicked:function(){
         this.ancTree.EnableAdd();
     },
+   
    
     cancelButtonClicked:function(){
         this.ancTree.CancelAdd();
@@ -218,69 +233,45 @@ DiagramRunner.prototype = {
     
     deleteNote:function(action){
         this.ancTree.DeleteNoteMode();
+        
     },
     
-    saveNote:function(){
+    saveNote:function(saveData){
         
         if (this.ancTree !== null) {
 
-            this.ancTree.SaveNoteClicked();
+            this.ancTree.SaveNoteClicked(saveData);
         }
     },
 
-    saveOptionsClicked:function(options){
-        this.ancTree.saveOptions(options);
+    qryDefaultOptions:function(options){
+        this.ancTree.saveDefaultOptions(options);
+    },
+    
+    qryDefaultOptionsState:function(data){
+        this.ancTree.SetDefaultOptionMode(data);  
+    },
+    
+    qryPickState: function(state){
+       this.ancTree.setPickState(state);
+    },
+    
+    qryPickedColour: function(rgb,hex){
+       this.ancTree.updateOptionColour(rgb,hex);
     },
 
-    // SetClearTextArea:function(action){
-    //     this.ancTree.clearTextArea = action;
-    // },
-    
-    //
-    // SetAddButtonUpdate:function(action){
-    //     this.ancTree.updateAddButtonUI = action;
-    // },
-    
-    // SetDeleteButtonUpdate:function(action){
-    //     this.ancTree.updateDeleteButtonUI = action;
-    // },
-    
-    // SetRunButtonUpdate:function(action){
-    //     this.ancTree.updateRunButtonUI = action;
-    // },
-    
-    // SetOptionsUpdate:function(action){
-    //     this.ancTree.updateOptions = action;
-    // },
-    
-    // SetUpdateInfoWindow:function(action){
-    //     this.ancTree.updateInfoWindow = action;
-    // },
-    
-    // SetGetTextAreaDetails:function(action){
-    //     this.ancTree.getTextAreaDetails = action;
-    // },
-    
-    
-    
-    
-    //COLOUR PICKER 
-    colourPickerClicked: function(callback){
-        this.colourPicker.init(callback);  
-         
+    qrySelectedColourComponent: function(componentId){
+        this.ancTree.updateSelectedComponentId(componentId);
     },
-
-    saveColourComponentToModel: function(companentId, hex){
-        this.ancTree.setColourComponentHex(companentId, hex);
+    
+    qrySelectedFontChanged: function(font){
+        this.ancTree.updateOptionFont(font);
     },
-
-    SetModelUpdateColourPickerComponents:function(action){
-         this.colourPicker.updateComponentList = action;
+    qryTransparencyChanged: function(transparency){
+        this.ancTree.updateOptionTransparency(transparency);
     },
-
-    getColourComponentHex: function(companentId){
-        return this.ancTree.getColourComponentHex(companentId);
-    },
+    
+    
     
     // URLS 
     
@@ -323,15 +314,7 @@ DiagramRunner.prototype = {
         }
     },
     
-    SetLoadUrls:function(action){
-        
-        if (this.ancTree !== null) {
-
-             this.ancTree.updateUrlList = action;
-        }
-    },
-    
-    
+ 
     GameLoop: function () {
 
         while (this._moustQueue.length > 0) {

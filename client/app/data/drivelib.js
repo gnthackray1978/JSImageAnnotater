@@ -6,6 +6,9 @@ var MyDrive = function () {
     
     
     this.IMAGEURL = '';
+    this.IMAGEWIDTH = 0;
+    this.IMAGEHEIGHT =0;
+    
     this.CONFIGFILEID = null;
     this.CONFIGFILEFOLDER = '.meta';
     this.CONFIGFILEEXT = '.info';
@@ -20,6 +23,7 @@ var MyDrive = function () {
     
     this.generations =null;
     this.options =null;
+    this.layers =null;
 };
 
 
@@ -29,6 +33,8 @@ MyDrive.prototype.init = function(loaded){
     // we should end up with the file id of the config file
     // we should authenticated - or tell users we're not
     // image url should also be set
+    
+    
     
     var qryString = window.location.search.replace('?','');
 
@@ -60,13 +66,45 @@ MyDrive.prototype.init = function(loaded){
                 writeStatement(resp.mimeType);
                 writeStatement(resp.downloadUrl);
                 writeStatement(resp.parents[0].id);
-           
+        
+        
+           writeStatement('links');
                 writeStatement(resp.webContentLink);
+                writeStatement(resp.downloadUrl);
+                writeStatement(resp.webViewLink);
+                
+                // var accessToken = gapi.auth.getToken().access_token;
+                // var ctx = document.getElementById('myCanvas').getContext('2d');
+              
+                // var xhr2 = new XMLHttpRequest();
+                // xhr2.open('GET', resp.downloadUrl);
+                // xhr2.responseType = "blob"
+                
+                // xhr2.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                
+                // xhr2.onload = function () {
+                //     var img = new Image();
+                //     img.src = window.URL.createObjectURL(xhr2.response);
+            
+                //     img.onload = function() {
+                        
+                //         ctx.drawImage(img, 0, 0);
+                        
+                //         var img_data = ctx.getImageData(10, 10, 1, 1).data;
+                //     }
+                // }
+                // xhr2.send();
+    
+    
+    
+    
                 
                 that.CONFIGFILENAME = resp.title;
                 that.FILENAME = resp.title;
-                that.IMAGEURL = resp.webContentLink;
-                 
+                that.IMAGEURL = resp.downloadUrl;
+                that.IMAGEWIDTH =resp.imageMediaMetadata.width;
+                that.IMAGEHEIGHT=resp.imageMediaMetadata.height;
+                
                 callback(resp);
           });
     };
@@ -145,7 +183,7 @@ MyDrive.prototype.init = function(loaded){
                 var d = JSON.parse(data);
                 that.generations = d.generations;
                 that.options = d.options;
-                
+                that.layers = d.layers;
                 callback();
               }
             });
@@ -167,7 +205,8 @@ MyDrive.prototype.init = function(loaded){
                     Width:Number(w),
                     Height:Number(h),
                     D:Number(0),
-                    Visible: true
+                    Visible: true,
+                    LayerId: 2
                 };
                 
                 return node;
@@ -204,7 +243,8 @@ MyDrive.prototype.init = function(loaded){
         var c = {
             urlId : 1,
             generations: tgs,
-            options : oarray
+            options : oarray,
+            layers: 1
         };
         
         return c;
@@ -375,17 +415,38 @@ MyDrive.prototype.GetNoteData = function(urlId, callback){
     callback(this.generations);
 };
     
+MyDrive.prototype.GetAccessToken = function(){
+    return gapi.auth.getToken().access_token;
+};
+
+
 //WriteNoteData: function (note)    
 MyDrive.prototype.WriteNoteData = function(data){
     // add note into array
     // then update file contents to reflect that
-    this.generations.push(data);
     
-      var c = {
-            urlId : this.FILEID,
-            generations: this.generations,
-            options : this.options
-        };
+    var idx =0;
+    
+    while(idx < this.generations.length){
+        if(this.generations[idx].Index == data.Index){
+            this.generations[idx] = data;
+            idx=-1;
+            break;        
+        }
+        idx++;
+    }
+    
+    if(idx!=-1)
+        this.generations.push(data);
+    
+    
+    var c = {
+        urlId : this.FILEID,
+        generations: this.generations,
+        options : this.options,
+        layers : this.layers 
+        
+    };
         
         
     this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
@@ -398,13 +459,95 @@ MyDrive.prototype.GetOptions= function (urlId,callback){
     callback(this.options);
 };
 
+MyDrive.prototype.PopulatedDummyLaterData = function () {
+    this.layers =  [
+            {id:1 , order:1 , name : 'image', visible: true, current: false},
+            {id:2 , order:2 , name : 'notes', visible: true, current: true},
+            {id:3 , order:3 , name : 'metadata', visible: true, current: false}
+        ];
+};
+
+MyDrive.prototype.GetLayers = function (callback) {
+    
+    if(this.layers == undefined){
+        this.PopulatedDummyLaterData();
+    }
+    
+    callback(this.layers);
+};
+
+MyDrive.prototype.GetActiveLayer = function (callback) {
+    
+    if(this.layers == undefined){
+        this.PopulatedDummyLaterData();
+    }
+    
+    var idx =0;
+    var layerId=0;
+    
+    while(idx < this.layers.length){
+        
+        if(this.layers[idx].current){
+            layerId = this.layers[idx].id;
+        }
+        idx++;
+    }
+    
+    callback(layerId);
+};
+
+MyDrive.prototype.GetVisibleLayer = function (callback) {
+    
+    if(this.layers == undefined){
+        this.PopulatedDummyLaterData();
+    }
+    var idx =0;
+    var layerIds = [];
+    while(idx < this.layers.length){
+        
+        if(this.layers[idx].visible){
+            layerIds.push(this.layers[idx].id);
+        }
+        idx++;
+    }
+    
+    callback(this.layers);
+};
+
+
+MyDrive.prototype.SaveLayers= function (layers, cacheOnly){
+    this.layers = layers;
+    // when using drive only want to write to disk
+    // when save button is pressed
+    // however we do want to update the cached layer variable
+    // because then we get real time changes when its accessed by 
+    // the image model
+    
+    if(cacheOnly) return;
+     
+    var c = {
+        urlId : this.FILEID,
+        generations: this.generations,
+        options : this.options,
+        layers : this.layers 
+    };
+        
+        
+    this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
+        
+    });
+    
+};
+
+
 MyDrive.prototype.SaveOptions= function (options){
     this.options[0] = options;
     
      var c = {
             urlId : this.FILEID,
             generations: this.generations,
-            options : this.options
+            options : this.options,
+            layers : this.layers 
         };
         
         
@@ -425,15 +568,36 @@ MyDrive.prototype.deleteConfig = function(){
 };
 
 MyDrive.prototype.GetImageData= function(callback){
+        
         //dummy values not intended to be used
         var imageData = {
             title:this.FILENAME,
             url: this.IMAGEURL,
-            urlId :this.FILEID
+            urlId :this.FILEID,
+            width :this.IMAGEWIDTH,
+            height:this.IMAGEHEIGHT
         };
         
-        callback(imageData);
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', this.IMAGEURL);
+        xhr2.responseType = "blob";
+        
+        xhr2.setRequestHeader('Authorization', 'Bearer ' + this.GetAccessToken());
+        
+        xhr2.onload = function () {
+            
+            imageData.url = window.URL.createObjectURL(xhr2.response);
+         
+            callback(imageData);
+        };
+        
+        xhr2.send();
+
     };
+
+MyDrive.prototype.Type = function(){
+    return 'GDRIVE';
+};
 
 function writeStatement(statement){
    console.log(statement);

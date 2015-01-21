@@ -1,0 +1,31 @@
+1. open image from drive
+-it opens
+2. add button click 
+- add dissappears , cancel and save appear
+3. delete clicked 
+- delete dissappears , cancel appears
+4. options clicked
+- add, delete, options dissappears
+  save and cancel appear
+  options group appears
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+problems 
+========
+
+remove default notes that appear when opening a document for the first time.
+
