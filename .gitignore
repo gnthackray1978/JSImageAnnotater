@@ -6,6 +6,7 @@ lib-cov
 *.out
 *.pid
 *.gz
+.git-ftp-tmp
 
 pids
 logs
