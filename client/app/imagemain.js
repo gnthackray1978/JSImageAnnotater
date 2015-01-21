@@ -12,7 +12,7 @@ $(document).ready(function () {
  
  
 function loadAll (drive){
-  
+    console.log('pointess');
     var data;
 
     if(drive) {
