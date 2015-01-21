@@ -511,7 +511,7 @@ MyDrive.prototype.GetVisibleLayer = function (callback) {
         idx++;
     }
     
-    callback(this.layerIds);
+    callback(layerIds);
 };
 
 
