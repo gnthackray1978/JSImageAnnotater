@@ -30,7 +30,7 @@ function loadAll (drive){
         var diagramController =  new DiagramController(appView, model);
     
     
-        var layer = new Layer(noteDataManager,appView);
+        var layer = new Layer(noteDataManager,appView, model);
         var layerController = new LayerController(appView,layer);
 
     });

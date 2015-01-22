@@ -1,7 +1,10 @@
-var Layer = function (nodestore,view) {
+var Layer = function (nodestore,view, image) {
     this.nodestore = nodestore;
     this.layerData = 1;  
     this.view = view;
+    //obviously this needs reworking
+    //but lets get functionality correct first
+    this.image = image;
 };
 
 Layer.prototype.GetData = function(){
@@ -41,6 +44,7 @@ Layer.prototype.SetOrder = function(layerId, order){
     this.nodestore.SaveLayers(this.layerData,true);
     
     this.view.SetLayers(this.layerData);
+    this.image.DrawTree();
 };
 
 Layer.prototype.SetCurrent = function(layerId, current){
@@ -61,6 +65,7 @@ Layer.prototype.SetCurrent = function(layerId, current){
     this.nodestore.SaveLayers(this.layerData,true);
     
     this.view.SetLayers(this.layerData);
+    this.image.DrawTree();
     
 };
 
@@ -78,6 +83,7 @@ Layer.prototype.SetVisible = function(layerId, visible){
     this.nodestore.SaveLayers(this.layerData,true);
   
     this.view.SetLayers(this.layerData);
+    this.image.DrawTree();
 };
 
 
@@ -92,6 +98,7 @@ Layer.prototype.SetDeleted = function(layerId){
         }
    }
    this.view.SetLayers(this.layerData);
+   this.image.DrawTree();
 };
 
 Layer.prototype.SetNewLayer = function(){

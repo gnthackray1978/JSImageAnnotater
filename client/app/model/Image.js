@@ -266,9 +266,14 @@ ImageViewer.prototype.DrawTree= function () {
         that.nodestore.GetVisibleLayer(function(players){
             layers = players;
             if(containsLevel(layers,1))
+            {
                 that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
+            }
              else
+             {
+                that._canvasTools.ClearCanvas();
                 drawNotes();
+             }
             
         });
         // we need to check if the selected node has changed if so then update ui

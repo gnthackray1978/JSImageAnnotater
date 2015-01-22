@@ -34,13 +34,8 @@ CanvasTools.prototype = {
 
     },
     
-    ClearCanvas: function (x, y, w, h) {
-        
-        //context.clearRect ( x , y , w , h );
-        
-     //   var ctx = document.getElementById('myCanvas').getContext('2d');
-        this.ctx.clearRect(x, y, w, h);
-
+    ClearCanvas: function () {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },
 
     DrawLabel:function(x,y,width,height,d,text,options){
