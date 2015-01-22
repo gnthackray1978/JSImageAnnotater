@@ -469,7 +469,7 @@ MyDrive.prototype.PopulatedDummyLaterData = function () {
 
 MyDrive.prototype.GetLayers = function (callback) {
     
-    if(this.layers == undefined){
+    if(this.layers == 1 || this.layers == undefined){
         this.PopulatedDummyLaterData();
     }
     
