@@ -45,6 +45,7 @@ function AnnotaterView() {
     this.showDataControls = true;
     this.showImageUI = true;
     this.showLayers = true;
+    this.showmeta = true;
     this.dataLoader = true;
     this.millisecondsInterval =1000;
     this.selectedFontChanged;
@@ -230,6 +231,37 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         $('#map_layers').live("dialogclose", function(){
            that.showLayers = true;
         });
+
+
+
+        $('#show_layers').click(function (e) {
+
+            if (that.showmeta) {
+                $("#map_layers").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_layers"]').css("width", "293px");
+           
+                $("#map_layers").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showmeta = false;
+            } else {
+                $("#map_layers").dialog("close");
+                that.showmeta = true;
+            }
+        });
+        
+       
+        $('#map_layers').live("dialogclose", function(){
+           that.showmeta = true;
+        });
+
 
 
         // hide options box to start with
