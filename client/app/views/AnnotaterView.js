@@ -675,8 +675,81 @@ AnnotaterView.prototype.QryLayerButtonState = function (callback) {
 
 
 
+//METADATA
+AnnotaterView.prototype.SetMetaData= function (metaData){
+     
+    var idx =0;
+    
+    var constructRow = function(id, descrip){
+        var html = '<div class = "row" data-id = "'+ id +'" >"'+ descrip+'"</div>';
+ 
+        html += '<br/>';
+        
+        return html;
+    };
+    
+    var metaContent ='';
+    while(idx < metaData.length){
+        metaContent += constructRow(metaData[idx].id, metaData[idx].descrip);
+        idx++;
+    }
+
+    $('#metatypesList').html(metaContent);
+    
+    // if(this.layerInputCallback)
+    //     this.QryInputState(this.layerInputCallback)
+    
+    // if(this.layerButtonCallback)
+    //     this.QryLayerButtonState(this.layerButtonCallback)
+};
 
 
+AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
+     
+    var idx =0;
+    
+    var constructRow = function(id, descrip){
+        var html = '<div class = "row" data-id = "'+ id +'" >"'+ descrip+'"</div>';
+ 
+        html += '<br/>';
+        
+        return html;
+    };
+    
+    var metaContent ='';
+    while(idx < dataTypes.length){
+        metaContent += constructRow(dataTypes[idx].id, dataTypes[idx].descrip);
+        idx++;
+    }
+
+    $('#datatypesList').html(metaContent);
+    
+    // if(this.layerInputCallback)
+    //     this.QryInputState(this.layerInputCallback)
+    
+    // if(this.layerButtonCallback)
+    //     this.QryLayerButtonState(this.layerButtonCallback)
+};
+
+AnnotaterView.prototype.QryDataTypeState = function (callback){
+    
+     var currentComponent =1;
+
+    // $( "#datatypesList option:selected" ).each(function() {
+    //     currentComponent = $( this ).val();
+    // });
+    
+    $("#datatypesList")
+      .change(function () {
+        // console.log('colour component changed: '+ str);
+        
+        currentComponent = $( "#datatypesList option:selected" ).val();
+        
+        callback(currentComponent);
+    })
+    
+    .change();
+}; 
 
 
 //OPTIONS

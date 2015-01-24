@@ -514,6 +514,81 @@ MyDrive.prototype.GetVisibleLayer = function (callback) {
     callback(layerIds);
 };
 
+MyDrive.prototype.GetMetaData=function(callback){
+    var metaData =  [
+            {id:1 , dts :'6', name : 'image tag'},
+            {id:2 , dts :'1,2,3', name : 'witness'},
+            {id:3 , dts :'1,2,3', name : 'father'},
+            {id:3 , dts :'1,2,3', name : 'mother'},
+            {id:3 , dts :'1,2,3', name : 'son'},
+            {id:3 , dts :'1,2,3', name : 'daughter'},
+            {id:3 , dts :'1,2,3', name : 'cousin'},
+            {id:3 , dts :'1,2,3', name : 'undescribed person'},
+            {id:3 , dts :'6', name : 'source'},
+            {id:3 , dts :'6', name : 'testator'}
+        ];
+        
+    callback(metaData);
+};
+    
+MyDrive.prototype.GetMetaDataTypes=function(callback, types){
+    var dataTypes =  [
+        {id:1 , name : 'name name surname'},
+        {id:2 , name : 'name surname'},
+        {id:3 , name : 'surname'},
+        {id:4 , name : 'place'},
+        {id:5 , name : 'year'},
+        {id:6 , name : 'general'} 
+    ];
+    
+    var contains = function(array, id){
+        
+        var cdx=0;
+        
+        if(array.length){
+            while(array.length > cdx){
+                if(array[cdx] == id){
+                    return true;
+                }
+                cdx++;
+            }
+        }
+        else
+        {
+            if(array && id == array){
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        return false;
+    };
+    
+    if(types){
+        var tp = [];
+        var idx =0;
+        
+        while(dataTypes.length > idx){
+            
+            if(contains(types, dataTypes[idx].id))
+                tp.push(dataTypes[idx]);
+            idx++;
+        }
+        
+         callback(tp);
+    }
+    else
+    {
+        callback(dataTypes);
+    }
+    
+   
+};
+    
+    
 
 MyDrive.prototype.SaveLayers= function (layers, cacheOnly){
     this.layers = layers;

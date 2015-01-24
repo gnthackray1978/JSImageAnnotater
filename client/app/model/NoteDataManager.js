@@ -367,8 +367,15 @@ NoteDataManager.prototype = {
     },
     GetVisibleLayer:function(callback){
         this._noteDll.GetVisibleLayer(callback);
-    }
+    },
     
+    GetMetaData :function(callback){
+        this._noteDll.GetMetaData(callback);
+    },
+    
+    GetMetaDataTypes :function(callback,ids){
+        this._noteDll.GetMetaData(callback,ids);
+    }
 };
 
 

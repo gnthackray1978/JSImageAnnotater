@@ -33,5 +33,8 @@ function loadAll (drive){
         var layer = new Layer(noteDataManager,appView, model);
         var layerController = new LayerController(appView,layer);
 
+        var metadata = new Meta(noteDataManager,appView, model);
+        var metaController = new MetaController(appView,metadata);
+
     });
 }
