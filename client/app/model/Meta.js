@@ -31,7 +31,7 @@ Meta.prototype.GetData = function(){
     
     var that = this;
     
-    this.nodestore.GetMetaData()(function(data){
+    this.nodestore.GetMetaData(function(data){
         that.metaData = data;
         that.view.SetMetaData(data);
     });
