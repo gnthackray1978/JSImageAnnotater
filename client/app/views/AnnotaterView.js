@@ -234,10 +234,10 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 
 
 
-        $('#show_layers').click(function (e) {
+        $('#map_metadata').click(function (e) {
 
             if (that.showmeta) {
-                $("#map_layers").dialog();
+                $("#map_metadata").dialog();
 
                 $(".ui-widget-header").css("height", "7px");
 
@@ -245,20 +245,20 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 $(".ui-dialog-title").css("top", "0px");
                 $(".ui-dialog-title").css("left", "0px");
 
-                $('*[aria-describedby="map_layers"]').css("width", "293px");
+                $('*[aria-describedby="map_metadata"]').css("width", "293px");
            
-                $("#map_layers").css("padding", "0px");
+                $("#map_metadata").css("padding", "0px");
                 
                 //font-size: 1.1em; */
                 that.showmeta = false;
             } else {
-                $("#map_layers").dialog("close");
+                $("#map_metadata").dialog("close");
                 that.showmeta = true;
             }
         });
         
        
-        $('#map_layers').live("dialogclose", function(){
+        $('#map_metadata').live("dialogclose", function(){
            that.showmeta = true;
         });
 
