@@ -234,7 +234,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 
 
 
-        $('#map_metadata').click(function (e) {
+        $('#show_meta').click(function (e) {
 
             if (that.showmeta) {
                 $("#map_metadata").dialog();
