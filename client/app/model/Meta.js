@@ -2,6 +2,7 @@ var Meta = function (nodestore,view, image) {
     this.nodestore = nodestore;
     this.metaData = 1;  
     this.selectedMetaData = [];  
+    this.lastClickedMetaData = 0;
     this.metaDataTypes = 1;
     
     this.view = view;
@@ -47,8 +48,11 @@ Meta.prototype.SetDataType = function(id){
     var ids;
     var idx =0;
     
+    
+    
     while(this.metaData.length){
         if(this.metaData[idx].id == id){
+            this.lastClickedMetaData =this.metaData[idx];
             ids = this.metaData[idx].dts.split(',').map(Number); 
             break;
         }
@@ -70,9 +74,23 @@ Meta.prototype.SetSelectedMetaData = function(id){
 // so this method doesnt need to receive them as args
 Meta.prototype.SetAddButtonState = function(state){
 
+   var contains = function(sourceArray, target){
+       var idx =0;
+       
+       if(!sourceArray) return false;
+       
+       while(idx < sourceArray.length){
+           if(sourceArray[idx].id == target.id)
+            return true;
+       }
+       
+       return false;
+   };
+
    if(state){
-       if(this.selectedMetaData.indexOf(this.metaData)< 0){
-           this.selectedMetaData.push(this.metaData);
+      
+       if(!contains(this.selectedMetaData,this.lastClickedMetaData)){
+           this.selectedMetaData.push(this.lastClickedMetaData);
        }
        
        this.view.SetSelectedMetaData(this.selectedMetaData);
