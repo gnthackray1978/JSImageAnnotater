@@ -681,7 +681,7 @@ AnnotaterView.prototype.SetMetaData= function (metaData){
     var idx =0;
     
     var constructRow = function(id, descrip){
-        var html = '<div class = "row" data-id = "'+ id +'" >'+ descrip+'</div>';
+        var html = '<option value = '+ id +' >'+ descrip+'</option>';
  
         html += '<br/>';
         
@@ -709,7 +709,7 @@ AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
     var idx =0;
     
     var constructRow = function(id, descrip){
-        var html = '<div class = "row" data-id = "'+ id +'" >'+ descrip+'</div>';
+        var html = '<option value = '+ id +' >'+ descrip+'</option>';
  
         html += '<br/>';
         
