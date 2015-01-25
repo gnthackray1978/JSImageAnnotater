@@ -40,8 +40,18 @@ Meta.prototype.GetData = function(){
 
 };
 
-Meta.prototype.SetDataType = function(ids){
+Meta.prototype.SetDataType = function(id){
     var that = this;
+    var ids;
+    var idx =0;
+    
+    while(this.metaData.length){
+        if(this.metaData[idx].id == id){
+            ids = this.metaData[idx].dts; 
+            break;
+        }
+        idx++;
+    }
     
     this.nodestore.GetMetaDataTypes(ids, function(data){
         that.metaDataTypes = data;
