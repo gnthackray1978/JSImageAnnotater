@@ -49,7 +49,7 @@ Meta.prototype.SetDataType = function(id){
     
     while(this.metaData.length){
         if(this.metaData[idx].id == id){
-            ids = this.metaData[idx].dts.split(','); 
+            ids = this.metaData[idx].dts.split(',').map(Number); 
             break;
         }
         idx++;
