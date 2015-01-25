@@ -5,7 +5,7 @@ var MetaController = function (view, model) {
     
     this.init();
     
-    this._view.QryMetaDataState($.proxy(this.qryMetaDataState, this));
+   // this._view.QryMetaDataState($.proxy(this.qryMetaDataState, this));
     
     this._view.QryDataTypeState($.proxy(this.qryDataTypeState, this));
     
