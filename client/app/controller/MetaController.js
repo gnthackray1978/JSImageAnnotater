@@ -5,7 +5,7 @@ var MetaController = function (view, model) {
     
     this.init();
     
-   // this._view.QryMetaDataState($.proxy(this.qryMetaDataState, this));
+    this._view.QryAddButtonState($.proxy(this.qryAddButtonState, this));
     
     this._view.QryDataTypeState($.proxy(this.qryDataTypeState, this));
     
@@ -19,19 +19,20 @@ MetaController.prototype = {
             this.model.GetData();
          }
     },
+ 
     
-    qryMetaDataState:function(data){
-        console.log('qryLayerButtonState: '+data);
-      
-             //   this.model.SetCurrent(data.id, data.value);
+    qryDataTypeState:function(data){
+        
+        this.model.SetDataType(data);
           
     },
     
-    qryDataTypeState:function(data){
-        console.log('qryLayerButtonState: '+data);
-      
-        this.model.SetDataType(data);
-          
+    qryAddButtonState:function(data){
+        this.model.SetAddButtonState(data);
+    },
+    qryDeleteButtonState:function(data){
+        this.model.SetAddButtonState(data);
     }
+    
     
 };

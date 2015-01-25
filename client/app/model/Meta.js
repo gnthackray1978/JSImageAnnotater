@@ -1,7 +1,9 @@
 var Meta = function (nodestore,view, image) {
     this.nodestore = nodestore;
     this.metaData = 1;  
+    this.selectedMetaData = [];  
     this.metaDataTypes = 1;
+    
     this.view = view;
     //obviously this needs reworking
     //but lets get functionality correct first
@@ -59,3 +61,19 @@ Meta.prototype.SetDataType = function(id){
     });
 };
 
+Meta.prototype.SetSelectedMetaData = function(id){
+    this.selectedMetaData.push(id);
+    this.view.SetSelectedMetaData(this.selectedMetaData);
+};
+
+// so we already have the metadata and datatype set when they got selected
+// so this method doesnt need to receive them as args
+Meta.prototype.SetAddButtonState = function(state){
+   if(state){
+       if(this.selectedMetaData.indexOf(this.metaData)< 0){
+           this.selectedMetaData.push(this.metaData);
+       }
+       
+       this.view.SetSelectedMetaData(this.selectedMetaData);
+   }
+};

@@ -703,13 +703,33 @@ AnnotaterView.prototype.SetMetaData= function (metaData){
     //     this.QryLayerButtonState(this.layerButtonCallback)
 };
 
+AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
+     var idx =0;
+    
+    var constructRow = function(id, descrip){
+        var html = '<div data-id = '+ id +' >'+ descrip+'</div>';
+        //var html =  '<div class = "col name"><input type="text" data-id = "'+ id +'" data-prop = "name"  value = "'+ descrip +'"/></div>';
+        html +=  '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
+        html += '<br/>';
+        
+        return html;
+    };
+    
+    var metaContent ='';
+    while(idx < dataTypes.length){
+        metaContent += constructRow(dataTypes[idx].id, dataTypes[idx].name);
+        idx++;
+    }
+
+    $('#selectedMetatypesList').html(metaContent);
+};
 
 AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
      
     var idx =0;
     
     var constructRow = function(id, descrip){
-        var html = '<option value = '+ id +' >'+ descrip+'</option>';
+        var html = '<div data-id = '+ id +' >'+ descrip+'</div>';
  
         html += '<br/>';
         
@@ -751,6 +771,29 @@ AnnotaterView.prototype.QryDataTypeState = function (callback){
     .change();
 }; 
 
+
+AnnotaterView.prototype.QryAddButtonState = function (callback){
+    
+     $('#btnSaveMetaInfo').click(function (e) {
+            callback(true);
+     });
+}; 
+
+AnnotaterView.prototype.QryDeleteButtonState = function (callback){
+    
+     $('#btnSaveMetaInfo').click(function (e) {
+        
+        if($(e.target).data().prop == 'delete'){
+            var d = {
+                id: $(e.target).data().id,
+                value: '',
+                type : 'delete'
+            };
+            
+            callback(d);
+        }
+     });
+}; 
 
 //OPTIONS
 
