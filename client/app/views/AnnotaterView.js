@@ -718,7 +718,7 @@ AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
     
     var metaContent ='';
     while(idx < dataTypes.length){
-        metaContent += constructRow(dataTypes[idx].id, dataTypes[idx].descrip);
+        metaContent += constructRow(dataTypes[idx].id, dataTypes[idx].name);
         idx++;
     }
 
