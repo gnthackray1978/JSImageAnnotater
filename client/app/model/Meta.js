@@ -49,7 +49,7 @@ Meta.prototype.SetDataType = function(id){
     
     while(this.metaData.length){
         if(this.metaData[idx].id == id){
-            ids = this.metaData[idx].dts; 
+            ids = this.metaData[idx].dts.split(','); 
             break;
         }
         idx++;
@@ -69,6 +69,18 @@ Meta.prototype.SetSelectedMetaData = function(id){
 // so we already have the metadata and datatype set when they got selected
 // so this method doesnt need to receive them as args
 Meta.prototype.SetAddButtonState = function(state){
+
+   if(state){
+       if(this.selectedMetaData.indexOf(this.metaData)< 0){
+           this.selectedMetaData.push(this.metaData);
+       }
+       
+       this.view.SetSelectedMetaData(this.selectedMetaData);
+   }
+};
+
+Meta.prototype.SetDeleteButtonState = function(state){
+
    if(state){
        if(this.selectedMetaData.indexOf(this.metaData)< 0){
            this.selectedMetaData.push(this.metaData);
