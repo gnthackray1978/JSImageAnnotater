@@ -519,13 +519,13 @@ MyDrive.prototype.GetMetaData=function(callback){
             {id:1 , dts :'6', name : 'image tag'},
             {id:2 , dts :'1,2,3', name : 'witness'},
             {id:3 , dts :'1,2,3', name : 'father'},
-            {id:3 , dts :'1,2,3', name : 'mother'},
-            {id:3 , dts :'1,2,3', name : 'son'},
-            {id:3 , dts :'1,2,3', name : 'daughter'},
-            {id:3 , dts :'1,2,3', name : 'cousin'},
-            {id:3 , dts :'1,2,3', name : 'undescribed person'},
-            {id:3 , dts :'6', name : 'source'},
-            {id:3 , dts :'6', name : 'testator'}
+            {id:4 , dts :'1,2,3', name : 'mother'},
+            {id:5 , dts :'1,2,3', name : 'son'},
+            {id:6 , dts :'1,2,3', name : 'daughter'},
+            {id:7 , dts :'1,2,3', name : 'cousin'},
+            {id:8 , dts :'1,2,3', name : 'undescribed person'},
+            {id:9 , dts :'6', name : 'source'},
+            {id:10 , dts :'6', name : 'testator'}
         ];
         
     callback(metaData);
@@ -572,7 +572,7 @@ MyDrive.prototype.GetMetaDataTypes=function(types, callback){
         var idx =0;
         
         while(dataTypes.length > idx){
-            
+             
             if(contains(types, dataTypes[idx].id))
                 tp.push(dataTypes[idx]);
             idx++;
