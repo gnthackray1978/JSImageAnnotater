@@ -690,7 +690,7 @@ AnnotaterView.prototype.SetMetaData= function (metaData){
     
     var metaContent ='';
     while(idx < metaData.length){
-        metaContent += constructRow(metaData[idx].id, metaData[idx].descrip);
+        metaContent += constructRow(metaData[idx].id, metaData[idx].name);
         idx++;
     }
 
