@@ -531,7 +531,7 @@ MyDrive.prototype.GetMetaData=function(callback){
     callback(metaData);
 };
     
-MyDrive.prototype.GetMetaDataTypes=function(callback, types){
+MyDrive.prototype.GetMetaDataTypes=function(types, callback){
     var dataTypes =  [
         {id:1 , name : 'name name surname'},
         {id:2 , name : 'name surname'},

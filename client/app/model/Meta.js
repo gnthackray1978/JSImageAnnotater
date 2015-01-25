@@ -43,7 +43,7 @@ Meta.prototype.GetData = function(){
 Meta.prototype.SetDataType = function(ids){
     var that = this;
     
-    this.nodestore.GetMetaDataTypes(function(data){
+    this.nodestore.GetMetaDataTypes(ids, function(data){
         that.metaDataTypes = data;
         that.view.SetMetaDataTypes(data);
     });
