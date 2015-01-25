@@ -739,11 +739,11 @@ AnnotaterView.prototype.QryDataTypeState = function (callback){
     //     currentComponent = $( this ).val();
     // });
     
-    $("#datatypesList")
+    $("#metatypesList")
       .change(function () {
         // console.log('colour component changed: '+ str);
         
-        currentComponent = $( "#datatypesList option:selected" ).val();
+        currentComponent = $( "#metatypesList option:selected" ).val();
         
         callback(currentComponent);
     })
