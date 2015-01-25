@@ -374,7 +374,7 @@ NoteDataManager.prototype = {
     },
     
     GetMetaDataTypes :function(callback,ids){
-        this._noteDll.GetMetaData(callback,ids);
+        this._noteDll.GetMetaDataTypes(callback,ids);
     }
 };
 
