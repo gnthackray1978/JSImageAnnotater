@@ -44,6 +44,9 @@
     padding-right:3px;
 }
 
+.node-col{
+    width:120px;
+}
 
 .name input[type=text]{
     width: 120px;
