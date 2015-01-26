@@ -6,6 +6,14 @@
     border-style: solid;
 }
 
+.dataBorder{
+    border-top: thin;
+    
+    border-top-color: black;
+    border-top-style: solid;
+}
+
+
 
 /*HEADERS*/
 
