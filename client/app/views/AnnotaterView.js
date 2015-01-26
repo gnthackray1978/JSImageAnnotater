@@ -53,6 +53,7 @@ function AnnotaterView() {
     
     this.layerButtonCallback;
     this.layerInputCallback;
+    this.metaButtonCallback;
 } 
 
 
@@ -704,6 +705,8 @@ AnnotaterView.prototype.SetMetaData= function (metaData){
 AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
      var idx =0;
     
+   
+    
     var constructRow = function(id, descrip){
         var html = '<div class = "row">';
         html += '<div class = "col" data-id = '+ id +' >'+ descrip+'</div>';
@@ -721,6 +724,9 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     }
 
     $('#selectedMetatypesList').html(metaContent);
+    
+    if(this.metaButtonCallback)
+        this.QryDeleteButtonState(this.metaButtonCallback);
 };
 
 AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
@@ -780,6 +786,9 @@ AnnotaterView.prototype.QryAddButtonState = function (callback){
 
 AnnotaterView.prototype.QryDeleteButtonState = function (callback){
     
+     this.metaButtonCallback=callback;
+     
+     
      $('#selectedMetatypesList input').click(function (e) {
         
         if($(e.target).data().prop == 'delete'){
