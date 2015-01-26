@@ -1,3 +1,10 @@
+/* */
+.borderedSelectionBox{
+    border:thin;
+    border-color: black;
+    
+}
+
 .row{
     clear: both;
     padding: 3px;
