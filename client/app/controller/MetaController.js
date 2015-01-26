@@ -5,11 +5,14 @@ var MetaController = function (view, model) {
     
     this.init();
     
+    this._view.QryDeleteButtonState($.proxy(this.qryDeleteButtonState, this));
+    
     this._view.QryAddButtonState($.proxy(this.qryAddButtonState, this));
     
     this._view.QryDataTypeState($.proxy(this.qryDataTypeState, this));
     
-  
+    
+    
 };
 
 MetaController.prototype = {
@@ -30,8 +33,9 @@ MetaController.prototype = {
     qryAddButtonState:function(data){
         this.model.SetAddButtonState(data);
     },
+    
     qryDeleteButtonState:function(data){
-        this.model.SetAddButtonState(data);
+        this.model.SetDeleteButtonState(data);
     }
     
     
