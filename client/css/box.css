@@ -1,0 +1,53 @@
+.headname{
+    min-height: 1px;
+    float: left;
+    width: 126px;
+}
+.headorder{
+    min-height: 1px;
+    float: left;
+    width: 54px;
+}
+.headletter{
+    min-height: 1px;
+    float: left;
+    width: 30px;
+    padding-left: 4px;
+}
+
+.borderedSelectionBox{
+    border:thin;
+    border-color: black;
+    
+}
+
+.row{
+    clear: both;
+    padding: 3px;
+}
+
+
+
+.col{
+    margin-top :4px;
+    float: left;
+    display: inline;
+    margin:0;
+    padding-right:3px;
+}
+
+
+.name input[type=text]{
+    width: 120px;
+    float: left;
+     
+   
+}
+.order input[type=text]{
+    float: left;
+    width: 50px;
+}
+.letter {
+    float: left;
+    width: 30px;
+}
