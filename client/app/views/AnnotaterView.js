@@ -710,7 +710,7 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     var constructRow = function(id, descrip){
         var html = '<div class = "row">';
         html += '<div class = "col" data-id = '+ id +' >'+ descrip+'</div>';
-        html += '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
+        html += '<div class = "col"><a href="" data-id = "'+ id +'" data-prop = "delete">delete</a> </div>';
         html += '</div>';
         html += '<br/>';
         
@@ -789,7 +789,7 @@ AnnotaterView.prototype.QryDeleteButtonState = function (callback){
      this.metaButtonCallback=callback;
      
      
-     $('#selectedMetatypesList input').click(function (e) {
+     $('#selectedMetatypesList a').click(function (e) {
         
         if($(e.target).data().prop == 'delete'){
             var d = {

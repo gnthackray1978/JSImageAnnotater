@@ -118,32 +118,6 @@ canvas {
 }
 
 
-.tree_Links
-{
-
-    position: absolute;
-    
-}
-
-
-.ancestorstyle
-{
-    color: #000000;
-    background-color: #FFFFFF;
-    border: thin solid #99CCFF;
-}
-    
-.descendantstyle
-{
-    color: #000000;
-    background-color: #FFFFFF;
-
-
-
-    border: thin solid #99CCFF;
-}
-
-
 #map_label
 {
     padding: 5px; 

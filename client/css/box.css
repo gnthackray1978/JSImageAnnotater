@@ -1,3 +1,14 @@
+/*BORDERS*/
+
+.borderedSelectionBox{
+    border:thin;
+    border-color: black;
+    
+}
+
+
+/*HEADERS*/
+
 .headname{
     min-height: 1px;
     float: left;
@@ -15,19 +26,15 @@
     padding-left: 4px;
 }
 
-.borderedSelectionBox{
-    border:thin;
-    border-color: black;
-    
-}
 
+/*ROWS*/
 .row{
     clear: both;
     padding: 3px;
 }
 
 
-
+/*COLUMNS*/
 .col{
     margin-top :4px;
     float: left;
