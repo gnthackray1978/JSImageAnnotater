@@ -780,7 +780,7 @@ AnnotaterView.prototype.QryAddButtonState = function (callback){
 
 AnnotaterView.prototype.QryDeleteButtonState = function (callback){
     
-     $('#btnSaveMetaInfo').click(function (e) {
+     $('#selectedMetatypesList input').click(function (e) {
         
         if($(e.target).data().prop == 'delete'){
             var d = {
