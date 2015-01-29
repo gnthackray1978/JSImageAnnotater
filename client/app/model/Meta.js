@@ -34,16 +34,15 @@ Meta.prototype.GetDataTypes = function(){
 };
 
 Meta.prototype.GetData = function(){
-    
     var that = this;
     
     this.nodestore.GetMetaData(function(data){
         that.metaData = data;
+        if(that.metaData.length >0){
+            that.SetCurrentMetaId(that.metaData[0].id);
+        }
         that.view.SetMetaData(data);
     });
-    
-    
-
 };
 
 Meta.prototype.SetCurrentMetaId = function(id){
@@ -82,10 +81,10 @@ Meta.prototype.SetCurrentTemplate = function(id){
 
 
 
-Meta.prototype.SetSelectedMetaData = function(id){
-    this.selectedMetaData.push(id);
-    this.view.SetSelectedMetaData(this.selectedMetaData);
-};
+// Meta.prototype.SetSelectedMetaData = function(id){
+//     this.selectedMetaData.push(id);
+//     this.view.SetSelectedMetaData(this.selectedMetaData);
+// };
 
 // so we already have the metadata and datatype set when they got selected
 // so this method doesnt need to receive them as args
