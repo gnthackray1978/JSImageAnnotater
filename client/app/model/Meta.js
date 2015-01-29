@@ -76,7 +76,16 @@ Meta.prototype.SetCurrentMetaId = function(id){
 };
 
 Meta.prototype.SetCurrentTemplate = function(id){
-    this.lastClickedMetaData.template = id;
+    var idx =0;
+    while(this.metaDataTypes.length){
+        if(this.metaDataTypes[idx].id == id){
+            this.lastClickedMetaData.template =this.metaDataTypes[idx];
+            
+            break;
+        }
+        idx++;
+    }
+    
 };
 
 
@@ -96,7 +105,7 @@ Meta.prototype.SetAddButtonState = function(state){
        if(!sourceArray) return false;
        
        while(idx < sourceArray.length){
-           if(sourceArray[idx].id == target.id)
+           if(sourceArray[idx].meta.id == target.id)
              return true;
            idx++;
        }

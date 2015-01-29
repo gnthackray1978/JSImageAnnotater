@@ -533,12 +533,12 @@ MyDrive.prototype.GetMetaData=function(callback){
     
 MyDrive.prototype.GetMetaDataTypes=function(types, callback){
     var dataTypes =  [
-        {id:1 , name : 'name name surname'},
-        {id:2 , name : 'name surname'},
-        {id:3 , name : 'surname'},
-        {id:4 , name : 'place'},
-        {id:5 , name : 'year'},
-        {id:6 , name : 'general'} 
+        {id:1 , name : 'name name surname', short : 'nns'},
+        {id:2 , name : 'name surname', short : 'ns'},
+        {id:3 , name : 'surname', short : 's'},
+        {id:4 , name : 'place', short : 'p'},
+        {id:5 , name : 'year', short : 'y'},
+        {id:6 , name : 'general', short : 'g'} 
     ];
     
     var contains = function(array, id){

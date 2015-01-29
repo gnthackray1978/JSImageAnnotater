@@ -719,7 +719,7 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     
     var metaContent ='';
     while(idx < dataTypes.length){
-        metaContent += constructRow(dataTypes[idx].id, dataTypes[idx].name);
+        metaContent += constructRow(dataTypes[idx].meta.id, dataTypes[idx].meta.name);
         idx++;
     }
 
