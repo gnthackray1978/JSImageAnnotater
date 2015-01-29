@@ -2,7 +2,10 @@ var Meta = function (nodestore,view, image) {
     this.nodestore = nodestore;
     this.metaData = 1;  
     this.selectedMetaData = [];  
-    this.lastClickedMetaData = 0;
+    this.lastClickedMetaData = {
+        template: 0,
+        meta:0
+    };
     this.metaDataTypes = 1;
     
     this.view = view;
@@ -43,16 +46,20 @@ Meta.prototype.GetData = function(){
 
 };
 
-Meta.prototype.SetDataType = function(id){
+Meta.prototype.SetCurrentMetaId = function(id){
     var that = this;
     var ids;
     var idx =0;
+    /*
     
+    */
     
     
     while(this.metaData.length){
         if(this.metaData[idx].id == id){
-            this.lastClickedMetaData =this.metaData[idx];
+            this.lastClickedMetaData.meta =this.metaData[idx];
+            
+            // make lastclickedmetadata object literal containing currently selected datatype and metadata
             ids = this.metaData[idx].dts.split(',').map(Number); 
             break;
         }
@@ -61,9 +68,19 @@ Meta.prototype.SetDataType = function(id){
     
     this.nodestore.GetMetaDataTypes(ids, function(data){
         that.metaDataTypes = data;
-        that.view.SetMetaDataTypes(data);
+        
+        if(data.length > 0){
+            that.SetCurrentTemplate(data[0].id);
+        }
+        that.view.SetTemplates(data);
     });
 };
+
+Meta.prototype.SetCurrentTemplate = function(id){
+    this.lastClickedMetaData.template = id;
+};
+
+
 
 Meta.prototype.SetSelectedMetaData = function(id){
     this.selectedMetaData.push(id);

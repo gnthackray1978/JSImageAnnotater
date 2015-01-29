@@ -729,7 +729,7 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
         this.QryDeleteButtonState(this.metaButtonCallback);
 };
 
-AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
+AnnotaterView.prototype.SetTemplates= function (dataTypes){
      
     var idx =0;
     
@@ -747,7 +747,7 @@ AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
         idx++;
     }
 
-    $('#datatypesList').html(metaContent);
+    $('#templateList').html(metaContent);
     
     // if(this.layerInputCallback)
     //     this.QryInputState(this.layerInputCallback)
@@ -756,14 +756,10 @@ AnnotaterView.prototype.SetMetaDataTypes= function (dataTypes){
     //     this.QryLayerButtonState(this.layerButtonCallback)
 };
 
-AnnotaterView.prototype.QryDataTypeState = function (callback){
+AnnotaterView.prototype.QryMetaState = function (callback){
     
      var currentComponent =1;
-
-    // $( "#datatypesList option:selected" ).each(function() {
-    //     currentComponent = $( this ).val();
-    // });
-    
+ 
     $("#metatypesList")
       .change(function () {
         // console.log('colour component changed: '+ str);
@@ -773,6 +769,16 @@ AnnotaterView.prototype.QryDataTypeState = function (callback){
         callback(currentComponent);
     })
     
+    .change();
+}; 
+
+AnnotaterView.prototype.QryTemplateState = function (callback){
+    var currentComponent =1;
+    $("#templateList")
+      .change(function () {
+        currentComponent = $( "#templateList option:selected" ).val();
+        callback(currentComponent);
+    })
     .change();
 }; 
 

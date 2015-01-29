@@ -9,9 +9,9 @@ var MetaController = function (view, model) {
     
     this._view.QryAddButtonState($.proxy(this.qryAddButtonState, this));
     
-    this._view.QryDataTypeState($.proxy(this.qryDataTypeState, this));
+    this._view.QryMetaState($.proxy(this.qryMetaState, this));
     
-    
+    this._view.QryTemplateState($.proxy(this.qryTemplateState, this));
     
 };
 
@@ -24,9 +24,15 @@ MetaController.prototype = {
     },
  
     
-    qryDataTypeState:function(data){
+    qryMetaState:function(data){
         
-        this.model.SetDataType(data);
+        this.model.SetCurrentMetaId(data);
+          
+    },
+    
+    qryTemplateState:function(data){
+        
+        this.model.SetCurrentTemplate(data);
           
     },
     
