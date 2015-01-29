@@ -124,12 +124,27 @@ Meta.prototype.SetAddButtonState = function(state){
 };
 
 Meta.prototype.SetDeleteButtonState = function(state){
-
-   if(state){
-       if(this.selectedMetaData.indexOf(this.metaData)< 0){
-           this.selectedMetaData.push(this.metaData);
+    
+    var contains = function(sourceArray, target){
+       var idx =0;
+       
+       if(!sourceArray) return -1;
+       
+       while(idx < sourceArray.length){
+           if(sourceArray[idx].meta.id == target.id)
+             return idx;
+           idx++;
        }
        
-       this.view.SetSelectedMetaData(this.selectedMetaData);
+       return -1;
+    };
+   
+   if(state){
+       var midx = contains(this.selectedMetaData,state);
+       
+       if(midx != -1){
+            this.selectedMetaData.splice(midx, 1); 
+            this.view.SetSelectedMetaData(this.selectedMetaData);
+       }
    }
 };
