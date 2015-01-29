@@ -806,6 +806,8 @@ AnnotaterView.prototype.QryDeleteButtonState = function (callback){
             
             callback(d);
         }
+        
+        return false;
      });
 }; 
 
