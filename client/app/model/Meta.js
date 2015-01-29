@@ -105,7 +105,7 @@ Meta.prototype.SetAddButtonState = function(state){
        if(!sourceArray) return false;
        
        while(idx < sourceArray.length){
-           if(sourceArray[idx].meta.id == target.id)
+           if(sourceArray[idx].meta.id == target.meta.id)
              return true;
            idx++;
        }
