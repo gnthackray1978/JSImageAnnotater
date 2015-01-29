@@ -710,8 +710,8 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     var constructRow = function(id, descrip,short){
         var html = '<div class = "row">';
         html += '<div class = "col node-col" data-id = '+ id +' >'+ descrip+'</div>';
-        html += '<div class = "col node-col">'+ '{' +short+ '}' + '</div>';
-        html += '<div class = "col node-col"><a href="" data-id = "'+ id +'" data-prop = "delete">delete</a> </div>';
+        html += '<div class = "col short-col">'+ '{' +short+ '}' + '</div>';
+        html += '<div class = "col del-col"><a href="" data-id = "'+ id +'" data-prop = "delete">delete</a> </div>';
         html += '</div>';
         html += '<br/>';
         

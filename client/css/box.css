@@ -56,6 +56,14 @@
     width:120px;
 }
 
+.del-col{
+    width:80px;
+}
+
+.short-col{
+    width:50px;
+}
+
 .name input[type=text]{
     width: 120px;
     float: left;
