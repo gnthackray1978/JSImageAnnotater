@@ -116,9 +116,9 @@ Meta.prototype.SetAddButtonState = function(state){
    if(state){
       
        if(!contains(this.selectedMetaData,this.lastClickedMetaData)){
-           this.selectedMetaData.push(this.lastClickedMetaData);
+           this.selectedMetaData.push(JSON.parse(JSON.stringify(this.lastClickedMetaData)));
        }
-       
+       //JSON.parse(JSON.stringify(this.defaultOptions))
        this.view.SetSelectedMetaData(this.selectedMetaData);
    }
 };
