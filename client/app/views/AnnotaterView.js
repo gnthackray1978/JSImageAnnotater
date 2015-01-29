@@ -707,9 +707,10 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     
    
     
-    var constructRow = function(id, descrip){
+    var constructRow = function(id, descrip,short){
         var html = '<div class = "row">';
         html += '<div class = "col node-col" data-id = '+ id +' >'+ descrip+'</div>';
+        html += '<div class = "col node-col">'+ '{' +short+ '}' + '</div>';
         html += '<div class = "col node-col"><a href="" data-id = "'+ id +'" data-prop = "delete">delete</a> </div>';
         html += '</div>';
         html += '<br/>';
@@ -719,7 +720,7 @@ AnnotaterView.prototype.SetSelectedMetaData= function (dataTypes){
     
     var metaContent ='';
     while(idx < dataTypes.length){
-        metaContent += constructRow(dataTypes[idx].meta.id, dataTypes[idx].meta.name);
+        metaContent += constructRow(dataTypes[idx].meta.id, dataTypes[idx].meta.name, dataTypes[idx].template.short);
         idx++;
     }
 
