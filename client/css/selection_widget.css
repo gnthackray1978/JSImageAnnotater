@@ -1,20 +1,24 @@
 /* meta data buttons etc*/
 
 .mSave{
-  
     float: left;
-    width: 90px;
-   
+    width: 80px;
+    margin-top : 15px;
+    margin-right:15px;
 }
 
 .mNew{
-  float: left;
-    width: 90px
+    float: left;
+    width: 80px;
+    margin-top : 15px;
+    margin-right:15px;
 }
 
 .mDelete{
-   float: left;
-    width: 90px
+    float: left;
+    width: 80px;
+    margin-top : 15px;
+    margin-right:15px;
 }
 
 
