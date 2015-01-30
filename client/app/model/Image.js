@@ -7,8 +7,9 @@ var  CanvasTools;
 
 
 
-var ImageViewer = function (nodestore,view, urlstore, canvasTools) {
+var ImageViewer = function (nodestore,view, urlstore, canvasTools, metaModel) {
     //could inject this
+    
     this._canvasTools = canvasTools;
     
     this.currentZoomPercentage = 100;
@@ -16,6 +17,7 @@ var ImageViewer = function (nodestore,view, urlstore, canvasTools) {
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
 
+    this.metaModel = metaModel;
     this.urlWriter = urlstore;
     this.nodestore = nodestore;
     this.view = view;
@@ -155,6 +157,8 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             }
                         
             this.view.DisplayNodeSelection(currentNode.X, currentNode.Y,width,height,currentNode.D,note,tpOptions);
+            this.metaModel.Load(this.nodestore.generations[this.currentNode.x][this.currentNode.y].MetaData);
+            
             if(currentNode.options)
                 this._updateOptionsToView(currentNode.options);
             else
@@ -167,6 +171,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             this.selectedNoteId =0;
             this._updateOptionsToView(this.tempOptions);
             this.view.DisplayNodeSelection(x, y,70,25,0,'',this.tempOptions);
+            this.metaModel.Load([]);
         }
     
     }
@@ -428,24 +433,33 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
         saveData.options = this.tempOptions;
     }
     
+     
     var that = this;
     
     this.nodestore.GetActiveLayer(function(layerId){
  
-        that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
-                                    saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId);
+        this.metaModel.QryNodeMetaData(function(data){
+            
+            that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
+                                    saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId, data);
        
-        that.addNode = false;
-
-        that.view.DisplayUpdateNoteAdd(that.addNode);
-        
-        that.view.ClearActiveTextArea();
-
-        //refresh the drawing
-        that.DrawTree();
-        
-        that.UpdateInfo();
-    })
+            that.addNode = false;
+    
+            that.view.DisplayUpdateNoteAdd(that.addNode);
+            
+            that.view.ClearActiveTextArea();
+    
+            //refresh the drawing
+            that.DrawTree();
+            
+            that.UpdateInfo();
+            
+            that.metaModel.Unload();
+        });
+    });
+    
+    
+    
     
    
 };

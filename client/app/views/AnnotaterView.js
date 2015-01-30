@@ -760,8 +760,17 @@ AnnotaterView.prototype.SetTemplates= function (dataTypes){
     //     this.QryLayerButtonState(this.layerButtonCallback)
 };
 
-AnnotaterView.prototype.SetEnabledState= function (metaData){
-    
+AnnotaterView.prototype.SetEnabledState= function (state){
+    if(state)
+    {
+        $("#meta-group-active").show(); 
+        $("#meta-group-inactive").show();
+    }
+    else
+    {
+        $("#meta-group-active").show(); 
+        $("#meta-group-inactive").show();
+    }
 };
 
 
@@ -799,9 +808,7 @@ AnnotaterView.prototype.QryAddButtonState = function (callback){
 }; 
 
 AnnotaterView.prototype.QryDeleteButtonState = function (callback){
-    
      this.metaButtonCallback=callback;
-     
      
      $('#selectedMetatypesList a').click(function (e) {
         
@@ -819,7 +826,11 @@ AnnotaterView.prototype.QryDeleteButtonState = function (callback){
      });
 }; 
 
-
+AnnotaterView.prototype.QrySaveButtonState = function (callback){
+     $('#btnSaveMetaInfo').click(function (e) {
+        callback();
+     });
+}; 
 
 
 

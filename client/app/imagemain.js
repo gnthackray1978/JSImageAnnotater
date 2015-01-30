@@ -26,15 +26,17 @@ function loadAll (drive){
     
     noteDataManager.init(function(){
 
-        var model = new ImageViewer(noteDataManager,appView, new UrlWriter(), new CanvasTools());
+        var metadata = new Meta(noteDataManager,appView);
+        var metaController = new MetaController(appView,metadata);
+
+        var model = new ImageViewer(noteDataManager,appView, new UrlWriter(), new CanvasTools(), metadata);
         var diagramController =  new DiagramController(appView, model);
     
     
         var layer = new Layer(noteDataManager,appView, model);
         var layerController = new LayerController(appView,layer);
 
-        var metadata = new Meta(noteDataManager,appView, model);
-        var metaController = new MetaController(appView,metadata);
+        
 
     });
 }

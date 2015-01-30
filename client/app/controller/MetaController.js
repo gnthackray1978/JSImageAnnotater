@@ -13,6 +13,7 @@ var MetaController = function (view, model) {
     
     this._view.QryTemplateState($.proxy(this.qryTemplateState, this));
     
+    this._view.QrySaveButtonState($.proxy(this.qryAddButtonState, this));
 };
 
 MetaController.prototype = {
@@ -42,7 +43,9 @@ MetaController.prototype = {
     
     qryDeleteButtonState:function(data){
         this.model.SetDeleteButtonState(data);
+    },
+    
+    qrySaveButtonState:function(){
+        this.model.Save();
     }
-    
-    
 };

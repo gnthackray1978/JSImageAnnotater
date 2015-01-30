@@ -171,18 +171,18 @@ NoteDataManager.prototype = {
         return note.Index;
     },
     
-    WriteNote: function(genidx,index,x,y,width,height,degree,annotation,options,layerId){
+    WriteNote: function(genidx,index,x,y,width,height,degree,annotation,options,layerId, metaData){
 
         if(index == 0)
             index = this.NewId();
         
-        this.AddData(1, index,x,y,width,height,degree,annotation,true, true, options,layerId);
+        this.AddData(1, index,x,y,width,height,degree,annotation,true, true, options,layerId,metaData);
     
         return index;
     },
     
     
-    AddData: function(genidx,index,x,y,width,height,degree,annotation,visible,withInit,options,layerId){
+    AddData: function(genidx,index,x,y,width,height,degree,annotation,visible,withInit,options,layerId,metaData){
  
         var node = {
             Annotation: annotation,
@@ -196,7 +196,8 @@ NoteDataManager.prototype = {
             D:Number(degree),
             Visible: visible,
             Options: options,
-            LayerId : layerId
+            LayerId : layerId,
+            MetaData : metaData
         };
 
         if(genidx === 0){
@@ -333,8 +334,6 @@ NoteDataManager.prototype = {
             if(withInit)
                 writeInitialData(1,node);
         }
-        
-        
         
     },
     
