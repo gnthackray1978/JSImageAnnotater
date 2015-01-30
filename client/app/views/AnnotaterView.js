@@ -764,11 +764,11 @@ AnnotaterView.prototype.SetEnabledState= function (state){
     if(state)
     {
         $("#meta-group-active").show(); 
-        $("#meta-group-inactive").show();
+        $("#meta-group-inactive").hide();
     }
     else
     {
-        $("#meta-group-active").show(); 
+        $("#meta-group-active").hide(); 
         $("#meta-group-inactive").show();
     }
 };

@@ -458,15 +458,11 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
         });
     });
     
-    
-    
-    
-   
 };
 
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
-    
+    this.metaModel.Unload();
     this.view.DisplayUpdateNoteAdd(this.addNode);
     this.view.ClearActiveTextArea();
 };
