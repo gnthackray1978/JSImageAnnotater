@@ -438,7 +438,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     this.nodestore.GetActiveLayer(function(layerId){
  
-        this.metaModel.QryNodeMetaData(function(data){
+        that.metaModel.QryNodeMetaData(function(data){
             
             that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
                                     saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId, data);
