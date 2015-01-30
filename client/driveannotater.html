@@ -139,22 +139,28 @@
     </div>
 
     <div id = "map_metadata" class ="hidePanel" title="Add Node Meta Info">
-        <b id = "controllabel">meta mode</b>
-        <br>
-        <div id ='box-container' class = 'borderedSelectionBox'>
-            <div>Selected Meta Types</div>
-            <div id = 'selectedMetatypesList'  class = 'dataBorder'></div>
+        <div id= 'meta-group-active' class ="hidePanel" >
+            <b class = "meta-top-label">Meta Data Creation</b>
+            <br>
+            <div id ='box-container' class = 'borderedSelectionBox'>
+                <div>Selected Meta Types</div>
+                <div id = 'selectedMetatypesList'  class = 'dataBorder'></div>
+            </div>
+            <br/>
+            <div>Meta Type</div>
+            <select id="metatypesList" name="sometext" class = 'metaDrops'></select> 
+            <br>
+            <div>Template Template</div>
+            <select id="templateList" name="sometext" class = 'metaDrops'></select>
+            <br>
+            <input id ="btnSaveMetaInfo" class = "mSave" type="submit" value="Add" />
+            <input id ="btnAddMetaInfo" class = "mNew" type="submit" value="Save" />
+            <input id ="btnCancelMetaInfo" class = "mCancel" type="submit" value="Cancel" />
         </div>
-        <br/>
-        <div>Meta Type</div>
-        <select id="metatypesList" name="sometext" class = 'metaDrops'></select> 
-        <br>
-        <div>Template Template</div>
-        <select id="templateList" name="sometext" class = 'metaDrops'></select>
-        <br>
-        <input id ="btnSaveMetaInfo" class = "mSave" type="submit" value="Add" />
-        <input id ="btnAddMetaInfo" class = "mNew" type="submit" value="Save" />
-        <input id ="btnCancelMetaInfo" class = "mCancel" type="submit" value="Cancel" />
+        <div id= 'meta-group-inactive' class ="displayPanel">
+            <b class = "meta-top-label">No active note</b>
+        </div>
+        
     </div>
 
     <div id = "map_control" class ="hidePanel" title="Controls">

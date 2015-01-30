@@ -88,15 +88,6 @@ Meta.prototype.SetCurrentTemplate = function(id){
     
 };
 
-
-
-// Meta.prototype.SetSelectedMetaData = function(id){
-//     this.selectedMetaData.push(id);
-//     this.view.SetSelectedMetaData(this.selectedMetaData);
-// };
-
-// so we already have the metadata and datatype set when they got selected
-// so this method doesnt need to receive them as args
 Meta.prototype.SetAddButtonState = function(state){
 
    var contains = function(sourceArray, target){

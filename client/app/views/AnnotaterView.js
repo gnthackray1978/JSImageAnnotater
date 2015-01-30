@@ -760,6 +760,11 @@ AnnotaterView.prototype.SetTemplates= function (dataTypes){
     //     this.QryLayerButtonState(this.layerButtonCallback)
 };
 
+AnnotaterView.prototype.SetEnabledState= function (metaData){
+    
+};
+
+
 AnnotaterView.prototype.QryMetaState = function (callback){
     
      var currentComponent =1;
@@ -785,7 +790,6 @@ AnnotaterView.prototype.QryTemplateState = function (callback){
     })
     .change();
 }; 
-
 
 AnnotaterView.prototype.QryAddButtonState = function (callback){
     
@@ -814,6 +818,10 @@ AnnotaterView.prototype.QryDeleteButtonState = function (callback){
         return false;
      });
 }; 
+
+
+
+
 
 //OPTIONS
 
