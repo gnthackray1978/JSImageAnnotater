@@ -171,7 +171,7 @@ NoteDataManager.prototype = {
         return note.Index;
     },
     
-    WriteNote: function(genidx,index,x,y,width,height,degree,annotation,options,layerId, metaData){
+    WriteNote: function(index,x,y,width,height,degree,annotation,options,layerId, metaData){
 
         if(index == 0)
             index = this.NewId();
