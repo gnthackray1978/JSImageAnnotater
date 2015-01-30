@@ -263,7 +263,10 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
            that.showmeta = true;
         });
 
-
+         $('#btnCancelMetaInfo').click(function (e) {
+             $("#map_metadata").dialog("close");
+                that.showmeta = true;
+         });
 
         // hide options box to start with
 	    $("#optionGroup").toggle();
