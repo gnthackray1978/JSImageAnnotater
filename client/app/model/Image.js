@@ -7,7 +7,7 @@ var  CanvasTools;
 
 
 
-var ImageViewer = function (nodestore,view, urlstore, canvasTools, metaModel) {
+var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,setOptionsState,qryOptionsSaveData) {
     //could inject this
     
     this._canvasTools = canvasTools;
@@ -17,8 +17,10 @@ var ImageViewer = function (nodestore,view, urlstore, canvasTools, metaModel) {
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
 
-    this.metaModel = metaModel;
-    this.urlWriter = urlstore;
+    this.metaDataCallback = metaDataCallback;
+    this.setOptionsState= setOptionsState;
+    this.qryOptionsSaveData= qryOptionsSaveData;
+    
     this.nodestore = nodestore;
     this.view = view;
 
@@ -106,6 +108,8 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     this.currentNode.x = -1; 
     this.currentNode.y = -1; 
    
+    this.setOptionsState(this.addNode,this.currentNode);
+   
     while(vidx < this.nodestore.generations.length){
         
         hidx=0;
@@ -118,7 +122,9 @@ ImageViewer.prototype.PerformClick= function (x, y) {
                 if(m){
                     
                     this.currentNode.x = vidx; 
-                    this.currentNode.y = hidx;  
+                    this.currentNode.y = hidx; 
+                    
+                    this.setOptionsState(this.addNode,this.currentNode);
                 }
                
             }
@@ -194,6 +200,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             this.currentNode.x = -1; 
             this.currentNode.y = -1; 
             
+            this.setOptionsState(this.addNode,this.currentNode);
             
         }
         
@@ -420,41 +427,45 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     console.log('save note');
 
-
-   // console.log('change: '+w + '-'+ data.width );
-    
-    if( this.currentNode.x != -1 && this.currentNode.y != -1 && this.currentNode.options !== undefined)
-    {
-        //saveData.options = this._translateViewOptions(saveData.options,saveData.options);
-        saveData.options = this.currentNode.options;
-    }
-    else
-    {
-        saveData.options = this.tempOptions;
-    }
-    
-     
     var that = this;
     
     this.nodestore.GetActiveLayer(function(layerId){
  
-        that.metaModel.QryNodeMetaData(function(data){
+        that.metaDataCallback(function(data){
             
-            that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
-                                    saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId, data);
-       
-            that.addNode = false;
-    
-            that.view.DisplayUpdateNoteAdd(that.addNode);
+                that.qryOptionsSaveData(function(options){
+                    // if( this.currentNode.x != -1 && this.currentNode.y != -1 && this.currentNode.options !== undefined)
+                    // {
+                    //     //saveData.options = this._translateViewOptions(saveData.options,saveData.options);
+                    //     saveData.options = this.currentNode.options;
+                    // }
+                    // else
+                    // {
+                    //     saveData.options = this.tempOptions;
+                    // }
             
-            that.view.ClearActiveTextArea();
-    
-            //refresh the drawing
-            that.DrawTree();
+                    saveData.options = options;
+                
+                    that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
+                                            saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId, data);
+               
+                    that.addNode = false;
             
-            that.UpdateInfo();
+                    this.setOptionsState(that.addNode);
+                    
+                    that.view.DisplayUpdateNoteAdd(that.addNode);
+                    
+                    that.view.ClearActiveTextArea();
             
-            that.metaModel.Unload();
+                    //refresh the drawing
+                    that.DrawTree();
+                    
+                    that.UpdateInfo();
+                    
+                    that.metaModel.Unload();
+                
+                });
+            
         });
     });
     
@@ -462,14 +473,15 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
+    this.setOptionsState(this.addNode);
     this.metaModel.Unload();
     this.view.DisplayUpdateNoteAdd(this.addNode);
     this.view.ClearActiveTextArea();
 };
 
-
 ImageViewer.prototype.EnableAdd= function () {
     this.addNode = true;
+    this.setOptionsState(this.addNode);
     this.view.DisplayUpdateNoteAdd(this.addNode);
     
     this._updateOptionsToView(this.defaultOptions);
@@ -498,33 +510,29 @@ ImageViewer.prototype.EnableRun = function(status){
 
 //url stuff
 
-ImageViewer.prototype.URLSave=function( urlName, url, urlGroup,urlDefault, successMethod){
-    this.urlWriter(urlName, url, urlGroup,urlDefault, successMethod);
-};
+// ImageViewer.prototype.URLSave=function( urlName, url, urlGroup,urlDefault, successMethod){
+//     this.urlWriter(urlName, url, urlGroup,urlDefault, successMethod);
+// };
 
-ImageViewer.prototype.URLDelete=function(urlId){
-    this.urlWriter.Delete(urlId);
-};
+// ImageViewer.prototype.URLDelete=function(urlId){
+//     this.urlWriter.Delete(urlId);
+// };
 
-ImageViewer.prototype.URLChanged=function(urlId, response){
-    var that = this;
+// ImageViewer.prototype.URLChanged=function(urlId, response){
+//     var that = this;
     
-    this.urlId = urlId;
+//     this.urlId = urlId;
 
-    this.urlWriter.UrlChanged(urlId, function(ajaxResult) {
+//     this.urlWriter.UrlChanged(urlId, function(ajaxResult) {
              
-        that.setImageObject(urlId,ajaxResult);
+//         that.setImageObject(urlId,ajaxResult);
         
-        console.log('image loaded');
-        response(ajaxResult);
-    });
+//         console.log('image loaded');
+//         response(ajaxResult);
+//     });
     
-};
-       
-       
-
-       
-       
+// };
+   
 ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
         
         var that = this;
@@ -592,21 +600,21 @@ ImageViewer.prototype.UpdateInfo = function(){
      this.view.UpdateInfoWindow(imdat);
 };
 
-ImageViewer.prototype.GetUrls=function(filter){
-    //https://jsimageannotater-gnthackray1978.c9.io
+// ImageViewer.prototype.GetUrls=function(filter){
+//     //https://jsimageannotater-gnthackray1978.c9.io
     
-    var that = this;
+//     var that = this;
     
-    console.log('GetUrls');
+//     console.log('GetUrls');
 
-    this.urlWriter.GetUrls(filter, function(urlList){
-       // that.updateUrlList(urlList);
-        that.view.FillUrls(urlList);
+//     this.urlWriter.GetUrls(filter, function(urlList){
+//       // that.updateUrlList(urlList);
+//         that.view.FillUrls(urlList);
         
-    });
+//     });
 
  
-};
+// };
      
      
      
@@ -822,6 +830,8 @@ ImageViewer.prototype.setPickState = function(state){
     
 },
 
+
+
 //map
 
 ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
@@ -848,6 +858,8 @@ ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  
             x:-1,
             y:-1
         };
+        
+        this.setOptionsState(this.addNode,this.currentNode);
 };
     
 ImageViewer.prototype.MoveTree = function (direction) {

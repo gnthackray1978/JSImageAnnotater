@@ -43,19 +43,19 @@ var DiagramController = function (view, model) {
    
     this._view.Delete($.proxy(this.deleteNote, this));
    
-    if(model.nodestore.Type() == 'AJAX'){
-        //URL operations
-        this._view.URLFilterList($.proxy(this.URLFilterList, this));
+    // if(model.nodestore.Type() == 'AJAX'){
+    //     //URL operations
+    //     this._view.URLFilterList($.proxy(this.URLFilterList, this));
         
-        this._view.URLNew($.proxy(this.URLNew, this));
+    //     this._view.URLNew($.proxy(this.URLNew, this));
         
-        this._view.URLSave($.proxy(this.URLSave, this), $.proxy(this.URLFilterList, this) );
+    //     this._view.URLSave($.proxy(this.URLSave, this), $.proxy(this.URLFilterList, this) );
         
-        this._view.URLDelete($.proxy(this.URLDelete, this));
+    //     this._view.URLDelete($.proxy(this.URLDelete, this));
         
-        this._view.URLChanged($.proxy(this.URLChanged, this));
+    //     this._view.URLChanged($.proxy(this.URLChanged, this));
      
-    }
+    // }
     
     this._view.InitPanelVisibility();
 
@@ -113,7 +113,7 @@ DiagramController.prototype = {
          if (this.ancTree !== null) {
             this.ancTree.CreateComponentList();
             this.ancTree.EnableRun(false);
-            this.ancTree.GetUrls();
+          //  this.ancTree.GetUrls();
             
          };
     },
@@ -275,44 +275,44 @@ DiagramController.prototype = {
     
     // URLS 
     
-    URLNew:function(){
+    // URLNew:function(){
         
-        if (this.ancTree !== null) {
+    //     if (this.ancTree !== null) {
 
             
-            return this.ancTree.urlId=-1;
-        }
-    },
+    //         return this.ancTree.urlId=-1;
+    //     }
+    // },
     
-    URLSave:function(urlName, url, urlGroup,urlDefault, successMethod){
+    // URLSave:function(urlName, url, urlGroup,urlDefault, successMethod){
         
-        if (this.ancTree !== null) {
+    //     if (this.ancTree !== null) {
 
-            return this.ancTree.URLSave(urlName, url, urlGroup,urlDefault, successMethod);
-        }
-    },
-    URLDelete:function(urlId){
+    //         return this.ancTree.URLSave(urlName, url, urlGroup,urlDefault, successMethod);
+    //     }
+    // },
+    // URLDelete:function(urlId){
         
-        if (this.ancTree !== null) {
+    //     if (this.ancTree !== null) {
 
-            this.ancTree.URLDelete(urlId);
-        }
-    },
-    URLChanged:function(urlId, response){
+    //         this.ancTree.URLDelete(urlId);
+    //     }
+    // },
+    // URLChanged:function(urlId, response){
         
-        if (this.ancTree !== null) {
+    //     if (this.ancTree !== null) {
 
-            return this.ancTree.URLChanged(urlId,response);
-        }
-    },
+    //         return this.ancTree.URLChanged(urlId,response);
+    //     }
+    // },
    
-    URLFilterList:function(filter){
+    // URLFilterList:function(filter){
         
-        if (this.ancTree !== null) {
+    //     if (this.ancTree !== null) {
 
-            return this.ancTree.GetUrls(filter);
-        }
-    },
+    //         return this.ancTree.GetUrls(filter);
+    //     }
+    // },
     
  
     GameLoop: function () {
