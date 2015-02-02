@@ -7,7 +7,12 @@ var  CanvasTools;
 
 
 
-var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,setOptionsState,qryOptionsSaveData) {
+var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,
+setOptionsState,
+getOptionsState,
+qryOptionsSaveData
+
+) {
     //could inject this
     
     this._canvasTools = canvasTools;
@@ -20,6 +25,7 @@ var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,setOpt
     this.metaDataCallback = metaDataCallback;
     this.setOptionsState= setOptionsState;
     this.qryOptionsSaveData= qryOptionsSaveData;
+    this.getOptionsState =getOptionsState;
     
     this.nodestore = nodestore;
     this.view = view;
@@ -68,13 +74,15 @@ var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,setOpt
     // modes delete add etc
     this.addNode =false;
     this.deleteNode =false;
-    this.optionMode =false;
-    this.pickMode =false;
+    //this.optionMode =false;
+    //this.pickMode =false;
+    
+    
     
     //ids
-    this.urlId =null;
+  //  this.urlId =null;
     this.selectedNoteId = 0; // not zero based
-    this.selectedColourComponentId =1;// not zero based
+    //this.selectedColourComponentId =1;// not zero based
  
     this.imageData = null;
      
@@ -90,14 +98,14 @@ var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,setOpt
 
 //ImageViewer.prototype = new TreeBase();
 
-ImageViewer.prototype.ChangeAngle= function (direction){
-    
-},
+
 
 ImageViewer.prototype.PerformClick= function (x, y) {
         
+        
+    
     // dont select anything
-    if(this.pickMode) return;
+    if(this.getOptionsState().pickMode) return;
     
     this.lastClickedPosY = y;
     this.lastClickedPosX = x;
@@ -107,8 +115,9 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     // loop throught generations and find out if we have the mouse in anything of them
     this.currentNode.x = -1; 
     this.currentNode.y = -1; 
+    var node;
    
-    this.setOptionsState(this.addNode,this.currentNode);
+    this.setOptionsState(this.addNode,node);
    
     while(vidx < this.nodestore.generations.length){
         
@@ -124,7 +133,10 @@ ImageViewer.prototype.PerformClick= function (x, y) {
                     this.currentNode.x = vidx; 
                     this.currentNode.y = hidx; 
                     
-                    this.setOptionsState(this.addNode,this.currentNode);
+                    node = this.nodestore.generations[vidx][hidx];
+                    
+                    
+                    this.setOptionsState(this.addNode,node);
                 }
                
             }
@@ -135,72 +147,47 @@ ImageViewer.prototype.PerformClick= function (x, y) {
         vidx++;
     }
     
-    //this.ancTree.displayNodeInfo
-    // add delete stuff here
-    
-    
     // add/edit node
     if(this.addNode)
     {
-        //historic data might not have any options so tempoptions could be used for existing notes
-        this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
-        
-        if( this.currentNode.x != -1 && this.currentNode.y != -1)
+        if(node != undefined)
         {
-            var currentNode = this.nodestore.generations[this.currentNode.x][this.currentNode.y];
-            var height = currentNode.Height;
-            var width = currentNode.Width;
-            var note = currentNode.Annotation;
-            this.selectedNoteId = this.nodestore.generations[this.currentNode.x][this.currentNode.y].Index;
-            //DisplayNodeSelection
-       
-       
-            var tpOptions = this.defaultOptions;
-                        
-                        
-            if(currentNode.options != undefined){
-                tpOptions = currentNode.options;
+            this.selectedNoteId = node.Index;
+          
+            if(node.options == undefined){
+                node.options = this.getOptionsState().defaultOptions;
             }
-                        
-            this.view.DisplayNodeSelection(currentNode.X, currentNode.Y,width,height,currentNode.D,note,tpOptions);
-            this.metaModel.Load(this.nodestore.generations[this.currentNode.x][this.currentNode.y].MetaData);
-            
-            if(currentNode.options)
-                this._updateOptionsToView(currentNode.options);
-            else
-                this._updateOptionsToView(this.defaultOptions);
+           
+            this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
+            this.metaModel.Load(node.MetaData);
         }
         else
         {
-            
-            
             this.selectedNoteId =0;
-            this._updateOptionsToView(this.tempOptions);
-            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.tempOptions);
+            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.getOptionsState().tempOptions);
             this.metaModel.Load([]);
         }
-    
+        
+        this.setOptionsState(this.addNode,node,true);
     }
-            
-    
-    
+
     if(this.deleteNode){
         
-        if( this.currentNode.x != -1 && this.currentNode.y != -1)
+        if(node != undefined)
         {
             this.nodestore.generations[this.currentNode.x][this.currentNode.y].Visible =false;
-            if(this.selectedNoteId == this.nodestore.generations[this.currentNode.x][this.currentNode.y].Index){
+            if(this.selectedNoteId == node.Index){
                 this.selectedNoteId = 0;
             }
             
-            this.nodestore.WriteToDB(this.nodestore.generations[this.currentNode.x][this.currentNode.y]);
+            this.nodestore.WriteToDB(node);
             
             // make sure no invalid selection is left in memory
             // because then future adds etc, will go wrong!
             this.currentNode.x = -1; 
             this.currentNode.y = -1; 
             
-            this.setOptionsState(this.addNode,this.currentNode);
+            this.setOptionsState(this.addNode);
             
         }
         
@@ -420,9 +407,6 @@ ImageViewer.prototype.UpdateGenerationState= function () {
 
 //notes 
 
- 
-
-
 ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     console.log('save note');
@@ -620,215 +604,217 @@ ImageViewer.prototype.UpdateInfo = function(){
      
 //options
 
-ImageViewer.prototype.CreateComponentList = function(){
+// ImageViewer.prototype.CreateComponentList = function(){
         
-    var component = [];
+//     var component = [];
     
-    component.push({id: 1, name: 'Background'});
-    component.push({id: 2, name: 'Editor Font'});
-    component.push({id: 3, name: 'Editor Border'});
-    component.push({id: 4, name: 'Note Font'});
+//     component.push({id: 1, name: 'Background'});
+//     component.push({id: 2, name: 'Editor Font'});
+//     component.push({id: 3, name: 'Editor Border'});
+//     component.push({id: 4, name: 'Note Font'});
      
-    this.view.SetColourComponents(component);
-};
+//     this.view.SetColourComponents(component);
+// };
 
-ImageViewer.prototype.SetDefaultOptionMode = function(state){
-    //after option button clicked then its text changed to cancel thats
-    //how this method is called for cancel and options add
-    this.optionMode =state;
+// ImageViewer.prototype.SetDefaultOptionMode = function(state){
+//     //after option button clicked then its text changed to cancel thats
+//     //how this method is called for cancel and options add
+//     this.optionMode =state;
     
-    this.view.SetDefaultOptionsUI(state);
-};
+//     this.view.SetDefaultOptionsUI(state);
+// };
 
 
-ImageViewer.prototype.getOptions =function(urlId){
-    console.log('GetUrls');
+// ImageViewer.prototype.getOptions =function(urlId){
+//     console.log('GetUrls');
     
-    var that = this;
+//     var that = this;
     
-    that.nodestore.GetOptions(urlId, function(jsonData){
-         if(jsonData.length > 0){
-                // we are in the future going to have many layers
-                // currently we have 1 layer so just default to that
-                // which is always going to be layer 0
-                that.defaultOptions = jsonData[0];
-                //that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
-                //that.view.SetOptions(that.defaultOptions,1);//, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+//     that.nodestore.GetOptions(urlId, function(jsonData){
+//          if(jsonData.length > 0){
+//                 // we are in the future going to have many layers
+//                 // currently we have 1 layer so just default to that
+//                 // which is always going to be layer 0
+//                 that.defaultOptions = jsonData[0];
+//                 //that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
+//                 //that.view.SetOptions(that.defaultOptions,1);//, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
                 
-            }
-    });
+//             }
+//     });
  
-};
+// };
      
-ImageViewer.prototype.saveDefaultOptions =function(options){
+// ImageViewer.prototype.saveDefaultOptions =function(options){
    
-    console.log('save option ' +options);
+//     console.log('save option ' +options);
 
-  //  this._translateViewOptions(options, this.defaultOptions);
+//   //  this._translateViewOptions(options, this.defaultOptions);
 
-    this.nodestore.SaveOptions(this.defaultOptions);
-};
+//     this.nodestore.SaveOptions(this.defaultOptions);
+// };
 
-ImageViewer.prototype._translateViewOptions =function(voptions,moptions){
-    //  var options = {
-    //     "hexval": $("#txtChosenColour").val(),
-    //     "font" :  $('#fontSelect').fontSelector('selected'),
-    //     "isTransparent" : $("#chkTransparentBackground").val(),
-    //     "componentId" : currentComponent
-    // };
+// ImageViewer.prototype._translateViewOptions =function(voptions,moptions){
+//     //  var options = {
+//     //     "hexval": $("#txtChosenColour").val(),
+//     //     "font" :  $('#fontSelect').fontSelector('selected'),
+//     //     "isTransparent" : $("#chkTransparentBackground").val(),
+//     //     "componentId" : currentComponent
+//     // };
      
-     if(voptions.IsTransparent !== undefined)
-        moptions.IsTransparent = voptions.IsTransparent;
+//      if(voptions.IsTransparent !== undefined)
+//         moptions.IsTransparent = voptions.IsTransparent;
      
-     if(voptions.DefaultFont)
-        moptions.DefaultFont = voptions.DefaultFont;
+//      if(voptions.DefaultFont)
+//         moptions.DefaultFont = voptions.DefaultFont;
     
-     if(moptions!=null && voptions.hexval){
-        switch(Number(this.selectedColourComponentId)){
-            case 1:
-                moptions.DefaultNoteColour = voptions.hexval;
-                break;
-            case 2:
-                moptions.DefaultEditorFontColour = voptions.hexval;
-                break;
-            case 3:
-                moptions.DefaultEditorBorderColour = voptions.hexval;
-                break;
-            case 4:
-                moptions.DefaultNoteFontColour = voptions.hexval;
-                break;
-        }
-    }
+//      if(moptions!=null && voptions.hexval){
+//         switch(Number(this.selectedColourComponentId)){
+//             case 1:
+//                 moptions.DefaultNoteColour = voptions.hexval;
+//                 break;
+//             case 2:
+//                 moptions.DefaultEditorFontColour = voptions.hexval;
+//                 break;
+//             case 3:
+//                 moptions.DefaultEditorBorderColour = voptions.hexval;
+//                 break;
+//             case 4:
+//                 moptions.DefaultNoteFontColour = voptions.hexval;
+//                 break;
+//         }
+//     }
     
-    return moptions;
-};
+//     return moptions;
+// };
 
-//called from colour picker when colour changed
-ImageViewer.prototype.updateOptionColour =function(rgb,hex){
+// //called from colour picker when colour changed
+// ImageViewer.prototype.updateOptionColour =function(rgb,hex){
 
-    this.setPickState(false);
+//     this.setPickState(false);
 
-    var options = {
-        "hexval": '#'+hex,
-        "DefaultFont" :  undefined,
-        "IsTransparent" : undefined,
-        "componentId" : undefined
-    };
+//     var options = {
+//         "hexval": '#'+hex,
+//         "DefaultFont" :  undefined,
+//         "IsTransparent" : undefined,
+//         "componentId" : undefined
+//     };
    
-    this._updateOptions(options,true);
+//     this._updateOptions(options,true);
 
-};
+// };
 
-ImageViewer.prototype.updateOptionFont =function(font){
+// ImageViewer.prototype.updateOptionFont =function(font){
 
-    var options = {
-        "hexval": undefined,
-        "DefaultFont" :  font,
-        "IsTransparent" : undefined,
-        "componentId" : undefined
-    };
+//     var options = {
+//         "hexval": undefined,
+//         "DefaultFont" :  font,
+//         "IsTransparent" : undefined,
+//         "componentId" : undefined
+//     };
    
-    this._updateOptions(options,true);
+//     this._updateOptions(options,true);
 
-};
+// };
 
-ImageViewer.prototype.updateOptionTransparency =function(transparency){
+// ImageViewer.prototype.updateOptionTransparency =function(transparency){
 
-    var options = {
-        "hexval": undefined,
-        "DefaultFont" :  undefined,
-        "IsTransparent" : transparency,
-        "componentId" : undefined
-    };
+//     var options = {
+//         "hexval": undefined,
+//         "DefaultFont" :  undefined,
+//         "IsTransparent" : transparency,
+//         "componentId" : undefined
+//     };
    
-    this._updateOptions(options,true);
+//     this._updateOptions(options,true);
 
-};
+// };
 
-ImageViewer.prototype.updateSelectedComponentId =function(componentId){
+// ImageViewer.prototype.updateSelectedComponentId =function(componentId){
 
-    var options = {
-        "hexval": undefined,
-        "DefaultFont" :  undefined,
-        "IsTransparent" : undefined,
-        "componentId" : componentId
-    };
+//     var options = {
+//         "hexval": undefined,
+//         "DefaultFont" :  undefined,
+//         "IsTransparent" : undefined,
+//         "componentId" : componentId
+//     };
    
    
-    this._updateOptions(options,true);
+//     this._updateOptions(options,true);
 
-};
+// };
 
-ImageViewer.prototype._updateOptionsToView =function(options){
+// ImageViewer.prototype._updateOptionsToView =function(options){
     
-    var hex;
-    switch(Number(this.selectedColourComponentId)){
-        case 1:
-            hex = options.DefaultNoteColour;
-            break;
-        case 2:
-            hex = options.DefaultEditorFontColour;
-            break;
-        case 3:
-            hex = options.DefaultEditorBorderColour;
-            break;
-        case 4:
-            hex = options.DefaultNoteFontColour;
-            break;
-    }
+//     var hex;
+//     switch(Number(this.selectedColourComponentId)){
+//         case 1:
+//             hex = options.DefaultNoteColour;
+//             break;
+//         case 2:
+//             hex = options.DefaultEditorFontColour;
+//             break;
+//         case 3:
+//             hex = options.DefaultEditorBorderColour;
+//             break;
+//         case 4:
+//             hex = options.DefaultNoteFontColour;
+//             break;
+//     }
     
     
-    this.view.SetOptions(options,hex);
-};
+//     this.view.SetOptions(options,hex);
+// };
 
-ImageViewer.prototype._updateOptions =function(options, withUpdate){
+// ImageViewer.prototype._updateOptions =function(options, withUpdate){
     
-    var that = this;
+//     var that = this;
 
-    if(options.componentId !== undefined){
-        that.selectedColourComponentId = options.componentId;
-        console.log('compid: ' + that.selectedColourComponentId);
-    }
+//     if(options.componentId !== undefined){
+//         that.selectedColourComponentId = options.componentId;
+//         console.log('compid: ' + that.selectedColourComponentId);
+//     }
     
-    var finalAction = function(options){
-        if(withUpdate)
-            that._updateOptionsToView(options);
-    };
+//     var finalAction = function(options){
+//         if(withUpdate)
+//             that._updateOptionsToView(options);
+//     };
     
-    if(this.optionMode){
-        this._translateViewOptions(options,this.defaultOptions);
-        finalAction(this.defaultOptions);
-    }
+//     if(this.optionMode){
+//         this._translateViewOptions(options,this.defaultOptions);
+//         finalAction(this.defaultOptions);
+//     }
     
-    if(this.addNode){
-        if( this.currentNode.x != -1 && this.currentNode.y != -1)
-        {
-            if(this.currentNode.options != undefined){
-              //  options.DefaultFont =this.currentNode.options.DefaultFont;
-              //  options.IsTransparent =this.currentNode.options.IsTransparent;
-                this._translateViewOptions(options, this.currentNode.options);
-                finalAction(this.currentNode.options);
-            }
-            else
-            {
-                //historic data might not have any options set for the note
-                this._translateViewOptions(options,this.tempOptions);
-                finalAction(this.tempOptions);
-            }
-        }
-        else
-        {
-            this._translateViewOptions(options,this.tempOptions);
-            finalAction(this.tempOptions);
-        }
-    }
-};
+//     if(this.addNode){
+//         if( this.currentNode.x != -1 && this.currentNode.y != -1)
+//         {
+//             if(this.currentNode.options != undefined){
+//               //  options.DefaultFont =this.currentNode.options.DefaultFont;
+//               //  options.IsTransparent =this.currentNode.options.IsTransparent;
+//                 this._translateViewOptions(options, this.currentNode.options);
+//                 finalAction(this.currentNode.options);
+//             }
+//             else
+//             {
+//                 //historic data might not have any options set for the note
+//                 this._translateViewOptions(options,this.tempOptions);
+//                 finalAction(this.tempOptions);
+//             }
+//         }
+//         else
+//         {
+//             this._translateViewOptions(options,this.tempOptions);
+//             finalAction(this.tempOptions);
+//         }
+//     }
+// };
 
-ImageViewer.prototype.setPickState = function(state){
+// ImageViewer.prototype.setPickState = function(state){
      
-    this.pickMode =state;
+//     this.pickMode =state;
     
-},
+// },
+
+
 
 
 

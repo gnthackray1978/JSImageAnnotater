@@ -9,8 +9,7 @@ var DiagramController = function (view, model) {
     this.ancTree = model;
  
   
-    this._view.AngleChangeClicked($.proxy(this.angleChanged, this));
-    this._view.QryDefaultOptions($.proxy(this.qryDefaultOptions, this));
+
     this._view.CanvasClick($.proxy(this.canvasClick, this));
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
@@ -20,14 +19,16 @@ var DiagramController = function (view, model) {
     
     
     
-    
+        // this._view.AngleChangeClicked($.proxy(this.angleChanged, this));
+    // this._view.QryDefaultOptions($.proxy(this.qryDefaultOptions, this));
     //get hex whenever listbox changes selection
-    this._view.QrySelectedColourComponent($.proxy(this.qrySelectedColourComponent, this));
-    this._view.QryPickedColour($.proxy(this.qryPickedColour, this));
-    this._view.QryDefaultOptionsState($.proxy(this.qryDefaultOptionsState, this));
-    this._view.QryPickState($.proxy(this.qryPickState, this));
-    this._view.QrySelectedFontChanged($.proxy(this.qrySelectedFontChanged, this));
-    this._view.QryTransparencyChanged($.proxy(this.qryTransparencyChanged, this));
+    
+    // this._view.QrySelectedColourComponent($.proxy(this.qrySelectedColourComponent, this));
+    // this._view.QryPickedColour($.proxy(this.qryPickedColour, this));
+    // this._view.QryDefaultOptionsState($.proxy(this.qryDefaultOptionsState, this));
+    // this._view.QryPickState($.proxy(this.qryPickState, this));
+    // this._view.QrySelectedFontChanged($.proxy(this.qrySelectedFontChanged, this));
+    // this._view.QryTransparencyChanged($.proxy(this.qryTransparencyChanged, this));
     
     
     //colour picker 
@@ -216,9 +217,9 @@ DiagramController.prototype = {
         this.ancTree.childlessMarriages = null;
     },
  
-    angleChanged:function(direction){
-        this.ancTree.ChangeAngle(direction);
-    },
+    // angleChanged:function(direction){
+    //     this.ancTree.ChangeAngle(direction);
+    // },
 
    
 
@@ -244,32 +245,32 @@ DiagramController.prototype = {
         }
     },
 
-    qryDefaultOptions:function(options){
-        this.ancTree.saveDefaultOptions(options);
-    },
+    // qryDefaultOptions:function(options){
+    //     this.ancTree.saveDefaultOptions(options);
+    // },
     
-    qryDefaultOptionsState:function(data){
-        this.ancTree.SetDefaultOptionMode(data);  
-    },
+    // qryDefaultOptionsState:function(data){
+    //     this.ancTree.SetDefaultOptionMode(data);  
+    // },
     
-    qryPickState: function(state){
-       this.ancTree.setPickState(state);
-    },
+    // qryPickState: function(state){
+    //   this.ancTree.setPickState(state);
+    // },
     
-    qryPickedColour: function(rgb,hex){
-       this.ancTree.updateOptionColour(rgb,hex);
-    },
+    // qryPickedColour: function(rgb,hex){
+    //   this.ancTree.updateOptionColour(rgb,hex);
+    // },
 
-    qrySelectedColourComponent: function(componentId){
-        this.ancTree.updateSelectedComponentId(componentId);
-    },
+    // qrySelectedColourComponent: function(componentId){
+    //     this.ancTree.updateSelectedComponentId(componentId);
+    // },
     
-    qrySelectedFontChanged: function(font){
-        this.ancTree.updateOptionFont(font);
-    },
-    qryTransparencyChanged: function(transparency){
-        this.ancTree.updateOptionTransparency(transparency);
-    },
+    // qrySelectedFontChanged: function(font){
+    //     this.ancTree.updateOptionFont(font);
+    // },
+    // qryTransparencyChanged: function(transparency){
+    //     this.ancTree.updateOptionTransparency(transparency);
+    // },
     
     
     
