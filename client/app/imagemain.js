@@ -40,7 +40,8 @@ function loadAll (drive){
                                     metadata.QryNodeMetaData, 
                                     options.GetState,
                                     options.SetState, 
-                                    options.QrySaveData);
+                                    options.QrySaveData,
+                                    options.SetOptionsLoad);
         
         
         var diagramController =  new DiagramController(appView, model);

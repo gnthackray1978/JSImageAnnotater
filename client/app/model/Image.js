@@ -10,7 +10,8 @@ var  CanvasTools;
 var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,
 setOptionsState,
 getOptionsState,
-qryOptionsSaveData
+qryOptionsSaveData,
+setOptionsLoad
 
 ) {
     //could inject this
@@ -26,7 +27,7 @@ qryOptionsSaveData
     this.setOptionsState= setOptionsState;
     this.qryOptionsSaveData= qryOptionsSaveData;
     this.getOptionsState =getOptionsState;
-    
+    this.setOptionsLoad = setOptionsLoad;
     this.nodestore = nodestore;
     this.view = view;
 
@@ -533,7 +534,7 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
             
         }
         
-        that.getOptions(urlId);
+        that.setOptionsLoad(urlId);
         
         console.log('setImageObject url: ' + that.imageData.url);
         

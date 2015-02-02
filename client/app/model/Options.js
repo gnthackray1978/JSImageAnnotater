@@ -41,7 +41,7 @@ Options.prototype.SetDefaultOptionMode = function(state){
     this.view.SetDefaultOptionsUI(state);
 };
 
-Options.SetState = function(addNode,currentNode, refreshView){
+Options.prototype.SetState = function(addNode,currentNode, refreshView){
     this.currentNode = currentNode;
     this.addNode = addNode;
     
@@ -62,7 +62,7 @@ Options.SetState = function(addNode,currentNode, refreshView){
     
 };
 
-Options.GetState = function(addNode,callback){
+Options.prototype.GetState = function(addNode,callback){
     
     
     return {
@@ -74,7 +74,7 @@ Options.GetState = function(addNode,callback){
 
 
 
-Options.prototype.getOptions =function(urlId){
+Options.prototype.SetOptionsLoad =function(urlId){
     console.log('GetUrls');
     
     var that = this;
