@@ -83,7 +83,7 @@ DiagramController.prototype = {
 
         //init drive here
         var that = this;
-        that.ancTree.CreateComponentList();
+       // that.ancTree.CreateComponentList();
     
         that.ancTree.LoadBackgroundImage(function(id){
                     var canvas = document.getElementById("myCanvas");
@@ -112,7 +112,7 @@ DiagramController.prototype = {
     init:function(){
     
          if (this.ancTree !== null) {
-            this.ancTree.CreateComponentList();
+           // this.ancTree.CreateComponentList();
             this.ancTree.EnableRun(false);
           //  this.ancTree.GetUrls();
             

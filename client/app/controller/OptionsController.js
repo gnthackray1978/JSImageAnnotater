@@ -11,6 +11,10 @@ var OptionsController = function (view, model) {
     this._view.QryPickState($.proxy(this.qryPickState, this));
     this._view.QrySelectedFontChanged($.proxy(this.qrySelectedFontChanged, this));
     this._view.QryTransparencyChanged($.proxy(this.qryTransparencyChanged, this));
+    
+    this.model.CreateComponentList();
+    
+    
 };
 
 OptionsController.prototype = {
