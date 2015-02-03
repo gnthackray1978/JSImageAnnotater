@@ -326,7 +326,7 @@ AnnotaterView.prototype.Delete = function (action) {
 
 AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
-
+    //here look multiple event firing problems    
     $("#myCanvas").click(function (evt) {
         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
@@ -1002,11 +1002,13 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
         return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
     }
             
-            
+    //here look multiple event firing problems        
     $('#myCanvas').click(function(event){
         // getting user coordinates
         if(that._pickEnabled)
         {
+             event.stopPropagation();
+
             var canvas = document.getElementById('myCanvas').getContext('2d');
             
             var x = event.pageX - this.offsetLeft;
