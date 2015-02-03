@@ -6,9 +6,9 @@ var Options = function (nodestore,view) {
     this.addNode =false;
     this.pickMode =false;
     
-    this.options = {};
-    this.defaultOptions = {};
-    this.tempOptions = {};
+    //this.options = {};
+    this.defaultOptions;
+    this.tempOptions = undefined;
     this.selectedColourComponentId =1;// not zero based
     this.currentNode;
 };
@@ -81,8 +81,6 @@ Options.prototype.SetOptionsLoad =function(urlId){
                 // currently we have 1 layer so just default to that
                 // which is always going to be layer 0
                 that.defaultOptions = jsonData[0];
-                //that.updateOptions(that.options, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
-                //that.view.SetOptions(that.defaultOptions,1);//, that.getColourComponentHex(1));// bit hacky pass through the first colour component hex
                 
             }
     });
