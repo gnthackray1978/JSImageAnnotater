@@ -59,7 +59,7 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
 
 ImageViewer.prototype.PerformClick= function (x, y) {
         
-        
+    console.log("canvas clicked");
     
     // dont select anything
     if(this.options.GetState().pickMode) return;
