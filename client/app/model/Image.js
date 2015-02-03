@@ -101,13 +101,13 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             }
            
             this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
-            this.metaModel.Load(node.MetaData);
+            this.meta.Load(node.MetaData);
         }
         else
         {
             this.selectedNoteId =0;
             this.view.DisplayNodeSelection(x, y,70,25,0,'',this.options.GetState().tempOptions);
-            this.metaModel.Load([]);
+            this.meta.Load([]);
         }
         
         this.options.SetState(this.addNode,node,true);
