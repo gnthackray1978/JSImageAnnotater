@@ -37,7 +37,7 @@ function loadAll (drive){
 
 
         var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
-                                    metadata.QryNodeMetaData, 
+                                    metadata, 
                                     options);
         
         
