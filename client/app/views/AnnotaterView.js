@@ -328,6 +328,7 @@ AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
     //here look multiple event firing problems    
     $("#myCanvas").click(function (evt) {
+        console.log("CanvasClick.click");
         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
         action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
@@ -1005,6 +1006,8 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
     //here look multiple event firing problems        
     $('#myCanvas').click(function(event){
         // getting user coordinates
+        
+        console.log("QryPickedColour.click");
         if(that._pickEnabled)
         {
              event.stopPropagation();
