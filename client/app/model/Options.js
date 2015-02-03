@@ -8,7 +8,7 @@ var Options = function (nodestore,view) {
     
     //this.options = {};
     this.defaultOptions;
-    this.tempOptions = undefined;
+    this.tempOptions;
     this.selectedColourComponentId =1;// not zero based
     this.currentNode;
 };
