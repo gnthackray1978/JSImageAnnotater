@@ -38,10 +38,7 @@ function loadAll (drive){
 
         var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
                                     metadata.QryNodeMetaData, 
-                                    options.GetState,
-                                    options.SetState, 
-                                    options.QrySaveData,
-                                    options.SetOptionsLoad);
+                                    options);
         
         
         var diagramController =  new DiagramController(appView, model);

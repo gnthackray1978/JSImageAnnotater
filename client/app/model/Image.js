@@ -1,19 +1,6 @@
 var  CanvasTools;
 
-
-
-// need ref to view for scope
-
-
-
-
-var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,
-getOptionsState,
-setOptionsState,
-qryOptionsSaveData,
-setOptionsLoad
-
-) {
+var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
     //could inject this
     
     this._canvasTools = canvasTools;
@@ -23,11 +10,10 @@ setOptionsLoad
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
 
-    this.metaDataCallback = metaDataCallback;
-    this.setOptionsState= setOptionsState;
-    this.qryOptionsSaveData= qryOptionsSaveData;
-    this.getOptionsState =getOptionsState;
-    this.setOptionsLoad = setOptionsLoad;
+    this.meta = meta;
+    
+    this.options = options;
+    
     this.nodestore = nodestore;
     this.view = view;
 
@@ -58,93 +44,48 @@ setOptionsLoad
 
     this.zoomAmount = 8; //int
 
-
-    
-    
-
     this.lastClickedPosX = 0;
     this.lastClickedPosY = 0;
-    
-    this.currentNode= {
-        x:-1,
-        y:-1
-    };
-
-
 
     // modes delete add etc
     this.addNode =false;
     this.deleteNode =false;
-    //this.optionMode =false;
-    //this.pickMode =false;
     
-    
-    
-    //ids
-  //  this.urlId =null;
     this.selectedNoteId = 0; // not zero based
-    //this.selectedColourComponentId =1;// not zero based
- 
+    
     this.imageData = null;
-     
-    this.options = {};
-    this.defaultOptions = {};
-    this.tempOptions = {};
-    
-    
-    
-    
     
 };
-
-//ImageViewer.prototype = new TreeBase();
-
-
 
 ImageViewer.prototype.PerformClick= function (x, y) {
         
         
     
     // dont select anything
-    if(this.getOptionsState().pickMode) return;
+    if(this.options.GetState().pickMode) return;
     
     this.lastClickedPosY = y;
     this.lastClickedPosX = x;
 
     var vidx =1;
     var hidx =0;
-    // loop throught generations and find out if we have the mouse in anything of them
-    this.currentNode.x = -1; 
-    this.currentNode.y = -1; 
     var node;
    
-    this.setOptionsState(this.addNode,node);
+    this.options.SetState(this.addNode,node);
    
     while(vidx < this.nodestore.generations.length){
-        
         hidx=0;
         while(hidx < this.nodestore.generations[vidx].length){
-            
             if(this.nodestore.generations[vidx][hidx].Visible)
             {
                 var m = this.nodestore.ContainsXY(this.nodestore.generations[vidx][hidx],x,y);
-                
                 if(m){
-                    
-                    this.currentNode.x = vidx; 
-                    this.currentNode.y = hidx; 
-                    
                     node = this.nodestore.generations[vidx][hidx];
-                    
-                    
-                    this.setOptionsState(this.addNode,node);
+                    this.options.SetState(this.addNode,node);
                 }
-               
             }
-            
             hidx++;
         }
-        
         vidx++;
     }
     
@@ -156,7 +97,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             this.selectedNoteId = node.Index;
           
             if(node.options == undefined){
-                node.options = this.getOptionsState().defaultOptions;
+                node.options = this.options.GetState().defaultOptions;
             }
            
             this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
@@ -165,40 +106,25 @@ ImageViewer.prototype.PerformClick= function (x, y) {
         else
         {
             this.selectedNoteId =0;
-            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.getOptionsState().tempOptions);
+            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.options.GetState().tempOptions);
             this.metaModel.Load([]);
         }
         
-        this.setOptionsState(this.addNode,node,true);
+        this.options.SetState(this.addNode,node,true);
     }
 
-    if(this.deleteNode){
-        
-        if(node != undefined)
-        {
-            this.nodestore.generations[this.currentNode.x][this.currentNode.y].Visible =false;
-            if(this.selectedNoteId == node.Index){
-                this.selectedNoteId = 0;
-            }
-            
-            this.nodestore.WriteToDB(node);
-            
-            // make sure no invalid selection is left in memory
-            // because then future adds etc, will go wrong!
-            this.currentNode.x = -1; 
-            this.currentNode.y = -1; 
-            
-            this.setOptionsState(this.addNode);
-            
+    if(this.deleteNode && node != undefined){
+        node.Visible =false;
+        if(this.selectedNoteId == node.Index){
+            this.selectedNoteId = 0;
         }
-        
-        
+        this.nodestore.WriteToDB(node);
+        this.options.SetState(this.addNode);
     }
     
     if(!this.addNode)
         this.view.ClearActiveTextArea();
-    
-    
+
 };
 
 ImageViewer.prototype.DrawTree= function () {
@@ -232,14 +158,11 @@ ImageViewer.prototype.DrawTree= function () {
                 var hidx=0;
                 while (hidx < that.nodestore.generations[vidx].length) {
                     
-                    
                     var nlid = that.nodestore.generations[vidx][hidx].LayerId ? that.nodestore.generations[vidx][hidx].LayerId : 2;
-                    
-                    
                     
                     if(that.nodestore.generations[vidx][hidx].Visible && containsLevel(layers,nlid))
                     {
-                        var tpOptions = that.defaultOptions;
+                        var tpOptions = that.options.GetState().defaultOptions;
                         
                         if(that.nodestore.generations[vidx][hidx].Options != undefined){
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
@@ -416,19 +339,10 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     this.nodestore.GetActiveLayer(function(layerId){
  
-        that.metaDataCallback(function(data){
+ 
+        that.meta.QryNodeMetaData(function(data){
             
-                that.qryOptionsSaveData(function(options){
-                    // if( this.currentNode.x != -1 && this.currentNode.y != -1 && this.currentNode.options !== undefined)
-                    // {
-                    //     //saveData.options = this._translateViewOptions(saveData.options,saveData.options);
-                    //     saveData.options = this.currentNode.options;
-                    // }
-                    // else
-                    // {
-                    //     saveData.options = this.tempOptions;
-                    // }
-            
+                that.options.QrySaveData(function(options){
                     saveData.options = options;
                 
                     that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
@@ -436,7 +350,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
                
                     that.addNode = false;
             
-                    this.setOptionsState(that.addNode);
+                    that.options.SetState(that.addNode);
                     
                     that.view.DisplayUpdateNoteAdd(that.addNode);
                     
@@ -458,7 +372,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
-    this.setOptionsState(this.addNode);
+    this.options.SetState(this.addNode);
     this.metaModel.Unload();
     this.view.DisplayUpdateNoteAdd(this.addNode);
     this.view.ClearActiveTextArea();
@@ -466,10 +380,8 @@ ImageViewer.prototype.CancelAdd= function () {
 
 ImageViewer.prototype.EnableAdd= function () {
     this.addNode = true;
-    this.setOptionsState(this.addNode,undefined,true);
+    this.options.SetState(this.addNode,undefined,true);
     this.view.DisplayUpdateNoteAdd(this.addNode);
-    
-    //this._updateOptionsToView(this.defaultOptions);// fix this
     
 };
 
@@ -507,7 +419,7 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
             
         }
         
-        that.setOptionsLoad(urlId);
+        that.options.SetOptionsLoad(urlId);
         
         console.log('setImageObject url: ' + that.imageData.url);
         
@@ -580,12 +492,7 @@ ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  
 
         this.zoomPercentage = zoomPerc;
 
-        this.currentNode = {
-            x:-1,
-            y:-1
-        };
-        
-        this.setOptionsState(this.addNode,this.currentNode);
+        this.options.SetState(this.addNode,this.currentNode);
 };
     
 ImageViewer.prototype.MoveTree = function (direction) {

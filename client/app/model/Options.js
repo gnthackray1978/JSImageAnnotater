@@ -1,6 +1,5 @@
-var Options = function (nodestore,view, imageModel, saveMethod) {
+var Options = function (nodestore,view) {
     this.nodestore = nodestore;
-    this.imageModel = imageModel;
     this.view = view;
     
     this.optionMode =false;
@@ -11,10 +10,7 @@ var Options = function (nodestore,view, imageModel, saveMethod) {
     this.defaultOptions = {};
     this.tempOptions = {};
     this.selectedColourComponentId =1;// not zero based
-    
     this.currentNode;
-    
-    
 };
 
 Options.prototype.ChangeAngle= function (direction){
