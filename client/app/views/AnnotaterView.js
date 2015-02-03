@@ -1010,7 +1010,7 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
         console.log("QryPickedColour.click");
         if(that._pickEnabled)
         {
-             event.stopPropagation();
+            event.stopImmediatePropagation();
 
             var canvas = document.getElementById('myCanvas').getContext('2d');
             
