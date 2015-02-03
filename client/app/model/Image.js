@@ -8,8 +8,8 @@ var  CanvasTools;
 
 
 var ImageViewer = function (nodestore,view, canvasTools, metaDataCallback,
-setOptionsState,
 getOptionsState,
+setOptionsState,
 qryOptionsSaveData,
 setOptionsLoad
 
