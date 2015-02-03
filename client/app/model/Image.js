@@ -361,7 +361,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
                     
                     that.UpdateInfo();
                     
-                    that.metaModel.Unload();
+                    that.meta.Unload();
                 
                 });
             
@@ -373,7 +373,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 ImageViewer.prototype.CancelAdd= function () {
     this.addNode = false;
     this.options.SetState(this.addNode);
-    this.metaModel.Unload();
+    this.meta.Unload();
     this.view.DisplayUpdateNoteAdd(this.addNode);
     this.view.ClearActiveTextArea();
 };
