@@ -353,6 +353,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 };
 
 ImageViewer.prototype.CancelAdd= function () {
+    this.options.SetDefaultOptionState(false);
     this.addNode = false;
     this.options.SetState(this.addNode);
     this.meta.Unload();
