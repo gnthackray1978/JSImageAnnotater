@@ -498,9 +498,7 @@ AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,
         
         
         // enable buttons to control formatting of newly created textarea
-        $("#angleGroup").show(); 
-        $("#optionGroup").show();
-        $('#btnPickColour').show();
+        
 };
 
 AnnotaterView.prototype.ClearActiveTextArea = function () {
@@ -994,7 +992,10 @@ AnnotaterView.prototype.SetDefaultOptionsUI = function (state) {
     
     // var myDDL = $('#colourComponentList');
     // myDDL[0].selectedIndex = 0;
-    
+    $("#angleGroup").show(); 
+    $("#optionGroup").show();
+    $('#btnPickColour').show();
+        
     if(state)
     {
         $("#options-label").html('Options');
@@ -1101,23 +1102,7 @@ AnnotaterView.prototype.QryDefaultOptions = function(action){
         action(that._getOptionDetails());
     });   
 };
-
-// AnnotaterView.prototype.QryDefaultOptionsState = function (action) {
-        
-//     // this clicks turns on and off default option mode.
-   
-//     $('#btnOptions').click(function (e) {
-//         if($("#btnOptions").val() == 'Cancel'){
-//             action(true);
-//         }
-//         else
-//         {
-//             action(false);
-//         }
-//     });
-// };
-
-
+ 
 AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
      var that = this;
     // $("#fontSelect")
@@ -1164,16 +1149,16 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
     if(!status){
         $("#controllabel").html('select edit mode');
         
-        $("#angleGroup").hide(); 
-        $("#optionGroup").hide();
-        $('#btnPickColour').hide();
+        // $("#angleGroup").hide(); 
+        // $("#optionGroup").hide();
+        // $('#btnPickColour').hide();
     }
     else
     {
         $("#controllabel").html('click drawing to add');
         
     }
-    $("#btnOptions").toggle();
+   // $("#btnOptions").toggle();
     $("#btnAddNote").toggle();
     $("#btnCancel").toggle();
     //btnSaveNote
