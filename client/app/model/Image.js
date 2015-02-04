@@ -60,71 +60,56 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
 ImageViewer.prototype.PerformClick= function (x, y) {
         
     console.log("canvas clicked");
+     
+    var that = this;
     
     // dont select anything
     if(this.options.GetState().pickMode) return;
     
     this.lastClickedPosY = y;
     this.lastClickedPosX = x;
-
-    var vidx =1;
-    var hidx =0;
-    var node;
-   
-    this.options.SetState(this.addNode,node);
-   
-    while(vidx < this.nodestore.generations.length){
-        hidx=0;
-        while(hidx < this.nodestore.generations[vidx].length){
-            if(this.nodestore.generations[vidx][hidx].Visible)
-            {
-                var m = this.nodestore.ContainsXY(this.nodestore.generations[vidx][hidx],x,y);
-                if(m){
-                    node = this.nodestore.generations[vidx][hidx];
-                    this.options.SetState(this.addNode,node);
-                }
-            }
-            hidx++;
-        }
-        vidx++;
-    }
+ 
+    this.nodestore.PointToNode(x,y, function(node){
+        
+        that.options.SetState(this.addNode,node);
     
-    // add/edit node
-    if(this.addNode)
-    {
-        if(node != undefined)
+        // add/edit node
+        if(this.addNode)
         {
-            this.selectedNoteId = node.Index;
-          
-            if(node.options == undefined){
-                node.options = this.options.GetState().defaultOptions;
+            if(node != undefined)
+            {
+                this.selectedNoteId = node.Index;
+              
+                if(node.options == undefined){
+                    node.options = this.options.GetState().defaultOptions;
+                }
+               
+                this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
+                this.meta.Load(node.MetaData);
             }
-           
-            this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
-            this.meta.Load(node.MetaData);
+            else
+            {
+                this.selectedNoteId =0;
+                this.view.DisplayNodeSelection(x, y,70,25,0,'',this.options.GetState().tempOptions);
+                this.meta.Load([]);
+            }
+            
+            this.options.SetState(this.addNode,node,true);
         }
-        else
-        {
-            this.selectedNoteId =0;
-            this.view.DisplayNodeSelection(x, y,70,25,0,'',this.options.GetState().tempOptions);
-            this.meta.Load([]);
+
+        if(this.deleteNode && node != undefined){
+            node.Visible =false;
+            if(this.selectedNoteId == node.Index){
+                this.selectedNoteId = 0;
+            }
+            this.nodestore.WriteToDB(node);
+            this.options.SetState(this.addNode);
         }
         
-        this.options.SetState(this.addNode,node,true);
-    }
+        if(!this.addNode)
+            this.view.ClearActiveTextArea();
 
-    if(this.deleteNode && node != undefined){
-        node.Visible =false;
-        if(this.selectedNoteId == node.Index){
-            this.selectedNoteId = 0;
-        }
-        this.nodestore.WriteToDB(node);
-        this.options.SetState(this.addNode);
-    }
-    
-    if(!this.addNode)
-        this.view.ClearActiveTextArea();
-
+    });
 };
 
 ImageViewer.prototype.DrawTree= function () {

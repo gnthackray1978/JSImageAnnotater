@@ -77,6 +77,31 @@ NoteDataManager.prototype = {
         return topNumber + 1;
     },
     
+    PointToNode:function(x, y, callback){
+        var vidx =1;
+        var hidx =0;
+        var node;
+       
+        while(vidx < this.generations.length){
+            hidx=0;
+            while(hidx < this.generations[vidx].length){
+                if(this.generations[vidx][hidx].Visible)
+                {
+                    var m = this.ContainsXY(this.generations[vidx][hidx],x,y);
+                    if(m){
+                        node = this.generations[vidx][hidx];
+                        
+                        callback(node);
+                    }
+                }
+                hidx++;
+            }
+            vidx++;
+        }
+        
+        callback();
+    },
+    
     ContainsXY:function(node, x, y){
         //x,y,width,height, angle
         
@@ -84,7 +109,7 @@ NoteDataManager.prototype = {
         //console.log('get coords:' + x + ' ' + y + ' ' + width + ' ' + height + ' ' + angle);
          
         var xangle = node.D *(Math.PI/180);
-        var yangle = (node.D+90) *(Math.PI/180)
+        var yangle = (node.D+90) *(Math.PI/180);
         
         var p1 = { x:node.X,  y:node.Y  };
         var p2 = { x:0,  y:0  };
