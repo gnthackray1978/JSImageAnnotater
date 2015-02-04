@@ -46,6 +46,7 @@ function AnnotaterView() {
     this.showImageUI = true;
     this.showLayers = true;
     this.showmeta = true;
+    this.showoptions = true;
     this.dataLoader = true;
     this.millisecondsInterval =1000;
     this.selectedFontChanged;
@@ -268,10 +269,50 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 that.showmeta = true;
          });
 
+        
+
+         $('#show_options').click(function (e) {
+
+            if (that.showoptions) {
+                $("#map_options").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_options"]').css("width", "293px");
+           
+                $("#map_options").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showoptions = false;
+            } else {
+                $("#map_options").dialog("close");
+                that.showoptions = true;
+            }
+        });
+        
+       
+        $('#map_options').live("dialogclose", function(){
+           that.showoptions = true;
+        });
+
+        //  $('#btnCancelMetaInfo').click(function (e) {
+        //      $("#map_metadata").dialog("close");
+        //         that.showmeta = true;
+        //  });
+
+
+
+
+
+
         // hide options box to start with
-	    $("#optionGroup").toggle();
+	  //  $("#optionGroup").toggle();
      
-        $("#angleGroup").toggle();
+       // $("#angleGroup").toggle();
       
          
     };

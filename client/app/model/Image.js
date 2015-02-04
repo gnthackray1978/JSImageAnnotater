@@ -323,10 +323,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
     var that = this;
     
     this.nodestore.GetActiveLayer(function(layerId){
- 
- 
         that.meta.QryNodeMetaData(function(data){
-            
                 that.options.QrySaveData(function(options){
                     saveData.options = options;
                 
@@ -347,9 +344,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
                     that.UpdateInfo();
                     
                     that.meta.Unload();
-                
                 });
-            
         });
     });
     

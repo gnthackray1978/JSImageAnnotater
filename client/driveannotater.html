@@ -58,6 +58,7 @@
         <input id ="show_imageUI" class ="options_button" type="submit" value="Image UI" />
         <input id ="show_layers" class ="options_button" type="submit" value="Layers" />
         <input id ="show_meta" class ="options_button" type="submit" value="Meta" />
+        <input id ="show_options" class ="options_button" type="submit" value="Options" />
     </div>
      
     
@@ -142,6 +143,43 @@
         <div class = "map_year"><span>Size KB: </span><span id ="map_count" >0</span></div> 
     </div>
 
+    <div id = "map_options" class ="hidePanel" title="Options">
+        <b>Options</b>
+        
+        <input id ="btnOptions" type="submit" value="Options" />
+        <input id ="btnSaveOptions" type="submit" value="Save" style="display: none;"  />
+        <input id ="btnPickColour" type="submit" value="Pick Colour" style="display: none;"/>
+        <br>
+        
+        <div id= "angleGroup">
+            <div>Set text box angle</div>
+            
+            <input id ="btnAngleDown" type="submit" value="-" />
+            <input id ="btnAngleUp" type="submit" value="+" />
+        </div>
+        
+        <div id= "optionGroup">
+            <div>Set default colour</div>
+            
+            <select id="colourComponentList" name="sometext">
+            </select>
+            
+            
+            <br/>
+            <input id="txtChosenColour" type="text" />
+            
+            <br/>
+            <div>Set default font</div>
+            <div id="fontSelect" class="fontSelect">
+			    <div class="arrow-down"></div>
+		    </div>
+            <br/>
+            <br/>
+            <input type="checkbox" id="chkTransparentBackground">Is editor transparent
+            <br/>
+        </div>
+    </div>
+
     <div id = "map_metadata" class ="hidePanel" title="Add Node Meta Info">
         <div id= 'meta-group-active' class ="hidePanel" >
             <b class = "meta-top-label">Meta Data Creation</b>
@@ -183,47 +221,7 @@
         
         <input id ="btnDeleteNote" type="submit" value="Delete" />
         <input id ="btnSaveNote" type="submit" value="Save" style="display: none;" />
-        <input id ="btnOptions" type="submit" value="Options" />
-        <input id ="btnSaveOptions" type="submit" value="Save" style="display: none;"  />
-        <input id ="btnPickColour" type="submit" value="Pick Colour" style="display: none;"/>
-        <br>
-        
-        <div id= "angleGroup">
-            <div>Set text box angle</div>
-            
-            <input id ="btnAngleDown" type="submit" value="-" />
-            <input id ="btnAngleUp" type="submit" value="+" />
-        </div>
-        
-        <div id= "optionGroup">
-            <div>Set default colour</div>
-            
-            <select id="colourComponentList" name="sometext">
-            </select>
-            
-            
-            <br/>
-            <input id="txtChosenColour" type="text" />
-            
-            <br/>
-            <div>Set default font</div>
-            <div id="fontSelect" class="fontSelect">
-			    <div class="arrow-down"></div>
-		    </div>
-            <br/>
-            <br/>
-            <input type="checkbox" id="chkTransparentBackground">Is editor transparent
-            <br/>
-        </div>
-        
-        
-        <!--<b>Info</b>-->
-        <!--<div id = "noteIdData" class = "map_year"><span></span></div>-->
-        <!--<div id = "xData" class = "map_year"><span></span></div>-->
-        <!--<div id = "yData" class = "map_year"><span></span></div>-->
-        <!--<div id = "x2Data" class = "map_year"><span></span></div>-->
-        <!--<div id = "y2Data" class = "map_year"><span></span></div>-->
-        <!--<div id = "noteContentData" class = "map_year"><span></span></div>-->
+
     </div>
     
 
