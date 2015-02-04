@@ -299,10 +299,10 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
            that.showoptions = true;
         });
 
-        //  $('#btnCancelMetaInfo').click(function (e) {
-        //      $("#map_metadata").dialog("close");
-        //         that.showmeta = true;
-        //  });
+         $('#btnCancelOptions').click(function (e) {
+             $("#map_options").dialog("close");
+                that.showoptions = true;
+         });
 
 
 
