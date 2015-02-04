@@ -86,12 +86,14 @@ ImageViewer.prototype.PerformClick= function (x, y) {
                
                 that.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
                 that.meta.Load(node.MetaData);
+                that.options.SetDefaultOptionState(false);
             }
             else
             {
                 that.selectedNoteId =0;
                 that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
                 that.meta.Load([]);
+                that.options.SetDefaultOptionState(true);
             }
             
             that.options.SetState(that.addNode,node,true);

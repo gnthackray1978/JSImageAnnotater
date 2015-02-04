@@ -29,7 +29,7 @@ Options.prototype.CreateComponentList = function(){
     this.view.SetColourComponents(component);
 };
 
-Options.prototype.SetDefaultOptionMode = function(state){
+Options.prototype.SetDefaultOptionState = function(state){
     //after option button clicked then its text changed to cancel thats
     //how this method is called for cancel and options add
     this.optionMode =state;

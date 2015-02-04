@@ -305,16 +305,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
          });
 
 
-
-
-
-
-        // hide options box to start with
-	  //  $("#optionGroup").toggle();
-     
-       // $("#angleGroup").toggle();
-      
-         
     };
 
 
@@ -934,6 +924,10 @@ AnnotaterView.prototype.AngleChangeClicked = function (action) {
 
 /*COMMANDS*/
 
+// AnnotaterView.prototype.SetOptionsState= function (state){
+  
+// };
+
 AnnotaterView.prototype.SetOptions = function(options, currentColour){
 
     // the other defaults only updated when combo box gets changed         
@@ -980,26 +974,35 @@ AnnotaterView.prototype.SetDefaultOptionsUI = function (state) {
         
     // this clicks turns on and off default option mode.
    
-    if(state){
-        $("#optionGroup").hide();
-        $("#btnAddNote").show();
-        $("#btnDeleteNote").show();
-        $('#btnSaveOptions').hide();
-        $('#btnPickColour').hide();
-        $("#btnOptions").val('Options');
+    // if(state){
+    //     $("#optionGroup").hide();
+    //     $("#btnAddNote").show();
+    //     $("#btnDeleteNote").show();
+    //     $('#btnSaveOptions').hide();
+    //     $('#btnPickColour').hide();
+    //     $("#btnOptions").val('Options');
+    // }
+    // else
+    // {
+    //     $("#optionGroup").show();
+    //     $("#btnAddNote").hide();
+    //     $("#btnDeleteNote").hide();
+    //     $('#btnSaveOptions').show();
+    //     $('#btnPickColour').show();
+    //     $("#btnOptions").val('Cancel');
+    // }
+    
+    // var myDDL = $('#colourComponentList');
+    // myDDL[0].selectedIndex = 0;
+    
+    if(state)
+    {
+        $("#options-label").html('Options');
     }
     else
     {
-        $("#optionGroup").show();
-        $("#btnAddNote").hide();
-        $("#btnDeleteNote").hide();
-        $('#btnSaveOptions').show();
-        $('#btnPickColour').show();
-        $("#btnOptions").val('Cancel');
+        $("#options-label").html('Default Options');
     }
-    
-    var myDDL = $('#colourComponentList');
-    myDDL[0].selectedIndex = 0;
 };
 
 
@@ -1099,20 +1102,20 @@ AnnotaterView.prototype.QryDefaultOptions = function(action){
     });   
 };
 
-AnnotaterView.prototype.QryDefaultOptionsState = function (action) {
+// AnnotaterView.prototype.QryDefaultOptionsState = function (action) {
         
-    // this clicks turns on and off default option mode.
+//     // this clicks turns on and off default option mode.
    
-    $('#btnOptions').click(function (e) {
-        if($("#btnOptions").val() == 'Cancel'){
-            action(true);
-        }
-        else
-        {
-            action(false);
-        }
-    });
-};
+//     $('#btnOptions').click(function (e) {
+//         if($("#btnOptions").val() == 'Cancel'){
+//             action(true);
+//         }
+//         else
+//         {
+//             action(false);
+//         }
+//     });
+// };
 
 
 AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
