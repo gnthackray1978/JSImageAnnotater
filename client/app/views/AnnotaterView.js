@@ -1147,7 +1147,7 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
     
     console.log('DisplayUpdateNoteAdd: ' + status);
     if(!status){
-        $("#controllabel").html('select edit mode');
+        $("#imagelabel").html('select edit mode');
         
         // $("#angleGroup").hide(); 
         // $("#optionGroup").hide();
@@ -1155,7 +1155,7 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
     }
     else
     {
-        $("#controllabel").html('click drawing to add');
+        $("#imagelabel").html('click drawing to add');
         
     }
    // $("#btnOptions").toggle();
@@ -1176,12 +1176,12 @@ AnnotaterView.prototype.DisplayUpdateDelete= function (status) {
      
     //controllabel btnSaveNote
     if(!status){
-        $("#controllabel").html('select mode');
+        $("#imagelabel").html('select mode');
         $("#btnDeleteNote").val('Delete');
     }
     else
     {
-        $("#controllabel").html('Click note to delete');
+        $("#imagelabel").html('Click note to delete');
         $("#btnDeleteNote").val('Cancel');
     }
     
