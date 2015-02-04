@@ -71,43 +71,43 @@ ImageViewer.prototype.PerformClick= function (x, y) {
  
     this.nodestore.PointToNode(x,y, function(node){
         
-        that.options.SetState(this.addNode,node);
+        that.options.SetState(that.addNode,node);
     
         // add/edit node
-        if(this.addNode)
+        if(that.addNode)
         {
             if(node != undefined)
             {
-                this.selectedNoteId = node.Index;
+                that.selectedNoteId = node.Index;
               
                 if(node.options == undefined){
-                    node.options = this.options.GetState().defaultOptions;
+                    node.options = that.options.GetState().defaultOptions;
                 }
                
-                this.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
-                this.meta.Load(node.MetaData);
+                that.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
+                that.meta.Load(node.MetaData);
             }
             else
             {
-                this.selectedNoteId =0;
-                this.view.DisplayNodeSelection(x, y,70,25,0,'',this.options.GetState().tempOptions);
-                this.meta.Load([]);
+                that.selectedNoteId =0;
+                that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
+                that.meta.Load([]);
             }
             
-            this.options.SetState(this.addNode,node,true);
+            that.options.SetState(that.addNode,node,true);
         }
 
-        if(this.deleteNode && node != undefined){
+        if(that.deleteNode && node != undefined){
             node.Visible =false;
-            if(this.selectedNoteId == node.Index){
-                this.selectedNoteId = 0;
+            if(that.selectedNoteId == node.Index){
+                that.selectedNoteId = 0;
             }
-            this.nodestore.WriteToDB(node);
-            this.options.SetState(this.addNode);
+            that.nodestore.WriteToDB(node);
+            that.options.SetState(that.addNode);
         }
         
-        if(!this.addNode)
-            this.view.ClearActiveTextArea();
+        if(!that.addNode)
+            that.view.ClearActiveTextArea();
 
     });
 };
