@@ -34,6 +34,7 @@
 <script src="app/model/Options.js"></script>
 <script src="app/model/Urls.js"></script>
 <script src="app/views/AnnotaterView.js"></script>
+<script src="app/views/Crop.js"></script>
 
 
 
@@ -42,6 +43,7 @@
 <script src="app/controller/MetaController.js"></script>
 <script src="app/controller/OptionsController.js"></script>
 <script src="app/controller/UrlController.js"></script>
+<script src="app/controller/CroppingController.js"></script>
 
 <script src="app/imagemain.js"></script>
 
@@ -61,6 +63,7 @@
         <input id ="show_layers" class ="options_button" type="submit" value="Layers" />
         <input id ="show_meta" class ="options_button" type="submit" value="Meta" />
         <input id ="show_options" class ="options_button" type="submit" value="Options" />
+        <input id ="show_cropper" class ="options_button" type="submit" value="Cropper" />
     </div>
      
     
@@ -222,6 +225,17 @@
         
         <input id ="btnDeleteNote" type="submit" value="Delete" />
         <input id ="btnSaveNote" type="submit" value="Save" style="display: none;" />
+
+    </div>
+
+    <div id = "map_crop" class ="hidePanel" title="Cropper">
+        <b id = "cropLabel">select mode</b>
+        <br>
+        <input id ="btnAddCropping" type="submit" value="Add" />
+        <input id ="btnCancelCropper" type="submit" value="Cancel" style="display: none;"/>
+        
+        <input id ="btnDeleteCropping" type="submit" value="Delete" />
+        <input id ="btnSaveCrop" type="submit" value="Save" style="display: none;" />
 
     </div>
 

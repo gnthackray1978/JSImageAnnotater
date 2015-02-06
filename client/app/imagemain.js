@@ -1,3 +1,4 @@
+ 
 
 function handleClientLoad() {
 
@@ -26,14 +27,14 @@ function loadAll (drive){
     
     noteDataManager.init(function(){
 
-        
-
         var metadata = new Meta(noteDataManager,appView);
         var metaController = new MetaController(appView,metadata);
 
         var options = new Options(noteDataManager,appView);
         var optionsController = new OptionsController(appView,options);
 
+        var cropper = new Crop(noteDataManager,appView);
+        var crapperController = new CroppingController(appView,cropper);
 
 
         var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
