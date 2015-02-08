@@ -5,16 +5,19 @@ var CroppingController = function (view, model) {
     
     this.init();
     
-    this._view.QryLayerButtonState($.proxy(this.qryLayerButtonState, this));
+    this._view.QryCropButton($.proxy(this.qryCropButton, this));
     
-    
+    this._view.QryCropResetButton($.proxy(this.qryCropResetButton, this));
 };
 
 CroppingController.prototype = {
     init:function(){
         
     },
-    qryLayerButtonState:function(data){
+    qryCropButton:function(data){
+      this.model.Crop();  
+    },
+    qryCropResetButton:function(data){
         
     }
 };

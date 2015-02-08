@@ -737,7 +737,31 @@ AnnotaterView.prototype.QryLayerButtonState = function (callback) {
     }); 
 };
 
+//CROPPER
 
+AnnotaterView.prototype.QryCropButton = function(action){
+   
+    $('#btnAddCropping').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
+
+AnnotaterView.prototype.QryCropSaveButton = function(action){
+
+    $('#btnSaveCrop').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
+
+AnnotaterView.prototype.QryCropResetButton = function(action){
+  
+    $('#btnDeleteCropping').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
 
 
 //METADATA
