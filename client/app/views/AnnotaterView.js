@@ -679,7 +679,7 @@ AnnotaterView.prototype.QryInputState = function (callback) {
         if($(e.target).data().prop == 'name'){
             d = {
                 id: $(e.target).data().id,
-                value: $(e.target).text(),
+                value: $(e.target).val(),
                 type : 'name'
             };
             callback(d);
@@ -689,7 +689,7 @@ AnnotaterView.prototype.QryInputState = function (callback) {
            
             d = {
                 id: $(e.target).data().id,
-                value: $(e.target).text(),
+                value: $(e.target).val(),
                 type : 'order'
             };
             
