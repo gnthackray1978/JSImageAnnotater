@@ -56,9 +56,27 @@ function AnnotaterView() {
     this.layerButtonCallback;
     this.layerInputCallback;
     this.metaButtonCallback;
+    
+    this.canvasMouseupLock ='';
+    this.canvasMousedownLock ='';
+    this.canvasMousemoveLock ='';
+    this.canvasMouseclickLock ='';
+    
+    this.cropperLockKey = 'CROP';
 } 
 
-
+AnnotaterView.prototype.LockCanvasMouseUp = function (state){
+    this.canvasMouseupLock =state;
+},
+AnnotaterView.prototype.LockCanvasMouseDown = function (state){
+    this.canvasMousedownLock =state;
+},
+AnnotaterView.prototype.LockCanvasMouseMove = function (state){
+    this.canvasMousemoveLock =state;
+},
+AnnotaterView.prototype.LockCanvasMouseClick = function (state){
+    this.canvasMouseclickLock =state;
+},
     
 AnnotaterView.prototype.InitPanelVisibility = function () {
 
@@ -392,42 +410,42 @@ AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
     //here look multiple event firing problems    
     $("#myCanvas").click(function (evt) {
-        console.log("CanvasClick.click");
-        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-        
-        action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+        if(this.canvasMouseclickLock == ''){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+        }
     });
 };
 
 AnnotaterView.prototype.CanvasMouseUp = function (action) {
-       
-        $("#myCanvas").mouseup(function (evt) {
-                evt.preventDefault();
-               action();
-        });
-        
-    };
+    $("#myCanvas").mouseup(function (evt) {
+        if(this.canvasMouseupLock == ''){
+            evt.preventDefault();
+            action();
+        }
+    });
+};
 
 AnnotaterView.prototype.CanvasMouseDown = function (action) {
-        
-        $("#myCanvas").mousedown(function (evt) {
-                evt.preventDefault();
-                action();
-        });
-        
-    };
+    $("#myCanvas").mousedown(function (evt) {
+        if(this.canvasMousedownLock == ''){
+            evt.preventDefault();
+            action();
+        }
+    });
+};
     
 AnnotaterView.prototype.CanvasMouseMove = function (action) {
-       
-        $("#myCanvas").mousemove(function (evt) {
-              
-                var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-
-                var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
-            
-                action(_point);
-         });
-    };
+    $("#myCanvas").mousemove(function (evt) {
+        if(this.canvasMousemoveLock == ''){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    
+            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+        
+            action(_point);
+        }
+    });
+};
     
 AnnotaterView.prototype.ButtonPressDown = function (action) {
 
@@ -462,10 +480,10 @@ AnnotaterView.prototype.ButtonPressUp = function (action) {
 
 AnnotaterView.prototype.Dispose = function (action) {
 
-        $("#myCanvas").unbind();
-        $(".button_box").unbind();
-        
-        action();
+    $("#myCanvas").unbind();
+    $(".button_box").unbind();
+    
+    action();
 };
 
 
@@ -762,6 +780,31 @@ AnnotaterView.prototype.QryCropResetButton = function(action){
         action();
     });   
 };
+
+AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
+       
+    $("#myCanvas").mousedown(function (evt) {
+        if(this.canvasMousedownLock == this.cropperLockKey)
+            action(evt);
+    });
+};
+
+AnnotaterView.prototype.QryCanvasMouseUp= function (action) {
+       
+    $("#myCanvas").mouseup(function (evt) {
+        if(this.canvasMouseupLock == this.cropperLockKey)
+            action(evt);
+    });
+};
+
+AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
+       
+    $("#myCanvas").mousemove(function (evt) {
+        if(this.canvasMousemoveLock == this.cropperLockKey)
+            action(evt);
+    });
+};
+
 
 
 //METADATA
