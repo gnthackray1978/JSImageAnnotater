@@ -782,25 +782,28 @@ AnnotaterView.prototype.QryCropResetButton = function(action){
 };
 
 AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
-       
+    var that = this;
+    
     $("#myCanvas").mousedown(function (evt) {
-        if(this.canvasMousedownLock == this.cropperLockKey)
+        if(that.canvasMousedownLock == that.cropperLockKey)
             action(evt);
     });
 };
 
 AnnotaterView.prototype.QryCanvasMouseUp= function (action) {
-       
+    var that = this;
+    
     $("#myCanvas").mouseup(function (evt) {
-        if(this.canvasMouseupLock == this.cropperLockKey)
+        if(that.canvasMouseupLock == that.cropperLockKey)
             action(evt);
     });
 };
 
 AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
-       
+    var that = this;
+    
     $("#myCanvas").mousemove(function (evt) {
-        if(this.canvasMousemoveLock == this.cropperLockKey)
+        if(that.canvasMousemoveLock == that.cropperLockKey)
             action(evt);
     });
 };

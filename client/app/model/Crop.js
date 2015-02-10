@@ -17,9 +17,9 @@ Crop.prototype.CanvasMouseMove = function(e){
 Crop.prototype.CanvasMouseUp = function(e){
 	this.view.LockCanvasMouseMove('');
 	
-	this.tmp_ctx.drawImage(this.tmp_canvas, 0, 0);
+//	this.tmp_ctx.drawImage(this.tmp_canvas, 0, 0);
 	// Clearing tmp canvas
-	this.tmp_ctx.clearRect(0, 0, this.tmp_canvas.width, this.tmp_canvas.height);
+//	this.tmp_ctx.clearRect(0, 0, this.tmp_canvas.width, this.tmp_canvas.height);
 		
 	this.view.LockCanvasMouseUp('');
     this.view.LockCanvasMouseDown('');
@@ -39,13 +39,16 @@ Crop.prototype.CanvasMouseDown = function(e){
 Crop.prototype.onPaint = function() {
 		
 	// Tmp canvas is always cleared up before drawing.
-	this.tmp_ctx.clearRect(0, 0, this.tmp_canvas.width, this.tmp_canvas.height);
 	
-	this.tmp_ctx.beginPath();
-	this.tmp_ctx.moveTo(this.start_mouse.x, this.start_mouse.y);
-	this.tmp_ctx.lineTo(this.mouse.x, this.mouse.y);
-	this.tmp_ctx.stroke();
-	this.tmp_ctx.closePath();
+	// add into generations array here
+	
+	// this.tmp_ctx.clearRect(0, 0, this.tmp_canvas.width, this.tmp_canvas.height);
+	
+	// this.tmp_ctx.beginPath();
+	// this.tmp_ctx.moveTo(this.start_mouse.x, this.start_mouse.y);
+	// this.tmp_ctx.lineTo(this.mouse.x, this.mouse.y);
+	// this.tmp_ctx.stroke();
+	// this.tmp_ctx.closePath();
 		
 },
 

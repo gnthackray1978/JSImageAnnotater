@@ -463,7 +463,8 @@ MyDrive.prototype.PopulatedDummyLaterData = function () {
     this.layers =  [
             {id:1 , order:1 , name : 'image', visible: true, current: false},
             {id:2 , order:2 , name : 'notes', visible: true, current: true},
-            {id:3 , order:3 , name : 'metadata', visible: true, current: false}
+            {id:3 , order:3 , name : 'metadata', visible: true, current: false},
+            {id:4 , order:4 , name : 'cropdata', visible: true, current: false}
         ];
 };
 
