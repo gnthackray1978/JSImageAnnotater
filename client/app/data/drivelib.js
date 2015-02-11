@@ -421,7 +421,7 @@ MyDrive.prototype.GetAccessToken = function(){
 
 
 //WriteNoteData: function (note)    
-MyDrive.prototype.WriteNoteData = function(data){
+MyDrive.prototype.WriteNoteData = function(data,callback){
     // add note into array
     // then update file contents to reflect that
     
@@ -450,7 +450,7 @@ MyDrive.prototype.WriteNoteData = function(data){
         
         
     this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
-        
+        callback(data);
     });
 };
 

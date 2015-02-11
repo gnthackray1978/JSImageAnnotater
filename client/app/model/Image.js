@@ -51,7 +51,7 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
     this.addNode =false;
     this.deleteNode =false;
     
-    this.selectedNoteId = 0; // not zero based
+    this.selectedNote;
     
     this.imageData = null;
     
@@ -78,7 +78,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
         {
             if(node != undefined)
             {
-                that.selectedNoteId = node.Index;
+                that.selectedNote = node;
               
                 if(node.options == undefined){
                     node.options = that.options.GetState().defaultOptions;
@@ -90,7 +90,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             }
             else
             {
-                that.selectedNoteId =0;
+                that.selectedNote = undefined;
                 that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
                 that.meta.Load([]);
                 that.options.SetDefaultOptionState(true);
@@ -99,10 +99,10 @@ ImageViewer.prototype.PerformClick= function (x, y) {
             that.options.SetState(that.addNode,node,true);
         }
 
-        if(that.deleteNode && node != undefined){
+        if(that.deleteNode && node != undefined && that.selectedNote != undefined){
             node.Visible =false;
-            if(that.selectedNoteId == node.Index){
-                that.selectedNoteId = 0;
+            if(that.selectedNote.Index == node.Index){
+                that.selectedNote = undefined;
             }
             that.nodestore.WriteToDB(node);
             that.options.SetState(that.addNode);
@@ -321,33 +321,30 @@ ImageViewer.prototype.UpdateGenerationState= function () {
 ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     console.log('save note');
-
     var that = this;
-    
+
+    var saveCallback = function(savednode){
+        that.selectedNote = savednode;
+        that.addNode = false;
+        that.options.SetState(that.addNode);
+        that.view.DisplayUpdateNoteAdd(that.addNode);
+        that.view.ClearActiveTextArea();
+        //refresh the drawing
+        that.DrawTree();
+        that.UpdateInfo();
+        that.meta.Unload();
+    };
+
     this.nodestore.GetActiveLayer(function(layerId){
         that.meta.QryNodeMetaData(function(data){
                 that.options.QrySaveData(function(options){
                     saveData.options = options;
-                
-                    that.selectedNoteId = that.nodestore.WriteNote(that.selectedNoteId,saveData.x,saveData.y,
-                                            saveData.width,saveData.height,saveData.d,saveData.text,saveData.options,layerId, data);
-               
-                    that.addNode = false;
-            
-                    that.options.SetState(that.addNode);
-                    
-                    that.view.DisplayUpdateNoteAdd(that.addNode);
-                    
-                    that.view.ClearActiveTextArea();
-            
-                    //refresh the drawing
-                    that.DrawTree();
-                    
-                    that.UpdateInfo();
-                    
-                    that.meta.Unload();
+
+                    that.nodestore.WriteNote(that.selectedNote,saveData.x,
+                    saveData.y, saveData.width,saveData.height,saveData.d,
+                    saveData.text,saveData.options,layerId, data, saveCallback);
                 });
-        });
+        }); 
     });
     
 };

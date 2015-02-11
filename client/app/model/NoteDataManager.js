@@ -196,18 +196,18 @@ NoteDataManager.prototype = {
         return note.Index;
     },
     
-    WriteNote: function(index,x,y,width,height,degree,annotation,options,layerId, metaData){
+    WriteNote: function(note,x,y,width,height,degree,annotation,options,layerId, metaData, callback){
 
-        if(index == 0)
-            index = this.NewId();
+        if(note == undefined)
+            note = this.NewId();
         
-        this.AddData(1, index,x,y,width,height,degree,annotation,true, true, options,layerId,metaData);
+        this.AddData(1, note,x,y,width,height,degree,annotation,true, true, options,layerId,metaData,callback);
     
-        return index;
     },
     
     
-    AddData: function(genidx,index,x,y,width,height,degree,annotation,visible,withInit,options,layerId,metaData){
+    AddData: function(genidx,index,x,y,width,height,degree,annotation,
+                            visible,withInit,options,layerId,metaData, callback){
  
         var node = {
             Annotation: annotation,
@@ -294,22 +294,6 @@ NoteDataManager.prototype = {
             
             var pxInitHeight = (that.initialGenerations[0][0].Height)/100;
             
-             
-            
-            //console.log('writeInitialData changing init values by :' + zoomPercentage);
-          //  try
-          //  {
-               // console.log('writeInitialData ' + that.generations[1][2].X1 + ' ' +that.generations[1][2].X2);
-               // console.log('writeInitialData ' + that.initialGenerations[1][2].X1 + ' ' +that.initialGenerations[1][2].X2);
-          //  }
-          //  catch(err){
-                
-          //  }
-            
-            
-            
-          //  console.log('writeInitialData node xs         :' + initialValueNode.X1 + ' ' + initialValueNode.X2);
-            
             initialValueNode.X = pcx1 * pxInitWidth;
            
             initialValueNode.Y = pcy1 * pxInitHeight;
@@ -318,14 +302,9 @@ NoteDataManager.prototype = {
            
             initialValueNode.Height = pcH * pxInitHeight;
      
-     
-     
-          //  console.log('writeInitialData node xs changed :' + initialValueNode.X1 + ' ' + initialValueNode.X2); 
-             
             //if we have no index that means its a new entry that needs adding
             if(index == undefined){
                 that.initialGenerations[1].push(initialValueNode);
-                
             }
             else
             {
@@ -333,7 +312,7 @@ NoteDataManager.prototype = {
                 that.initialGenerations[1][index]= initialValueNode;
             }
            
-            that.WriteToDB(initialValueNode);
+            that.WriteToDB(initialValueNode,callback);
         };
 
 
@@ -362,8 +341,8 @@ NoteDataManager.prototype = {
         
     },
     
-    WriteToDB: function(note){
-        this._noteDll.WriteNoteData(note);
+    WriteToDB: function(note,callback){
+        this._noteDll.WriteNoteData(note,callback);
     },
     
     GetOptions: function (urlId,callback) {
@@ -406,10 +385,16 @@ NoteDataManager.prototype = {
             if(node == undefined){
                 var options;
                 var meta;
-                that.WriteNote(0,0,0,0,0,0,'',options,4,meta);
+                that.WriteNote(0,0,0,0,0,0,'',options,4,meta, function(newnode){
+                    callback(node);
+                });
+            }
+            else
+            {
+                callback(node);
             }
             
-            callback(node);
+            
         });
     }
     
