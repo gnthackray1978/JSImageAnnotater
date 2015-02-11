@@ -399,7 +399,20 @@ NoteDataManager.prototype = {
     
     GetMetaDataTypes :function(ids,callback){
         this._noteDll.GetMetaDataTypes(ids, callback);
+    },
+    GetCroppingNode : function(callback){
+        var that = this;
+        this._noteDll.GetCroppingNode(function(node){
+            if(node == undefined){
+                var options;
+                var meta;
+                that.WriteNote(0,0,0,0,0,0,'',options,4,meta);
+            }
+            
+            callback(node);
+        });
     }
+    
 };
 
 

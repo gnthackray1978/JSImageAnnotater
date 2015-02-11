@@ -8,7 +8,7 @@ var Crop = function (nodestore,view) {
     this.mouse = {x: 0, y: 0};
 	this.start_mouse = {x: 0, y: 0};
 	
-	
+	this.cropnode;
 };
 Crop.prototype.CanvasMouseMove = function(e){
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
@@ -49,28 +49,49 @@ Crop.prototype.onPaint = function() {
 	// this.tmp_ctx.lineTo(this.mouse.x, this.mouse.y);
 	// this.tmp_ctx.stroke();
 	// this.tmp_ctx.closePath();
-		
+	
+	
+	
+	this.cropnode.x = this.start_mouse.x;
+	this.cropnode.y = this.start_mouse.y;
+	
+	
+	
+	this.cropnode.width = this.mouse.x - this.start_mouse.x ;
+	this.cropnode.height = this.mouse.y - this.start_mouse.y;
+	
+	this.cropnode.visible =true;
 },
 
 Crop.prototype.Crop = function(){
     
     var that = this;
     
-    that.view.LockCanvasMouseUp('CROP');
-    that.view.LockCanvasMouseDown('CROP');
+    that.nodestore.GetCroppingNode(function(data){
+       
+        that.nodestore.GetOptions(0, function(options){
+			
+			that.cropnode = data;
+			that.cropnode.visible =false;
+			
+			
+			
+        	that.cropnode.options = JSON.parse(JSON.stringify(options));
+            that.cropnode.options.DefaultEditorBorderColour = 'red';
+            that.cropnode.options.BorderWidth = 5;
+            
+	        that.view.LockCanvasMouseUp('CROP');
+	    	that.view.LockCanvasMouseDown('CROP');
+	 
+			
+        });
+       
+
+		
+		
+    });
     
-	// Creating a tmp canvas
-	that.tmp_canvas = document.getElementById("myCanvas");
-	that.tmp_ctx = document.getElementById('myCanvas').getContext('2d');
-	that.tmp_canvas.id = 'tmp_canvas';
-	that.tmp_canvas.width = that.tmp_canvas.width;
-	that.tmp_canvas.height = that.tmp_canvas.height;
- 
- 	that.tmp_ctx.lineWidth = 5;
-	that.tmp_ctx.lineJoin = 'round';
-	that.tmp_ctx.lineCap = 'round';
-	that.tmp_ctx.strokeStyle = 'blue';
-	that.tmp_ctx.fillStyle = 'blue';
+   
 
 	
 };

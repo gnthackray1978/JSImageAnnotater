@@ -675,6 +675,31 @@ MyDrive.prototype.Type = function(){
     return 'GDRIVE';
 };
 
+MyDrive.prototype.GetCroppingNode = function (callback) {
+    
+    //always layer 4 and only ever 1
+    //generations
+   
+    
+    var idx =0;
+    var layerId=4;
+    
+    while(idx < this.generations[0].length){
+        
+        if(this.generations[0][idx].layer ==layerId){
+            callback(this.generations[0][idx]);
+            return;
+        }
+        
+        idx++;
+    }
+    
+    // ok we need to add that node cause it wasnt there 
+    
+    callback();
+};
+
+
 function writeStatement(statement){
    console.log(statement);
     // var d = new Date();
