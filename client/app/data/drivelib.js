@@ -680,24 +680,63 @@ MyDrive.prototype.GetCroppingNode = function (callback) {
     //always layer 4 and only ever 1
     //generations
    
+    this.CleanGenerations();
+    
+    // var idx =0;
+    // var layerId=4;
+    
+    // while(idx < this.generations.length){
+        
+    //     if(this.generations[idx].LayerId ==layerId){
+    //         callback(this.generations[idx]);
+    //         return;
+    //     }
+        
+    //     idx++;
+    // }
+ 
+    
+    // // ok we need to add that node cause it wasnt there 
+    
+    // callback();
+};
+
+MyDrive.prototype.CleanGenerations = function () {
+    
+    //always layer 4 and only ever 1
+    //generations
+   
     
     var idx =0;
     var layerId=4;
     
+    var cleanArray = [];
+    
     while(idx < this.generations.length){
         
-        if(this.generations[idx].LayerId ==layerId){
-            callback(this.generations[idx]);
-            return;
+        if(this.generations[idx].LayerId != layerId){
+            cleanArray.push(this.generations[idx]);
         }
         
         idx++;
     }
     
-    // ok we need to add that node cause it wasnt there 
+    this.generations = cleanArray;
     
-    callback();
+    var c = {
+        urlId : this.FILEID,
+        generations: this.generations,
+        options : this.options,
+        layers : this.layers 
+    };
+        
+        
+    this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
+        
+    });
+ 
 };
+
 
 
 function writeStatement(statement){
