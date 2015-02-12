@@ -21,19 +21,19 @@ CroppingController.prototype = {
     },
     qryCanvasMouseDown:function(evt){
         if (this.model !== null) {
-            this.model.canvasMouseDown(evt);
+            this.model.CanvasMouseDown(evt);
         }
     },
     
     qryCanvasMouseUp:function(evt){
         if (this.model !== null) {
-            this.model.canvasMouseUp(evt);
+            this.model.CanvasMouseUp(evt);
         }
     },
     
     qryCanvasMouseMove:function(evt){
         if (this.model !== null) {
-            this.model.canvasMouseMove(evt);
+            this.model.CanvasMouseMove(evt);
         }
     },
     
