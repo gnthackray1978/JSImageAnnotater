@@ -11,15 +11,18 @@ var Crop = function (nodestore,view) {
 	this.cropnode;
 };
 Crop.prototype.CanvasMouseMove = function(e){
+	console.log('CanvasMouseMove');
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
 	this.mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
 },
 Crop.prototype.CanvasMouseUp = function(e){
+	console.log('CanvasMouseUp');
 	this.view.LockCanvasMouseMove('');
 	this.view.LockCanvasMouseUp('');
     this.view.LockCanvasMouseDown('');
 },
 Crop.prototype.CanvasMouseDown = function(e){
+	console.log('CanvasMouseDown');
 	this.view.LockCanvasMouseMove('CROP');
 	
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
