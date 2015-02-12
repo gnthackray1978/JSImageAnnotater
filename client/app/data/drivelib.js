@@ -686,7 +686,7 @@ MyDrive.prototype.GetCroppingNode = function (callback) {
     
     while(idx < this.generations.length){
         
-        if(this.generations[idx].layer ==layerId){
+        if(this.generations[idx].LayerId ==layerId){
             callback(this.generations[idx]);
             return;
         }
