@@ -49,7 +49,7 @@ Crop.prototype.Crop = function(){
         that.nodestore.GetOptions(0, function(options){
 			
 			that.cropnode = data;
-			that.cropnode.visible =false;
+			that.cropnode.Visible =false;
 			that.cropnode.options = JSON.parse(JSON.stringify(options));
             that.cropnode.options.DefaultEditorBorderColour = 'red';
             that.cropnode.options.BorderWidth = 5;
