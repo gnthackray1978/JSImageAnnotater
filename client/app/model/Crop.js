@@ -14,12 +14,16 @@ Crop.prototype.CanvasMouseMove = function(e){
 	console.log('CanvasMouseMove');
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
 	this.mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+	
+	this.onPaint();
 },
 Crop.prototype.CanvasMouseUp = function(e){
 	console.log('CanvasMouseUp');
 	this.view.LockCanvasMouseMove('');
 	this.view.LockCanvasMouseUp('');
     this.view.LockCanvasMouseDown('');
+    
+    
 },
 Crop.prototype.CanvasMouseDown = function(e){
 	console.log('CanvasMouseDown');
@@ -31,7 +35,7 @@ Crop.prototype.CanvasMouseDown = function(e){
 	this.start_mouse.x = this.mouse.x;
 	this.start_mouse.y = this.mouse.y;
 	
-	this.onPaint();
+	
 },
 
 Crop.prototype.onPaint = function() {
