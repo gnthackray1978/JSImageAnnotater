@@ -63,6 +63,8 @@ function AnnotaterView() {
     this.canvasMouseclickLock ='';
     
     this.cropperLockKey = 'CROP';
+    
+    this.channel = postal.channel("canvas");
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
@@ -401,6 +403,23 @@ AnnotaterView.prototype.Delete = function (action) {
     });        
 };
 
+AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
+    this.channel.publish("canvas", {
+        caller: caller,
+        data: data
+    });
+},
+
+AnnotaterView.prototype.CanvasUpdated = function (action) {
+    
+    
+    var subscription = this.channel.subscribe("canvas", function(data, envelope) {
+        /*do stuff with data */
+        action();
+    });
+
+};
+
 
 // ok so when this click happens we need to determine 
 // if we're inside an existing node
@@ -434,6 +453,7 @@ AnnotaterView.prototype.CanvasMouseDown = function (action) {
         }
     });
 };
+    
     
 AnnotaterView.prototype.CanvasMouseMove = function (action) {
     $("#myCanvas").mousemove(function (evt) {

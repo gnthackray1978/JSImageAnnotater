@@ -12,8 +12,10 @@ var DiagramController = function (view, model) {
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
     this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
+    this._view.CanvasUpdated($.proxy(this.redraw, this));
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
+    
     
     //note operations
     this._view.Add($.proxy(this.addButtonClicked, this));
@@ -204,7 +206,9 @@ DiagramController.prototype = {
         }
     },
 
-    
+    redraw: function(){
+        this.ancTree.DrawTree();
+    },
  
     GameLoop: function () {
 
