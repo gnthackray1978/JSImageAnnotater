@@ -155,6 +155,11 @@ ImageViewer.prototype.DrawTree= function () {
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
+                        
+                        if(that.nodestore.generations[vidx][hidx].LayerId == 4){
+                            console.log('hit layer 4');
+                        }
+                        
                         tpOptions.FontSize = that._canvasTools.DrawLabel(
                             that.nodestore.generations[vidx][hidx].X,
                             that.nodestore.generations[vidx][hidx].Y,
