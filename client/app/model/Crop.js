@@ -40,11 +40,13 @@ Crop.prototype.CanvasMouseDown = function(e){
 
 Crop.prototype.onPaint = function() {
 
-	this.cropnode.x = this.start_mouse.x;
-	this.cropnode.y = this.start_mouse.y;
-	this.cropnode.width = this.mouse.x - this.start_mouse.x ;
-	this.cropnode.height = this.mouse.y - this.start_mouse.y;
-	this.cropnode.visible =true;
+	this.cropnode.X = this.start_mouse.x;
+	this.cropnode.Y = this.start_mouse.y;
+	this.cropnode.Width = this.mouse.x - this.start_mouse.x ;
+	this.cropnode.Height = this.mouse.y - this.start_mouse.y;
+	this.cropnode.Visible =true;
+	
+	console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
 },
 
 Crop.prototype.Crop = function(){
