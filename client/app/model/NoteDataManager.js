@@ -34,7 +34,10 @@ NoteDataManager.prototype = {
 
         this._noteDll.GetNoteData(urlId,function(ajaxResult) {
             var idx =0;
+            var cropFound =false;
             while(idx < ajaxResult.length){
+                
+                if(ajaxResult[idx].layerId == 4) cropFound =true;
                 
                 that.AddData(1,ajaxResult[idx].Index, 
                                 ajaxResult[idx].X, 
@@ -51,10 +54,22 @@ NoteDataManager.prototype = {
                 idx++;
             }
             
-            that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+            if(!cropFound){
+                  that.WriteNote(undefined,  0,0, 0,  0,  0,  '', false,false,undefined,4,undefined, function(){
+                        that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                        callback();
+                  });
+            }
+            else
+            {
+                that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                callback();
+            }
             
             
-            callback();
+            
+            
+            
         });
 
 
@@ -381,21 +396,22 @@ NoteDataManager.prototype = {
     },
     GetCroppingNode : function(callback){
         var that = this;
-        this._noteDll.GetCroppingNode(function(node){
-            if(node == undefined){
-                var options;
-                var meta;
-                that.WriteNote(0,0,0,0,0,0,'',options,4,meta, function(newnode){
-                    callback(node);
-                });
-            }
-            else
-            {
-                callback(node);
+        
+        var idx =0;
+        var layerId=4;
+    
+        while(idx < that.generations[1].length){
+            
+            if(that.generations[1][idx].LayerId ==layerId){
+                callback(that.generations[1][idx]);
+                return;
             }
             
-            
-        });
+            idx++;
+        }
+ 
+        callback();
+
     }
     
 };
