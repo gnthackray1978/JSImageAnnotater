@@ -24,7 +24,7 @@ function loadAll (drive){
     }
      var appView = new AnnotaterView();
      
-     appView.InitPanelVisibility();
+    // appView.InitPanelVisibility();
      
     var noteDataManager = new NoteDataManager(data);
     
@@ -45,7 +45,7 @@ function loadAll (drive){
         //                             options);
         
         
-        // var diagramController =  new DiagramController(appView, model);
+         var diagramController =  new DiagramController(appView, model);
     
     
 
