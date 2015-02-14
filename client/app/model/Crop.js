@@ -51,23 +51,23 @@ Crop.prototype.onPaint = function() {
 
 Crop.prototype.Crop = function(){
     
-    var that = this;
+   // var that = this;
     
-    that.nodestore.GetCroppingNode(function(data){
+   // that.nodestore.GetCroppingNode(function(data){
        
-        that.nodestore.GetOptions(0, function(options){
+   //     that.nodestore.GetOptions(0, function(options){
 			
-			that.cropnode = data;
-			that.cropnode.Visible =false;
-			that.cropnode.options = JSON.parse(JSON.stringify(options));
-            that.cropnode.options.DefaultEditorBorderColour = 'red';
-            that.cropnode.options.BorderWidth = 5;
+			// that.cropnode = data;
+			// that.cropnode.Visible =false;
+			// that.cropnode.options = JSON.parse(JSON.stringify(options));
+   //         that.cropnode.options.DefaultEditorBorderColour = 'red';
+   //         that.cropnode.options.BorderWidth = 5;
             
-	        that.view.LockCanvasMouseUp('CROP');
-	    	that.view.LockCanvasMouseDown('CROP');
+	  //      that.view.LockCanvasMouseUp('CROP');
+	  //  	that.view.LockCanvasMouseDown('CROP');
 	
-        });
-    });
+   //     });
+   // });
 };
 
 Crop.prototype.Reset = function(metaData){
