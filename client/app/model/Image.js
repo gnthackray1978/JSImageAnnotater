@@ -274,23 +274,25 @@ ImageViewer.prototype.ComputeLocations=function () {
     var idx = 0;
 
     while (idx < this.nodestore.initialGenerations[1].length) {
-        var px1 = (this.nodestore.initialGenerations[1][idx].X / initWidth) * 100;
-        var py1 = (this.nodestore.initialGenerations[1][idx].Y / initHeight) * 100;
         
-        this.nodestore.generations[1][idx].X = this.drawingX1 + (this.drawingWidth / 100) * px1;
-        this.nodestore.generations[1][idx].Y = this.drawingY1 + (this.drawingHeight / 100) * py1;
-        
-     //   console.log('(this.nodestore.initialGenerations[1][idx].X1 / initWidth): ' + this.nodestore.initialGenerations[1][idx].X1 + '-----' + px1);
-       
-      //  console.log('(this.nodestore.initialGenerations[1][idx].X2 / initWidth): ' + this.nodestore.initialGenerations[1][idx].X2 + '-----' + px2);
-
+        if(this.nodestore.initialGenerations[1][idx].LayerId!=4){
+            var px1 = (this.nodestore.initialGenerations[1][idx].X / initWidth) * 100;
+            var py1 = (this.nodestore.initialGenerations[1][idx].Y / initHeight) * 100;
+            
+            this.nodestore.generations[1][idx].X = this.drawingX1 + (this.drawingWidth / 100) * px1;
+            this.nodestore.generations[1][idx].Y = this.drawingY1 + (this.drawingHeight / 100) * py1;
+            
+         //   console.log('(this.nodestore.initialGenerations[1][idx].X1 / initWidth): ' + this.nodestore.initialGenerations[1][idx].X1 + '-----' + px1);
+           
+          //  console.log('(this.nodestore.initialGenerations[1][idx].X2 / initWidth): ' + this.nodestore.initialGenerations[1][idx].X2 + '-----' + px2);
     
-        var pw =this.nodestore.initialGenerations[1][idx].Width +  ((this.nodestore.initialGenerations[1][idx].Width/100) * checkedPIncrease);
-        var py =this.nodestore.initialGenerations[1][idx].Height+ ((this.nodestore.initialGenerations[1][idx].Height/100) * checkedPIncrease);
-   
-        this.nodestore.generations[1][idx].Width = pw;
-        this.nodestore.generations[1][idx].Height = py;
-
+        
+            var pw =this.nodestore.initialGenerations[1][idx].Width +  ((this.nodestore.initialGenerations[1][idx].Width/100) * checkedPIncrease);
+            var py =this.nodestore.initialGenerations[1][idx].Height+ ((this.nodestore.initialGenerations[1][idx].Height/100) * checkedPIncrease);
+       
+            this.nodestore.generations[1][idx].Width = pw;
+            this.nodestore.generations[1][idx].Height = py;
+        }
         idx++;
     }
 
