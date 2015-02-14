@@ -783,6 +783,17 @@ AnnotaterView.prototype.QryLayerButtonState = function (callback) {
 
 //CROPPER
 
+AnnotaterView.prototype.SetAddButtonCancel = function(){
+    $("#btnAddCropping").prop('value', 'Cancel'); 
+};
+
+AnnotaterView.prototype.SetAddButtonAdd = function(){
+    $("#btnAddCropping").prop('value', 'Add'); 
+};
+
+
+
+
 AnnotaterView.prototype.QryCropButton = function(action){
    
     $('#btnAddCropping').click(function (e) {            
