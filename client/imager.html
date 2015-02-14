@@ -3,40 +3,24 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-<title>Gedcom loader</title>
+<title>Drive loader</title>
 
+<link href="css/box.css" rel="stylesheet" />
 <link href="css/selection_widget.css" rel="stylesheet" />
-<link href="css/tree.css" rel="stylesheet" />
 <link href="css/fontselector.css" rel="stylesheet" >
-<link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 
+<link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 <script src="app/libs/jquery.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
 <script src="app/libs/jquery.fontselector.js"></script>
-<script src="app/libs/extensions.js"></script>
-<script src="app/libs/util_func.js"></script>
-<script src="app/libs/CanvasTools.js" type="text/javascript"></script>
-
-<script src="app/data/drivelib.js" type="text/javascript"></script>
-<script src="app/data/MongoUrlData.js" type="text/javascript"></script>
-<script src="app/data/MongoNoteData.js" type="text/javascript"></script>
-
-<script src="app/model/ColourPicker.js" type="text/javascript"></script>
-<script src="app/model/NoteDataManager.js" type="text/javascript"></script>
-<script src="app/model/Image.js"></script>
-
-
 <script src="app/views/AnnotaterView.js"></script>
+<script src="app/imagemain_tester.js"></script>
 
-
-
-<script src="app/controller/DiagramController.js"></script>
-
-<script src="app/imagemain.js"></script>
-	
-  
-
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad" type="text/javascript" ></script>
+    
+    
+    
+    
 </head> 
 <body> 
     
@@ -45,6 +29,10 @@
         <input id ="show_controls" class ="options_button" type="submit" value="Controls" />
         <input id ="show_debugbox" class ="options_button" type="submit" value="Debug Window" />
         <input id ="show_imageUI" class ="options_button" type="submit" value="Image UI" />
+        <input id ="show_layers" class ="options_button" type="submit" value="Layers" />
+        <input id ="show_meta" class ="options_button" type="submit" value="Meta" />
+        <input id ="show_options" class ="options_button" type="submit" value="Options" />
+        <input id ="show_cropper" class ="options_button" type="submit" value="Cropper" />
     </div>
      
     
@@ -97,38 +85,40 @@
         </div>
     </div>
     
+    <div id ="map_layers" class ="hidePanel" title="Layer Info">
+       <b id = "controllabel">Select layer</b>
+     
+       <br/>
+       <div class = "toprow">
+            <div class = "headletter">S</div>
+            <div class = "headletter">V</div>
+            <div class = "headname">Name</div>
+            <div class = "headorder">Order</div>    
+            <div class = "headletter">D</div>
+       </div>
+       <br/>    
+       <div id = 'layerslist'>
+       </div>
+               
+               
+        <br/>
+        <div class = "row">                
+            <div class = "save"><input id = "btnSaveLayers" type="submit" value="Save" /></div>
+            <div class = "new"><input id = "btnNewLayer" type="submit" value="New" /></div>
+        </div>
+               
+    </div>
 
-
-    <div id ="map_message" class ="hidePanel" title="Diag Info">
-        <div class = "map_year"><span>Year: </span><span id ="map_year" >1650</span></div> 
+    <div id = "map_message" class ="hidePanel" title="Diag Info">
+        <div class = "map_year"><span></span><span id ="map_image" >unknown</span></div> 
         <div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> 
-        <div class = "map_year"><span>X Pos: </span><span id ="map_X" >0</span></div> 
-        <div class = "map_year"><span>Y Pos: </span><span id ="map_Y" >0</span></div> 
-        <div class = "map_year"><span>Nodes: </span><span id ="nodes" >0</span><span> Energy: </span><span id ="energy" >0</span></div> 
-
+        <div class = "map_year"><span>Image dims: </span><span id ="map_dims" >0</span></div> 
+        <div class = "map_year"><span>Note Count: </span><span id ="map_noteCount" >0</span></div> 
+        <div class = "map_year"><span>Size KB: </span><span id ="map_count" >0</span></div> 
     </div>
 
-    <div id = "map_control" class ="hidePanel" title="Controls">
-        <div id = "up" class = "u button_box"><span></span></div>
-        <div id = "dn" class = "d button_box"><span></span></div>
-        <div id = "we" class = "w button_box"><span></span></div>
-        <div id = "no" class = "n button_box"><span></span></div>
-        <div id = "es" class = "e button_box"><span></span></div>
-        <div id = "so" class = "s button_box"><span></span></div>
-    </div>
-  
-     <div id = "map_imageUI" class ="hidePanel" title="ImageUI">
-        <b id = "controllabel">select mode</b>
-        <br>
-        <input id ="btnAddNote" type="submit" value="Add" />
-        <input id ="btnCancel" type="submit" value="Cancel" style="display: none;"/>
-        
-        <input id ="btnDeleteNote" type="submit" value="Delete" />
-        <input id ="btnSaveNote" type="submit" value="Save" style="display: none;" />
-        <input id ="btnOptions" type="submit" value="Options" />
-        <input id ="btnSaveOptions" type="submit" value="Save" style="display: none;"  />
-        <input id ="btnPickColour" type="submit" value="Pick Colour" style="display: none;"/>
-        <br>
+    <div id = "map_options" class ="hidePanel" title="Options">
+        <b id = "options-label">Default Options</b>
         
         <div id= "angleGroup">
             <div>Set text box angle</div>
@@ -157,18 +147,66 @@
             <input type="checkbox" id="chkTransparentBackground">Is editor transparent
             <br/>
         </div>
-        
-        
-        <!--<b>Info</b>-->
-        <!--<div id = "noteIdData" class = "map_year"><span></span></div>-->
-        <!--<div id = "xData" class = "map_year"><span></span></div>-->
-        <!--<div id = "yData" class = "map_year"><span></span></div>-->
-        <!--<div id = "x2Data" class = "map_year"><span></span></div>-->
-        <!--<div id = "y2Data" class = "map_year"><span></span></div>-->
-        <!--<div id = "noteContentData" class = "map_year"><span></span></div>-->
+        <br>
+        <input id ="btnCancelOptions" type="submit" value="Cancel" />
+        <input id ="btnSaveOptions" type="submit" value="Save" />
+        <input id ="btnPickColour" type="submit" value="Pick Colour"/>
     </div>
-    
 
+    <div id = "map_metadata" class ="hidePanel" title="Add Node Meta Info">
+        <div id= 'meta-group-active' class ="hidePanel" >
+            <b class = "meta-top-label">Meta Data Creation</b>
+            <br>
+            <div id ='box-container' class = 'borderedSelectionBox'>
+                <div>Selected Meta Types</div>
+                <div id = 'selectedMetatypesList'  class = 'dataBorder'></div>
+            </div>
+            <br/>
+            <div>Meta Type</div>
+            <select id="metatypesList" name="sometext" class = 'metaDrops'></select> 
+            <br>
+            <div>Template Template</div>
+            <select id="templateList" name="sometext" class = 'metaDrops'></select>
+            <br>
+            <input id ="btnSaveMetaInfo" class = "mSave" type="submit" value="Add" />
+            <input id ="btnCancelMetaInfo" class = "mCancel" type="submit" value="Cancel" />
+        </div>
+        <div id= 'meta-group-inactive' class ="displayPanel">
+            <b class = "meta-top-label">No active note</b>
+        </div>
+        
+    </div>
+
+    <div id = "map_control" class ="hidePanel" title="Controls">
+        <div id = "up" class = "u button_box"><span></span></div>
+        <div id = "dn" class = "d button_box"><span></span></div>
+        <div id = "we" class = "w button_box"><span></span></div>
+        <div id = "no" class = "n button_box"><span></span></div>
+        <div id = "es" class = "e button_box"><span></span></div>
+        <div id = "so" class = "s button_box"><span></span></div>
+    </div>
+  
+    <div id = "map_imageUI" class ="hidePanel" title="ImageUI">
+        <b id = "imagelabel">select mode</b>
+        <br>
+        <input id ="btnAddNote" type="submit" value="Add" />
+        <input id ="btnCancel" type="submit" value="Cancel" style="display: none;"/>
+        
+        <input id ="btnDeleteNote" type="submit" value="Delete" />
+        <input id ="btnSaveNote" type="submit" value="Save" style="display: none;" />
+
+    </div>
+
+    <div id = "map_crop" class ="hidePanel" title="Cropper">
+        <b id = "cropLabel">select mode</b>
+        <br>
+        <input id ="btnAddCropping" type="submit" value="Add" />
+        <input id ="btnCancelCropper" type="submit" value="Cancel" />
+        
+        <input id ="btnDeleteCropping" type="submit" value="Delete" />
+        <input id ="btnSaveCrop" type="submit" value="Save" style="display: none;" />
+
+    </div>
 
     <canvas id="myCanvas" >    
     </canvas>
