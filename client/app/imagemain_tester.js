@@ -50,12 +50,12 @@ function loadAll (drive){
     
 
     
-        // var urls= new Urls(new UrlWriter(),noteDataManager,appView,model.setImageObject);
+        var urls= new Urls(new UrlWriter(),noteDataManager,appView,model.setImageObject);
         
-        // var urlController = new UrlController(appView,urls);
+        var urlController = new UrlController(appView,urls);
         
-        // var layer = new Layer(noteDataManager,appView, model);
-        // var layerController = new LayerController(appView,layer);
+        var layer = new Layer(noteDataManager,appView, model);
+        var layerController = new LayerController(appView,layer);
 
         
 
