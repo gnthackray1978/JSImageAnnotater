@@ -16,17 +16,17 @@ function loadAll (drive){
     console.log('pointess');
     var data;
 
-    // if(drive) {
-    //     data = new MyDrive();
-    // }
-    // else {
-    //     data = new MongoNoteData();
-    // }
+    if(drive) {
+        data = new MyDrive();
+    }
+    else {
+        data = new MongoNoteData();
+    }
      var appView = new AnnotaterView();
      
      appView.InitPanelVisibility();
      
-   // var noteDataManager = new NoteDataManager(data);
+    var noteDataManager = new NoteDataManager(data);
     
     // noteDataManager.init(function(){
 
