@@ -40,9 +40,9 @@ function loadAll (drive){
         // var crapperController = new CroppingController(appView,cropper);
 
 
-        // var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
-        //                             metadata, 
-        //                             options);
+        var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
+                                    metadata, 
+                                    options);
         
         
          var diagramController =  new DiagramController(appView, model);
