@@ -680,25 +680,24 @@ MyDrive.prototype.GetCroppingNode = function (callback) {
     //always layer 4 and only ever 1
     //generations
    
-    this.CleanGenerations(); 
      
-    // var idx =0;
-    // var layerId=4;
+    var idx =0;
+    var layerId=4;
     
-    // while(idx < this.generations.length){
+    while(idx < this.generations.length){
         
-    //     if(this.generations[idx].LayerId ==layerId){
-    //         callback(this.generations[idx]);
-    //         return;
-    //     }
+        if(this.generations[idx].LayerId ==layerId){
+            callback(this.generations[idx]);
+            return;
+        }
         
-    //     idx++;
-    // }
+        idx++;
+    }
  
     
-    // // // ok we need to add that node cause it wasnt there 
+    // // ok we need to add that node cause it wasnt there 
     
-    //  callback();
+     callback();
 };
 
 MyDrive.prototype.CleanGenerations = function () {

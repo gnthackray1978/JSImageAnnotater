@@ -395,22 +395,26 @@ NoteDataManager.prototype = {
         this._noteDll.GetMetaDataTypes(ids, callback);
     },
     GetCroppingNode : function(callback){
-        var that = this;
         
-        var idx =0;
-        var layerId=4;
+        this._noteDll.CleanGenerations();
+        
+        
+        // var that = this;
+        
+        // var idx =0;
+        // var layerId=4;
     
-        while(idx < that.generations[1].length){
+        // while(idx < that.generations[1].length){
             
-            if(that.generations[1][idx].LayerId ==layerId){
-                callback(that.generations[1][idx]);
-                return;
-            }
+        //     if(that.generations[1][idx].LayerId ==layerId){
+        //         callback(that.generations[1][idx]);
+        //         return;
+        //     }
             
-            idx++;
-        }
+        //     idx++;
+        // }
  
-        callback();
+        // callback();
 
     }
     
