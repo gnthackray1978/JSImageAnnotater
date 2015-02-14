@@ -351,7 +351,7 @@ NoteDataManager.prototype = {
         }
         
         
-        if(!withInit){
+        if(!withInit && callback){
             callback();
         }
     },
