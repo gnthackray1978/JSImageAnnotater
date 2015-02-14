@@ -55,10 +55,10 @@ NoteDataManager.prototype = {
             }
             
             if(!cropFound){
-                  that.WriteNote(undefined,  0,0, 0,  0,  0,  '', undefined,4,undefined, function(){
-                        that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
-                        callback();
-                  });
+                that.AddData(1, this.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,function(){
+                    that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                    callback();
+                });
             }
             else
             {
@@ -66,14 +66,7 @@ NoteDataManager.prototype = {
                 callback();
             }
             
-            
-            
-            
-            
         });
-
-
-    
     },
     
     
