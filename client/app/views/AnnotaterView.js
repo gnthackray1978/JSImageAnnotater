@@ -405,7 +405,7 @@ AnnotaterView.prototype.Delete = function (action) {
 };
 
 AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-    console.log('canvas publish');
+   // console.log('canvas publish');
     if(this.channel){
         this.channel.publish("canvas", {
             caller: caller,
@@ -419,7 +419,7 @@ AnnotaterView.prototype.CanvasUpdated = function (action) {
     if(this.channel){
         var subscription = this.channel.subscribe("canvas", function(data, envelope) {
             /*do stuff with data */
-            console.log('canvas subscribe');
+           // console.log('canvas subscribe');
             action();
         });
     }
@@ -840,7 +840,7 @@ AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
     var that = this;
     
     $("#myCanvas").mousemove(function (evt) {
-        console.log('QryCanvasMouseMove ');
+        //console.log('QryCanvasMouseMove ');
         if(that.canvasMousemoveLock == that.cropperLockKey){
             console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
             action(evt);

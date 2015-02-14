@@ -156,7 +156,9 @@ ImageViewer.prototype.DrawTree= function () {
                         }
                         
                         
-                        if(that.nodestore.generations[vidx][hidx].LayerId == 4){
+                        if(that.nodestore.generations[vidx][hidx].LayerId == 4 
+                            && that.nodestore.generations[vidx][hidx].X != 0
+                            && that.nodestore.generations[vidx][hidx].Y != 0){
                             console.log('hit layer 4');
                         }
                         
