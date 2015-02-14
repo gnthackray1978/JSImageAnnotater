@@ -404,6 +404,7 @@ AnnotaterView.prototype.Delete = function (action) {
 };
 
 AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
+    console.log('canvas publish');
     this.channel.publish("canvas", {
         caller: caller,
         data: data
@@ -415,6 +416,7 @@ AnnotaterView.prototype.CanvasUpdated = function (action) {
     
     var subscription = this.channel.subscribe("canvas", function(data, envelope) {
         /*do stuff with data */
+        console.log('canvas subscribe');
         action();
     });
 
