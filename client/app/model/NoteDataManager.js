@@ -55,7 +55,7 @@ NoteDataManager.prototype = {
             }
             
             if(!cropFound){
-                that.AddData(1, this.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,function(){
+                that.AddData(1, that.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,function(){
                     that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
                     callback();
                 });
