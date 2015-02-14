@@ -64,7 +64,7 @@ function AnnotaterView() {
     
     this.cropperLockKey = 'CROP';
     
-    //this.channel = postal.channel("canvas");
+    this.channel = postal.channel("canvas");
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
@@ -404,21 +404,21 @@ AnnotaterView.prototype.Delete = function (action) {
 };
 
 AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-    // console.log('canvas publish');
-    // this.channel.publish("canvas", {
-    //     caller: caller,s
-    //     data: data
-    // });
+    console.log('canvas publish');
+    this.channel.publish("canvas", {
+        caller: caller,
+        data: data
+    });
 },
 
 AnnotaterView.prototype.CanvasUpdated = function (action) {
     
     
-    // var subscription = this.channel.subscribe("canvas", function(data, envelope) {
-    //     /*do stuff with data */
-    //     console.log('canvas subscribe');
-    //     action();
-    // });
+    var subscription = this.channel.subscribe("canvas", function(data, envelope) {
+        /*do stuff with data */
+        console.log('canvas subscribe');
+        action();
+    });
 
 };
 
@@ -428,45 +428,45 @@ AnnotaterView.prototype.CanvasUpdated = function (action) {
 // if so get the dims for that node.
 
 AnnotaterView.prototype.CanvasClick = function (action) {
-    // var that = this;
-    // //here look multiple event firing problems    
-    // $("#myCanvas").click(function (evt) {
-    //     if(this.canvasMouseclickLock == ''){
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-    //         action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
-    //     }
-    // });
+    var that = this;
+    //here look multiple event firing problems    
+    $("#myCanvas").click(function (evt) {
+        if(this.canvasMouseclickLock == ''){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+        }
+    });
 };
 
 AnnotaterView.prototype.CanvasMouseUp = function (action) {
-    // $("#myCanvas").mouseup(function (evt) {
-    //     if(this.canvasMouseupLock == ''){
-    //         evt.preventDefault();
-    //         action();
-    //     }
-    // });
+    $("#myCanvas").mouseup(function (evt) {
+        if(this.canvasMouseupLock == ''){
+            evt.preventDefault();
+            action();
+        }
+    });
 };
 
 AnnotaterView.prototype.CanvasMouseDown = function (action) {
-    // $("#myCanvas").mousedown(function (evt) {
-    //     if(this.canvasMousedownLock == ''){
-    //         evt.preventDefault();
-    //         action();
-    //     }
-    // });
+    $("#myCanvas").mousedown(function (evt) {
+        if(this.canvasMousedownLock == ''){
+            evt.preventDefault();
+            action();
+        }
+    });
 };
     
     
 AnnotaterView.prototype.CanvasMouseMove = function (action) {
-    // $("#myCanvas").mousemove(function (evt) {
-    //     if(this.canvasMousemoveLock == ''){
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    $("#myCanvas").mousemove(function (evt) {
+        if(this.canvasMousemoveLock == ''){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
-    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         
-    //         action(_point);
-    //     }
-    // });
+            action(_point);
+        }
+    });
 };
     
 AnnotaterView.prototype.ButtonPressDown = function (action) {
