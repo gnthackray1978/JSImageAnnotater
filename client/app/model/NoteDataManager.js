@@ -66,6 +66,9 @@ NoteDataManager.prototype = {
                 callback();
             }
             
+            
+            
+            
         });
     },
     
@@ -347,6 +350,10 @@ NoteDataManager.prototype = {
                 writeInitialData(1,node);
         }
         
+        
+        if(!withInit){
+            callback();
+        }
     },
     
     WriteToDB: function(note,callback){
