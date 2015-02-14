@@ -64,7 +64,7 @@ function AnnotaterView() {
     
     this.cropperLockKey = 'CROP';
     
-    this.channel = postal.channel("canvas");
+    //this.channel = postal.channel("canvas");
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
@@ -404,21 +404,21 @@ AnnotaterView.prototype.Delete = function (action) {
 };
 
 AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-    console.log('canvas publish');
-    this.channel.publish("canvas", {
-        caller: caller,
-        data: data
-    });
+    // console.log('canvas publish');
+    // this.channel.publish("canvas", {
+    //     caller: caller,s
+    //     data: data
+    // });
 },
 
 AnnotaterView.prototype.CanvasUpdated = function (action) {
     
     
-    var subscription = this.channel.subscribe("canvas", function(data, envelope) {
-        /*do stuff with data */
-        console.log('canvas subscribe');
-        action();
-    });
+    // var subscription = this.channel.subscribe("canvas", function(data, envelope) {
+    //     /*do stuff with data */
+    //     console.log('canvas subscribe');
+    //     action();
+    // });
 
 };
 
