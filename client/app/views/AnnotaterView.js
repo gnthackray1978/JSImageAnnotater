@@ -808,33 +808,33 @@ AnnotaterView.prototype.QryCropResetButton = function(action){
 };
 
 AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
-    // var that = this;
+    var that = this;
     
-    // $("#myCanvas").mousedown(function (evt) {
-    //     if(that.canvasMousedownLock == that.cropperLockKey)
-    //         action(evt);
-    // });
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.canvasMousedownLock == that.cropperLockKey)
+            action(evt);
+    });
 };
 
 AnnotaterView.prototype.QryCanvasMouseUp= function (action) {
-    // var that = this;
+    var that = this;
     
-    // $("#myCanvas").mouseup(function (evt) {
-    //     if(that.canvasMouseupLock == that.cropperLockKey)
-    //         action(evt);
-    // });
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.canvasMouseupLock == that.cropperLockKey)
+            action(evt);
+    });
 };
 
 AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
-    // var that = this;
+    var that = this;
     
-    // $("#myCanvas").mousemove(function (evt) {
-    //     console.log('QryCanvasMouseMove ');
-    //     if(that.canvasMousemoveLock == that.cropperLockKey){
-    //         console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
-    //         action(evt);
-    //     }
-    // });
+    $("#myCanvas").mousemove(function (evt) {
+        console.log('QryCanvasMouseMove ');
+        if(that.canvasMousemoveLock == that.cropperLockKey){
+            console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
+            action(evt);
+        }
+    });
 };
 
 
