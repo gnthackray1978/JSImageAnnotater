@@ -396,25 +396,25 @@ NoteDataManager.prototype = {
     },
     GetCroppingNode : function(callback){
         
-        //this._noteDll.CleanGenerations();
+        this._noteDll.CleanGenerations();
         
         
-        var that = this;
+        // var that = this;
         
-        var idx =0;
-        var layerId=4;
+        // var idx =0;
+        // var layerId=4;
     
-        while(idx < that.generations[1].length){
+        // while(idx < that.generations[1].length){
             
-            if(that.generations[1][idx].LayerId ==layerId){
-                callback(that.generations[1][idx]);
-                return;
-            }
+        //     if(that.generations[1][idx].LayerId ==layerId){
+        //         callback(that.generations[1][idx]);
+        //         return;
+        //     }
             
-            idx++;
-        }
+        //     idx++;
+        // }
  
-        callback();
+        // callback();
 
     }
     
