@@ -823,8 +823,11 @@ AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
     var that = this;
     
     $("#myCanvas").mousemove(function (evt) {
-        if(that.canvasMousemoveLock == that.cropperLockKey)
+        console.log('QryCanvasMouseMove ');
+        if(that.canvasMousemoveLock == that.cropperLockKey){
+            console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
             action(evt);
+        }
     });
 };
 
