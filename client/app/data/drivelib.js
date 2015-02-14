@@ -713,7 +713,13 @@ MyDrive.prototype.CleanGenerations = function () {
     
     while(idx < this.generations.length){
         
-        if(this.generations[idx].Index != "11111111" && this.generations[idx].LayerId !=4){
+        if(this.generations[idx].Index != "11111111" 
+        && this.generations[idx].LayerId !=4
+        && this.generations[idx].Index != "1111111" 
+        && this.generations[idx].Index != "111111" 
+        && this.generations[idx].Index != "11111" 
+        && this.generations[idx].Index != "1111" 
+        ){
             cleanArray.push(this.generations[idx]);
         }
         
