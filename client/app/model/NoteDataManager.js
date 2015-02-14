@@ -85,7 +85,7 @@ NoteDataManager.prototype = {
             idx++;
         }
         
-        return topNumber + 1;
+        return Number(topNumber) + 1;
     },
     
     PointToNode:function(x, y, callback){
