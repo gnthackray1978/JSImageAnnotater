@@ -435,7 +435,7 @@ AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
     //here look multiple event firing problems    
     $("#myCanvas").click(function (evt) {
-        if(this.canvasMouseclickLock == ''){
+        if(that.canvasMouseclickLock == ''){
             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
             action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         }
@@ -443,8 +443,10 @@ AnnotaterView.prototype.CanvasClick = function (action) {
 };
 
 AnnotaterView.prototype.CanvasMouseUp = function (action) {
+    var that = this;
+    
     $("#myCanvas").mouseup(function (evt) {
-        if(this.canvasMouseupLock == ''){
+        if(that.canvasMouseupLock == ''){
             evt.preventDefault();
             action();
         }
@@ -452,8 +454,10 @@ AnnotaterView.prototype.CanvasMouseUp = function (action) {
 };
 
 AnnotaterView.prototype.CanvasMouseDown = function (action) {
+    var that = this;
+    
     $("#myCanvas").mousedown(function (evt) {
-        if(this.canvasMousedownLock == ''){
+        if(that.canvasMousedownLock == ''){
             evt.preventDefault();
             action();
         }
@@ -462,8 +466,10 @@ AnnotaterView.prototype.CanvasMouseDown = function (action) {
     
     
 AnnotaterView.prototype.CanvasMouseMove = function (action) {
+    var that = this;
+    
     $("#myCanvas").mousemove(function (evt) {
-        if(this.canvasMousemoveLock == ''){
+        if(that.canvasMousemoveLock == ''){
             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
             var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
