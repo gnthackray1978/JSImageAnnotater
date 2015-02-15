@@ -159,17 +159,25 @@ ImageViewer.prototype.DrawTree= function () {
                         if(that.nodestore.generations[vidx][hidx].LayerId == 4 
                             && that.nodestore.generations[vidx][hidx].X != 0
                             && that.nodestore.generations[vidx][hidx].Y != 0){
-                            console.log('hit layer 4');
+                            
+                            that._canvasTools.DrawCropBox(
+                                that.nodestore.generations[vidx][hidx].X,
+                                that.nodestore.generations[vidx][hidx].Y,
+                                that.nodestore.generations[vidx][hidx].Width,
+                                that.nodestore.generations[vidx][hidx].Height,
+                                tpOptions);
                         }
-                        
-                        tpOptions.FontSize = that._canvasTools.DrawLabel(
-                            that.nodestore.generations[vidx][hidx].X,
-                            that.nodestore.generations[vidx][hidx].Y,
-                            that.nodestore.generations[vidx][hidx].Width,
-                            that.nodestore.generations[vidx][hidx].Height,
-                            that.nodestore.generations[vidx][hidx].D,
-                            that.nodestore.generations[vidx][hidx].Annotation, 
-                            tpOptions);
+                        else
+                        {
+                            tpOptions.FontSize = that._canvasTools.DrawLabel(
+                                that.nodestore.generations[vidx][hidx].X,
+                                that.nodestore.generations[vidx][hidx].Y,
+                                that.nodestore.generations[vidx][hidx].Width,
+                                that.nodestore.generations[vidx][hidx].Height,
+                                that.nodestore.generations[vidx][hidx].D,
+                                that.nodestore.generations[vidx][hidx].Annotation, 
+                                tpOptions);
+                        }
                     }
                     hidx++;
                 }

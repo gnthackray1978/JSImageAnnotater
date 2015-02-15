@@ -96,4 +96,23 @@ CanvasTools.prototype = {
   
         return idx;
     },
+    
+    DrawCropBox :function(x,y,width,height,options){
+
+     
+        this.ctx.save();
+        
+             
+        this.ctx.beginPath();
+        this.ctx.lineWidth="4";
+        this.ctx.strokeStyle= options.DefaultEditorBorderColour;
+        this.ctx.rect(x, y, Math.abs(width), Math.abs(height));
+        this.ctx.stroke();
+
+
+        this.ctx.closePath();
+        this.ctx.restore();
+  
+       
+    }
 };
