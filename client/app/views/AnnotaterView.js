@@ -798,6 +798,15 @@ AnnotaterView.prototype.SetAddButtonAdd = function(){
 };
 
 
+AnnotaterView.prototype.SetCropSaveEnabled = function(){
+    $("#btnSaveCrop").show()); 
+};
+
+AnnotaterView.prototype.SetCropSaveDisabled = function(){
+    $("#btnSaveCrop").hide(); 
+};
+
+
 
 
 AnnotaterView.prototype.QryCropButton = function(action){

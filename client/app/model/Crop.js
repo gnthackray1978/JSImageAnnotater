@@ -24,6 +24,10 @@ Crop.prototype.CanvasMouseUp = function(e){
     this.view.LockCanvasMouseDown('');
     this.view.SetAddButtonAdd();
     
+    if(this.cropnode.X !=0 && this.cropnode.Y!= 0){
+    	this.view.SetCropSaveEnabled();
+    }
+    
 },
 Crop.prototype.CanvasMouseDown = function(e){
 	console.log('CanvasMouseDown');
@@ -53,6 +57,7 @@ Crop.prototype.Crop = function(){
     
     var that = this;
     that.view.SetAddButtonCancel();
+    this.view.SetCropSaveDisabled();
     
     that.nodestore.GetCroppingNode(function(data){
         console.log('got cropping node: ' + data.Index);
@@ -60,6 +65,11 @@ Crop.prototype.Crop = function(){
 			console.log('got cropping node options: ' + options);
 			that.cropnode = data;
 			that.cropnode.Visible =false;
+			// that.cropnode.X = 0;
+			// that.cropnode.Y = 0;
+			// that.cropnode.Width = 0;
+			// that.cropnode.Height = 0;
+	
 			that.cropnode.Options = JSON.parse(JSON.stringify(options));
             that.cropnode.Options.DefaultEditorBorderColour = 'red';
             that.cropnode.Options.BorderWidth = 5;

@@ -158,7 +158,8 @@ ImageViewer.prototype.DrawTree= function () {
                         
                         if(that.nodestore.generations[vidx][hidx].LayerId == 4 
                             && that.nodestore.generations[vidx][hidx].X != 0
-                            && that.nodestore.generations[vidx][hidx].Y != 0){
+                            && that.nodestore.generations[vidx][hidx].Y != 0
+                            && that.nodestore.generations[vidx][hidx].Visible){
                             
                             that._canvasTools.DrawCropBox(
                                 that.nodestore.generations[vidx][hidx].X,
