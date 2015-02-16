@@ -808,14 +808,30 @@ AnnotaterView.prototype.SetCropSaveDisabled = function(){
 
 
 
+AnnotaterView.prototype.QryCropSaveButton = function(action){
+   
+    $('#btnSaveCrop').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
 
-AnnotaterView.prototype.QryCropButton = function(action){
+AnnotaterView.prototype.QryCropAddButton = function(action){
    
     $('#btnAddCropping').click(function (e) {            
         e.preventDefault();
         action();
     });   
 };
+
+AnnotaterView.prototype.QryCropDeleteButton = function(action){
+  
+    $('#btnDeleteCropping').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
+
 
 AnnotaterView.prototype.QryCropSaveButton = function(action){
 
@@ -825,13 +841,7 @@ AnnotaterView.prototype.QryCropSaveButton = function(action){
     });   
 };
 
-AnnotaterView.prototype.QryCropResetButton = function(action){
-  
-    $('#btnDeleteCropping').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
+
 
 AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
     var that = this;

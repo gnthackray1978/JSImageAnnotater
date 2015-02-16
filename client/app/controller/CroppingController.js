@@ -5,9 +5,11 @@ var CroppingController = function (view, model) {
     
     this.init();
     
-    this._view.QryCropButton($.proxy(this.qryCropButton, this));
+    this._view.QryCropAddButton($.proxy(this.qryCropAddButton, this));
     
-    this._view.QryCropResetButton($.proxy(this.qryCropResetButton, this));
+    this._view.QryCropSaveButton($.proxy(this.qryCropSaveButton, this));
+    
+    this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
     
     this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
     this._view.QryCanvasMouseUp($.proxy(this.qryCanvasMouseUp, this));
@@ -37,10 +39,14 @@ CroppingController.prototype = {
         }
     },
     
-    qryCropButton:function(data){
-      this.model.Crop();  
+    qryCropAddButton:function(data){
+        this.model.Add();  
     },
-    qryCropResetButton:function(data){
-        
+    
+    qryCropDeleteButton:function(data){
+        this.model.Delete(); 
+    },
+    qryCropSaveButton:function(data){
+        this.model.Save(); 
     }
 };

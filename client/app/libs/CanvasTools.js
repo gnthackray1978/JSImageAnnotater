@@ -33,7 +33,35 @@ CanvasTools.prototype = {
         }
 
     },
-    
+    DrawCroppedImage: function (node,  imgUrl,cropnode, func) {
+
+    //    console.log('attempting to draw :' + imgUrl);
+
+        var x = node.X;
+        var y = node.Y;
+
+        var width = node.Width;
+        var height = node.Height;
+        
+        var img = new Image;
+        
+        img.src = imgUrl;
+        var that = this;
+        img.onload = function () {
+
+          
+            that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
+            
+            if(cropnode.X !=0 && cropnode.Y !=0 && cropnode.LayerId !=4)
+                that.ctx.drawImage(img, x, y,width,height);
+            else
+                that.ctx.drawImage(img, cropnode.X, cropnode.Y,cropnode.Width,cropnode.Height, cropnode.X, cropnode.Y,cropnode.Width,cropnode.Height);
+             
+          
+            func();
+        }
+
+    },
     ClearCanvas: function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     },

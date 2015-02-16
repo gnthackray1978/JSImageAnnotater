@@ -156,7 +156,7 @@ ImageViewer.prototype.DrawTree= function () {
                         }
                         
                         
-                        if(that.nodestore.generations[vidx][hidx].LayerId == 4 
+                        if(that.nodestore.generations[vidx][hidx].LayerId == -4 
                             && that.nodestore.generations[vidx][hidx].X != 0
                             && that.nodestore.generations[vidx][hidx].Y != 0
                             && that.nodestore.generations[vidx][hidx].Visible){
@@ -193,13 +193,18 @@ ImageViewer.prototype.DrawTree= function () {
             layers = players;
             if(containsLevel(layers,1))
             {
-                that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
+                that.nodestore.GetCroppingNode(function(croppingnode){
+                    if(croppingnode)
+                        that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], that.imageData.url ,croppingnode, drawNotes ); 
+                    else
+                        that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
+                });
             }
-             else
-             {
+            else
+            {
                 that._canvasTools.ClearCanvas();
                 drawNotes();
-             }
+            }
             
         });
         // we need to check if the selected node has changed if so then update ui
