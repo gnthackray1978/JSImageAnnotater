@@ -120,7 +120,9 @@ ImageViewer.prototype.DrawTree= function () {
         var idx =0;
         
         while(idx< layers.length){
-            if(layers[idx]==id)
+            //handle layers that have a negative
+            //used for drawing effects etc
+            if(layers[idx]==Math.abs(id))
                 return true;
             idx++;
         }
