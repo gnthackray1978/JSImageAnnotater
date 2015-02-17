@@ -1,7 +1,7 @@
 var Crop = function (nodestore,view) {
     this.nodestore = nodestore;
     this.view = view;
-    
+    this.addMode =false;
     this.tmp_canvas;
     this.tmp_ctx;
     
@@ -30,7 +30,7 @@ Crop.prototype.CanvasMouseUp = function(e){
     
 },
 Crop.prototype.CanvasMouseDown = function(e){
-	console.log('CanvasMouseDown');
+	console.log('CanvasMouseDown LockCanvasMouseMove set');
 	this.view.LockCanvasMouseMove('CROP');
 	
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
@@ -56,30 +56,45 @@ Crop.prototype.onPaint = function() {
 Crop.prototype.Add = function(){
     
     var that = this;
-    that.view.SetAddButtonCancel();
-    this.view.SetCropSaveDisabled();
     
-    that.nodestore.GetCroppingNode(function(data){
-        console.log('got cropping node: ' + data.Index);
-        that.nodestore.GetOptions(0, function(options){
-			console.log('got cropping node options: ' + options);
-			that.cropnode = data;
-			that.cropnode.Visible =false;
-			that.cropnode.LayerId = -4;
-			// that.cropnode.X = 0;
-			// that.cropnode.Y = 0;
-			// that.cropnode.Width = 0;
-			// that.cropnode.Height = 0;
-	
-			that.cropnode.Options = JSON.parse(JSON.stringify(options));
-            that.cropnode.Options.DefaultEditorBorderColour = 'red';
-            that.cropnode.Options.BorderWidth = 5;
-            
-	        that.view.LockCanvasMouseUp('CROP');
-	    	that.view.LockCanvasMouseDown('CROP');
-	
-        });
-    });
+    
+    that.addMode = !that.addMode;
+    
+    if(that.addMode)
+    {
+    	that.view.SetAddButtonCancel();
+    	that.view.SetCropSaveDisabled();
+    	
+	    that.nodestore.GetCroppingNode(function(data){
+	        console.log('got cropping node: ' + data.Index);
+	        that.nodestore.GetOptions(0, function(options){
+				console.log('got cropping node options: ' + options);
+				that.cropnode = data;
+				that.cropnode.Visible =false;
+				that.cropnode.LayerId = -4;
+				// that.cropnode.X = 0;
+				// that.cropnode.Y = 0;
+				// that.cropnode.Width = 0;
+				// that.cropnode.Height = 0;
+		
+				that.cropnode.Options = JSON.parse(JSON.stringify(options));
+	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
+	            that.cropnode.Options.BorderWidth = 5;
+	            
+		        that.view.LockCanvasMouseUp('CROP');
+		    	that.view.LockCanvasMouseDown('CROP');
+		
+	        });
+	    });
+    }
+    else
+    {
+    	that.view.LockCanvasMouseUp('');
+		that.view.LockCanvasMouseDown('');
+		that.view.LockCanvasMouseMove('');
+		that.view.SetAddButtonAdd();
+		that.view.SetCropSaveDisabled();
+    }
 };
 
 Crop.prototype.Delete = function(metaData){
