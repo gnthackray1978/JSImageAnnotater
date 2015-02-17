@@ -144,7 +144,7 @@ NoteDataManager.prototype = {
         p4.x = p1.x + cos;
         p4.y = p1.y + sin;
        
-        console.log('testing:' + x +','+ y);
+        //console.log('testing:' + x +','+ y);
         
         var checkSide = function(pa,pb){
         
@@ -155,7 +155,7 @@ NoteDataManager.prototype = {
     
             var D = ( (pb.x-pa.x)*(y-pa.y) - (pb.y-pa.y)*(x-pa.x) );
             
-            console.log('result:' + D);
+            //console.log('result:' + D);
             if(D >0){
                 //left side 
                 return 1;
@@ -178,12 +178,12 @@ NoteDataManager.prototype = {
         
         if(result == 4){
             // no contains
-            console.log('MATCH:' +  x + ' ' + y + ' '+ node.X + ' ' + node.Y + ' ' + node.Width + ' ' + node.Height + ' ' + node.D);
+            //console.log('MATCH:' +  x + ' ' + y + ' '+ node.X + ' ' + node.Y + ' ' + node.Width + ' ' + node.Height + ' ' + node.D);
             return true;
         }
         else
         {
-            console.log('NOT MATCH:' +  x + ' ' + y + ' '+ node.X + ' ' + node.Y + ' ' + node.Width + ' ' + node.Height + ' ' + node.D);
+            //console.log('NOT MATCH:' +  x + ' ' + y + ' '+ node.X + ' ' + node.Y + ' ' + node.Width + ' ' + node.Height + ' ' + node.D);
             return false;
         }
         

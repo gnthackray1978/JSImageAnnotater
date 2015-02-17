@@ -423,7 +423,7 @@ AnnotaterView.prototype.CanvasUpdated = function (action) {
     if(this.channel){
         var subscription = this.channel.subscribe("canvas", function(data, envelope) {
             /*do stuff with data */
-           // console.log('canvas subscribe');
+            console.log('calling draw');
             action();
         });
     }
@@ -881,7 +881,7 @@ AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
     $("#myCanvas").mousemove(function (evt) {
         console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
         if(that.canvasMousemoveLock == that.cropperLockKey){
-            console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
+            //console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
             action(evt);
         }
     });
