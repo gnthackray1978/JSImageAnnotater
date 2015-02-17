@@ -99,7 +99,10 @@ Crop.prototype.Delete = function(metaData){
 
 Crop.prototype.Save = function(metaData){
 	console.log('save');
+	//we need to save this to the db to make sure the entry in 
+	// init values array gets updated to correct size.
 	
+	// also need to think about positioning!
 	if(this.cropnode.LayerId == -4 
         && this.cropnode.X != 0
         && this.cropnode.Y != 0
