@@ -69,15 +69,19 @@ function AnnotaterView() {
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
+    console.log('LockCanvasMouseUp: ' + state);
     this.canvasMouseupLock =  state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseDown = function (state){
+    console.log('LockCanvasMouseDown: ' + state);
     this.canvasMousedownLock = state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseMove = function (state){
+    console.log('LockCanvasMouseMove: ' + state);
     this.canvasMousemoveLock = state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseClick = function (state){
+    console.log('LockCanvasMouseClick: ' + state);
     this.canvasMouseclickLock = state ? state : '';
 },
     
