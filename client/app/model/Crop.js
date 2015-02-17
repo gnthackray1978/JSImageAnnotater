@@ -89,6 +89,13 @@ Crop.prototype.Add = function(){
     }
     else
     {
+    	if(that.cropnode){
+	    	that.cropnode.LayerId = 4;
+			that.cropnode.X = 0;
+			that.cropnode.Y = 0;
+			that.cropnode.Width = 0;
+			that.cropnode.Height = 0;
+		}
     	that.view.LockCanvasMouseUp('');
 		that.view.LockCanvasMouseDown('');
 		that.view.LockCanvasMouseMove('');
