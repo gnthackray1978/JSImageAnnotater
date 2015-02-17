@@ -115,7 +115,7 @@ ImageViewer.prototype.PerformClick= function (x, y) {
 };
 
 ImageViewer.prototype.DrawTree= function () {
-
+    console.log('drawtree');
     var containsLevel = function(layers, id){
         var idx =0;
         

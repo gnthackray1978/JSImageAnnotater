@@ -148,7 +148,7 @@ NoteDataManager.prototype = {
         
         var checkSide = function(pa,pb){
         
-            console.log(pa.x + ',' + pa.y + ' to ' + pb.x + ',' + pb.y);
+         //   console.log(pa.x + ',' + pa.y + ' to ' + pb.x + ',' + pb.y);
            // var A = -(pb.y - pa.y);
            // var B = pb.x - pa.x;
           //  var C = -(A * pa.y + B * pb.x);
@@ -174,7 +174,7 @@ NoteDataManager.prototype = {
         result += checkSide(p3,p4);
         result += checkSide(p4,p1);
         
-        console.log('r: ' +result);
+      //  console.log('r: ' +result);
         
         if(result == 4){
             // no contains
