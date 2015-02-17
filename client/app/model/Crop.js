@@ -70,7 +70,7 @@ Crop.prototype.Add = function(){
 	        that.nodestore.GetOptions(0, function(options){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
-				that.cropnode.Visible =false;
+				that.cropnode.Visible =true;
 				that.cropnode.LayerId = -4;
 				// that.cropnode.X = 0;
 				// that.cropnode.Y = 0;
@@ -91,6 +91,7 @@ Crop.prototype.Add = function(){
     {
     	if(that.cropnode){
 	    	that.cropnode.LayerId = 4;
+	    	that.cropnode.Visible =false;
 			that.cropnode.X = 0;
 			that.cropnode.Y = 0;
 			that.cropnode.Width = 0;
