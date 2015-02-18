@@ -22,7 +22,7 @@ Crop.prototype.CanvasMouseUp = function(e){
 	this.view.LockCanvasMouseMove('');
 	this.view.LockCanvasMouseUp('');
     this.view.LockCanvasMouseDown('');
-    this.view.SetAddButtonAdd();
+    
     
     if(this.cropnode.X !=0 && this.cropnode.Y!= 0){
     	this.view.SetCropSaveEnabled();
