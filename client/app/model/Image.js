@@ -2,7 +2,7 @@ var  CanvasTools;
 
 var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
     //could inject this
-    
+    this._drawingQueue = [];
     this._canvasTools = canvasTools;
     
     this.currentZoomPercentage = 100;
@@ -727,7 +727,24 @@ ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
 
         // console.log('setcentrepoint: '+ this.centrePointXOffset + ' ' + this.centrePoint);
 }; //end set centre point
+
+
+ImageViewer.prototype.SetDrawingQueueValue = function(point){
+   this._drawingQueue.push(point);   
+};
+
+ImageViewer.prototype.SetDrawingQueueReset = function(){
+   this._drawingQueue[this._drawingQueue.length] = new Array(1000000, 1000000); 
+};
+
+ImageViewer.prototype.SetDrawQueueEntries = function(){
     
+    while (this._drawingQueue.length > 0) {
+        var _point = this._drawingQueue.shift();
+        this.SetCentrePoint(_point[0], _point[1]);
+        this.DrawTree();
+    }
+};
     
 ImageViewer.prototype.ZoomIn = function () {
         this.zoomAmount++;

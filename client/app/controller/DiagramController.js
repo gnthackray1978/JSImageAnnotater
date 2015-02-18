@@ -1,6 +1,6 @@
 var DiagramController = function (view, model) {
  
-    this._moustQueue = [];
+    //this._moustQueue = [];
     this._mouseDown = false;
     this._view = view;
     
@@ -64,8 +64,10 @@ DiagramController.prototype = {
                         
                         setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
          
-                        that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
-        
+                        //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+                        
+                        that.ancTree.SetDrawingQueueReset();
+                        
                         that.ancTree.selectedNoteId = id;
                         that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
                         that.ancTree.UpdateGenerationState();
@@ -102,8 +104,8 @@ DiagramController.prototype = {
             
             setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
 
-            that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
-
+            //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+            that.ancTree.SetDrawingQueueReset();
 
             that.ancTree.selectedNoteId = id;
             that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
@@ -136,7 +138,8 @@ DiagramController.prototype = {
             this.ancTree.SetMouse(_point[0], _point[1]);
            
             if (this._mouseDown) {
-                this._moustQueue.push(_point);
+                this.ancTree.SetDrawingQueueValue(_point);
+               // this._moustQueue.push(_point);
             }
         }
     },
@@ -147,9 +150,9 @@ DiagramController.prototype = {
       if (this.ancTree !== null) {
             this._mouseDown = false;
 
-            var _point = new Array(1000000, 1000000);
-            this._moustQueue[this._moustQueue.length] = _point;
-
+           // var _point = new Array(1000000, 1000000);
+           // this._moustQueue[this._moustQueue.length] = _point;
+            this.ancTree.SetDrawingQueueReset();
         }
     },
     
@@ -169,8 +172,8 @@ DiagramController.prototype = {
 
             this.ancTree.PerformClick(x, y);
         
-            this._moustQueue[this._moustQueue.length] = new Array(1000000, 1000000);
-            
+            //this._moustQueue[this._moustQueue.length] = new Array(1000000, 1000000);
+            this.ancTree.SetDrawingQueueReset();
         }
     },
     
@@ -212,14 +215,16 @@ DiagramController.prototype = {
  
     GameLoop: function () {
 
-        while (this._moustQueue.length > 0) {
-            var _point = this._moustQueue.shift();
+        // while (this._moustQueue.length > 0) {
+        //     var _point = this._moustQueue.shift();
 
 
-            this.ancTree.SetCentrePoint(_point[0], _point[1]);
-            this.ancTree.DrawTree();
-        }
-
+        //     this.ancTree.SetCentrePoint(_point[0], _point[1]);
+        //     this.ancTree.DrawTree();
+        // }
+        
+        this.ancTree.SetDrawQueueEntries();
+        
         setTimeout($.proxy(this.GameLoop, this));
     }
 
