@@ -879,7 +879,7 @@ AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
     // });
     
     $("#myCanvas").mousemove(function (evt) {
-        console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
+       // console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
         if(that.canvasMousemoveLock == that.cropperLockKey){
             //console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
             action(evt);
