@@ -706,7 +706,7 @@ ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
         else {
 
             if (this.centrePointXOffset === 0) {
-
+                console.log('centrePointXOffset reset: ' +param_x );
                 this.centrePointXOffset = this.centrePoint - param_x;
             }
             else {
