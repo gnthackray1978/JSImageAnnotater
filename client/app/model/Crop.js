@@ -97,6 +97,7 @@ Crop.prototype.Add = function(){
 			that.cropnode.Width = 0;
 			that.cropnode.Height = 0;
 		}
+		that.view.UpdateCanvas(this,null);
     	that.view.LockCanvasMouseUp('');
 		that.view.LockCanvasMouseDown('');
 		that.view.LockCanvasMouseMove('');
