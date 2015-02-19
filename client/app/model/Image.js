@@ -509,8 +509,8 @@ ImageViewer.prototype.MoveTree = function (direction) {
 
         if (direction == 'SOUTH') this.SetCentreY(this.centreVerticalPoint - 1);
         if (direction == 'NORTH') this.SetCentreY(this.centreVerticalPoint + 1);
-        if (direction == 'EAST') this.SetCentreX(this.centreVerticalPoint + 1);
-        if (direction == 'WEST') this.SetCentreX(this.centreVerticalPoint - 1);
+        if (direction == 'EAST') this.SetCentreX(this.centrePoint + 1);
+        if (direction == 'WEST') this.SetCentreX(this.centrePoint - 1);
 
 
         if (direction == 'UP' || direction == 'DOWN') {
