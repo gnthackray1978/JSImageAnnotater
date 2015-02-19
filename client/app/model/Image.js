@@ -294,7 +294,7 @@ ImageViewer.prototype.ComputeLocations=function () {
 
     while (idx < this.nodestore.initialGenerations[1].length) {
         
-        if(this.nodestore.initialGenerations[1][idx].LayerId!=4){
+       // if(this.nodestore.initialGenerations[1][idx].LayerId!=4){
             var px1 = (this.nodestore.initialGenerations[1][idx].X / initWidth) * 100;
             var py1 = (this.nodestore.initialGenerations[1][idx].Y / initHeight) * 100;
             
@@ -311,7 +311,7 @@ ImageViewer.prototype.ComputeLocations=function () {
        
             this.nodestore.generations[1][idx].Width = pw;
             this.nodestore.generations[1][idx].Height = py;
-        }
+        //}
         idx++;
     }
 

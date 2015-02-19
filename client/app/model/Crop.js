@@ -119,6 +119,7 @@ Crop.prototype.Delete = function(metaData){
 	}
 	
 	this.view.SetCropSaveDisabled();
+	this.view.UpdateCanvas(this,null);
 };
 
 Crop.prototype.Save = function(metaData){
@@ -136,6 +137,8 @@ Crop.prototype.Save = function(metaData){
         
         //this.cropnode.X += this.nodestore.centreX;
         //this.cropnode.Y += this.nodestore.centreY;
+        
+        this.view.UpdateCanvas(this,null);
     }
                         
     this.view.SetCropSaveDisabled();                 
