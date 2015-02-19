@@ -528,7 +528,7 @@ ImageViewer.prototype.MoveTree = function (direction) {
 
             this.SetZoomStart();
 
-            this.SetCentrePoint(1000000, 1000000);
+            this.SetCentrePointOffset(1000000, 1000000);
 
 
             if (direction == 'UP') {
@@ -695,7 +695,7 @@ ImageViewer.prototype.SetMouse = function (x, y) {
 
 };
     
-ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
+ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
 
         if(this.addNode) return;
 
@@ -710,7 +710,7 @@ ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
                 this.centrePointXOffset = this.centrePoint - param_x;
             }
             else {
-          //      console.log('SetCentrePoint: cp ' + this.centrePoint + ' param_x ' + param_x + ' cpxoffset '  +this.centrePointXOffset );
+          //      console.log('SetCentrePointOffset: cp ' + this.centrePoint + ' param_x ' + param_x + ' cpxoffset '  +this.centrePointXOffset );
                 this.centrePoint = param_x + this.centrePointXOffset;
             }
 
@@ -725,7 +725,7 @@ ImageViewer.prototype.SetCentrePoint = function (param_x, param_y) {
 
         }
 
-        // console.log('setcentrepoint: '+ this.centrePointXOffset + ' ' + this.centrePoint);
+        // console.log('SetCentrePointOffset: '+ this.centrePointXOffset + ' ' + this.centrePoint);
 }; //end set centre point
 
 
@@ -741,7 +741,7 @@ ImageViewer.prototype.SetDrawQueueEntries = function(){
     
     while (this._drawingQueue.length > 0) {
         var _point = this._drawingQueue.shift();
-        this.SetCentrePoint(_point[0], _point[1]);
+        this.SetCentrePointOffset(_point[0], _point[1]);
         this.DrawTree();
     }
 };
