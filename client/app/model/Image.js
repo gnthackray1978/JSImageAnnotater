@@ -491,9 +491,10 @@ ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
 
 ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
 
-        this.centrePoint = 0.0;
-        this.centreVerticalPoint = 0.0;
-
+        //this.centrePoint = 0.0;
+        this.SetCentreX(0.0);
+        //this.centreVerticalPoint = 0.0;
+        this.SetCentreY(0.0);
 
         this.screenHeight = screen_height;
         this.screenWidth = screen_width;
@@ -506,10 +507,10 @@ ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  
 ImageViewer.prototype.MoveTree = function (direction) {
         // console.log('move tree' + direction);
 
-        if (direction == 'SOUTH') this.centreVerticalPoint -= 1;
-        if (direction == 'NORTH') this.centreVerticalPoint += 1;
-        if (direction == 'EAST') this.centrePoint += 1;
-        if (direction == 'WEST') this.centrePoint -= 1;
+        if (direction == 'SOUTH') this.SetCentreY(this.centreVerticalPoint - 1);
+        if (direction == 'NORTH') this.SetCentreY(this.centreVerticalPoint + 1);
+        if (direction == 'EAST') this.SetCentreX(this.centreVerticalPoint + 1);
+        if (direction == 'WEST') this.SetCentreX(this.centreVerticalPoint - 1);
 
 
         if (direction == 'UP' || direction == 'DOWN') {
@@ -562,9 +563,9 @@ ImageViewer.prototype.SetZoom = function (percentage) {
             // or when we init the diagram
             this.GetPercDistances();
          
-            this.centreVerticalPoint += (this.drawingHeight / 100) * (this.percY1 - this.mouseYPercLocat);
+            //this.centreVerticalPoint += (this.drawingHeight / 100) * (this.percY1 - this.mouseYPercLocat);
 
-            
+            this.SetCentreY(this.centreVerticalPoint + ((this.drawingHeight / 100) * (this.percY1 - this.mouseYPercLocat)));
             
             //mouseXPercLocat is the position of the mouse x in the drawing as a percentage 
             //when the zoom was started
@@ -576,8 +577,10 @@ ImageViewer.prototype.SetZoom = function (percentage) {
             
             console.log('SetZoom init values: ip: ' + this.mouseXPercLocat + ' px1: ' + this.percX1 + ' dw: ' + this.drawingWidth + ' centre point: '+ this.centrePoint);
             
-            this.centrePoint += (this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat);
+            //this.centrePoint += (this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat);
 
+            this.SetCentreX(this.centrePoint + ((this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat)));
+            
             console.log('SetZoom centrepoint moved: ' + (this.percX1 - this.mouseXPercLocat) + '% from ' +debugCentrePoint + ' to ' +  this.centrePoint);
 
             this.ComputeLocations();
@@ -695,6 +698,16 @@ ImageViewer.prototype.SetMouse = function (x, y) {
 
 };
     
+    
+ImageViewer.prototype.SetCentreX = function (x) {  
+    this.centrePoint = x;
+};
+
+ImageViewer.prototype.SetCentreY = function (y) {  
+    this.centreVerticalPoint =y;
+};
+
+
 ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
 
         if(this.addNode) return;
@@ -711,7 +724,7 @@ ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
             }
             else {
           //      console.log('SetCentrePointOffset: cp ' + this.centrePoint + ' param_x ' + param_x + ' cpxoffset '  +this.centrePointXOffset );
-                this.centrePoint = param_x + this.centrePointXOffset;
+                this.SetCentreX(param_x + this.centrePointXOffset);
             }
 
 
@@ -720,7 +733,7 @@ ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
             }
             else {
 
-                this.centreVerticalPoint = param_y + this.centrePointYOffset;
+                this.SetCentreY(param_y + this.centrePointYOffset);
             }
 
         }
