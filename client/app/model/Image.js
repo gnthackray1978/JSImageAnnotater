@@ -701,10 +701,12 @@ ImageViewer.prototype.SetMouse = function (x, y) {
     
 ImageViewer.prototype.SetCentreX = function (x) {  
     this.centrePoint = x;
+    this.nodestore.centreX = this.centrePoint;
 };
 
 ImageViewer.prototype.SetCentreY = function (y) {  
     this.centreVerticalPoint =y;
+    this.nodestore.centreY = this.centreVerticalPoint;
 };
 
 

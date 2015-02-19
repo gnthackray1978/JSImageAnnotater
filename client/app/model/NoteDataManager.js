@@ -8,10 +8,10 @@ var NoteDataManager = function (data) {
     this.urlId =0;
    
     this._noteDll = data;
-    //new MongoNoteData();
     
-  //  this.layers =[];
-    
+    //temp location for this stuff
+    this.centreX=0.0;
+    this.centreY=0.0;
 };
 
 

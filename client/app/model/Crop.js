@@ -133,6 +133,9 @@ Crop.prototype.Save = function(metaData){
         && this.cropnode.Visible){
         this.cropnode.LayerId = 4
         this.cropnode.Visible =false;
+        
+        //this.cropnode.X += this.nodestore.centreX;
+        //this.cropnode.Y += this.nodestore.centreY;
     }
                         
     this.view.SetCropSaveDisabled();                 
