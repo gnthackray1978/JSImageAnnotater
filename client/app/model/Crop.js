@@ -77,7 +77,7 @@ Crop.prototype.Add = function(){
 	        that.nodestore.GetOptions(0, function(options){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
-			//	that.cropnode.Visible =true;
+		 
 				that.cropnode.LayerId = -4;
 				initnode.LayerId = -4;
 				that.cropnode.X = 0;
@@ -88,19 +88,6 @@ Crop.prototype.Add = function(){
 				that.cropnode.Options = JSON.parse(JSON.stringify(options));
 	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
 	            that.cropnode.Options.BorderWidth = 5;
-	           
-	            // console.log('writing crop node index: ' + that.cropnode.Index);
-	            // that.nodestore.WriteNote(that.cropnode.Index, that.cropnode.X,  that.cropnode.Y,
-	            // 				that.cropnode.Width, that.cropnode.Height, that.cropnode.D, '', that.cropnode.Options,  -4,  undefined, 
-										   //       function(data){
-										   //       	console.log('Crop.prototype.Add add saved cropnode data: ' +data);
-										          	
-										   //       	that.nodestore.GetCroppingNode(function(cn){
-										   //       		that.cropnode = cn;
-										   //       	});
-										          		
-										   //       });
-	            
 	            
 		        that.view.LockCanvasMouseUp('CROP');
 		    	that.view.LockCanvasMouseDown('CROP');
@@ -111,12 +98,7 @@ Crop.prototype.Add = function(){
     else
     {
     	if(that.cropnode){
-	  //  	that.cropnode.LayerId = 4;
-	  //  	that.cropnode.Visible =false;
-			// that.cropnode.X = 0;
-			// that.cropnode.Y = 0;
-			// that.cropnode.Width = 0;
-			// that.cropnode.Height = 0;
+	
 			console.log('writing crop node index: ' + this.cropnode.Index);
 			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
 										          function(data){ 
@@ -180,11 +162,7 @@ Crop.prototype.Save = function(metaData){
         && this.cropnode.X != 0
         && this.cropnode.Y != 0
         && this.cropnode.Visible){
-        //this.cropnode.LayerId = 4
-        //this.cropnode.Visible =false;
-        
-        //this.cropnode.X += this.nodestore.centreX;
-        //this.cropnode.Y += this.nodestore.centreY;
+       
         console.log('writing crop node index: ' + this.cropnode.Index);
         this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
 	            				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  4,  undefined, 
@@ -194,6 +172,8 @@ Crop.prototype.Save = function(metaData){
         
         this.view.UpdateCanvas(this,null);
     }
-                        
+    
+    this.view.SetAddButtonAdd();
+    this.addMode = false;            
     this.view.SetCropSaveDisabled();                 
 };
