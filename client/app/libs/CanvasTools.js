@@ -52,7 +52,7 @@ CanvasTools.prototype = {
           
             that.ctx.clearRect(0, 0, that.canvas.width, that.canvas.height);
          //   console.log('DrawCroppedImage: ' +  cropnode.Width + ' ' +cropnode.Height);
-            if(cropnode.Width ==0 && cropnode.Height ==0 && cropnode.LayerId == 4)
+            if((cropnode.Width ==0 && cropnode.Height ==0) || cropnode.LayerId == -4)
                 that.ctx.drawImage(img, x, y,width,height);
             else
                 that.ctx.drawImage(img, cropnode.X, cropnode.Y,cropnode.Width,cropnode.Height, cropnode.X, cropnode.Y,cropnode.Width,cropnode.Height);
