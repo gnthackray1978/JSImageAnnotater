@@ -78,28 +78,28 @@ Crop.prototype.Add = function(){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
 			//	that.cropnode.Visible =true;
-			//	that.cropnode.LayerId = -4;
+				that.cropnode.LayerId = -4;
 				
-				// that.cropnode.X = 0;
-				// that.cropnode.Y = 0;
-				// that.cropnode.Width = 0;
-				// that.cropnode.Height = 0;
+				that.cropnode.X = 0;
+				that.cropnode.Y = 0;
+				that.cropnode.Width = 0;
+				that.cropnode.Height = 0;
 		
 				that.cropnode.Options = JSON.parse(JSON.stringify(options));
 	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
 	            that.cropnode.Options.BorderWidth = 5;
 	           
-	            console.log('writing crop node index: ' + that.cropnode.Index);
-	            that.nodestore.WriteNote(that.cropnode.Index, that.cropnode.X,  that.cropnode.Y,
-	            				that.cropnode.Width, that.cropnode.Height, that.cropnode.D, '', that.cropnode.Options,  -4,  undefined, 
-										          function(data){
-										          	console.log('Crop.prototype.Add add saved cropnode data: ' +data);
+	            // console.log('writing crop node index: ' + that.cropnode.Index);
+	            // that.nodestore.WriteNote(that.cropnode.Index, that.cropnode.X,  that.cropnode.Y,
+	            // 				that.cropnode.Width, that.cropnode.Height, that.cropnode.D, '', that.cropnode.Options,  -4,  undefined, 
+										   //       function(data){
+										   //       	console.log('Crop.prototype.Add add saved cropnode data: ' +data);
 										          	
-										          	that.nodestore.GetCroppingNode(function(cn){
-										          		that.cropnode = cn;
-										          	});
+										   //       	that.nodestore.GetCroppingNode(function(cn){
+										   //       		that.cropnode = cn;
+										   //       	});
 										          		
-										          });
+										   //       });
 	            
 	            
 		        that.view.LockCanvasMouseUp('CROP');
