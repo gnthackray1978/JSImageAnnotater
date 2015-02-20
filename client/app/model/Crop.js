@@ -140,7 +140,18 @@ Crop.prototype.Delete = function(metaData){
 	}
 	else
 	{
-		throw "cropnode undefined";
+		
+		that.nodestore.GetCroppingNode(function(data){
+			that.cropnode =data;
+			
+			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
+										          function(){
+											          	that.view.SetCropSaveDisabled();
+														that.view.UpdateCanvas(that,null);
+										          });
+		});
+		
+	
 	}
 	
 	
