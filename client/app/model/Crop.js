@@ -49,6 +49,12 @@ Crop.prototype.onPaint = function() {
 	this.cropnode.Width = this.mouse.x - this.start_mouse.x ;
 	this.cropnode.Height = this.mouse.y - this.start_mouse.y;
 	this.cropnode.Visible =true;
+	
+	this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
+	            				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  -4,  undefined, 
+										          function(){ });
+										          
+										          
 	this.view.UpdateCanvas(this,null);
 	console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
 },
