@@ -205,12 +205,12 @@ ImageViewer.prototype.DrawTree= function () {
             layers = players;
             if(containsLevel(layers,1))
             {
-                that.nodestore.GetCroppingNode(function(croppingnode){
+                that.nodestore.GetCroppingNode(function(croppingnode, initNode){
                     if(croppingnode)
                         that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
                         that.imageData.url ,
                         croppingnode,
-                        that.nodestore.initialGenerations[0][0], 
+                        initNode, 
                         drawNotes ); 
                     else
                         that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
