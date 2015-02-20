@@ -35,10 +35,10 @@ CanvasTools.prototype = {
     },
     DrawCroppedImage: function (node,  imgUrl,cropnode,initnode,func) {
 
-        if(cropnode && initnode){
-            console.log('attempting to draw :' + cropnode.X + ',' + cropnode.Y+ ',' +cropnode.Width+ ',' +cropnode.Height);
-            console.log('attempting to draw :' + initnode.X + ',' + initnode.Y+ ',' +initnode.Width+ ',' +initnode.Height);
-        }
+        // if(cropnode && initnode){
+        //     console.log('attempting to draw :' + cropnode.X + ',' + cropnode.Y+ ',' +cropnode.Width+ ',' +cropnode.Height);
+        //     console.log('attempting to draw :' + initnode.X + ',' + initnode.Y+ ',' +initnode.Width+ ',' +initnode.Height);
+        // }
         
         var x = node.X;
         var y = node.Y;
@@ -58,8 +58,8 @@ CanvasTools.prototype = {
             if((cropnode.Width ==0 && cropnode.Height ==0) || cropnode.LayerId == -4)
                 that.ctx.drawImage(img, x, y,width,height);
             else
-                that.ctx.drawImage(img, cropnode.X, cropnode.Y,
-                cropnode.Width,cropnode.Height, cropnode.X, cropnode.Y,cropnode.Width,cropnode.Height);
+                that.ctx.drawImage(img, cropnode.X, cropnode.Y, cropnode.Width,cropnode.Height,
+                initnode.X, initnode.Y,initnode.Width,initnode.Height);
              
           
             func();
