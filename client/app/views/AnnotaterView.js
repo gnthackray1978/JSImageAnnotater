@@ -69,19 +69,19 @@ function AnnotaterView() {
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
-    console.log('LockCanvasMouseUp: ' + state);
+    //console.log('LockCanvasMouseUp: ' + state);
     this.canvasMouseupLock =  state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseDown = function (state){
-    console.log('LockCanvasMouseDown: ' + state);
+    //console.log('LockCanvasMouseDown: ' + state);
     this.canvasMousedownLock = state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseMove = function (state){
-    console.log('LockCanvasMouseMove: ' + state);
+    //console.log('LockCanvasMouseMove: ' + state);
     this.canvasMousemoveLock = state ? state : '';
 },
 AnnotaterView.prototype.LockCanvasMouseClick = function (state){
-    console.log('LockCanvasMouseClick: ' + state);
+   // console.log('LockCanvasMouseClick: ' + state);
     this.canvasMouseclickLock = state ? state : '';
 },
     
@@ -1234,7 +1234,7 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
     $('#myCanvas').click(function(event){
         // getting user coordinates
         
-        console.log("QryPickedColour.click");
+       // console.log("QryPickedColour.click");
         if(that._pickEnabled)
         {
             event.stopImmediatePropagation();

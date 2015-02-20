@@ -158,14 +158,19 @@ ImageViewer.prototype.DrawTree= function () {
                         }
                         
                         if(Math.abs(that.nodestore.generations[vidx][hidx].LayerId) == 4){
-                            console.log('crop node present: ' + that.nodestore.generations[vidx][hidx].LayerId + ' ' + that.nodestore.generations[vidx][hidx].Visible + ' ' + that.nodestore.generations[vidx][hidx].X);
+                            console.log('crop node present: ' 
+                            + that.nodestore.generations[vidx][hidx].LayerId 
+                            + ' ' + that.nodestore.generations[vidx][hidx].Visible 
+                            + ' ' + that.nodestore.generations[vidx][hidx].X
+                            + ' ' + that.nodestore.generations[vidx][hidx].Y
+                            + ' ' + that.nodestore.generations[vidx][hidx].Width
+                            + ' ' + that.nodestore.generations[vidx][hidx].Height);
                         }
                         
                         if(that.nodestore.generations[vidx][hidx].LayerId == -4 
                             && that.nodestore.generations[vidx][hidx].X != 0
-                            && that.nodestore.generations[vidx][hidx].Y != 0
-                            && that.nodestore.generations[vidx][hidx].Visible){
-                            
+                            && that.nodestore.generations[vidx][hidx].Y != 0){
+                            console.log('drawing crop node');
                             that._canvasTools.DrawCropBox(
                                 that.nodestore.generations[vidx][hidx].X,
                                 that.nodestore.generations[vidx][hidx].Y,
