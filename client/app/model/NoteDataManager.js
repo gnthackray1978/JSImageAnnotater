@@ -406,7 +406,7 @@ NoteDataManager.prototype = {
     
         while(idx < that.generations[1].length){
             
-            if(that.generations[1][idx].LayerId ==layerId){
+            if(Math.abs(that.generations[1][idx].LayerId) ==layerId){
                 callback(that.generations[1][idx]);
                 return;
             }

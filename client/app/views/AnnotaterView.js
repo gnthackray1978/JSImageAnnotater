@@ -423,7 +423,7 @@ AnnotaterView.prototype.CanvasUpdated = function (action) {
     if(this.channel){
         var subscription = this.channel.subscribe("canvas", function(data, envelope) {
             /*do stuff with data */
-            console.log('calling draw');
+        //    console.log('calling draw');
             action();
         });
     }

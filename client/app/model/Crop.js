@@ -11,14 +11,14 @@ var Crop = function (nodestore,view) {
 	this.cropnode;
 };
 Crop.prototype.CanvasMouseMove = function(e){
-	console.log('CanvasMouseMove');
+//	console.log('CanvasMouseMove');
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
 	this.mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
 	
 	this.onPaint();
 },
 Crop.prototype.CanvasMouseUp = function(e){
-	console.log('CanvasMouseUp');
+//	console.log('CanvasMouseUp');
 	this.view.LockCanvasMouseMove('');
 	this.view.LockCanvasMouseUp('');
     this.view.LockCanvasMouseDown('');
@@ -30,7 +30,7 @@ Crop.prototype.CanvasMouseUp = function(e){
     
 },
 Crop.prototype.CanvasMouseDown = function(e){
-	console.log('CanvasMouseDown LockCanvasMouseMove set');
+//	console.log('CanvasMouseDown LockCanvasMouseMove set');
 	this.view.LockCanvasMouseMove('CROP');
 	
 	this.mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
@@ -49,6 +49,7 @@ Crop.prototype.onPaint = function() {
 	this.cropnode.Width = this.mouse.x - this.start_mouse.x ;
 	this.cropnode.Height = this.mouse.y - this.start_mouse.y;
 	this.cropnode.Visible =true;
+
 	console.log('writing crop node index: ' + this.cropnode.Index);
 	this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
 	            				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  -4,  undefined, 
@@ -87,6 +88,7 @@ Crop.prototype.Add = function(){
 				that.cropnode.Options = JSON.parse(JSON.stringify(options));
 	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
 	            that.cropnode.Options.BorderWidth = 5;
+	           
 	            console.log('writing crop node index: ' + that.cropnode.Index);
 	            that.nodestore.WriteNote(that.cropnode.Index, that.cropnode.X,  that.cropnode.Y,
 	            				that.cropnode.Width, that.cropnode.Height, that.cropnode.D, '', that.cropnode.Options,  -4,  undefined, 

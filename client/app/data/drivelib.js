@@ -375,36 +375,35 @@ MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
 
 MyDrive.prototype._saveFile = function(parentId, fileName, fileId, content,callback){
     
-     writeStatement('attempting to savefile: ' + parentId + ' filename ' + fileName + ' file id ' + fileId);
-     
-        var metadata = {
-          title: fileName,
-          mimeType: 'application/json',
-          parents: [{id: parentId}]
-        };
-        
-        var state = content;
-        var data = new FormData();
-        data.append("metadata", new Blob([ JSON.stringify(metadata) ], { type: "application/json" }));
-        data.append("file", new Blob([ JSON.stringify(state) ], { type: "application/json" }));
+    console.log('attempting to savefile: ' + parentId + ' filename ' + fileName + ' file id ' + fileId);
+ 
+    var metadata = {
+      title: fileName,
+      mimeType: 'application/json',
+      parents: [{id: parentId}]
+    };
+    
+    var state = content;
+    var data = new FormData();
+    data.append("metadata", new Blob([ JSON.stringify(metadata) ], { type: "application/json" }));
+    data.append("file", new Blob([ JSON.stringify(state) ], { type: "application/json" }));
 
-        
-        var token = gapi.auth.getToken();
-        
-        var up = fileId != null ? '/' + fileId : '';
-        
-        $.ajax("https://www.googleapis.com/upload/drive/v2/files" + up + "?uploadType=multipart", {
-          data: data,
-          headers: {Authorization: 'Bearer ' + token.access_token},
-          contentType: false,
-          processData: false,
-          type: fileId != null ? 'PUT' : 'POST',
-          success: function(data) {           
-              writeStatement('File written');
-              if(callback)
-                callback(data.id);
-          }
-        });
+    var token = gapi.auth.getToken();
+    
+    var up = fileId != null ? '/' + fileId : '';
+    
+    $.ajax("https://www.googleapis.com/upload/drive/v2/files" + up + "?uploadType=multipart", {
+      data: data,
+      headers: {Authorization: 'Bearer ' + token.access_token},
+      contentType: false,
+      processData: false,
+      type: fileId != null ? 'PUT' : 'POST',
+      success: function(data) {           
+          console.log('File written');
+          if(callback)
+            callback(data.id);
+      }
+    });
         
 };
 
