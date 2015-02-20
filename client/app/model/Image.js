@@ -140,7 +140,7 @@ ImageViewer.prototype.DrawTree= function () {
         var that = this;
         var layers ; // this needs doing better!!
         var drawNotes = function() {
-
+           
            var vidx = 1;
 
            while (vidx < that.nodestore.generations.length) {
@@ -149,7 +149,9 @@ ImageViewer.prototype.DrawTree= function () {
                     
                     var nlid = that.nodestore.generations[vidx][hidx].LayerId ? that.nodestore.generations[vidx][hidx].LayerId : 2;
                     
-                    if(that.nodestore.generations[vidx][hidx].Visible && containsLevel(layers,nlid))
+                    if(that.nodestore.generations[vidx][hidx].Visible 
+                        && containsLevel(layers,nlid)
+                        && that.nodestore.generations[vidx][hidx].LayerId != 4)
                     {
                         var tpOptions = that.options.GetState().defaultOptions;
                         
