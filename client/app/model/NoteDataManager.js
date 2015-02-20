@@ -49,12 +49,13 @@ NoteDataManager.prototype = {
                                 ajaxResult[idx].Visible,
                                 false,
                                 ajaxResult[idx].Options,
-                                ajaxResult[idx].layerId);
+                                ajaxResult[idx].LayerId);
                 
                 idx++;
             }
             
             if(!cropFound){
+        
                 that.AddData(1, that.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,function(){
                     that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
                     callback();
@@ -396,23 +397,23 @@ NoteDataManager.prototype = {
     },
     GetCroppingNode : function(callback){
         
-      //  this._noteDll.CleanGenerations();
+        this._noteDll.CleanGenerations();
         
         
-        var that = this;
+        // var that = this;
         
-        var idx =0;
-        var layerId=4;
+        // var idx =0;
+        // var layerId=4;
     
-        while(idx < that.generations[1].length){
+        // while(idx < that.generations[1].length){
             
-            if(Math.abs(that.generations[1][idx].LayerId) ==layerId){
-                callback(that.generations[1][idx], that.initialGenerations[1][idx]);
-                return;
-            }
+        //     if(Math.abs(that.generations[1][idx].LayerId) ==layerId){
+        //         callback(that.generations[1][idx], that.initialGenerations[1][idx]);
+        //         return;
+        //     }
             
-            idx++;
-        }
+        //     idx++;
+        // }
  
         callback();
 
