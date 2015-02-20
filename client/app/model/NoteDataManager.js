@@ -396,7 +396,7 @@ NoteDataManager.prototype = {
     },
     GetCroppingNode : function(callback){
         
-        //this._noteDll.CleanGenerations();
+        this._noteDll.CleanGenerations();
         
         
         var that = this;
