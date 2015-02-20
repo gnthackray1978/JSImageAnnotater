@@ -714,6 +714,7 @@ MyDrive.prototype.CleanGenerations = function () {
         //111111111
         if(this.generations[idx].LayerId !=4
         && this.generations[idx].LayerId !=-4
+        && this.generations[idx].Annotation != ''
         && this.generations[idx].Index != "111111111" 
         && this.generations[idx].Index != "11111111" 
         && this.generations[idx].Index != "1111111" 
