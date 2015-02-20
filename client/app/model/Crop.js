@@ -92,7 +92,10 @@ Crop.prototype.Add = function(){
 	            console.log('writing crop node index: ' + that.cropnode.Index);
 	            that.nodestore.WriteNote(that.cropnode.Index, that.cropnode.X,  that.cropnode.Y,
 	            				that.cropnode.Width, that.cropnode.Height, that.cropnode.D, '', that.cropnode.Options,  -4,  undefined, 
-										          function(){ });
+										          function(data){
+										          	console.log('Crop.prototype.Add add saved cropnode data: ' +data);
+										          	
+										          });
 	            
 	            
 		        that.view.LockCanvasMouseUp('CROP');
@@ -112,7 +115,9 @@ Crop.prototype.Add = function(){
 			// that.cropnode.Height = 0;
 			console.log('writing crop node index: ' + this.cropnode.Index);
 			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
-										          function(){ });
+										          function(data){ 
+										          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
+										          });
 		}
 		that.view.UpdateCanvas(this,null);
     	that.view.LockCanvasMouseUp('');
@@ -177,7 +182,9 @@ Crop.prototype.Save = function(metaData){
         console.log('writing crop node index: ' + this.cropnode.Index);
         this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
 	            				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  4,  undefined, 
-										          function(){ });
+										          function(data){ 
+										          	console.log('Crop.prototype.Save saved cropnode data: ' +data);
+										          });
         
         this.view.UpdateCanvas(this,null);
     }
