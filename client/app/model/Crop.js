@@ -50,10 +50,10 @@ Crop.prototype.onPaint = function() {
 	this.cropnode.Height = this.mouse.y - this.start_mouse.y;
 	this.cropnode.Visible =true;
 
-	console.log('writing crop node index: ' + this.cropnode.Index);
-	this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
-	            				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  -4,  undefined, 
-										          function(){ });
+	// console.log('writing crop node index: ' + this.cropnode.Index);
+	// this.nodestore.WriteNote(this.cropnode.Index, this.cropnode.X,  this.cropnode.Y,
+	//             				this.cropnode.Width, this.cropnode.Height, this.cropnode.D, '', this.cropnode.Options,  -4,  undefined, 
+	// 									          function(){ });
 										          
 										          
 	this.view.UpdateCanvas(this,null);
@@ -95,6 +95,10 @@ Crop.prototype.Add = function(){
 										          function(data){
 										          	console.log('Crop.prototype.Add add saved cropnode data: ' +data);
 										          	
+										          	that.nodestore.GetCroppingNode(function(cn){
+										          		that.cropnode = cn;
+										          	});
+										          		
 										          });
 	            
 	            
@@ -117,6 +121,8 @@ Crop.prototype.Add = function(){
 			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
 										          function(data){ 
 										          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
+										          	
+										          	
 										          });
 		}
 		that.view.UpdateCanvas(this,null);
