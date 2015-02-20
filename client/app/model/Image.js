@@ -207,7 +207,11 @@ ImageViewer.prototype.DrawTree= function () {
             {
                 that.nodestore.GetCroppingNode(function(croppingnode){
                     if(croppingnode)
-                        that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], that.imageData.url ,croppingnode, drawNotes ); 
+                        that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
+                        that.imageData.url ,
+                        croppingnode,
+                        that.nodestore.initialGenerations[0][0], 
+                        drawNotes ); 
                     else
                         that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
                 });
