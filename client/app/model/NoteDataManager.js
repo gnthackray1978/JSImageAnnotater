@@ -407,12 +407,16 @@ NoteDataManager.prototype = {
         while(idx < that.generations[1].length){
             
             if(Math.abs(that.generations[1][idx].LayerId) ==layerId){
-                callback(that.generations[1][idx]);
+                callback(that.generations[1][idx], that.initialGenerations[1][idx]);
                 return;
             }
             
             idx++;
         }
+ 
+ 
+ 
+ 
  
         callback();
 

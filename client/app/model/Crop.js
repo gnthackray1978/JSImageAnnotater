@@ -72,14 +72,14 @@ Crop.prototype.Add = function(){
     	that.view.SetAddButtonCancel();
     	that.view.SetCropSaveDisabled();
     	
-	    that.nodestore.GetCroppingNode(function(data){
+	    that.nodestore.GetCroppingNode(function(data, initnode){
 	        console.log('got cropping node: ' + data.Index);
 	        that.nodestore.GetOptions(0, function(options){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
 			//	that.cropnode.Visible =true;
 				that.cropnode.LayerId = -4;
-				
+				initnode.layerId = -4;
 				that.cropnode.X = 0;
 				that.cropnode.Y = 0;
 				that.cropnode.Width = 0;
