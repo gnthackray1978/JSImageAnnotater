@@ -118,6 +118,9 @@ Crop.prototype.Add = function(){
 
 Crop.prototype.Delete = function(metaData){
 	console.log('delete');
+	
+	
+	
 	var that = this;
 	if(that.cropnode!= undefined){
 		//this.cropnode.X = 0;

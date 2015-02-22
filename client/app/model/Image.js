@@ -70,41 +70,39 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     this.lastClickedPosX = x;
  
     this.nodestore.PointToNode(x,y, function(node){
+        that.selectedNote = node;
         
-        that.options.SetState(that.addNode,node);
+        that.options.SetState(that.addNode, that.selectedNote);
     
         // add/edit node
         if(that.addNode)
         {
-            if(node != undefined)
+            if(that.selectedNote != undefined)
             {
-                that.selectedNote = node;
-              
-                if(node.options == undefined){
-                    node.options = that.options.GetState().defaultOptions;
+                 
+                if(that.selectedNote.options == undefined){
+                    that.selectedNote.options = that.options.GetState().defaultOptions;
                 }
                
-                that.view.DisplayNodeSelection(node.X, node.Y,node.Width,node.Height,node.D,node.Annotation,node.options);
-                that.meta.Load(node.MetaData);
+                that.view.DisplayNodeSelection(that.selectedNote.X, that.selectedNote.Y,that.selectedNote.Width,
+                    that.selectedNote.Height,that.selectedNote.D,that.selectedNote.Annotation,that.selectedNote.options);
+                    
+                that.meta.Load(that.selectedNote.MetaData);
                 that.options.SetDefaultOptionState(false);
             }
             else
             {
-                that.selectedNote = undefined;
                 that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
                 that.meta.Load([]);
                 that.options.SetDefaultOptionState(true);
             }
             
-            that.options.SetState(that.addNode,node,true);
+            that.options.SetState(that.addNode,that.selectedNote,true);
         }
 
-        if(that.deleteNode && node != undefined && that.selectedNote != undefined){
-            node.Visible =false;
-            if(that.selectedNote.Index == node.Index){
-                that.selectedNote = undefined;
-            }
-            that.nodestore.WriteToDB(node);
+        if(that.deleteNode && that.selectedNote != undefined){
+            that.selectedNote.Visible =false;
+            that.nodestore.WriteToDB(that.selectedNote);
             that.options.SetState(that.addNode);
         }
         

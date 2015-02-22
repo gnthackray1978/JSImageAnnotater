@@ -68,7 +68,7 @@ DiagramController.prototype = {
                         
                         that.ancTree.SetDrawingQueueReset();
                         
-                        that.ancTree.selectedNoteId = id;
+                    
                         that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
                         that.ancTree.UpdateGenerationState();
                         that.ancTree.ScaleToScreen();
@@ -107,7 +107,7 @@ DiagramController.prototype = {
             //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
             that.ancTree.SetDrawingQueueReset();
 
-            that.ancTree.selectedNoteId = id;
+
             that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
             that.ancTree.UpdateGenerationState();
             that.ancTree.ScaleToScreen();
