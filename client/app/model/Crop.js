@@ -54,7 +54,13 @@ Crop.prototype.onPaint = function() {
 		
 	}
  
-
+	if(tph < 0){
+		tpy = this.start_mouse.y - Math.abs(tph);
+		tph = Math.abs(tph);
+		
+	}
+	
+	
 	this.cropnode.X = tpx;
 	this.cropnode.Y = tpy;
 	this.cropnode.Width = tpw;
