@@ -629,6 +629,7 @@ AnnotaterView.prototype.GetTextAreaDetails = function () {
     }
 };
 
+//DEBUG STUFF
 
 //CALLED FROM MODEL AND UPDATES OPTIONS DATA TO UI
 AnnotaterView.prototype.UpdateInfoWindow = function(data){
@@ -640,6 +641,18 @@ AnnotaterView.prototype.UpdateInfoWindow = function(data){
     $("#map_count").html(data.size);
       
 };
+
+AnnotaterView.prototype.QrySearchButton = function(callback){
+    
+     $('#btnDebugClicked').click(function (e) {
+         
+        var data= $("#txtDebugData").val();
+        
+        callback(data);
+    });
+};
+
+
 
 // LAYERS
 AnnotaterView.prototype.SetLayers= function (layers){

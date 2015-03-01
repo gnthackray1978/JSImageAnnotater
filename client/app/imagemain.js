@@ -36,6 +36,9 @@ function loadAll (drive){
         var cropper = new Crop(noteDataManager,appView);
         var crapperController = new CroppingController(appView,cropper);
 
+        var debug = new Debuger(noteDataManager,appView);
+        var debugController = new DebugController(appView,cropper);
+
 
         var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
                                     metadata, 
