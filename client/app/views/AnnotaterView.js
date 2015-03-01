@@ -114,8 +114,8 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $(".ui-dialog-title").css("top", "0px");
                  $(".ui-dialog-title").css("left", "0px");
                 
-                 $('*[aria-describedby="map_control"]').css("width", "120px");
-                 $('*[aria-describedby="map_control"]').css("height", "100px");
+                 $('*[aria-describedby="map_control"]').css("width", "400px");
+                 $('*[aria-describedby="map_control"]').css("height", "250px");
                 
                 that.showMapControls = false;
             } else {
