@@ -114,8 +114,8 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $(".ui-dialog-title").css("top", "0px");
                  $(".ui-dialog-title").css("left", "0px");
                 
-                 $('*[aria-describedby="map_control"]').css("width", "400px");
-                 $('*[aria-describedby="map_control"]').css("height", "250px");
+                 $('*[aria-describedby="map_control"]').css("width", "120px");
+                 $('*[aria-describedby="map_control"]').css("height", "100px");
                 
                 that.showMapControls = false;
             } else {
@@ -173,8 +173,8 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $(".ui-dialog-title").css("top", "0px");
                  $(".ui-dialog-title").css("left", "0px");
 
-                 $('*[aria-describedby="map_message"]').css("width", "180px");
-                 $('*[aria-describedby="map_message"]').css("height", "200px");
+                 $('*[aria-describedby="map_message"]').css("width", "400px");
+                 $('*[aria-describedby="map_message"]').css("height", "250px");
 
             } else {
                
