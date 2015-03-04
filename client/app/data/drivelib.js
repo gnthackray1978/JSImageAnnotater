@@ -141,32 +141,32 @@ MyDrive.prototype.init = function(loaded){
         that._saveFile(parentId, fileName, fileId, content,callback);
     };
 
-    var readConfigFile = function(callback){
+    // var readConfigFile = function(callback){
         
-        var request = gapi.client.drive.files.get({
-          'fileId': that.CONFIGFILEID
-        });
+    //     var request = gapi.client.drive.files.get({
+    //       'fileId': that.CONFIGFILEID
+    //     });
         
-        request.execute(function(resp) {
-          if (resp.id) {
-            var token = gapi.auth.getToken();
+    //     request.execute(function(resp) {
+    //       if (resp.id) {
+    //         var token = gapi.auth.getToken();
             
-            $.ajax(resp.downloadUrl, {
-              headers: {Authorization: 'Bearer ' + token.access_token},
-              success: function(data) {
+    //         $.ajax(resp.downloadUrl, {
+    //           headers: {Authorization: 'Bearer ' + token.access_token},
+    //           success: function(data) {
                 
-                var d = JSON.parse(data);
-                that.generations = d.generations;
-                that.options = d.options;
-                that.layers = d.layers;
-                callback();
-              }
-            });
-          }
-        });
+    //             var d = JSON.parse(data);
+    //             that.generations = d.generations;
+    //             that.options = d.options;
+    //             that.layers = d.layers;
+    //             callback();
+    //           }
+    //         });
+    //       }
+    //     });
         
         
-    }; 
+    // }; 
      
     var createDummyFile = function(){
         var addNode = function(id,fileId,note,x,y,w,h) {
@@ -247,14 +247,14 @@ MyDrive.prototype.init = function(loaded){
                         
                             that.CONFIGFILEID =creaetedfileId;
                         
-                            readConfigFile(function(){
+                            that.ReadConfigFile(that.CONFIGFILEID,function(){
                                 loaded();  
                             });
                         });
                         
                     }
                     else {
-                        readConfigFile(function(){
+                        that.ReadConfigFile(that.CONFIGFILEID,function(){
                             loaded();  
                         });
                     }
@@ -317,6 +317,36 @@ MyDrive.prototype.init = function(loaded){
      
      
 };
+
+MyDrive.prototype.ReadConfigFile = function(configId, callback){
+        
+    var request = gapi.client.drive.files.get({
+      'fileId': configId
+    });
+    
+    request.execute(function(resp) {
+      if (resp.id) {
+        var token = gapi.auth.getToken();
+        
+        $.ajax(resp.downloadUrl, {
+          headers: {Authorization: 'Bearer ' + token.access_token},
+          success: function(data) {
+            
+            var d = JSON.parse(data);
+            that.generations = d.generations;
+            that.options = d.options;
+            that.layers = d.layers;
+            callback();
+          }
+        });
+      }
+    });
+        
+        
+};
+
+
+
 
 MyDrive.prototype.ReadFolder = function(){
     
