@@ -68,36 +68,11 @@ MyDrive.prototype.init = function(loaded){
                 writeStatement(resp.parents[0].id);
         
         
-           writeStatement('links');
+                writeStatement('links');
                 writeStatement(resp.webContentLink);
                 writeStatement(resp.downloadUrl);
                 writeStatement(resp.webViewLink);
                 
-                // var accessToken = gapi.auth.getToken().access_token;
-                // var ctx = document.getElementById('myCanvas').getContext('2d');
-              
-                // var xhr2 = new XMLHttpRequest();
-                // xhr2.open('GET', resp.downloadUrl);
-                // xhr2.responseType = "blob"
-                
-                // xhr2.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-                
-                // xhr2.onload = function () {
-                //     var img = new Image();
-                //     img.src = window.URL.createObjectURL(xhr2.response);
-            
-                //     img.onload = function() {
-                        
-                //         ctx.drawImage(img, 0, 0);
-                        
-                //         var img_data = ctx.getImageData(10, 10, 1, 1).data;
-                //     }
-                // }
-                // xhr2.send();
-    
-    
-    
-    
                 
                 that.CONFIGFILENAME = resp.title;
                 that.FILENAME = resp.title;
@@ -111,7 +86,7 @@ MyDrive.prototype.init = function(loaded){
 
     var getConfigFileId = function(folderId, name, ocallback) {
         
-       var searchForId = function(fileList){
+        var searchForId = function(fileList){
             writeStatement('retrieved list of files');
             var idx =0;
             
@@ -341,6 +316,46 @@ MyDrive.prototype.init = function(loaded){
      
      
      
+};
+
+MyDrive.prototype.ReadFolder = function(){
+    
+    var searchForId = function(fileList){
+        writeStatement('retrieved list of files');
+        var idx =0;
+          
+        while(idx < fileList.length){
+            writeStatement(fileList[idx].title);
+            
+            
+            idx++;
+        }    
+         
+    };
+    
+    var retrievePageOfFiles = function(request, result) {
+        request.execute(function(resp) {
+            result = result.concat(resp.items);
+            var nextPageToken = resp.nextPageToken;
+           
+            if (nextPageToken) {
+                request = gapi.client.drive.files.list({
+                'pageToken': nextPageToken
+                });
+                retrievePageOfFiles(request, result);
+            } 
+            else {
+                searchForId(result);
+            }
+        });
+    };
+    
+    var pstr= '\'' + this.CONFIGFOLDERID+ '\'' + ' in parents';
+  
+    var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
+    
+    retrievePageOfFiles(initialRequest, []);
+  
 };
 
 MyDrive.prototype._makeFolder = function(parentId, folderName, callback){

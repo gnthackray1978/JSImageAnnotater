@@ -357,6 +357,9 @@ NoteDataManager.prototype = {
         }
     },
     
+    ReadFolder: function(){
+        this._noteDll.ReadFolder();
+    },
     WriteToDB: function(note,callback){
         this._noteDll.WriteNoteData(note,callback);
     },
