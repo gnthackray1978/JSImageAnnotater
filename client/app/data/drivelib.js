@@ -319,7 +319,7 @@ MyDrive.prototype.init = function(loaded){
 };
 
 MyDrive.prototype.ReadConfigFile = function(configId, callback){
-        
+    var that = this;        
     var request = gapi.client.drive.files.get({
       'fileId': configId
     });
