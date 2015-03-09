@@ -367,11 +367,16 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
                 
                 while(nidx < d.generations.length){
                     
-                    if(d.generations[nidx].Annotation.indexOf(text) > -1){
+                    try {
+                        if(d.generations[nidx].Annotation.indexOf(text) > -1){
                         d.generations[nidx].title = title;
                         
                         genList.push(d.generations[nidx]);
                     }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                   
                     
                     nidx++;    
                 }
