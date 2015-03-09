@@ -7,6 +7,10 @@ var Debuger = function (nodestore,view) {
 Debuger.prototype.SearchString = function(text){
     console.log(text);
     
-    this.nodestore.ReadFolder();
+    this.nodestore.BuildSearchCache(text, function(data){
+        console.log('data:' + data.length)
+    });
+    
+    
 };
 

@@ -231,32 +231,31 @@ MyDrive.prototype.init = function(loaded){
          //find config folder
          getConfigFileId(resp.parents[0].id,that.CONFIGFILEFOLDER,function(folderId){
            
+            var loadConfigFile = function(){
+                that.ReadConfigFile(that.CONFIGFILEID,function(d){
+                    that.generations = d.generations;
+                    that.options = d.options;
+                    that.layers = d.layers;
+                    loaded();  
+                });
+            };
+           
             var getConfigFolderContents = function(id){
                 that.CONFIGFOLDERID =id;
                 var readCreateConfigFile = function(configId){
-                    
                     //SET CONFIG ID IF WE HAVE IT
                     that.CONFIGFILEID =configId;
                     that.PARENTFOLDERID=resp.parents[0].id;
                         
                     if(configId == -1){
-                    
                         var c = createDummyFile();
-                        
                         createConfigFile(id, that.CONFIGFILENAME,null,JSON.stringify(c), function(creaetedfileId){
-                        
                             that.CONFIGFILEID =creaetedfileId;
-                        
-                            that.ReadConfigFile(that.CONFIGFILEID,function(){
-                                loaded();  
-                            });
+                            loadConfigFile();
                         });
-                        
                     }
                     else {
-                        that.ReadConfigFile(that.CONFIGFILEID,function(){
-                            loaded();  
-                        });
+                        loadConfigFile();
                     }
                 };
              
@@ -333,10 +332,9 @@ MyDrive.prototype.ReadConfigFile = function(configId, callback){
           success: function(data) {
             
             var d = JSON.parse(data);
-            that.generations = d.generations;
-            that.options = d.options;
-            that.layers = d.layers;
-            callback();
+        
+            
+            callback(d);
           }
         });
       }
@@ -348,7 +346,10 @@ MyDrive.prototype.ReadConfigFile = function(configId, callback){
 
 
 
-MyDrive.prototype.ReadFolder = function(){
+MyDrive.prototype.BuildSearchCache = function(text, callback){
+    var that = this;
+    var genList =[];
+    
     
     var searchForId = function(fileList){
         writeStatement('retrieved list of files');
@@ -357,7 +358,17 @@ MyDrive.prototype.ReadFolder = function(){
         while(idx < fileList.length){
             writeStatement(fileList[idx].title);
             
-            
+            that.ReadConfigFile(fileList[idx].id,function(d){
+                //that.generations = d.generations;
+                
+                genList.push(d.generations);
+                
+                //erm hopefully this should everything has got populated 
+                if(genList.length == fileList.length){
+                    callback(genList);
+                }
+            });
+                
             idx++;
         }    
          
