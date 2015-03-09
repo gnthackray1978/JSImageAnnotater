@@ -24,6 +24,7 @@ var MyDrive = function () {
     this.generations =null;
     this.options =null;
     this.layers =null;
+    this.searchCache = [];
 };
 
 
@@ -344,9 +345,23 @@ MyDrive.prototype.ReadConfigFile = function(configId, callback){
 };
 
 
+MyDrive.prototype.QrySearchCache = function(text, callback){
+    var nidx =0;
+    var result = [];
+    
+    while(nidx < this.searchCache.length){
+        if(((typeof this.searchCache[nidx].Annotation) == "string") 
+            && this.searchCache[nidx].Annotation.indexOf(text) > -1){
+                result.push(this.searchCache[nidx]);
+        }
+        nidx++;   
+    }
+    
+    callback(result);
+    
+};
 
-
-MyDrive.prototype.BuildSearchCache = function(text, callback){
+MyDrive.prototype.BuildSearchCache = function(callback){
     var that = this;
     var genList =[];
     
@@ -367,19 +382,8 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
                 
                 while(nidx < d.generations.length){
                     
-                    try {
-                        
-                        if( (typeof d.generations[nidx].Annotation) == "string"  
-                            &&  d.generations[nidx].Annotation.indexOf(text) > -1){
-                        d.generations[nidx].title = title;
-                        
-                        genList.push(d.generations[nidx]);
-                    }
-                    } catch (e) {
-                        console.log(e);
-                    }
                    
-                    
+                    genList.push(d.generations[nidx]);
                     nidx++;    
                 }
                 
@@ -387,7 +391,7 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
                 
                 //erm hopefully this should everything has got populated 
                 if(genList.length == fileList.length){
-                    callback(genList);
+                    callback();
                 }
             });
                 
