@@ -358,6 +358,8 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
         while(idx < fileList.length){
             writeStatement(fileList[idx].title);
             
+            var title = fileList[idx].title;
+            
             that.ReadConfigFile(fileList[idx].id,function(d){
                 //that.generations = d.generations;
                 
@@ -366,7 +368,7 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
                 while(nidx < d.generations.length){
                     
                     if(d.generations[nidx].Annotation.indexOf(text) > -1){
-                        d.generations[nidx].title = fileList[idx].title;
+                        d.generations[nidx].title = title;
                         
                         genList.push(d.generations[nidx]);
                     }
