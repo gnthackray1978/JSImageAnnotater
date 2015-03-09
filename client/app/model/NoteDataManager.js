@@ -357,9 +357,14 @@ NoteDataManager.prototype = {
         }
     },
     
-    BuildSearchCache: function(text, callback){
-        this._noteDll.BuildSearchCache(text, callback);
+    BuildSearchCache: function(callback){
+        this._noteDll.BuildSearchCache(callback);
     },
+    
+    QrySearchCache: function(text, callback){
+        this._noteDll.QrySearchCache(text, callback);
+    },
+    
     WriteToDB: function(note,callback){
         this._noteDll.WriteNoteData(note,callback);
     },
