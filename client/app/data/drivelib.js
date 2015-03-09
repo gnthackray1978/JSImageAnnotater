@@ -361,7 +361,20 @@ MyDrive.prototype.BuildSearchCache = function(text, callback){
             that.ReadConfigFile(fileList[idx].id,function(d){
                 //that.generations = d.generations;
                 
-                genList.push(d.generations);
+                var nidx =0;
+                
+                while(nidx < d.generations.length){
+                    
+                    if(d.generations[nidx].Annotation.indexOf(text) > -1){
+                        d.generations[nidx].title = fileList[idx].title;
+                        
+                        genList.push(d.generations[nidx]);
+                    }
+                    
+                    nidx++;    
+                }
+                
+                
                 
                 //erm hopefully this should everything has got populated 
                 if(genList.length == fileList.length){
