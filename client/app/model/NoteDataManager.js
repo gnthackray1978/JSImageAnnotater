@@ -76,7 +76,7 @@ NoteDataManager.prototype = {
     RefreshMatches: function(){
         var idx =0;
         var matchCount =3;
-        var baseCount =3;
+        var baseCount =0;
         var partsToMatch = [];
         
         while(idx < this.generations[1].length){
@@ -88,6 +88,7 @@ NoteDataManager.prototype = {
             }
             else
             {
+                // 
                 while(baseCount < words.length ){
                     var tp = '';
                     var iidx=0;
