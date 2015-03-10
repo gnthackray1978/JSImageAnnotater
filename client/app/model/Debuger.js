@@ -5,13 +5,14 @@ var Debuger = function (nodestore,view) {
 };
 
 Debuger.prototype.SearchString = function(text){
+    var that =this;
     console.log(text);
     
     this.nodestore.BuildSearchCache(function(){
         console.log('loaded cache');
         
         
-        this.nodestore.QrySearchCache(text, function(data){
+        that.nodestore.QrySearchCache(text, function(data){
             console.log('found: ' + data.length);
         });
     });
