@@ -60,7 +60,7 @@ DiagramController.prototype = {
         
                     that.ancTree.nodestore.GetGenerations(id, function(){
                         
-                        that.nodestore.RefreshMatches();
+                        that.ancTree.nodestore.RefreshMatches();
                         
                         console.log('got data starting app');
                         
