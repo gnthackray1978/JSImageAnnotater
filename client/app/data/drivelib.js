@@ -363,7 +363,7 @@ MyDrive.prototype.QrySearchCache = function(text, callback){
 
 MyDrive.prototype.BuildSearchCache = function(callback){
     var that = this;
-    var genList =[];
+    this.searchCache =[];
     var fileCount =0;
     
     var searchForId = function(fileList){
@@ -382,14 +382,16 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 var nidx =0;
                 
                 while(nidx < d.generations.length){
-                    genList.push(d.generations[nidx]);
+                    d.generations[nidx].title = title;
+                    
+                    this.searchCache.push(d.generations[nidx]);
                     nidx++;    
                 }
                 
                 fileCount++;
                 
                 //erm hopefully this should everything has got populated 
-                if(fileList.length == fileCount){
+                if(this.searchCache.length == fileCount){
                     callback();
                 }
             });
