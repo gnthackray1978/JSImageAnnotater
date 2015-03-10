@@ -157,15 +157,15 @@ ImageViewer.prototype.DrawTree= function () {
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        if(Math.abs(that.nodestore.generations[vidx][hidx].LayerId) == 4){
-                            console.log('crop node present: ' 
-                            + that.nodestore.generations[vidx][hidx].LayerId 
-                            + ' ' + that.nodestore.generations[vidx][hidx].Visible 
-                            + ' ' + that.nodestore.generations[vidx][hidx].X
-                            + ' ' + that.nodestore.generations[vidx][hidx].Y
-                            + ' ' + that.nodestore.generations[vidx][hidx].Width
-                            + ' ' + that.nodestore.generations[vidx][hidx].Height);
-                        }
+                        // if(Math.abs(that.nodestore.generations[vidx][hidx].LayerId) == 4){
+                        //     console.log('crop node present: ' 
+                        //     + that.nodestore.generations[vidx][hidx].LayerId 
+                        //     + ' ' + that.nodestore.generations[vidx][hidx].Visible 
+                        //     + ' ' + that.nodestore.generations[vidx][hidx].X
+                        //     + ' ' + that.nodestore.generations[vidx][hidx].Y
+                        //     + ' ' + that.nodestore.generations[vidx][hidx].Width
+                        //     + ' ' + that.nodestore.generations[vidx][hidx].Height);
+                        // }
                         
                         if(that.nodestore.generations[vidx][hidx].LayerId == -4 
                             && that.nodestore.generations[vidx][hidx].X != 0

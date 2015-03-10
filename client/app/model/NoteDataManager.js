@@ -73,6 +73,38 @@ NoteDataManager.prototype = {
         });
     },
     
+    RefreshMatches: function(){
+        var idx =0;
+        var matchCount =3;
+        var baseCount =3;
+        var partsToMatch = [];
+        
+        while(idx < this.generations[1].length){
+            
+            var words = this.generations[1][idx].Annotation.split(' ');
+            
+            if(words.length <= matchCount){
+                partsToMatch.push(this.generations[1][idx].Annotation);
+            }
+            else
+            {
+                while(baseCount < words.length ){
+                    var tp = '';
+                    var iidx=0;
+                    
+                    while(iidx > matchCount){
+                        tp += partsToMatch[baseCount+iidx] + ' ';
+                        iidx++;
+                    }
+                    
+                    baseCount+= matchCount;
+                }
+            }
+            // split 
+            
+            idx++;
+        }
+    },
     
     NewId : function(){
           

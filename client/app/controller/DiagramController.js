@@ -60,6 +60,8 @@ DiagramController.prototype = {
         
                     that.ancTree.nodestore.GetGenerations(id, function(){
                         
+                        that.nodestore.RefreshMatches();
+                        
                         console.log('got data starting app');
                         
                         setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
