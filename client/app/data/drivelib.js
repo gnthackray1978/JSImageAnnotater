@@ -384,7 +384,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 while(nidx < d.generations.length){
                     d.generations[nidx].title = title;
                     
-                    this.searchCache.push(d.generations[nidx]);
+                    that.searchCache.push(d.generations[nidx]);
                     nidx++;    
                 }
                 
