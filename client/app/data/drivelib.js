@@ -377,8 +377,6 @@ MyDrive.prototype.BuildSearchCache = function(callback){
             var title = fileList[idx].title;
             
             that.ReadConfigFile(fileList[idx].id,function(d){
-                //that.generations = d.generations;
-                
                 var nidx =0;
                 
                 while(nidx < d.generations.length){
@@ -391,7 +389,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 fileCount++;
                 
                 //erm hopefully this should everything has got populated 
-                if(this.searchCache.length == fileCount){
+                if(that.searchCache.length == fileCount){
                     callback();
                 }
             });
