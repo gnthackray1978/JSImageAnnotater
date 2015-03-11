@@ -80,8 +80,10 @@ NoteDataManager.prototype = {
         var partsToMatch = [];
         
         while(idx < this.generations[1].length){
+            var words = '';
             
-            var words = this.generations[1][idx].Annotation.split(' ');
+            if((typeof this.generations[1][idx].Annotation) == "string")
+                words = this.generations[1][idx].Annotation.split(' ');
             
             if(words.length <= matchCount){
                 partsToMatch.push(this.generations[1][idx].Annotation);

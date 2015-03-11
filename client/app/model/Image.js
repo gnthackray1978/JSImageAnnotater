@@ -188,6 +188,11 @@ ImageViewer.prototype.DrawTree= function () {
                                 that.nodestore.generations[vidx][hidx].D,
                                 that.nodestore.generations[vidx][hidx].Annotation, 
                                 tpOptions);
+                                
+                                
+                            //matches ????
+                            //scan for matches when load 
+                            //and have refresh method to update periodically
                         }
                     }
                     hidx++;
