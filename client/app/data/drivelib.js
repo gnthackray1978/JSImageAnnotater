@@ -389,7 +389,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 fileCount++;
                 
                 //erm hopefully this should everything has got populated 
-                if(that.searchCache.length == fileCount){
+                if(fileList.length == fileCount){
                     callback();
                 }
             });
