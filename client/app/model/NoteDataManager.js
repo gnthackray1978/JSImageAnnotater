@@ -97,7 +97,7 @@ NoteDataManager.prototype = {
                     var tp = '';
                     var iidx=0;
                     
-                    while(iidx > matchCount){
+                    while(iidx < matchCount){
                         tp += words[baseCount+iidx] + ' ';
                         iidx++;
                     }
