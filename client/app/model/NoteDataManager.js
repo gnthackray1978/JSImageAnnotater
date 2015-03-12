@@ -74,19 +74,21 @@ NoteDataManager.prototype = {
     },
     
     RefreshMatches: function(){
+        console.log('populated matches');
         var idx =0;
         var matchCount =3;
         var baseCount =0;
-        var partsToMatch = [];
+        
         
         while(idx < this.generations[1].length){
             var words = '';
+            var chunkList = [];
             
             if((typeof this.generations[1][idx].Annotation) == "string")
                 words = this.generations[1][idx].Annotation.split(' ');
             
             if(words.length <= matchCount){
-                partsToMatch.push(this.generations[1][idx].Annotation);
+                chunkList.push(this.generations[1][idx].Annotation);
             }
             else
             {
@@ -96,14 +98,21 @@ NoteDataManager.prototype = {
                     var iidx=0;
                     
                     while(iidx > matchCount){
-                        tp += partsToMatch[baseCount+iidx] + ' ';
+                        tp += words[baseCount+iidx] + ' ';
                         iidx++;
                     }
-                    
+                    chunkList.push(tp);
                     baseCount+= matchCount;
                 }
             }
             // split 
+            
+            var cidx=0;
+            console.log(this.generations[1][idx].Annotation);
+            while(cidx < chunkList.length){
+                console.log(chunkList[cidx]);
+                cidx++;
+            }
             
             idx++;
         }
