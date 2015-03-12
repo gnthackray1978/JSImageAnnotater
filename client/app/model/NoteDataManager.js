@@ -97,8 +97,12 @@ NoteDataManager.prototype = {
                     var tp = '';
                     var iidx=0;
                     
-                    while(iidx < matchCount){
-                        tp += words[baseCount+iidx] + ' ';
+                    while(iidx < matchCount && iidx < words.length){
+                        
+                        //if(words[baseCount+iidx] != undefined)
+                            tp += words[baseCount+iidx] + ' ';
+                        
+                        
                         iidx++;
                     }
                     chunkList.push(tp);
