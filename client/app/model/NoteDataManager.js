@@ -111,13 +111,14 @@ NoteDataManager.prototype = {
             }
             // split 
             
-            var cidx=0;
-            console.log(this.generations[1][idx].Annotation);
-            while(cidx < chunkList.length){
-                console.log(chunkList[cidx]);
-                cidx++;
+            if((typeof this.generations[1][idx].Annotation) == "string"){
+                var cidx=0;
+                console.log(this.generations[1][idx].Annotation);
+                while(cidx < chunkList.length){
+                    console.log(chunkList[cidx]);
+                    cidx++;
+                }
             }
-            
             idx++;
         }
     },
