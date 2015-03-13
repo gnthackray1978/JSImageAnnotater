@@ -93,6 +93,7 @@ NoteDataManager.prototype = {
             else
             {
                 // 
+                baseCount =0;
                 while(baseCount < words.length ){
                     var tp = '';
                     var iidx=0;
@@ -113,7 +114,8 @@ NoteDataManager.prototype = {
             
             if((typeof this.generations[1][idx].Annotation) == "string"){
                 var cidx=0;
-                console.log(this.generations[1][idx].Annotation);
+                console.log('Unchopped annotation: '+this.generations[1][idx].Annotation);
+                console.log('Chunks: ');
                 while(cidx < chunkList.length){
                     console.log(chunkList[cidx]);
                     cidx++;
