@@ -4,3 +4,15 @@ remove all the unneeded crap from the generations array
 sort out generations property of fakedata
 cast the canvas coords correctly
 fix the zoom for newly added labels!
+
+
+
+match overview
+**************
+
+loop through every node in the generations file
+create a chunk list base on the annotation for that note
+save chunk to person. 
+
+use chunks to compare against whats in the adjacent images
+
