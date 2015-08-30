@@ -1,146 +1,150 @@
-var Crop = function (nodestore) {
-    this.nodestore = nodestore;
-    this.addMode =true;
-    this.mouse = {x: 0, y: 0};
-	this.start_mouse = {x: 0, y: 0};
-	this.cropnode;
-};
-
-Crop.prototype.SetMouseMovingPosition = function(mx,my){
-
-	this.mouse.x = mx;
-	this.mouse.y = my;
+(function(exports){
+	var Crop = function (nodestore) {
+	    this.nodestore = nodestore;
+	    this.addMode =true;
+	    this.mouse = {x: 0, y: 0};
+		this.start_mouse = {x: 0, y: 0};
+		this.cropnode;
+	};
 	
-	this.updateCropArea();
-},
-Crop.prototype.ValidCropNode = function(){
-    if(this.cropnode.X !=0 && this.cropnode.Y!= 0)
-    	return true;
-    else
-    	return false;
-},
-
-
-
-Crop.prototype.SetMouseStartPosition = function(mx,my){
-	this.mouse.x = mx;
-	this.mouse.y = my;
+	Crop.prototype.SetMouseMovingPosition = function(mx,my){
 	
-	this.start_mouse.x = this.mouse.x;
-	this.start_mouse.y = this.mouse.y;
-},
-
-Crop.prototype.updateCropArea = function() {
-	var tpx = this.start_mouse.x;
-	var tpy = this.start_mouse.y;
-	var tpw = this.mouse.x - this.start_mouse.x ;
-	var tph = this.mouse.y - this.start_mouse.y;
-	
-	if(tpw < 0){
-		tpx = this.start_mouse.x - Math.abs(tpw);
-		tpw = Math.abs(tpw);
+		this.mouse.x = mx;
+		this.mouse.y = my;
 		
-	}
- 
-	if(tph < 0){
-		tpy = this.start_mouse.y - Math.abs(tph);
-		tph = Math.abs(tph);
-		
-	}
-
-	this.cropnode.X = tpx;
-	this.cropnode.Y = tpy;
-	this.cropnode.Width = tpw;
-	this.cropnode.Height = tph;
-	this.cropnode.Visible =true;
+		this.updateCropArea();
+	},
 	
-	console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
-},
-
-Crop.prototype.GetNode = function(complete){
- 	var that = this;
- 
-    that.nodestore.GetCroppingNode(function(data, initnode){
-        console.log('got cropping node: ' + data.Index);
-        that.nodestore.GetOptions(0, function(options){
-			console.log('got cropping node options: ' + options);
-			that.cropnode = data;
+	Crop.prototype.ValidCropNode = function(){
+	    if(this.cropnode.X !=0 && this.cropnode.Y!= 0)
+	    	return true;
+	    else
+	    	return false;
+	},
+	
+	Crop.prototype.SetMouseStartPosition = function(mx,my){
+		this.mouse.x = mx;
+		this.mouse.y = my;
+		
+		this.start_mouse.x = this.mouse.x;
+		this.start_mouse.y = this.mouse.y;
+	},
+	
+	Crop.prototype.updateCropArea = function() {
+		var tpx = this.start_mouse.x;
+		var tpy = this.start_mouse.y;
+		var tpw = this.mouse.x - this.start_mouse.x ;
+		var tph = this.mouse.y - this.start_mouse.y;
+		
+		if(tpw < 0){
+			tpx = this.start_mouse.x - Math.abs(tpw);
+			tpw = Math.abs(tpw);
+			
+		}
 	 
-			that.cropnode.LayerId = -4;
-			initnode.LayerId = -4;
-			that.cropnode.X = 0;
-			that.cropnode.Y = 0;
-			that.cropnode.Width = 0;
-			that.cropnode.Height = 0;
+		if(tph < 0){
+			tpy = this.start_mouse.y - Math.abs(tph);
+			tph = Math.abs(tph);
+			
+		}
 	
-			that.cropnode.Options = JSON.parse(JSON.stringify(options));
-            that.cropnode.Options.DefaultEditorBorderColour = 'red';
-            that.cropnode.Options.BorderWidth = 5;
-            
-			complete();
-        });
-    });
-},
-
-Crop.prototype.Add = function(complete){
-    
-    var that = this;
-    
-	if(that.cropnode){
-
-		console.log('writing crop node index: ' + this.cropnode.Index);
-		that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
-									          function(data){ 
-									          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
-									          	
-									          	
-									          });
-	}
-	complete();
-};
-
-Crop.prototype.Delete = function(saveFunc){
-	console.log('delete');
+		this.cropnode.X = tpx;
+		this.cropnode.Y = tpy;
+		this.cropnode.Width = tpw;
+		this.cropnode.Height = tph;
+		this.cropnode.Visible =true;
+		
+		console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
+	},
 	
-	var that = this;
-	if(that.cropnode!= undefined){
-		that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, saveFunc);
-	}
-	else
-	{
-		that.nodestore.GetCroppingNode(function(data){
-			that.cropnode =data;
+	Crop.prototype.GetNode = function(complete){
+	 	var that = this;
+	 
+	    that.nodestore.GetCroppingNode(function(data, initnode){
+	        console.log('got cropping node: ' + data.Index);
+	        that.nodestore.GetOptions(0, function(options){
+				console.log('got cropping node options: ' + options);
+				that.cropnode = data;
+		 
+				that.cropnode.LayerId = -4;
+				initnode.LayerId = -4;
+				that.cropnode.X = 0;
+				that.cropnode.Y = 0;
+				that.cropnode.Width = 0;
+				that.cropnode.Height = 0;
+		
+				that.cropnode.Options = JSON.parse(JSON.stringify(options));
+	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
+	            that.cropnode.Options.BorderWidth = 5;
+	            
+				complete();
+	        });
+	    });
+	},
+	
+	Crop.prototype.Add = function(complete){
+	    
+	    var that = this;
+	    
+		if(that.cropnode){
+	
+			console.log('writing crop node index: ' + this.cropnode.Index);
+			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
+										          function(data){ 
+										          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
+										          	
+										          	
+										          });
+		}
+		complete();
+	};
+	
+	Crop.prototype.Delete = function(saveFunc){
+		console.log('delete');
+		
+		var that = this;
+		if(that.cropnode!= undefined){
 			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, saveFunc);
-		});
-	}
-};
-
-Crop.prototype.Save = function(saveFunc, saveSuccess){
-	console.log('save');
-	//we need to save this to the db to make sure the entry in 
-	// init values array gets updated to correct size.
+		}
+		else
+		{
+			that.nodestore.GetCroppingNode(function(data){
+				that.cropnode =data;
+				that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, saveFunc);
+			});
+		}
+	};
 	
-	// also need to think about positioning!
-	if(this.cropnode.LayerId == -4 
-        && this.cropnode.X != 0
-        && this.cropnode.Y != 0
-        && this.cropnode.Visible){
-       
-        console.log('writing crop node index: ' + this.cropnode.Index);
-        this.nodestore.WriteNote(this.cropnode.Index, 
-								 this.cropnode.X,  
-								 this.cropnode.Y,
-								 this.cropnode.Width, 
-								 this.cropnode.Height, 
-								 this.cropnode.D, '', 
-								 this.cropnode.Options,  
-								 4,  
-								 undefined, 
-								 saveSuccess
-						         );
-        
-        saveFunc();
-    }
+	Crop.prototype.Save = function(saveFunc, saveSuccess){
+		console.log('save');
+		//we need to save this to the db to make sure the entry in 
+		// init values array gets updated to correct size.
+		
+		// also need to think about positioning!
+		if(this.cropnode.LayerId == -4 
+	        && this.cropnode.X != 0
+	        && this.cropnode.Y != 0
+	        && this.cropnode.Visible){
+	       
+	        console.log('writing crop node index: ' + this.cropnode.Index);
+	        this.nodestore.WriteNote(this.cropnode.Index, 
+									 this.cropnode.X,  
+									 this.cropnode.Y,
+									 this.cropnode.Width, 
+									 this.cropnode.Height, 
+									 this.cropnode.D, '', 
+									 this.cropnode.Options,  
+									 4,  
+									 undefined, 
+									 saveSuccess
+							         );
+	        
+	        saveFunc();
+	    }
+	    
+	    this.addMode = false;                           
+	};
+
+    exports.Crop = Crop;
     
-    this.addMode = false;                           
-};
+})(typeof exports === 'undefined'? this: exports);
