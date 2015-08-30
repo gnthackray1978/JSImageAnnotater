@@ -35,7 +35,7 @@ function loadAll (drive){
         var options = new Options(noteDataManager,appView);
         var optionsController = new OptionsController(appView,options);
 
-        var cropper = new Crop(noteDataManager,appView);
+        var cropper = new Crop(noteDataManager);
         var crapperController = new CroppingController(appView,cropper);
 
         var debug = new Debuger(noteDataManager,appView);

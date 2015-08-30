@@ -9,9 +9,6 @@ $(document).ready(function () {
    // loadAll (false){
 });
 
-
- 
- 
 function loadAll (drive){
     console.log('pointess');
     var data;
