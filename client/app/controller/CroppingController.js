@@ -83,14 +83,14 @@
             }
             else
             {
-               // this.model.Add(function(){
                 that._view.UpdateCanvas(this.model,null);
                 that._view.LockCanvasMouseUp('');
                 that._view.LockCanvasMouseDown('');
                 that._view.LockCanvasMouseMove('');
                 that._view.SetAddButtonAdd();
                 that._view.SetCropSaveDisabled(); 
-               // });
+                this.model.addMode =true;
+            
             }
         },
         
