@@ -78,17 +78,19 @@
         	        that._view.LockCanvasMouseUp('CROP');
     	    	    that._view.LockCanvasMouseDown('CROP');
         	    });
+        	    
+        	    this.model.addMode =false;
             }
             else
             {
-                this.model.Add(function(){
-                    that._view.UpdateCanvas(this,null);
-                    that._view.LockCanvasMouseUp('');
-                    that._view.LockCanvasMouseDown('');
-                    that._view.LockCanvasMouseMove('');
-                    that._view.SetAddButtonAdd();
-                    that._view.SetCropSaveDisabled(); 
-                });
+               // this.model.Add(function(){
+                that._view.UpdateCanvas(this.model,null);
+                that._view.LockCanvasMouseUp('');
+                that._view.LockCanvasMouseDown('');
+                that._view.LockCanvasMouseMove('');
+                that._view.SetAddButtonAdd();
+                that._view.SetCropSaveDisabled(); 
+               // });
             }
         },
         
