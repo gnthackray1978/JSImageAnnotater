@@ -7,15 +7,23 @@
         
         this.init();
         
-        this._view.QryCropAddButton($.proxy(this.qryCropAddButton, this));
+        if(this._view.QryCropAddButton)
+            this._view.QryCropAddButton($.proxy(this.qryCropAddButton, this));
+            
+        if(this._view.QryCropSaveButton)
+            this._view.QryCropSaveButton($.proxy(this.qryCropSaveButton, this));
         
-        this._view.QryCropSaveButton($.proxy(this.qryCropSaveButton, this));
+        if(this._view.QryCropDeleteButton)
+            this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
         
-        this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
+        if(this._view.QryCanvasMouseDown)
+            this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
         
-        this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
-        this._view.QryCanvasMouseUp($.proxy(this.qryCanvasMouseUp, this));
-        this._view.QryCanvasMouseMove($.proxy(this.qryCanvasMouseMove, this));
+        if(this._view.QryCanvasMouseUp)
+            this._view.QryCanvasMouseUp($.proxy(this.qryCanvasMouseUp, this));
+        
+        if(this._view.QryCanvasMouseMove)
+            this._view.QryCanvasMouseMove($.proxy(this.qryCanvasMouseMove, this));
     
     };
 
@@ -59,7 +67,7 @@
             }
         },
     
-        qryCropAddButton:function(data){
+        qryCropAddButton:function(){
             var that = this;
             
             if(this.model.addMode){
@@ -73,7 +81,7 @@
             }
             else
             {
-                this.model.addMode(function(){
+                this.model.Add(function(){
                     that._view.UpdateCanvas(this,null);
                     that._view.LockCanvasMouseUp('');
                     that._view.LockCanvasMouseDown('');
