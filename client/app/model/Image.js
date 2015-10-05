@@ -210,16 +210,14 @@ ImageViewer.prototype.DrawTree= function () {
             {
                 that.nodestore.GetCroppingNode(function(croppingnode, initNode){
                     if(croppingnode)
-                        if(!croppingnode.IsOpen){
+                        //if(!croppingnode.IsOpen){
                             that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
                             that.imageData.url ,
                             croppingnode,
                             initNode, 
                             drawNotes ); 
-                        }
-                        else
-                        {
-                            if(croppingnode.X != 0 && croppingnode.Y != 0)
+                            
+                            if(croppingnode.X != 0 && croppingnode.Y != 0 && croppingnode.IsOpen)
                             { 
                                 console.log('drawing crop node');
                                 that._canvasTools.DrawCropBox(
@@ -227,11 +225,24 @@ ImageViewer.prototype.DrawTree= function () {
                                     croppingnode.Y,
                                     croppingnode.Width,
                                     croppingnode.Height,
-                                    tpOptions);
+                                    croppingnode.options);
                             }
+                        //}
+                        // else
+                        // {
+                        //     if(croppingnode.X != 0 && croppingnode.Y != 0)
+                        //     { 
+                        //         console.log('drawing crop node');
+                        //         that._canvasTools.DrawCropBox(
+                        //             croppingnode.X,
+                        //             croppingnode.Y,
+                        //             croppingnode.Width,
+                        //             croppingnode.Height,
+                        //             croppingnode.options);
+                        //     }
                             
-                            drawNotes();
-                        }
+                        //     drawNotes();
+                        // }
                         
                     else
                         that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
