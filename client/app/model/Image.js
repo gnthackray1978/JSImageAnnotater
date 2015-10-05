@@ -168,13 +168,13 @@ ImageViewer.prototype.DrawTree= function () {
                         if(that.nodestore.generations[vidx][hidx].IsOpen
                              && that.nodestore.generations[vidx][hidx].X != 0
                              && that.nodestore.generations[vidx][hidx].Y != 0){
-                            // console.log('drawing crop node');
-                            // that._canvasTools.DrawCropBox(
-                            //     that.nodestore.generations[vidx][hidx].X,
-                            //     that.nodestore.generations[vidx][hidx].Y,
-                            //     that.nodestore.generations[vidx][hidx].Width,
-                            //     that.nodestore.generations[vidx][hidx].Height,
-                            //     tpOptions);
+                            console.log('drawing crop node');
+                            that._canvasTools.DrawCropBox(
+                                that.nodestore.generations[vidx][hidx].X,
+                                that.nodestore.generations[vidx][hidx].Y,
+                                that.nodestore.generations[vidx][hidx].Width,
+                                that.nodestore.generations[vidx][hidx].Height,
+                                tpOptions);
                         }
                         else
                         {
@@ -218,13 +218,13 @@ ImageViewer.prototype.DrawTree= function () {
                         }
                         else
                         {
-                            console.log('drawing crop node');
-                            that._canvasTools.DrawCropBox(
-                                croppingnode.X,
-                                croppingnode.Y,
-                                croppingnode.Width,
-                                croppingnode.Height,
-                                tpOptions);
+                            // console.log('drawing crop node');
+                            // that._canvasTools.DrawCropBox(
+                            //     croppingnode.X,
+                            //     croppingnode.Y,
+                            //     croppingnode.Width,
+                            //     croppingnode.Height,
+                            //     tpOptions);
                         
                         }
                         
