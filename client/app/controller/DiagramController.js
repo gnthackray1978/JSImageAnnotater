@@ -26,7 +26,7 @@ var DiagramController = function (view, graphicsContext) {
 
     this._view.InitPanelVisibility();
 
-    if(model.nodestore.Type() != 'AJAX'){
+    if(graphicsContext.nodestore.Type() != 'AJAX'){
         this.startFromDrive();
         
     }
