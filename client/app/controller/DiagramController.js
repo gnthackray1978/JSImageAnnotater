@@ -6,7 +6,7 @@ var DiagramController = function (view, model) {
     
  //   this.textarea = null;
     
-    this.ancTree = model;
+    this.graphicsContext = model;
 
     this._view.CanvasClick($.proxy(this.canvasClick, this));
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
@@ -50,17 +50,17 @@ DiagramController.prototype = {
 
         //init drive here
         var that = this;
-       // that.ancTree.CreateComponentList();
+       // that.graphicsContext.CreateComponentList();
     
-        that.ancTree.LoadBackgroundImage(function(id){
+        that.graphicsContext.LoadBackgroundImage(function(id){
                     var canvas = document.getElementById("myCanvas");
               
                     canvas.width = window.innerWidth;
                     canvas.height = window.innerHeight;
         
-                    that.ancTree.nodestore.GetGenerations(id, function(){
+                    that.graphicsContext.nodestore.GetGenerations(id, function(){
                         
-                        that.ancTree.nodestore.RefreshMatches();
+                        that.graphicsContext.nodestore.RefreshMatches();
                         
                         console.log('got data starting app');
                         
@@ -68,12 +68,12 @@ DiagramController.prototype = {
          
                         //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
                         
-                        that.ancTree.SetDrawingQueueReset();
+                        that.graphicsContext.SetDrawingQueueReset();
                         
                     
-                        that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
-                        that.ancTree.UpdateGenerationState();
-                        that.ancTree.ScaleToScreen();
+                        that.graphicsContext.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+                        that.graphicsContext.UpdateGenerationState();
+                        that.graphicsContext.ScaleToScreen();
                        
                     });
             });
@@ -82,10 +82,10 @@ DiagramController.prototype = {
     
     init:function(){
     
-         if (this.ancTree !== null) {
-           // this.ancTree.CreateComponentList();
-            this.ancTree.EnableRun(false);
-          //  this.ancTree.GetUrls();
+         if (this.graphicsContext !== null) {
+           // this.graphicsContext.CreateComponentList();
+            this.graphicsContext.EnableRun(false);
+          //  this.graphicsContext.GetUrls();
             
          };
     },
@@ -100,19 +100,19 @@ DiagramController.prototype = {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        that.ancTree.nodestore.GetGenerations(id, function(){
+        that.graphicsContext.nodestore.GetGenerations(id, function(){
             
             console.log('got data starting app');
             
             setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
 
             //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
-            that.ancTree.SetDrawingQueueReset();
+            that.graphicsContext.SetDrawingQueueReset();
 
 
-            that.ancTree.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
-            that.ancTree.UpdateGenerationState();
-            that.ancTree.ScaleToScreen();
+            that.graphicsContext.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+            that.graphicsContext.UpdateGenerationState();
+            that.graphicsContext.ScaleToScreen();
            
         });
      
@@ -124,11 +124,11 @@ DiagramController.prototype = {
     },
     boxButtonDown:function(dir){
         
-        if (this.ancTree !== null) {
+        if (this.graphicsContext !== null) {
             
             var that = this;
             return setInterval(function () {
-                that.ancTree.MoveTree(dir); 
+                that.graphicsContext.MoveTree(dir); 
                 
             }, 100);
         }
@@ -136,11 +136,11 @@ DiagramController.prototype = {
     
     canvasMouseMove:function(_point){
      
-        if (this.ancTree !== null) {
-            this.ancTree.SetMouse(_point[0], _point[1]);
+        if (this.graphicsContext !== null) {
+            this.graphicsContext.SetMouse(_point[0], _point[1]);
            
             if (this._mouseDown) {
-                this.ancTree.SetDrawingQueueValue(_point);
+                this.graphicsContext.SetDrawingQueueValue(_point);
                // this._moustQueue.push(_point);
             }
         }
@@ -149,19 +149,19 @@ DiagramController.prototype = {
     canvasMouseUp:function(){
         
       //console.log('canvas mouse up');
-      if (this.ancTree !== null) {
+      if (this.graphicsContext !== null) {
             this._mouseDown = false;
 
            // var _point = new Array(1000000, 1000000);
            // this._moustQueue[this._moustQueue.length] = _point;
-            this.ancTree.SetDrawingQueueReset();
+            this.graphicsContext.SetDrawingQueueReset();
         }
     },
     
     canvasMouseDown:function(){
         
         //console.log('canvas mouse down');
-        if (this.ancTree !== null) {
+        if (this.graphicsContext !== null) {
       
             this._mouseDown = true;
         }
@@ -170,12 +170,12 @@ DiagramController.prototype = {
     canvasClick:function(x,y){
         
         //console.log('canvas mouse click');
-         if (this.ancTree !== null) {
+         if (this.graphicsContext !== null) {
 
-            this.ancTree.PerformClick(x, y);
+            this.graphicsContext.PerformClick(x, y);
         
             //this._moustQueue[this._moustQueue.length] = new Array(1000000, 1000000);
-            this.ancTree.SetDrawingQueueReset();
+            this.graphicsContext.SetDrawingQueueReset();
         }
     },
     
@@ -183,36 +183,36 @@ DiagramController.prototype = {
 
 
 
-        this.ancTree.generations = null;
-      //  this.ancTree.familiesPerGeneration = null;
-        this.ancTree.familySpanLines = null;
-        this.ancTree.childlessMarriages = null;
+        this.graphicsContext.generations = null;
+      //  this.graphicsContext.familiesPerGeneration = null;
+        this.graphicsContext.familySpanLines = null;
+        this.graphicsContext.childlessMarriages = null;
     },
  
     addButtonClicked:function(){
-        this.ancTree.EnableAdd();
+        this.graphicsContext.EnableAdd();
     },
    
    
     cancelButtonClicked:function(){
-        this.ancTree.CancelAdd();
+        this.graphicsContext.CancelAdd();
     },
     
     deleteNote:function(action){
-        this.ancTree.DeleteNoteMode();
+        this.graphicsContext.DeleteNoteMode();
         
     },
     
     saveNote:function(saveData){
         
-        if (this.ancTree !== null) {
+        if (this.graphicsContext !== null) {
 
-            this.ancTree.SaveNoteClicked(saveData);
+            this.graphicsContext.SaveNoteClicked(saveData);
         }
     },
 
     redraw: function(){
-        this.ancTree.DrawTree();
+        this.graphicsContext.DrawTree();
     },
  
     GameLoop: function () {
@@ -221,11 +221,11 @@ DiagramController.prototype = {
         //     var _point = this._moustQueue.shift();
 
 
-        //     this.ancTree.SetCentrePoint(_point[0], _point[1]);
-        //     this.ancTree.DrawTree();
+        //     this.graphicsContext.SetCentrePoint(_point[0], _point[1]);
+        //     this.graphicsContext.DrawTree();
         // }
         
-        this.ancTree.SetDrawQueueEntries();
+        this.graphicsContext.SetDrawQueueEntries();
         
         setTimeout($.proxy(this.GameLoop, this));
     }

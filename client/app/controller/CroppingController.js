@@ -7,8 +7,8 @@
         
         this.init();
         
-        if(this._view.QryCropAddButton)
-            this._view.QryCropAddButton($.proxy(this.qryCropAddButton, this));
+        if(this._view.QryCropACModeButton)
+            this._view.QryCropACModeButton($.proxy(this.qryCropACModeButton, this));
             
         if(this._view.QryCropSaveButton)
             this._view.QryCropSaveButton($.proxy(this.qryCropSaveButton, this));
@@ -67,30 +67,38 @@
             }
         },
     
-        qryCropAddButton:function(){
+        _setAddMode:function(){
             var that = this;
             
+            this._view.SetAddButtonCancel();
+    	    //this._view.SetCropSaveDisabled();
+    	    
+    	    this.model.GetNode(function(){
+    	        that._view.LockCanvasMouseUp('CROP');
+	    	    that._view.LockCanvasMouseDown('CROP');
+    	    });
+    	    
+    	    this.model.addMode =false;
+        },
+        _setCancelMode:function(){
+            
+            this._view.UpdateCanvas(this.model,null);
+            
+            this._view.LockCanvasMouseUp('');
+            this._view.LockCanvasMouseDown('');
+            this._view.LockCanvasMouseMove('');
+            this._view.SetAddButtonAdd();
+            this._view.SetCropSaveDisabled(); 
+            this.model.addMode =true;
+        },
+        
+        qryCropACModeButton:function(){
             if(this.model.addMode){
-                this._view.SetAddButtonCancel();
-        	    this._view.SetCropSaveDisabled();
-        	    
-        	    this.model.GetNode(function(){
-        	        that._view.LockCanvasMouseUp('CROP');
-    	    	    that._view.LockCanvasMouseDown('CROP');
-        	    });
-        	    
-        	    this.model.addMode =false;
+               this._setAddMode();
             }
             else
             {
-                that._view.UpdateCanvas(this.model,null);
-                that._view.LockCanvasMouseUp('');
-                that._view.LockCanvasMouseDown('');
-                that._view.LockCanvasMouseMove('');
-                that._view.SetAddButtonAdd();
-                that._view.SetCropSaveDisabled(); 
-                this.model.addMode =true;
-            
+               this._setCancelMode();
             }
         },
         
@@ -106,12 +114,16 @@
             var that = this;
             
             this.model.Save(
-            function(){
-                that._view.UpdateCanvas(that.model,null);
-            },
-            function(data){ 
-    		    console.log('Crop.prototype.Save saved cropnode data: ' +data);
-    		}); 
+            function(success){
+                
+                if(success == undefined) success = true;
+                
+                if(success)
+                    that._view.UpdateCanvas(that.model,null);
+                else
+                    console.log('Crop.Save failed');
+                
+            }); 
             
             this._view.SetAddButtonAdd();
                  

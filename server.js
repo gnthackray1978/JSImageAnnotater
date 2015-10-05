@@ -23,3 +23,11 @@ var c = new tester.CropTests();
 
 c.init();
 c.CropAreaCreated();
+c.init();
+c.AddMode();
+c.init();
+c.CancelMode();
+c.init();
+c.Delete();
+c.init();
+c.Save();

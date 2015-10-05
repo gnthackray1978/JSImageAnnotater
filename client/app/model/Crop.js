@@ -65,10 +65,10 @@
 	        that.nodestore.GetOptions(0, function(options){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
-		 
-				that.cropnode.LayerId = -4;
-				initnode.LayerId = -4;
-				that.cropnode.X = 0;
+		 		
+				that.cropnode.LayerId = -4;// put crop node into edit mode.
+				initnode.LayerId = -4;	   // this is to ensure that we dont inadvertantly change stuff 
+				that.cropnode.X = 0;	   //while screen is being redrawn
 				that.cropnode.Y = 0;
 				that.cropnode.Width = 0;
 				that.cropnode.Height = 0;
@@ -115,7 +115,7 @@
 		}
 	};
 	
-	Crop.prototype.Save = function(saveFunc, saveSuccess){
+	Crop.prototype.Save = function(saveComplete){
 		console.log('save');
 		//we need to save this to the db to make sure the entry in 
 		// init values array gets updated to correct size.
@@ -124,6 +124,8 @@
 		if(this.cropnode.LayerId == -4 
 	        && this.cropnode.X != 0
 	        && this.cropnode.Y != 0
+	        && this.cropnode.Width > 1
+	        && this.cropnode.Height > 1
 	        && this.cropnode.Visible){
 	       
 	        console.log('writing crop node index: ' + this.cropnode.Index);
@@ -136,10 +138,14 @@
 									 this.cropnode.Options,  
 									 4,  
 									 undefined, 
-									 saveSuccess
+									 saveComplete
 							         );
 	        
-	        saveFunc();
+	        
+	    }
+	    else
+	    {
+	    	saveComplete(false);
 	    }
 	    
 	    this.addMode = false;                           

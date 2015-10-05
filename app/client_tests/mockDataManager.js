@@ -6,10 +6,15 @@
 (function(exports){
     
     var mockDataManager = function(){
-        
+        this.writeNote =0;
+        this.getCroppingNote=0;
+        this.getOptions =0;
+        this.noteValidation;
     };
     
     mockDataManager.prototype.GetCroppingNode = function(func){
+        
+        this.getCroppingNote++;
         
         var option = {
             LayerId:0,
@@ -39,7 +44,7 @@
                 D:Number(0),
                 Visible: true,
                 Options: options,
-                LayerId : 4
+                LayerId : -4
             };
             
             
@@ -48,6 +53,8 @@
 
 
     mockDataManager.prototype.GetOptions= function(param1, func){
+        
+        this.getOptions++;
         
         var option = {
             LayerId:0,
@@ -68,6 +75,32 @@
         func(options);
     };
 
+    mockDataManager.prototype.WriteNote = function(note,x,y,width,height,degree,annotation,options,layerId, metaData, callback){
 
+        this.noteValidation = {
+            note :false,
+            x :false,
+            y: false,
+            width:false,
+            height: false,
+            degree:false,
+            annotation:false
+        };
+
+        if(note == undefined) this.noteValidation.note =true;
+        if(x == undefined) this.noteValidation.x =true;
+        if(y == undefined) this.noteValidation.y =true;
+        if(width == undefined) this.noteValidation.width =true;
+        if(height == undefined) this.noteValidation.height =true;
+        if(degree == undefined) this.noteValidation.degree =true;
+        if(annotation == undefined) this.noteValidation.annotation =true;
+
+
+        this.writeNote++;
+        callback();
+    
+    };
+    
+    
     exports.MockDataManager = mockDataManager;
 })(typeof exports === 'undefined'? this: exports);

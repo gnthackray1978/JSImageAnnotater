@@ -833,7 +833,7 @@ AnnotaterView.prototype.QryCropSaveButton = function(action){
     });   
 };
 
-AnnotaterView.prototype.QryCropAddButton = function(action){
+AnnotaterView.prototype.QryCropACModeButton = function(action){
    
     $('#btnAddCropping').click(function (e) {            
         e.preventDefault();
