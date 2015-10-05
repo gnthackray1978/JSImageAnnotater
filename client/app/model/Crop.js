@@ -115,7 +115,9 @@
 			});
 		}
 	};
-	
+	Crop.prototype.Cancel = function(){
+		if(this.cropnode.IsOpen) this.cropnode.IsOpen =false;
+	},
 	Crop.prototype.Save = function(saveComplete){
 		console.log('save');
 		//we need to save this to the db to make sure the entry in 

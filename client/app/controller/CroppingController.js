@@ -89,6 +89,7 @@
             this._view.LockCanvasMouseMove('');
             this._view.SetAddButtonAdd();
             this._view.SetCropSaveDisabled(); 
+            this.model.Cancel();
             this.model.addMode =true;
         },
         
