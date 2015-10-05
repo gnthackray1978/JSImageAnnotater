@@ -112,6 +112,10 @@ ImageViewer.prototype.PerformClick= function (x, y) {
     });
 };
 
+ImageViewer.prototype.DrawTree2= function () {
+    
+},
+
 ImageViewer.prototype.DrawTree= function () {
    // console.log('drawtree');
     var containsLevel = function(layers, id){
@@ -157,16 +161,6 @@ ImageViewer.prototype.DrawTree= function () {
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        // if(Math.abs(that.nodestore.generations[vidx][hidx].LayerId) == 4){
-                        //     console.log('crop node present: ' 
-                        //     + that.nodestore.generations[vidx][hidx].LayerId 
-                        //     + ' ' + that.nodestore.generations[vidx][hidx].Visible 
-                        //     + ' ' + that.nodestore.generations[vidx][hidx].X
-                        //     + ' ' + that.nodestore.generations[vidx][hidx].Y
-                        //     + ' ' + that.nodestore.generations[vidx][hidx].Width
-                        //     + ' ' + that.nodestore.generations[vidx][hidx].Height);
-                        // }
-                        
                         if(that.nodestore.generations[vidx][hidx].LayerId == -4 
                             && that.nodestore.generations[vidx][hidx].X != 0
                             && that.nodestore.generations[vidx][hidx].Y != 0){
@@ -201,6 +195,7 @@ ImageViewer.prototype.DrawTree= function () {
             }
 
         };
+        
         
         
         // get list of visible layers here
@@ -363,7 +358,7 @@ ImageViewer.prototype.UpdateGenerationState= function () {
 };
 
 //notes 
-
+//options
 ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
     console.log('save note');
@@ -388,13 +383,13 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 
                     that.nodestore.WriteNote(that.selectedNote,saveData.x,
                     saveData.y, saveData.width,saveData.height,saveData.d,
-                    saveData.text,saveData.options,layerId, data, saveCallback);
+                    saveData.text,saveData.options,layerId, data, saveData.cropArea,saveData.isOpen, saveCallback);
                 });
         }); 
     });
     
 };
-
+//options
 ImageViewer.prototype.CancelAdd= function () {
     this.options.SetDefaultOptionState(false);
     this.addNode = false;
@@ -403,7 +398,7 @@ ImageViewer.prototype.CancelAdd= function () {
     this.view.DisplayUpdateNoteAdd(this.addNode);
     this.view.ClearActiveTextArea();
 };
-
+//options
 ImageViewer.prototype.EnableAdd= function () {
     this.addNode = true;
     this.options.SetState(this.addNode,undefined,true);
@@ -429,6 +424,8 @@ ImageViewer.prototype.EnableRun = function(status){
     this.view.DisplayUpdateRunButton(status);
 };
 
+
+//options
 ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
         
         var that = this;
@@ -506,7 +503,7 @@ ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
         that.setImageObject(data.urlId,data, imageLoaded);
     });
 };
-
+//options
 ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
 
         //this.centrePoint = 0.0;

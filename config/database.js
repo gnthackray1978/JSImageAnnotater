@@ -21,8 +21,10 @@ var notes = new mongoose.Schema({
 	  Width: { type: Number} ,
 	  Height: { type: Number} ,
 	  D: { type: Number} ,
-	  Layer: { type: Number},
-	  Visible : { type: Boolean}
+	  LayerId: { type: Number},//there was some mix up over a field called layer and this layerid ive since removed layer to avoid confusion
+	  Visible : { type: Boolean},
+	  CropArea : { type: Boolean},
+	  IsOpen: { type: Boolean}
 });
 
 var urls = new mongoose.Schema({

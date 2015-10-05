@@ -76,7 +76,8 @@
 				that.cropnode.Options = JSON.parse(JSON.stringify(options));
 	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
 	            that.cropnode.Options.BorderWidth = 5;
-	            
+	            that.cropnode.CropArea =true;
+	            that.cropnode.IsOpen =true;
 				complete();
 	        });
 	    });
@@ -89,7 +90,7 @@
 		if(that.cropnode){
 	
 			console.log('writing crop node index: ' + this.cropnode.Index);
-			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, 
+			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, true,false,
 										          function(data){ 
 										          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
 										          	
@@ -104,13 +105,13 @@
 		
 		var that = this;
 		if(that.cropnode!= undefined){
-			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, saveFunc);
+			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, true,false,saveFunc);
 		}
 		else
 		{
 			that.nodestore.GetCroppingNode(function(data){
 				that.cropnode =data;
-				that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, saveFunc);
+				that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, true,false,saveFunc);
 			});
 		}
 	};
@@ -138,7 +139,9 @@
 									 this.cropnode.Options,  
 									 4,  
 									 undefined, 
-									 saveComplete
+									 saveComplete,
+									 this.cropnode.CropArea, 
+									 this.cropnode.IsOpen
 							         );
 	        
 	        

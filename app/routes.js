@@ -251,8 +251,10 @@ module.exports = function(app,express,request) {
 					annotation.Width = req.body.Width;
 					annotation.Height = req.body.Height;
 					annotation.D = req.body.D;
-					annotation.Layer = req.body.Layer;
+					annotation.LayerId = req.body.LayerId;
 					annotation.Visible = req.body.Visible;
+		  			annotation.CropArea = req.body.CropArea,
+	  				annotation.IsOpen = req.body.IsOpen
 		  			
 					annotation.save(function (err) {
 						if (!err) {

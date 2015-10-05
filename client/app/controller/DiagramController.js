@@ -1,12 +1,10 @@
-var DiagramController = function (view, model) {
+var DiagramController = function (view, graphicsContext) {
  
-    //this._moustQueue = [];
+
     this._mouseDown = false;
     this._view = view;
-    
- //   this.textarea = null;
-    
-    this.graphicsContext = model;
+
+    this.graphicsContext = graphicsContext;
 
     this._view.CanvasClick($.proxy(this.canvasClick, this));
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));

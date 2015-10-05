@@ -44,7 +44,9 @@
                 D:Number(0),
                 Visible: true,
                 Options: options,
-                LayerId : -4
+                LayerId : -4,
+                CropArea :true,
+                IsOpen : false
             };
             
             
@@ -75,7 +77,8 @@
         func(options);
     };
 
-    mockDataManager.prototype.WriteNote = function(note,x,y,width,height,degree,annotation,options,layerId, metaData, callback){
+    mockDataManager.prototype.WriteNote = function(note,x,y,width,height,degree,
+        annotation,options,layerId, metaData,cropArea,isOpen, callback){
 
         this.noteValidation = {
             note :false,

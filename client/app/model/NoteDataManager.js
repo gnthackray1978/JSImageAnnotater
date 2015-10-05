@@ -26,7 +26,7 @@ NoteDataManager.prototype = {
         this.generations.push([]);
         this.generations[0] = [];
 
-        this.AddData(0,0,0,0,900,900,0,'empty',true,false, undefined,1);
+        this.AddData(0,0,0,0,900,900,0,'empty',true,false, undefined,1,null,false,false);
 
         this.generations[1] = [];
 
@@ -49,14 +49,17 @@ NoteDataManager.prototype = {
                                 ajaxResult[idx].Visible,
                                 false,
                                 ajaxResult[idx].Options,
-                                ajaxResult[idx].LayerId);
+                                ajaxResult[idx].LayerId,
+                                undefined,
+                                cropFound,
+                                false);
                 
                 idx++;
             }
             
             if(!cropFound){
         
-                that.AddData(1, that.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,function(){
+                that.AddData(1, that.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,true,false,function(){
                     that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
                     callback();
                 });
@@ -259,24 +262,26 @@ NoteDataManager.prototype = {
         return note.Index;
     },
     
-    WriteNote: function(note,x,y,width,height,degree,annotation,options,layerId, metaData, callback){
+    WriteNote: function(note,x,y,width,height,degree,annotation,options,
+                                layerId, metaData,cropArea,isOpen, callback)
+    {
 
         if(note == undefined)
             note = this.NewId();
         
-        this.AddData(1, note,x,y,width,height,degree,annotation,true, true, options,layerId,metaData,callback);
+        this.AddData(1, note,x,y,width,height,degree,annotation,true, true, 
+                    options,layerId,metaData,cropArea,isOpen,callback);
     
     },
     
     
     AddData: function(genidx,index,x,y,width,height,degree,annotation,
-                            visible,withInit,options,layerId,metaData, callback){
+                            visible,withInit,options,layerId,metaData,cropArea,isOpen, callback){
  
         var node = {
             Annotation: annotation,
             Index: index,
             UrlId: this.urlId,
-            Layer:0,
             X:Number(x),
             Y:Number(y),
             Width:Number(width),
@@ -285,7 +290,9 @@ NoteDataManager.prototype = {
             Visible: visible,
             Options: options,
             LayerId : layerId,
-            MetaData : metaData
+            MetaData : metaData,
+            CropArea : cropArea,
+            IsOpen: isOpen
         };
 
         if(genidx === 0){

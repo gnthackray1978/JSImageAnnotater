@@ -182,7 +182,9 @@ MyDrive.prototype.init = function(loaded){
                     Height:Number(h),
                     D:Number(0),
                     Visible: true,
-                    LayerId: 2
+                    LayerId: 2,
+                    CropArea:false,
+                    IsOpen:false
                 };
                 
                 return node;
@@ -190,17 +192,11 @@ MyDrive.prototype.init = function(loaded){
         
         var tgs =[];
        
-       // tgs[0] =[];
-        
-       // tgs[0].push(addNode(1,1,'test'));
-        
-        //tgs[1] =[];
-        
         tgs.push(addNode(1,1,'some test string',100,100,200,65));
         tgs.push(addNode(2,1,'another value',150,200,200,65));
         tgs.push(addNode(3,1,'hello monkey',200,400,200,65));
         
-        var o = {
+        var options = {
             LayerId: 0,
             UrlId: 1,
             DefaultFont: "\'Times New Roman\'\, Times\, serif" ,
@@ -214,7 +210,7 @@ MyDrive.prototype.init = function(loaded){
         
         var oarray = [];
         
-        oarray.push(o);
+        oarray.push(options);
         
         var c = {
             urlId : 1,
