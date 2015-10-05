@@ -141,6 +141,10 @@ ImageViewer.prototype.DrawTree= function () {
     try {
         var that = this;
         var layers ; // this needs doing better!!
+        
+        var tpOptions = that.options.GetState().defaultOptions;
+        
+        
         var drawNotes = function() {
            
            var vidx = 1;
@@ -161,16 +165,16 @@ ImageViewer.prototype.DrawTree= function () {
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        if(that.nodestore.generations[vidx][hidx].LayerId == -4 
-                            && that.nodestore.generations[vidx][hidx].X != 0
-                            && that.nodestore.generations[vidx][hidx].Y != 0){
-                            console.log('drawing crop node');
-                            that._canvasTools.DrawCropBox(
-                                that.nodestore.generations[vidx][hidx].X,
-                                that.nodestore.generations[vidx][hidx].Y,
-                                that.nodestore.generations[vidx][hidx].Width,
-                                that.nodestore.generations[vidx][hidx].Height,
-                                tpOptions);
+                        if(that.nodestore.generations[vidx][hidx].IsOpen
+                             && that.nodestore.generations[vidx][hidx].X != 0
+                             && that.nodestore.generations[vidx][hidx].Y != 0){
+                            // console.log('drawing crop node');
+                            // that._canvasTools.DrawCropBox(
+                            //     that.nodestore.generations[vidx][hidx].X,
+                            //     that.nodestore.generations[vidx][hidx].Y,
+                            //     that.nodestore.generations[vidx][hidx].Width,
+                            //     that.nodestore.generations[vidx][hidx].Height,
+                            //     tpOptions);
                         }
                         else
                         {
@@ -205,11 +209,25 @@ ImageViewer.prototype.DrawTree= function () {
             {
                 that.nodestore.GetCroppingNode(function(croppingnode, initNode){
                     if(croppingnode)
-                        that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
-                        that.imageData.url ,
-                        croppingnode,
-                        initNode, 
-                        drawNotes ); 
+                        if(!croppingnode.IsOpen){
+                            that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
+                            that.imageData.url ,
+                            croppingnode,
+                            initNode, 
+                            drawNotes ); 
+                        }
+                        else
+                        {
+                            console.log('drawing crop node');
+                            that._canvasTools.DrawCropBox(
+                                croppingnode.X,
+                                croppingnode.Y,
+                                croppingnode.Width,
+                                croppingnode.Height,
+                                tpOptions);
+                        
+                        }
+                        
                     else
                         that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
                 });
