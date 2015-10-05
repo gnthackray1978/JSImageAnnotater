@@ -225,7 +225,7 @@ ImageViewer.prototype.DrawTree= function () {
                                     croppingnode.Y,
                                     croppingnode.Width,
                                     croppingnode.Height,
-                                    croppingnode.options);
+                                    croppingnode.Options);
                             }
                         //}
                         // else
