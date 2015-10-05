@@ -469,11 +469,10 @@ NoteDataManager.prototype = {
         var that = this;
         
         var idx =0;
-        var layerId=4;
-    
+        
         while(idx < that.generations[1].length){
             
-            if(Math.abs(that.generations[1][idx].LayerId) ==layerId){
+            if(that.generations[1][idx].CropArea){
                 callback(that.generations[1][idx], that.initialGenerations[1][idx]);
                 return;
             }

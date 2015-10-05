@@ -122,7 +122,7 @@
 		// init values array gets updated to correct size.
 		
 		// also need to think about positioning!
-		if(this.cropnode.LayerId == -4 
+		if(this.cropnode.IsOpen
 	        && this.cropnode.X != 0
 	        && this.cropnode.Y != 0
 	        && this.cropnode.Width > 1
@@ -140,8 +140,8 @@
 									 4,  
 									 undefined, 
 									 saveComplete,
-									 this.cropnode.CropArea, 
-									 this.cropnode.IsOpen
+									 true, 
+									 false
 							         );
 	        
 	        
