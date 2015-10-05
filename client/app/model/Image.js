@@ -165,18 +165,19 @@ ImageViewer.prototype.DrawTree= function () {
                             tpOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        if(that.nodestore.generations[vidx][hidx].IsOpen
-                             && that.nodestore.generations[vidx][hidx].X != 0
-                             && that.nodestore.generations[vidx][hidx].Y != 0){
-                            console.log('drawing crop node');
-                            that._canvasTools.DrawCropBox(
-                                that.nodestore.generations[vidx][hidx].X,
-                                that.nodestore.generations[vidx][hidx].Y,
-                                that.nodestore.generations[vidx][hidx].Width,
-                                that.nodestore.generations[vidx][hidx].Height,
-                                tpOptions);
-                        }
-                        else
+                        // if(that.nodestore.generations[vidx][hidx].IsOpen
+                        //      && that.nodestore.generations[vidx][hidx].X != 0
+                        //      && that.nodestore.generations[vidx][hidx].Y != 0){
+                        //     console.log('drawing crop node');
+                        //     that._canvasTools.DrawCropBox(
+                        //         that.nodestore.generations[vidx][hidx].X,
+                        //         that.nodestore.generations[vidx][hidx].Y,
+                        //         that.nodestore.generations[vidx][hidx].Width,
+                        //         that.nodestore.generations[vidx][hidx].Height,
+                        //         tpOptions);
+                        // }
+                        // else
+                        if(!that.nodestore.generations[vidx][hidx].CropArea)
                         {
                             tpOptions.FontSize = that._canvasTools.DrawLabel(
                                 that.nodestore.generations[vidx][hidx].X,
@@ -218,14 +219,18 @@ ImageViewer.prototype.DrawTree= function () {
                         }
                         else
                         {
-                            // console.log('drawing crop node');
-                            // that._canvasTools.DrawCropBox(
-                            //     croppingnode.X,
-                            //     croppingnode.Y,
-                            //     croppingnode.Width,
-                            //     croppingnode.Height,
-                            //     tpOptions);
-                        
+                            if(croppingnode.X != 0 && croppingnode.Y != 0)
+                            { 
+                                console.log('drawing crop node');
+                                that._canvasTools.DrawCropBox(
+                                    croppingnode.X,
+                                    croppingnode.Y,
+                                    croppingnode.Width,
+                                    croppingnode.Height,
+                                    tpOptions);
+                            }
+                            
+                            drawNotes();
                         }
                         
                     else
