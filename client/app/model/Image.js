@@ -215,18 +215,26 @@ ImageViewer.prototype.DrawTree= function () {
                             that.imageData.url ,
                             croppingnode,
                             initNode, 
-                            drawNotes ); 
+                            function(){
+                                
+                                if(croppingnode.X != 0 && croppingnode.Y != 0 && croppingnode.IsOpen)
+                                { 
+                                    console.log('drawing crop node');
+                                    that._canvasTools.DrawCropBox(
+                                        croppingnode.X,
+                                        croppingnode.Y,
+                                        croppingnode.Width,
+                                        croppingnode.Height,
+                                        croppingnode.Options);
+                                }
+                                
+                                drawNotes();
+                            } ); 
                             
-                            if(croppingnode.X != 0 && croppingnode.Y != 0 && croppingnode.IsOpen)
-                            { 
-                                console.log('drawing crop node');
-                                that._canvasTools.DrawCropBox(
-                                    croppingnode.X,
-                                    croppingnode.Y,
-                                    croppingnode.Width,
-                                    croppingnode.Height,
-                                    croppingnode.Options);
-                            }
+                           
+                            
+                            
+                            
                         //}
                         // else
                         // {
