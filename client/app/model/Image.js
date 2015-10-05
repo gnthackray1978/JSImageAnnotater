@@ -383,7 +383,7 @@ ImageViewer.prototype.SaveNoteClicked=function(saveData){
 
                     that.nodestore.WriteNote(that.selectedNote,saveData.x,
                     saveData.y, saveData.width,saveData.height,saveData.d,
-                    saveData.text,saveData.options,layerId, data, saveData.cropArea,saveData.isOpen, saveCallback);
+                    saveData.text,saveData.options,layerId, data, false,true, saveCallback);
                 });
         }); 
     });
