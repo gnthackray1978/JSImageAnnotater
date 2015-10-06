@@ -65,7 +65,9 @@ NodeEditor.prototype.PerformClick= function (x, y) {
 
         if(that.deleteNode && that.selectedNote != undefined){
             that.selectedNote.Visible =false;
-            that.nodestore.WriteToDB(that.selectedNote);
+            that.nodestore.WriteToDB(that.selectedNote, function(){
+                console.log('node deleted');
+            });
             that.options.SetState(that.addNode);
         }
         
