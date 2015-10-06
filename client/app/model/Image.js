@@ -5,118 +5,130 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
     this._drawingQueue = [];
     this._canvasTools = canvasTools;
     
+    this.meta = meta;
+    this.options = options;
+    this.nodestore = nodestore;
+   // this.view = view;
+
     this.currentZoomPercentage = 100;
- 
     this.screenHeight = 0.0;
     this.screenWidth = 0.0;
-
-    this.meta = meta;
-    
-    this.options = options;
-    
-    this.nodestore = nodestore;
-    this.view = view;
-
-
     this.centrePoint = 400.0;
     this.centreVerticalPoint = 0.0;
     this.zoomLevel = 0.0;
     this.centrePointXOffset = 0.0;
     this.centrePointYOffset = 0.0;
-
     this.zoomPercentage = 0.0;
-
-
     this.mouse_x = 0; //int
     this.mouse_y = 0; //int
-
     this.drawingX1 = 0.0;
     this.drawingX2 = 0.0;
     this.drawingY1 = 0.0;
     this.drawingY2 = 0.0;
-
     this.drawingCentre = 0.0;
     this.drawingWidth = 0.0;
     this.drawingHeight = 0.0;
-
     this.mouseXPercLocat = 0.0;
     this.mouseYPercLocat = 0.0;
-
     this.zoomAmount = 8; //int
-
     this.lastClickedPosX = 0;
     this.lastClickedPosY = 0;
+
+
 
     // modes delete add etc
     this.addNode =false;
     this.deleteNode =false;
-    
     this.selectedNote;
     
     this.imageData = null;
     
+    this.EnableRun;
+    this.UpdateInfo;
 };
 
-ImageViewer.prototype.PerformClick= function (x, y) {
+// ImageViewer.prototype.PerformClick= function (x, y) {
         
-    console.log("canvas clicked");
+//     console.log("canvas clicked");
      
+//     //setting options class state (giving it selected node and setting its mode)
+//     //setting options class mode (if we have no selected node set to use default options)
+//     //setting metadata class state(giving it selected node metadata)
+//     //setting selectednode options 
+    
+//     //displaying selectednode
+//     //hide selectednode
+//     //delete selected node somehow
+     
+     
+     
+//     var that = this;
+    
+//     // dont select anything
+//     if(this.options.GetState().pickMode) return;
+    
+//     this.lastClickedPosY = y;
+//     this.lastClickedPosX = x;
+ 
+//     this.nodestore.PointToNode(x,y, function(node){
+//         that.selectedNote = node;
+        
+//         that.options.SetState(that.addNode, that.selectedNote);
+    
+//         // add/edit node
+//         if(that.addNode)
+//         {
+//             if(that.selectedNote != undefined)
+//             {
+                 
+//                 if(that.selectedNote.options == undefined){
+//                     that.selectedNote.options = that.options.GetState().defaultOptions;
+//                 }
+               
+//                 that.view.DisplayNodeSelection(that.selectedNote.X, that.selectedNote.Y,that.selectedNote.Width, that.selectedNote.Height,that.selectedNote.D,that.selectedNote.Annotation,that.selectedNote.options);
+                    
+//                 that.meta.Load(that.selectedNote.MetaData);
+//                 that.options.SetDefaultOptionState(false);
+//             }
+//             else
+//             {
+//                 that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
+//                 that.meta.Load([]);
+//                 that.options.SetDefaultOptionState(true);
+//             }
+            
+//             that.options.SetState(that.addNode,that.selectedNote,true);
+//         }
+
+//         if(that.deleteNode && that.selectedNote != undefined){
+//             that.selectedNote.Visible =false;
+//             that.nodestore.WriteToDB(that.selectedNote);
+//             that.options.SetState(that.addNode);
+//         }
+        
+//         if(!that.addNode)
+//             that.view.ClearActiveTextArea();
+
+//     });
+// };
+
+
+ImageViewer.prototype.DrawTree= function () {
     var that = this;
     
-    // dont select anything
-    if(this.options.GetState().pickMode) return;
-    
-    this.lastClickedPosY = y;
-    this.lastClickedPosX = x;
- 
-    this.nodestore.PointToNode(x,y, function(node){
-        that.selectedNote = node;
-        
-        that.options.SetState(that.addNode, that.selectedNote);
-    
-        // add/edit node
-        if(that.addNode)
-        {
-            if(that.selectedNote != undefined)
-            {
-                 
-                if(that.selectedNote.options == undefined){
-                    that.selectedNote.options = that.options.GetState().defaultOptions;
-                }
-               
-                that.view.DisplayNodeSelection(that.selectedNote.X, that.selectedNote.Y,that.selectedNote.Width,
-                    that.selectedNote.Height,that.selectedNote.D,that.selectedNote.Annotation,that.selectedNote.options);
-                    
-                that.meta.Load(that.selectedNote.MetaData);
-                that.options.SetDefaultOptionState(false);
-            }
-            else
-            {
-                that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
-                that.meta.Load([]);
-                that.options.SetDefaultOptionState(true);
-            }
+    that.nodestore.GetVisibleLayer(function(visibleLayers){
+       
+        that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
             
-            that.options.SetState(that.addNode,that.selectedNote,true);
-        }
-
-        if(that.deleteNode && that.selectedNote != undefined){
-            that.selectedNote.Visible =false;
-            that.nodestore.WriteToDB(that.selectedNote);
-            that.options.SetState(that.addNode);
-        }
-        
-        if(!that.addNode)
-            that.view.ClearActiveTextArea();
-
+            var defaultOptions = that.options.GetState().defaultOptions;
+            
+            that.DrawTree2(visibleLayers,defaultOptions, cropMainNode, cropInitNode);
+        });
     });
-};
-
-ImageViewer.prototype.DrawTree2= function () {
     
 },
 
-ImageViewer.prototype.DrawTree= function () {
+ImageViewer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMainNode, cropInitNode) {
    // console.log('drawtree');
     var containsLevel = function(layers, id){
         var idx =0;
@@ -140,11 +152,7 @@ ImageViewer.prototype.DrawTree= function () {
 
     try {
         var that = this;
-        var layers ; // this needs doing better!!
-        
-        var tpOptions = that.options.GetState().defaultOptions;
-        
-        
+      
         var drawNotes = function() {
            
            var vidx = 1;
@@ -156,43 +164,28 @@ ImageViewer.prototype.DrawTree= function () {
                     var nlid = that.nodestore.generations[vidx][hidx].LayerId ? that.nodestore.generations[vidx][hidx].LayerId : 2;
                     
                     if(that.nodestore.generations[vidx][hidx].Visible 
-                        && containsLevel(layers,nlid)
-                        && that.nodestore.generations[vidx][hidx].LayerId != 4)
+                        && containsLevel(visibleLayers,nlid)
+                        && !that.nodestore.generations[vidx][hidx].CropArea)
                     {
-                        var tpOptions = that.options.GetState().defaultOptions;
                         
                         if(that.nodestore.generations[vidx][hidx].Options != undefined){
-                            tpOptions = that.nodestore.generations[vidx][hidx].Options;
+                            defaultOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        // if(that.nodestore.generations[vidx][hidx].IsOpen
-                        //      && that.nodestore.generations[vidx][hidx].X != 0
-                        //      && that.nodestore.generations[vidx][hidx].Y != 0){
-                        //     console.log('drawing crop node');
-                        //     that._canvasTools.DrawCropBox(
-                        //         that.nodestore.generations[vidx][hidx].X,
-                        //         that.nodestore.generations[vidx][hidx].Y,
-                        //         that.nodestore.generations[vidx][hidx].Width,
-                        //         that.nodestore.generations[vidx][hidx].Height,
-                        //         tpOptions);
-                        // }
-                        // else
-                        if(!that.nodestore.generations[vidx][hidx].CropArea)
-                        {
-                            tpOptions.FontSize = that._canvasTools.DrawLabel(
-                                that.nodestore.generations[vidx][hidx].X,
-                                that.nodestore.generations[vidx][hidx].Y,
-                                that.nodestore.generations[vidx][hidx].Width,
-                                that.nodestore.generations[vidx][hidx].Height,
-                                that.nodestore.generations[vidx][hidx].D,
-                                that.nodestore.generations[vidx][hidx].Annotation, 
-                                tpOptions);
-                                
-                                
-                            //matches ????
-                            //scan for matches when load 
-                            //and have refresh method to update periodically
-                        }
+                        defaultOptions.FontSize = that._canvasTools.DrawLabel(
+                            that.nodestore.generations[vidx][hidx].X,
+                            that.nodestore.generations[vidx][hidx].Y,
+                            that.nodestore.generations[vidx][hidx].Width,
+                            that.nodestore.generations[vidx][hidx].Height,
+                            that.nodestore.generations[vidx][hidx].D,
+                            that.nodestore.generations[vidx][hidx].Annotation, 
+                            defaultOptions);
+                            
+                            
+                        //matches ????
+                        //scan for matches when load 
+                        //and have refresh method to update periodically
+                        
                     }
                     hidx++;
                 }
@@ -201,47 +194,42 @@ ImageViewer.prototype.DrawTree= function () {
 
         };
         
-        
-        
-        // get list of visible layers here
-        that.nodestore.GetVisibleLayer(function(players){
-            layers = players;
-            if(containsLevel(layers,1))
-            {
-                that.nodestore.GetCroppingNode(function(croppingnode, initNode){
-                    if(croppingnode)
-                       
-                        that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
-                        that.imageData.url ,
-                        croppingnode,
-                        initNode, 
-                        function(){
-                            drawNotes();
-                            
-                            if(croppingnode.X != 0 && croppingnode.Y != 0 && croppingnode.IsOpen)
-                            { 
-                                console.log('drawing crop node');
-                                that._canvasTools.DrawCropBox(
-                                    croppingnode.X,
-                                    croppingnode.Y,
-                                    croppingnode.Width,
-                                    croppingnode.Height,
-                                    croppingnode.Options);
-                            }
-                        } ); 
-                            
+        if(containsLevel(visibleLayers,1))
+        {
+            if(cropMainNode)
+            {   
+                that._canvasTools.DrawCroppedImage(that.nodestore.generations[0][0], 
+                    that.imageData.url ,
+                    cropMainNode,
+                    cropInitNode, 
+                    function(){
+                        drawNotes();
                         
-                    else
-                        that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
-                });
-            }
+                        if(cropMainNode.X != 0 && cropMainNode.Y != 0 && cropMainNode.IsOpen)
+                        { 
+                            console.log('drawing crop node');
+                            that._canvasTools.DrawCropBox(
+                                cropMainNode.X,
+                                cropMainNode.Y,
+                                cropMainNode.Width,
+                                cropMainNode.Height,
+                                cropMainNode.Options);
+                        }
+                    } ); 
+            }    
             else
             {
-                that._canvasTools.ClearCanvas();
-                drawNotes();
+                that._canvasTools.DrawImage(that.nodestore.generations[0][0], that.imageData.url , drawNotes ); 
             }
+        }
+        else
+        {
+            that._canvasTools.ClearCanvas();
+            drawNotes();
+        }
             
-        });
+        
+        
         // we need to check if the selected node has changed if so then update ui
         // also handle when the nodes are clicked on.
         // if something is clicked we have to remove the node
@@ -378,72 +366,74 @@ ImageViewer.prototype.UpdateGenerationState= function () {
       console.log('setting image data succeeded gx1: '+ this.nodestore.generations[0][0].X + 'gx2: '+ this.nodestore.generations[0][0].Width + ' im_wdth: ' + this.imageData.width);
 };
 
-//notes 
-//options
-ImageViewer.prototype.SaveNoteClicked=function(saveData){
+
+
+// //notes 
+// //options
+// ImageViewer.prototype.SaveNoteClicked=function(saveData){
     
-    console.log('save note');
-    var that = this;
+//     console.log('save note');
+//     var that = this;
 
-    var saveCallback = function(savednode){
-        that.selectedNote = savednode;
-        that.addNode = false;
-        that.options.SetState(that.addNode);
-        that.view.DisplayUpdateNoteAdd(that.addNode);
-        that.view.ClearActiveTextArea();
-        //refresh the drawing
-        that.DrawTree();
-        that.UpdateInfo();
-        that.meta.Unload();
-    };
+//     var saveCallback = function(savednode){
+//         that.selectedNote = savednode;
+//         that.addNode = false;
+//         that.options.SetState(that.addNode);
+//         that.view.DisplayUpdateNoteAdd(that.addNode);
+//         that.view.ClearActiveTextArea();
+//         //refresh the drawing
+//         that.DrawTree();
+//         that._updateInfo();
+//         that.meta.Unload();
+//     };
 
-    this.nodestore.GetActiveLayer(function(layerId){
-        that.meta.QryNodeMetaData(function(data){
-                that.options.QrySaveData(function(options){
-                    saveData.options = options;
+//     this.nodestore.GetActiveLayer(function(layerId){
+//         that.meta.QryNodeMetaData(function(data){
+//                 that.options.QrySaveData(function(options){
+//                     saveData.options = options;
 
-                    that.nodestore.WriteNote(that.selectedNote,saveData.x,
-                    saveData.y, saveData.width,saveData.height,saveData.d,
-                    saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-                });
-        }); 
-    });
+//                     that.nodestore.WriteNote(that.selectedNote,saveData.x,
+//                         saveData.y, saveData.width,saveData.height,saveData.d,
+//                         saveData.text,saveData.options,layerId, data, false,true, saveCallback);
+//                 });
+//         }); 
+//     });
     
-};
-//options
-ImageViewer.prototype.CancelAdd= function () {
-    this.options.SetDefaultOptionState(false);
-    this.addNode = false;
-    this.options.SetState(this.addNode);
-    this.meta.Unload();
-    this.view.DisplayUpdateNoteAdd(this.addNode);
-    this.view.ClearActiveTextArea();
-};
-//options
-ImageViewer.prototype.EnableAdd= function () {
-    this.addNode = true;
-    this.options.SetState(this.addNode,undefined,true);
-    this.view.DisplayUpdateNoteAdd(this.addNode);
+// };
+// //options
+// ImageViewer.prototype.CancelAdd= function () {
+//     this.options.SetDefaultOptionState(false);
+//     this.addNode = false;
+//     this.options.SetState(this.addNode);
+//     this.meta.Unload();
+//     this.view.DisplayUpdateNoteAdd(this.addNode);
+//     this.view.ClearActiveTextArea();
+// };
+// //options
+// ImageViewer.prototype.EnableAdd= function () {
+//     this.addNode = true;
+//     this.options.SetState(this.addNode,undefined,true);
+//     this.view.DisplayUpdateNoteAdd(this.addNode);
     
-};
+// };
 
-ImageViewer.prototype.DeleteNoteMode=function(){
-    console.log('delete note'); 
-    if(this.deleteNode)
-        this.deleteNode =false;
-    else
-        this.deleteNode =true;
-        //DisplayUpdateDelete
-    //this.updateDeleteButtonUI(this.deleteNode);
-    this.view.DisplayUpdateDelete(this.deleteNode);
-};
+// ImageViewer.prototype.DeleteNoteMode=function(){
+//     console.log('delete note'); 
+//     if(this.deleteNode)
+//         this.deleteNode =false;
+//     else
+//         this.deleteNode =true;
+//         //DisplayUpdateDelete
+//     //this.updateDeleteButtonUI(this.deleteNode);
+//     this.view.DisplayUpdateDelete(this.deleteNode);
+// };
+ 
 
-ImageViewer.prototype.EnableRun = function(status){
-  
-    //this.updateRunButtonUI(status);
-    
-    this.view.DisplayUpdateRunButton(status);
-};
+
+
+
+
+
 
 
 //options
@@ -480,9 +470,9 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
                  that.imageData.height = s.h;
                   
                  console.log('setImageObject imageData wdth: ' + that.imageData.width);
-                 that.EnableRun(true);
+                 that._imageLoaded(true);
                  
-                 that.UpdateInfo();
+                 that._updateInfo();
                  
                  if(callback)
                     callback(urlId);
@@ -490,31 +480,46 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
         }
         else
         {
-            that.EnableRun(true);
-            that.UpdateInfo();
+            that._imageLoaded(true);
+            that._updateInfo();
                  
             if(callback)
                 callback(urlId);
         }
       
 };
+
+ImageViewer.prototype._imageLoaded = function(val){
+    if(this.EnableRun)
+        this.EnableRun(val);
+    else
+        console.log('EnableRun not defined');
+};
     
-ImageViewer.prototype.UpdateInfo = function(){
+ImageViewer.prototype._updateInfo = function(val){
     
-     var imdat = {
+    var imdat = {
          
          title : this.imageData.title,
          zoomlevel: this.zoomPercentage +'%',
          dims : 'w: ' + this.imageData.width + ' h:' + this.imageData.height,
          noteCount: this.nodestore.generations.length,
          size : 'unk'
-     };
-     
-     //this.updateInfoWindow(imdat);
-     this.view.UpdateInfoWindow(imdat);
-};
+    };
+    
+    if(this.UpdateInfo)
+        this.UpdateInfo(imdat);
+    else
+        console.log('EnableRun not defined');
+};    
+    
 
 //map
+
+ImageViewer.prototype.SetLastClickPos=function(x,y){
+    this.lastClickedPosY = y;
+    this.lastClickedPosX = x;
+}
 
 ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
     
@@ -745,6 +750,9 @@ ImageViewer.prototype.SetCentreY = function (y) {
     this.nodestore.centreY = this.centreVerticalPoint;
 };
 
+ImageViewer.prototype.SetLocked = function (lock) {
+    this.addNode = lock;
+};
 
 ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
 

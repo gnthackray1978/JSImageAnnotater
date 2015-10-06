@@ -6,6 +6,14 @@ var DiagramController = function (view, graphicsContext) {
 
     this.graphicsContext = graphicsContext;
 
+    this.graphicsContext.EnableRun = function(param){
+        this._view.DisplayUpdateRunButton(param);
+    };
+
+    this.graphicsContext.UpdateInfo = function(imdat){
+        this._view.UpdateInfoWindow(imdat);
+    };
+
     this._view.CanvasClick($.proxy(this.canvasClick, this));
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
@@ -79,12 +87,8 @@ DiagramController.prototype = {
     },
     
     init:function(){
-    
-         if (this.graphicsContext !== null) {
-           // this.graphicsContext.CreateComponentList();
-            this.graphicsContext.EnableRun(false);
-          //  this.graphicsContext.GetUrls();
-            
+         if (this._view !== null) {
+             this._view.DisplayUpdateRunButton(false);   
          };
     },
         
@@ -170,9 +174,8 @@ DiagramController.prototype = {
         //console.log('canvas mouse click');
          if (this.graphicsContext !== null) {
 
-            this.graphicsContext.PerformClick(x, y);
+            this.graphicsContext.SetLastClickPos(x, y);
         
-            //this._moustQueue[this._moustQueue.length] = new Array(1000000, 1000000);
             this.graphicsContext.SetDrawingQueueReset();
         }
     },
