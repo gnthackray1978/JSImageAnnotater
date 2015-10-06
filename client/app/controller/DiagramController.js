@@ -6,12 +6,14 @@ var DiagramController = function (view, graphicsContext) {
 
     this.graphicsContext = graphicsContext;
 
+    var that = this;
+
     this.graphicsContext.EnableRun = function(param){
-        this._view.DisplayUpdateRunButton(param);
+        that._view.DisplayUpdateRunButton(param);
     };
 
     this.graphicsContext.UpdateInfo = function(imdat){
-        this._view.UpdateInfoWindow(imdat);
+        that._view.UpdateInfoWindow(imdat);
     };
 
     this._view.CanvasClick($.proxy(this.canvasClick, this));
@@ -24,13 +26,13 @@ var DiagramController = function (view, graphicsContext) {
     
     
     //note operations
-    this._view.Add($.proxy(this.addButtonClicked, this));
+    // this._view.Add($.proxy(this.addButtonClicked, this));
     
-    this._view.Cancel($.proxy(this.cancelButtonClicked, this));
+    // this._view.Cancel($.proxy(this.cancelButtonClicked, this));
     
-    this._view.SaveNote($.proxy(this.saveNote, this));
+    // this._view.SaveNote($.proxy(this.saveNote, this));
    
-    this._view.Delete($.proxy(this.deleteNote, this));
+    // this._view.Delete($.proxy(this.deleteNote, this));
 
     this._view.InitPanelVisibility();
 
@@ -190,27 +192,27 @@ DiagramController.prototype = {
         this.graphicsContext.childlessMarriages = null;
     },
  
-    addButtonClicked:function(){
-        this.graphicsContext.EnableAdd();
-    },
+    // addButtonClicked:function(){
+    //     this.graphicsContext.EnableAdd();
+    // },
    
    
-    cancelButtonClicked:function(){
-        this.graphicsContext.CancelAdd();
-    },
+    // cancelButtonClicked:function(){
+    //     this.graphicsContext.CancelAdd();
+    // },
     
-    deleteNote:function(action){
-        this.graphicsContext.DeleteNoteMode();
+    // deleteNote:function(action){
+    //     this.graphicsContext.DeleteNoteMode();
         
-    },
+    // },
     
-    saveNote:function(saveData){
+    // saveNote:function(saveData){
         
-        if (this.graphicsContext !== null) {
+    //     if (this.graphicsContext !== null) {
 
-            this.graphicsContext.SaveNoteClicked(saveData);
-        }
-    },
+    //         this.graphicsContext.SaveNoteClicked(saveData);
+    //     }
+    // },
 
     redraw: function(){
         this.graphicsContext.DrawTree();

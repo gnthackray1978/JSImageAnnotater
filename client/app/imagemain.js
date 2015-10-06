@@ -49,7 +49,6 @@ function loadAll (drive){
         
         var diagramController =  new DiagramController(appView, model);
     
-    
         var nodeEditor = new NodeEditor(model,noteDataManager,appView, metadata, options);
         
         var nodeController = new NodeController(appView,nodeEditor);
