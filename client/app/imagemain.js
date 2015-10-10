@@ -44,7 +44,7 @@ function loadAll (drive){
         
         
         var nodeManager = new NodeManager(data,metadata,options);
-        var visualizer = new Visualizer(noteDataManager,  new CanvasTools(), options);
+        var visualizer = new Visualizer(nodeManager,  new CanvasTools(), options);
         
         var nodeController = new NodeManagerController(appView, nodeManager);
         var visualizerController =  new VisualizerController(appView, visualizer);
