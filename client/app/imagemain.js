@@ -50,7 +50,7 @@ function loadAll (drive){
         var visualizerController =  new VisualizerController(appView, visualizer);
 
 
-        var cropper = new Crop(nodeManager);
+        var cropper = new Crop(nodeManager,data);
         var crapperController = new CroppingController(appView,cropper);
 
         var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
