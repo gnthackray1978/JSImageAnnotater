@@ -40,19 +40,19 @@ function loadAll (drive){
         var optionsController = new OptionsController(appView,options);
 
 
-        var noteDataManager = new NoteDataManager(data,metadata,options);
-        var nodeController = new NodeEditorController(appView, noteDataManager);
+        
+        
+        
+        var noteDataManager = new NodeManager(data,metadata,options);
+        var visualizer = new Visualizer(noteDataManager,  new CanvasTools(), options);
+        
+        var nodeController = new NodeManagerController(appView, noteDataManager);
+        var visualizerController =  new VisualizerController(appView, visualizer);
+
 
         var cropper = new Crop(noteDataManager);
         var crapperController = new CroppingController(appView,cropper);
 
-        
-        var visualizer = new Visualizer(noteDataManager,  new CanvasTools(), options);
-        var visualizerController =  new VisualizerController(appView, model);
-    
-     
-     
-     
         var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
         var urlController = new UrlController(appView,urls);
         

@@ -1,7 +1,7 @@
 //http://www.w3schools.com/jsref/jsref_cos.asp
 //http://classroom.synonym.com/coordinates-distances-angles-2732.html
 
-var NoteDataManager = function (data,meta,options) {
+var NodeManager = function (data,meta,options) {
  
     this.generations = [];
     this.initialGenerations =[];
@@ -26,7 +26,7 @@ var NoteDataManager = function (data,meta,options) {
 };
 
 
-NoteDataManager.prototype = {
+NodeManager.prototype = {
 
 
     PerformClick: function (x, y, newNodeSelected) {

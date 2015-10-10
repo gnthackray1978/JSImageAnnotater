@@ -1,86 +1,208 @@
-var VisualizerController = function (view, nodeDataManager, graphicsContext) {
+var visualizerController = function (view, graphicsContext) {
  
-    this._view = view;
-    this._graphicsContext = graphicsContext;
 
-    this.nodeManager = nodeDataManager;
+    this._mouseDown = false;
+    this._view = view;
+
+    this.graphicsContext = graphicsContext;
+
+    var that = this;
+
+    this.graphicsContext.EnableRun = function(param){
+        that._view.DisplayUpdateRunButton(param);
+    };
+
+    this.graphicsContext.UpdateInfo = function(imdat){
+        that._view.UpdateInfoWindow(imdat);
+    };
 
     this._view.CanvasClick($.proxy(this.canvasClick, this));
-   
+    this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
+    this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
+    this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
+    this._view.CanvasUpdated($.proxy(this.redraw, this));
+    this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
+    this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
+    
+    
     //note operations
-    this._view.Add($.proxy(this.addButtonClicked, this));
-    
-    this._view.Cancel($.proxy(this.cancelButtonClicked, this));
-    
-    this._view.SaveNote($.proxy(this.saveNote, this));
    
-    this._view.Delete($.proxy(this.deleteNote, this));
+    this._view.InitPanelVisibility();
+
+    if(graphicsContext.nodestore.Type() != 'AJAX'){
+        this.startFromDrive();
+        
+    }
+    else
+    {
+        this.init();
+        
+        this._view.RunButtonClicked($.proxy(this.startFromAjax, this));
+    }
+
+
 
 };
 
-VisualizerController.prototype = {
+visualizerController.prototype = {
     
     
+    startFromDrive: function(){
 
+        //init drive here
+        var that = this;
+       // that.graphicsContext.CreateComponentList();
+    
+        that.graphicsContext.LoadBackgroundImage(function(id){
+                    var canvas = document.getElementById("myCanvas");
+              
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+        
+                    that.graphicsContext.nodestore.GetGenerations(id, function(){
+                        
+                        that.graphicsContext.nodestore.RefreshMatches();
+                        
+                        console.log('got data starting app');
+                        
+                        setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
+         
+                        //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+                        
+                        that.graphicsContext.SetDrawingQueueReset();
+                        
+                    
+                        that.graphicsContext.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+                        that.graphicsContext.UpdateGenerationState();
+                        that.graphicsContext.ScaleToScreen();
+                       
+                    });
+            });
+
+    },
+    
     init:function(){
-        if (this.nodeManager !== null) {
-            this.nodeManager.EnableRun(false);
-        };
+         if (this._view !== null) {
+             this._view.DisplayUpdateRunButton(false);   
+         };
     },
-
-    canvasClick:function(x,y){
-        var that = this;
         
-        if (this.nodeManager !== null) {
-            this.nodeManager.PerformClick(x, y, function(x,y,width,height,angle,annotation,options){
-                that.view.DisplayNodeSelection(x,y,width,height,angle,annotation,options);
-            });
+    startFromAjax: function (id) {
+    
+        var that = this;
+        //set image 
+      
+        var canvas = document.getElementById("myCanvas");
+  
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        that.graphicsContext.nodestore.GetGenerations(id, function(){
             
-            if(!this.nodeManager.addNode)
-                that._view.ClearActiveTextArea();
-        }
-    },
+            console.log('got data starting app');
+            
+            setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
 
-    addButtonClicked:function(){
-        var that = this;
-        
-        this.nodeManager.EnableAdd(function(addNode){
-            that._graphicsContext.SetLocked(true);
-            that._view.DisplayUpdateNoteAdd(addNode);
+            //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
+            that.graphicsContext.SetDrawingQueueReset();
+
+
+            that.graphicsContext.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
+            that.graphicsContext.UpdateGenerationState();
+            that.graphicsContext.ScaleToScreen();
+           
         });
+     
     },
-   
-   
-    cancelButtonClicked:function(){
-        var that = this;
-        this.nodeManager.CancelAdd(function(addNode){
-            that._graphicsContext.SetLocked(true);
-            that._view.DisplayUpdateNoteAdd(addNode);
-            that._view.ClearActiveTextArea();
-        });
-    },
+     
+    boxButtonUp:function(milliseconds){
+        clearInterval(milliseconds);
     
-    deleteNote:function(action){
-        var that = this;
-        this.nodeManager.DeleteNoteMode(function(deleteNode){
-            that._view.DisplayUpdateDelete(this.deleteNode);
-        });
-        
     },
-    
-    saveNote:function(saveData){
-        var that = this;
-        if (this.nodeManager !== null) {
-            this.nodeManager.SaveNoteClicked(saveData, function(addNode){
-                that._graphicsContext.SetLocked(false);
-                that._graphicsContext.DrawTree();
-                that._graphicsContext.UpdateInfo();
-                that._view.DisplayUpdateNoteAdd(addNode);
-                that._view.ClearActiveTextArea();
-            });
+    boxButtonDown:function(dir){
+        
+        if (this.graphicsContext !== null) {
+            
+            var that = this;
+            return setInterval(function () {
+                that.graphicsContext.MoveTree(dir); 
+                
+            }, 100);
         }
+    },
+    
+    canvasMouseMove:function(_point){
+     
+        if (this.graphicsContext !== null) {
+            this.graphicsContext.SetMouse(_point[0], _point[1]);
+           
+            if (this._mouseDown) {
+                this.graphicsContext.SetDrawingQueueValue(_point);
+               // this._moustQueue.push(_point);
+            }
+        }
+    },
+    
+    canvasMouseUp:function(){
+        
+      //console.log('canvas mouse up');
+      if (this.graphicsContext !== null) {
+            this._mouseDown = false;
+
+           // var _point = new Array(1000000, 1000000);
+           // this._moustQueue[this._moustQueue.length] = _point;
+            this.graphicsContext.SetDrawingQueueReset();
+        }
+    },
+    
+    canvasMouseDown:function(){
+        
+        //console.log('canvas mouse down');
+        if (this.graphicsContext !== null) {
+      
+            this._mouseDown = true;
+        }
+    },
+    
+    canvasClick:function(x,y){
+        
+        //console.log('canvas mouse click');
+         if (this.graphicsContext !== null) {
+
+            this.graphicsContext.SetLastClickPos(x, y);
+        
+            this.graphicsContext.SetDrawingQueueReset();
+        }
+    },
+    
+    CleanUp: function () {
+
+
+
+        this.graphicsContext.generations = null;
+      //  this.graphicsContext.familiesPerGeneration = null;
+        this.graphicsContext.familySpanLines = null;
+        this.graphicsContext.childlessMarriages = null;
+    },
+  
+    redraw: function(){
+        this.graphicsContext.DrawTree();
+    },
+ 
+    GameLoop: function () {
+
+        // while (this._moustQueue.length > 0) {
+        //     var _point = this._moustQueue.shift();
+
+
+        //     this.graphicsContext.SetCentrePoint(_point[0], _point[1]);
+        //     this.graphicsContext.DrawTree();
+        // }
+        
+        this.graphicsContext.SetDrawQueueEntries();
+        
+        setTimeout($.proxy(this.GameLoop, this));
     }
-   
 
 };
 
