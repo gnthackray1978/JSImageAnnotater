@@ -96,7 +96,7 @@ NodeManager.prototype = {
             that.meta.Unload();
         };
     
-        this.data.GetActiveLayer(function(layerId){
+        this._noteDll.GetActiveLayer(function(layerId){
             that.meta.QryNodeMetaData(function(data){
                     that.options.QrySaveData(function(options){
                         saveData.options = options;
