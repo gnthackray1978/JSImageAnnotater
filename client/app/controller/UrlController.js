@@ -1,10 +1,10 @@
-var UrlController = function (view, model) {
+var UrlController = function (view, model,isAjax) {
     this._view = view;
 
     this.model = model;
     
     
-    if(model.nodestore.Type() == 'AJAX'){
+    if(isAjax == 'AJAX'){
         
         this.init();
         
