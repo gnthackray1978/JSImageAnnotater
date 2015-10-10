@@ -1,6 +1,6 @@
 var  CanvasTools;
 
-var NodeEditor = function (graphicsContext, nodestore,view, meta, options) {
+var NodeCollection = function (graphicsContext, nodestore,view, meta, options) {
 
     this.meta = meta;
     this.options = options;
@@ -13,7 +13,9 @@ var NodeEditor = function (graphicsContext, nodestore,view, meta, options) {
     this.selectedNote;
 };
 
-NodeEditor.prototype.PerformClick= function (x, y) {
+ 
+
+NodeCollection.prototype.PerformClick= function (x, y, newNodeSelected) {
         
     console.log("canvas clicked");
      
@@ -48,7 +50,12 @@ NodeEditor.prototype.PerformClick= function (x, y) {
                     that.selectedNote.options = that.options.GetState().defaultOptions;
                 }
                
-                that.view.DisplayNodeSelection(that.selectedNote.X, that.selectedNote.Y,that.selectedNote.Width, that.selectedNote.Height,that.selectedNote.D,that.selectedNote.Annotation,that.selectedNote.options);
+                that.view.DisplayNodeSelection(that.selectedNote.X, 
+                        that.selectedNote.Y,that.selectedNote.Width, 
+                        that.selectedNote.Height,that.selectedNote.D,
+                        that.selectedNote.Annotation,that.selectedNote.options);
+                    
+                    
                     
                 that.meta.Load(that.selectedNote.MetaData);
                 that.options.SetDefaultOptionState(false);
@@ -79,7 +86,7 @@ NodeEditor.prototype.PerformClick= function (x, y) {
 
 //notes 
 //options
-NodeEditor.prototype.SaveNoteClicked=function(saveData){
+NodeCollection.prototype.SaveNoteClicked=function(saveData, saveComplete){
     
     console.log('save note');
     var that = this;
@@ -89,8 +96,11 @@ NodeEditor.prototype.SaveNoteClicked=function(saveData){
         that.addNode = false;
         that.graphicsContext.SetLocked(false);
         that.options.SetState(that.addNode);
-        that.view.DisplayUpdateNoteAdd(that.addNode);
-        that.view.ClearActiveTextArea();
+        
+        
+        
+        saveComplete(that.addNode);
+        
         //refresh the drawing
        
         that.graphicsContext.DrawTree();
@@ -112,33 +122,31 @@ NodeEditor.prototype.SaveNoteClicked=function(saveData){
     
 };
 //options
-NodeEditor.prototype.CancelAdd= function () {
+NodeCollection.prototype.CancelAdd= function (cancelComplete) {
     this.options.SetDefaultOptionState(false);
     this.addNode = false;
     this.graphicsContext.SetLocked(true);
     this.options.SetState(this.addNode);
     this.meta.Unload();
-    this.view.DisplayUpdateNoteAdd(this.addNode);
-    this.view.ClearActiveTextArea();
+    cancelComplete(this.addNode);
 };
 //options
-NodeEditor.prototype.EnableAdd= function () {
+NodeCollection.prototype.EnableAdd= function (switchComplete) {
     this.addNode = true;
     this.graphicsContext.SetLocked(true);
     this.options.SetState(this.addNode,undefined,true);
-    this.view.DisplayUpdateNoteAdd(this.addNode);
-    
+    switchComplete(this.addNode);
 };
 
-NodeEditor.prototype.DeleteNoteMode=function(){
+NodeCollection.prototype.DeleteNoteMode=function(switchComplete){
     console.log('delete note'); 
     if(this.deleteNode)
         this.deleteNode =false;
     else
         this.deleteNode =true;
-        //DisplayUpdateDelete
-    //this.updateDeleteButtonUI(this.deleteNode);
-    this.view.DisplayUpdateDelete(this.deleteNode);
+
+    switchComplete(this.deleteNode);
+    
 };
  
 

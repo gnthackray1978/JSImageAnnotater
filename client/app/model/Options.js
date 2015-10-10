@@ -1,5 +1,5 @@
-var Options = function (nodestore,view) {
-    this.nodestore = nodestore;
+var Options = function (optionsDll,view) {
+    this.optionsDll = optionsDll;
     this.view = view;
     
     this.optionMode =false;
@@ -75,7 +75,7 @@ Options.prototype.SetOptionsLoad =function(urlId){
     
     var that = this;
     
-    that.nodestore.GetOptions(urlId, function(jsonData){
+    that.optionsDll.GetOptions(urlId, function(jsonData){
          if(jsonData.length > 0){
                 // we are in the future going to have many layers
                 // currently we have 1 layer so just default to that
@@ -91,7 +91,7 @@ Options.prototype.saveDefaultOptions =function(options){
    
     console.log('save option ' +options);
  
-    this.nodestore.SaveOptions(this.defaultOptions);
+    this.optionsDll.SaveOptions(this.defaultOptions);
 };
 
 Options.prototype.QrySaveData =  function(callback){

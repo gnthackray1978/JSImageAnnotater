@@ -1,5 +1,5 @@
-var Layer = function (nodestore,view, image) {
-    this.nodestore = nodestore;
+var Layer = function (layerDll,view, image) {
+    this.layerDll = layerDll;
     this.layerData = 1;  
     this.view = view;
     //obviously this needs reworking
@@ -10,7 +10,7 @@ var Layer = function (nodestore,view, image) {
 Layer.prototype.GetData = function(){
      var that = this;
     
-     this.nodestore.GetLayers(function(data){
+     this.layerDll.GetLayers(function(data){
         that.layerData = data;    
         that.view.SetLayers(data);
      });
@@ -26,7 +26,7 @@ Layer.prototype.SetName = function(layerId, name){
         }
         idx++;
     }
-    this.nodestore.SaveLayers(this.layerData,true);
+    this.layerDll.SaveLayers(this.layerData,true);
     
     this.view.SetLayers(this.layerData);
 };
@@ -41,7 +41,7 @@ Layer.prototype.SetOrder = function(layerId, order){
         idx++;
     }
     
-    this.nodestore.SaveLayers(this.layerData,true);
+    this.layerDll.SaveLayers(this.layerData,true);
     
     this.view.SetLayers(this.layerData);
     this.image.DrawTree();
@@ -62,7 +62,7 @@ Layer.prototype.SetCurrent = function(layerId, current){
         }
         idx++;
     }
-    this.nodestore.SaveLayers(this.layerData,true);
+    this.layerDll.SaveLayers(this.layerData,true);
     
     this.view.SetLayers(this.layerData);
     this.image.DrawTree();
@@ -80,7 +80,7 @@ Layer.prototype.SetVisible = function(layerId, visible){
         idx++;
     }
     
-    this.nodestore.SaveLayers(this.layerData,true);
+    this.layerDll.SaveLayers(this.layerData,true);
   
     this.view.SetLayers(this.layerData);
     this.image.DrawTree();
@@ -123,7 +123,7 @@ Layer.prototype.SetNewLayer = function(){
 
 Layer.prototype.Save = function(){
     
-    this.nodestore.SaveLayers(this.layerData);
+    this.layerDll.SaveLayers(this.layerData);
     this.view.SetLayers(this.layerData);
 };
 

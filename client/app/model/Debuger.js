@@ -1,6 +1,6 @@
-var Debuger = function (nodestore,view) {
-    this.nodestore = nodestore;
-    this.view = view;
+var Debuger = function (dataDll) {
+    this.dataDll = dataDll;
+ 
  
 };
 
@@ -8,11 +8,11 @@ Debuger.prototype.SearchString = function(text){
     var that =this;
     console.log(text);
     
-    this.nodestore.BuildSearchCache(function(){
+    this.dataDll.BuildSearchCache(function(){
         console.log('loaded cache');
         
         
-        that.nodestore.QrySearchCache(text, function(data){
+        that.dataDll.QrySearchCache(text, function(data){
             console.log('found: ' + data.length);
         });
     });

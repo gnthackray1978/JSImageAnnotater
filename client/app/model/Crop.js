@@ -1,5 +1,6 @@
 (function(exports){
-	var Crop = function (nodestore) {
+	var Crop = function (nodestore, optionsDll) {
+	    this.optionsDll = optionsDll;
 	    this.nodestore = nodestore;
 	    this.addMode =true;
 	    this.mouse = {x: 0, y: 0};
@@ -62,7 +63,7 @@
 	 
 	    that.nodestore.GetCroppingNode(function(data, initnode){
 	        console.log('got cropping node: ' + data.Index);
-	        that.nodestore.GetOptions(0, function(options){
+	        that.optionsDll.GetOptions(0, function(options){
 				console.log('got cropping node options: ' + options);
 				that.cropnode = data;
 		 		

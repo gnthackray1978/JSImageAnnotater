@@ -1,5 +1,5 @@
-var Meta = function (nodestore,view) {
-    this.nodestore = nodestore;
+var Meta = function (metaDataDll,view) {
+    this.metaDataDll = metaDataDll;
     this.metaData = 1;  
     this.selectedMetaData = [];  
     this.lastClickedMetaData = {
@@ -54,7 +54,7 @@ Meta.prototype.GetDataTypes = function(){
 Meta.prototype.GetData = function(){
     var that = this;
     
-    this.nodestore.GetMetaData(function(data){
+    this.metaDataDll.GetMetaData(function(data){
         that.metaData = data;
         if(that.metaData.length >0){
             that.SetCurrentMetaId(that.metaData[0].id);
@@ -83,7 +83,7 @@ Meta.prototype.SetCurrentMetaId = function(id){
         idx++;
     }
     
-    this.nodestore.GetMetaDataTypes(ids, function(data){
+    this.metaDataDll.GetMetaDataTypes(ids, function(data){
         that.metaDataTypes = data;
         
         if(data.length > 0){

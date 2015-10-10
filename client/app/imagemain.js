@@ -1,4 +1,4 @@
- 
+ /*global CanvasTools*/
 
 function handleClientLoad() {
 
@@ -25,40 +25,38 @@ function loadAll (drive){
         data = new MongoNoteData();
     }
     var appView = new AnnotaterView();
-    var noteDataManager = new NoteDataManager(data);
     
-    noteDataManager.init(function(){
-
-        var metadata = new Meta(noteDataManager,appView);
+    
+    
+    
+    data.init(function(){
+        var debug = new Debuger(data,appView);
+        var debugController = new DebugController(appView,debug);
+        
+        var metadata = new Meta(data,appView);
         var metaController = new MetaController(appView,metadata);
 
-        var options = new Options(noteDataManager,appView);
+        var options = new Options(data,appView);
         var optionsController = new OptionsController(appView,options);
+
+
+        var noteDataManager = new NoteDataManager(data,metadata,options);
+        var nodeController = new NodeEditorController(appView, noteDataManager);
 
         var cropper = new Crop(noteDataManager);
         var crapperController = new CroppingController(appView,cropper);
 
-        var debug = new Debuger(noteDataManager,appView);
-        var debugController = new DebugController(appView,debug);
-
-
-        var model = new ImageViewer(noteDataManager,appView,  new CanvasTools(), 
-                                    metadata, 
-                                    options);
         
-        
-        var diagramController =  new DiagramController(appView, model);
+        var visualizer = new Visualizer(noteDataManager,  new CanvasTools(), options);
+        var visualizerController =  new VisualizerController(appView, model);
     
-        var nodeEditor = new NodeEditor(model,noteDataManager,appView, metadata, options);
-        
-        var nodeController = new NodeController(appView,nodeEditor);
-
-    
-        var urls= new Urls(new UrlWriter(),noteDataManager,appView,model.setImageObject);
-        
+     
+     
+     
+        var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
         var urlController = new UrlController(appView,urls);
         
-        var layer = new Layer(noteDataManager,appView, model);
+        var layer = new Layer(data,appView, visualizer);
         var layerController = new LayerController(appView,layer);
 
         

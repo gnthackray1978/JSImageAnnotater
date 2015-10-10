@@ -1,11 +1,11 @@
 var  CanvasTools;
 
-var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
+var Visualizer = function (nodestore,canvasTools, options) {
     //could inject this
     this._drawingQueue = [];
     this._canvasTools = canvasTools;
     
-    this.meta = meta;
+    
     this.options = options;
     this.nodestore = nodestore;
    // this.view = view;
@@ -37,9 +37,9 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
 
 
     // modes delete add etc
-    this.addNode =false;
-    this.deleteNode =false;
-    this.selectedNote;
+    this.isLocked =false;
+    //this.deleteNode =false;
+    //this.selectedNote;
     
     this.imageData = null;
     
@@ -47,73 +47,7 @@ var ImageViewer = function (nodestore,view, canvasTools, meta, options) {
     this.UpdateInfo;
 };
 
-// ImageViewer.prototype.PerformClick= function (x, y) {
-        
-//     console.log("canvas clicked");
-     
-//     //setting options class state (giving it selected node and setting its mode)
-//     //setting options class mode (if we have no selected node set to use default options)
-//     //setting metadata class state(giving it selected node metadata)
-//     //setting selectednode options 
-    
-//     //displaying selectednode
-//     //hide selectednode
-//     //delete selected node somehow
-     
-     
-     
-//     var that = this;
-    
-//     // dont select anything
-//     if(this.options.GetState().pickMode) return;
-    
-//     this.lastClickedPosY = y;
-//     this.lastClickedPosX = x;
- 
-//     this.nodestore.PointToNode(x,y, function(node){
-//         that.selectedNote = node;
-        
-//         that.options.SetState(that.addNode, that.selectedNote);
-    
-//         // add/edit node
-//         if(that.addNode)
-//         {
-//             if(that.selectedNote != undefined)
-//             {
-                 
-//                 if(that.selectedNote.options == undefined){
-//                     that.selectedNote.options = that.options.GetState().defaultOptions;
-//                 }
-               
-//                 that.view.DisplayNodeSelection(that.selectedNote.X, that.selectedNote.Y,that.selectedNote.Width, that.selectedNote.Height,that.selectedNote.D,that.selectedNote.Annotation,that.selectedNote.options);
-                    
-//                 that.meta.Load(that.selectedNote.MetaData);
-//                 that.options.SetDefaultOptionState(false);
-//             }
-//             else
-//             {
-//                 that.view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
-//                 that.meta.Load([]);
-//                 that.options.SetDefaultOptionState(true);
-//             }
-            
-//             that.options.SetState(that.addNode,that.selectedNote,true);
-//         }
-
-//         if(that.deleteNode && that.selectedNote != undefined){
-//             that.selectedNote.Visible =false;
-//             that.nodestore.WriteToDB(that.selectedNote);
-//             that.options.SetState(that.addNode);
-//         }
-        
-//         if(!that.addNode)
-//             that.view.ClearActiveTextArea();
-
-//     });
-// };
-
-
-ImageViewer.prototype.DrawTree= function () {
+Visualizer.prototype.DrawTree= function () {
     var that = this;
     
     that.nodestore.GetVisibleLayer(function(visibleLayers){
@@ -128,7 +62,7 @@ ImageViewer.prototype.DrawTree= function () {
     
 },
 
-ImageViewer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMainNode, cropInitNode) {
+Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMainNode, cropInitNode) {
    // console.log('drawtree');
     var containsLevel = function(layers, id){
         var idx =0;
@@ -245,7 +179,7 @@ ImageViewer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMai
 
 };
 
-ImageViewer.prototype.ComputeLocations=function () {
+Visualizer.prototype.ComputeLocations=function () {
 
     var width = this.nodestore.generations[0][0].Width;
 
@@ -342,7 +276,7 @@ ImageViewer.prototype.ComputeLocations=function () {
 
 //run when generation is loaded
 //run when visibility changed
-ImageViewer.prototype.UpdateGenerationState= function () {
+Visualizer.prototype.UpdateGenerationState= function () {
     
       console.log('attempting image data');
     
@@ -366,78 +300,8 @@ ImageViewer.prototype.UpdateGenerationState= function () {
       console.log('setting image data succeeded gx1: '+ this.nodestore.generations[0][0].X + 'gx2: '+ this.nodestore.generations[0][0].Width + ' im_wdth: ' + this.imageData.width);
 };
 
-
-
-// //notes 
-// //options
-// ImageViewer.prototype.SaveNoteClicked=function(saveData){
-    
-//     console.log('save note');
-//     var that = this;
-
-//     var saveCallback = function(savednode){
-//         that.selectedNote = savednode;
-//         that.addNode = false;
-//         that.options.SetState(that.addNode);
-//         that.view.DisplayUpdateNoteAdd(that.addNode);
-//         that.view.ClearActiveTextArea();
-//         //refresh the drawing
-//         that.DrawTree();
-//         that._updateInfo();
-//         that.meta.Unload();
-//     };
-
-//     this.nodestore.GetActiveLayer(function(layerId){
-//         that.meta.QryNodeMetaData(function(data){
-//                 that.options.QrySaveData(function(options){
-//                     saveData.options = options;
-
-//                     that.nodestore.WriteNote(that.selectedNote,saveData.x,
-//                         saveData.y, saveData.width,saveData.height,saveData.d,
-//                         saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-//                 });
-//         }); 
-//     });
-    
-// };
-// //options
-// ImageViewer.prototype.CancelAdd= function () {
-//     this.options.SetDefaultOptionState(false);
-//     this.addNode = false;
-//     this.options.SetState(this.addNode);
-//     this.meta.Unload();
-//     this.view.DisplayUpdateNoteAdd(this.addNode);
-//     this.view.ClearActiveTextArea();
-// };
-// //options
-// ImageViewer.prototype.EnableAdd= function () {
-//     this.addNode = true;
-//     this.options.SetState(this.addNode,undefined,true);
-//     this.view.DisplayUpdateNoteAdd(this.addNode);
-    
-// };
-
-// ImageViewer.prototype.DeleteNoteMode=function(){
-//     console.log('delete note'); 
-//     if(this.deleteNode)
-//         this.deleteNode =false;
-//     else
-//         this.deleteNode =true;
-//         //DisplayUpdateDelete
-//     //this.updateDeleteButtonUI(this.deleteNode);
-//     this.view.DisplayUpdateDelete(this.deleteNode);
-// };
- 
-
-
-
-
-
-
-
-
 //options
-ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
+Visualizer.prototype.setImageObject = function(urlId, jsonData, callback){
         
         var that = this;
         
@@ -489,14 +353,14 @@ ImageViewer.prototype.setImageObject = function(urlId, jsonData, callback){
       
 };
 
-ImageViewer.prototype._imageLoaded = function(val){
+Visualizer.prototype._imageLoaded = function(val){
     if(this.EnableRun)
         this.EnableRun(val);
     else
         console.log('EnableRun not defined');
 };
     
-ImageViewer.prototype._updateInfo = function(val){
+Visualizer.prototype._updateInfo = function(val){
     
     var imdat = {
          
@@ -516,12 +380,12 @@ ImageViewer.prototype._updateInfo = function(val){
 
 //map
 
-ImageViewer.prototype.SetLastClickPos=function(x,y){
+Visualizer.prototype.SetLastClickPos=function(x,y){
     this.lastClickedPosY = y;
     this.lastClickedPosX = x;
 }
 
-ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
+Visualizer.prototype.LoadBackgroundImage=function(imageLoaded){
     
     var that = this;
     this.nodestore.GetImageData(function(data){
@@ -530,7 +394,7 @@ ImageViewer.prototype.LoadBackgroundImage=function(imageLoaded){
     });
 };
 //options
-ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
+Visualizer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
 
         //this.centrePoint = 0.0;
         this.SetCentreX(0.0);
@@ -542,10 +406,10 @@ ImageViewer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  
 
         this.zoomPercentage = zoomPerc;
 
-        this.options.SetState(this.addNode,this.currentNode);
+        this.options.SetState(this.isLocked,this.currentNode);
 };
     
-ImageViewer.prototype.MoveTree = function (direction) {
+Visualizer.prototype.MoveTree = function (direction) {
         // console.log('move tree' + direction);
 
         if (direction == 'SOUTH') this.SetCentreY(this.centreVerticalPoint - 1);
@@ -588,7 +452,7 @@ ImageViewer.prototype.MoveTree = function (direction) {
 
     },
     
-ImageViewer.prototype.SetZoom = function (percentage) {
+Visualizer.prototype.SetZoom = function (percentage) {
 
 
         if (percentage !== 0.0) {
@@ -635,13 +499,13 @@ ImageViewer.prototype.SetZoom = function (percentage) {
 
 };
     
-ImageViewer.prototype.SetZoomStart = function () {
+Visualizer.prototype.SetZoomStart = function () {
         this.GetPercDistances();
         this.mouseXPercLocat = this.percX1;
         this.mouseYPercLocat = this.percY1;
 };
 
-ImageViewer.prototype.ScaleToScreen = function(){
+Visualizer.prototype.ScaleToScreen = function(){
       
       
       // call this so that drawingwidth is set
@@ -684,7 +548,7 @@ ImageViewer.prototype.ScaleToScreen = function(){
       
 };
     
-ImageViewer.prototype.GetPercDistances = function () {
+Visualizer.prototype.GetPercDistances = function () {
 
         // percX1 = the position of mouse x,  expressed as a percentage of the drawing.
         
@@ -732,7 +596,7 @@ ImageViewer.prototype.GetPercDistances = function () {
 
     },
    
-ImageViewer.prototype.SetMouse = function (x, y) {
+Visualizer.prototype.SetMouse = function (x, y) {
  
         this.mouse_x = x;
         this.mouse_y = y;
@@ -740,23 +604,23 @@ ImageViewer.prototype.SetMouse = function (x, y) {
 };
     
     
-ImageViewer.prototype.SetCentreX = function (x) {  
+Visualizer.prototype.SetCentreX = function (x) {  
     this.centrePoint = x;
     this.nodestore.centreX = this.centrePoint;
 };
 
-ImageViewer.prototype.SetCentreY = function (y) {  
+Visualizer.prototype.SetCentreY = function (y) {  
     this.centreVerticalPoint =y;
     this.nodestore.centreY = this.centreVerticalPoint;
 };
 
-ImageViewer.prototype.SetLocked = function (lock) {
-    this.addNode = lock;
+Visualizer.prototype.SetLocked = function (lock) {
+    this.isLocked = lock;
 };
 
-ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
+Visualizer.prototype.SetCentrePointOffset = function (param_x, param_y) {
 
-        if(this.addNode) return;
+        if(this.isLocked) return;
 
         if (param_x == 1000000 && param_y == 1000000) {
             this.centrePointXOffset = 0;
@@ -788,15 +652,15 @@ ImageViewer.prototype.SetCentrePointOffset = function (param_x, param_y) {
 }; //end set centre point
 
 
-ImageViewer.prototype.SetDrawingQueueValue = function(point){
+Visualizer.prototype.SetDrawingQueueValue = function(point){
    this._drawingQueue.push(point);   
 };
 
-ImageViewer.prototype.SetDrawingQueueReset = function(){
+Visualizer.prototype.SetDrawingQueueReset = function(){
    this._drawingQueue[this._drawingQueue.length] = new Array(1000000, 1000000); 
 };
 
-ImageViewer.prototype.SetDrawQueueEntries = function(){
+Visualizer.prototype.SetDrawQueueEntries = function(){
     
     while (this._drawingQueue.length > 0) {
         var _point = this._drawingQueue.shift();
@@ -805,13 +669,13 @@ ImageViewer.prototype.SetDrawQueueEntries = function(){
     }
 };
     
-ImageViewer.prototype.ZoomIn = function () {
+Visualizer.prototype.ZoomIn = function () {
         this.zoomAmount++;
         this.SetZoom(this.zoomAmount);
     };
     
     
-ImageViewer.prototype.ZoomOut = function () {
+Visualizer.prototype.ZoomOut = function () {
         if (this.zoomAmount > 7)
             this.zoomAmount--;
 

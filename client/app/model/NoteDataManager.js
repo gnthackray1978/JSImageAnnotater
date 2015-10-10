@@ -1,7 +1,7 @@
 //http://www.w3schools.com/jsref/jsref_cos.asp
 //http://classroom.synonym.com/coordinates-distances-angles-2732.html
 
-var NoteDataManager = function (data) {
+var NoteDataManager = function (data,meta,options) {
  
     this.generations = [];
     this.initialGenerations =[];
@@ -12,10 +12,130 @@ var NoteDataManager = function (data) {
     //temp location for this stuff
     this.centreX=0.0;
     this.centreY=0.0;
+    
+    
+    this.meta = meta;
+    this.options = options;
+    // this.nodestore = nodestore;
+    // this.view = view;
+ 
+    this.addNode =false;
+    this.deleteNode =false;
+    this.selectedNote;
+
 };
 
 
 NoteDataManager.prototype = {
+
+
+    PerformClick: function (x, y, newNodeSelected) {
+            
+        console.log("canvas clicked");
+         
+        var that = this;
+        
+        // dont select anything
+        if(this.options.GetState().pickMode) return;
+        
+        this.PointToNode(x,y, function(node){
+            that.selectedNote = node;
+            
+            that.options.SetState(that.addNode, that.selectedNote);
+        
+            // add/edit node
+            if(that.addNode)
+            {
+                if(that.selectedNote != undefined)
+                {
+                    if(that.selectedNote.options == undefined){
+                        that.selectedNote.options = that.options.GetState().defaultOptions;
+                    }
+                   
+                    newNodeSelected(that.selectedNote.X, 
+                            that.selectedNote.Y,that.selectedNote.Width, 
+                            that.selectedNote.Height,that.selectedNote.D,
+                            that.selectedNote.Annotation,that.selectedNote.options);
+                        
+                    that.meta.Load(that.selectedNote.MetaData);
+                    that.options.SetDefaultOptionState(false);
+                }
+                else
+                {
+                    newNodeSelected(x, y,70,25,0,'',that.options.GetState().tempOptions);
+                    
+                    that.meta.Load([]);
+                    that.options.SetDefaultOptionState(true);
+                }
+                
+                that.options.SetState(that.addNode,that.selectedNote,true);
+            }
+    
+            if(that.deleteNode && that.selectedNote != undefined){
+                that.selectedNote.Visible =false;
+                that.WriteToDB(that.selectedNote, function(){
+                    console.log('node deleted');
+                });
+                that.options.SetState(that.addNode);
+            }
+            
+        });
+    },
+    //notes 
+    //options
+    SaveNoteClicked:function(saveData, saveComplete){
+        
+        console.log('save note');
+        var that = this;
+    
+        var saveCallback = function(savednode){
+            that.selectedNote = savednode;
+            that.addNode = false;
+            that.options.SetState(that.addNode);
+            saveComplete(that.addNode);
+            that.meta.Unload();
+        };
+    
+        this.GetActiveLayer(function(layerId){
+            that.meta.QryNodeMetaData(function(data){
+                    that.options.QrySaveData(function(options){
+                        saveData.options = options;
+    
+                        that.WriteNote(that.selectedNote,saveData.x,
+                            saveData.y, saveData.width,saveData.height,saveData.d,
+                            saveData.text,saveData.options,layerId, data, false,true, saveCallback);
+                    });
+            }); 
+        });
+        
+    },
+    //options
+    CancelAdd: function (cancelComplete) {
+        this.options.SetDefaultOptionState(false);
+        this.addNode = false;
+        
+        this.options.SetState(this.addNode);
+        this.meta.Unload();
+        cancelComplete(this.addNode);
+    },
+    //options
+    EnableAdd: function (switchComplete) {
+        this.addNode = true;
+        
+        this.options.SetState(this.addNode,undefined,true);
+        switchComplete(this.addNode);
+    },
+    
+    DeleteNoteMode:function(switchComplete){
+        console.log('delete note'); 
+        if(this.deleteNode)
+            this.deleteNode =false;
+        else
+            this.deleteNode =true;
+    
+        switchComplete(this.deleteNode);
+        
+    },
 
     init: function(loaded){
         this._noteDll.init(loaded);
@@ -415,25 +535,12 @@ NoteDataManager.prototype = {
         }
     },
     
-    BuildSearchCache: function(callback){
-        this._noteDll.BuildSearchCache(callback);
-    },
-    
-    QrySearchCache: function(text, callback){
-        this._noteDll.QrySearchCache(text, callback);
-    },
+   
     
     WriteToDB: function(note,callback){
         this._noteDll.WriteNoteData(note,callback);
     },
     
-    GetOptions: function (urlId,callback) {
-        this._noteDll.GetOptions(urlId,callback);
-    },
-    
-    SaveOptions: function (options) {
-        this._noteDll.SaveOptions(options);
-    },
     GetImageData: function (callback) {
         this._noteDll.GetImageData(callback);
     },
@@ -441,26 +548,6 @@ NoteDataManager.prototype = {
         return this._noteDll.Type();
     },
     
-    GetLayers: function (callback) {
-        this._noteDll.GetLayers(callback);
-    },
-    SaveLayers: function (data,updateCache) {
-        this._noteDll.SaveLayers(data,updateCache);
-    },
-    GetActiveLayer:function(callback){
-        this._noteDll.GetActiveLayer(callback);
-    },
-    GetVisibleLayer:function(callback){
-        this._noteDll.GetVisibleLayer(callback);
-    },
-    
-    GetMetaData :function(callback){
-        this._noteDll.GetMetaData(callback);
-    },
-    
-    GetMetaDataTypes :function(ids,callback){
-        this._noteDll.GetMetaDataTypes(ids, callback);
-    },
     GetCroppingNode : function(callback){
         
        // this._noteDll.CleanGenerations();

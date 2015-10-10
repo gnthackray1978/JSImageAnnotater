@@ -1,6 +1,5 @@
-var Urls = function (urlWriter, nodestore,view, loadImageCallback) {
-    this.nodestore = nodestore;
-     
+var Urls = function (urlWriter,view, loadImageCallback) {
+    
     this.view = view;
     
     this.urlWriter = urlWriter;
