@@ -1,6 +1,6 @@
 var  CanvasTools;
 
-var Visualizer = function (nodestore,canvasTools, options) {
+var Visualizer = function (data, nodestore,canvasTools, options) {
     //could inject this
     this._drawingQueue = [];
     this._canvasTools = canvasTools;
@@ -8,7 +8,7 @@ var Visualizer = function (nodestore,canvasTools, options) {
     
     this.options = options;
     this.nodestore = nodestore;
-   // this.view = view;
+    this.data = data;
 
     this.currentZoomPercentage = 100;
     this.screenHeight = 0.0;
@@ -50,7 +50,7 @@ var Visualizer = function (nodestore,canvasTools, options) {
 Visualizer.prototype.DrawTree= function () {
     var that = this;
     
-    that.nodestore.GetVisibleLayer(function(visibleLayers){
+    that.data.GetVisibleLayer(function(visibleLayers){
        
         that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
             
