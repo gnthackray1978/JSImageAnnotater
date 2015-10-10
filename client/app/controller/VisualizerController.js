@@ -1,4 +1,4 @@
-var visualizerController = function (view, graphicsContext) {
+var VisualizerController = function (view, graphicsContext) {
  
 
     this._mouseDown = false;
@@ -44,7 +44,7 @@ var visualizerController = function (view, graphicsContext) {
 
 };
 
-visualizerController.prototype = {
+VisualizerController.prototype = {
     
     
     startFromDrive: function(){
