@@ -202,11 +202,7 @@ Visualizer.prototype.ComputeLocations=function () {
         console.log('ComputeLocations NAN variables: cp ' + this.centrePoint + ' wdth: ' + width + ' zp: ' + this.zoomPercentage);
         console.log(this.nodestore.generations[0][0]);
     }
-    //this.canvas.width = window.innerWidth;
-    //this.canvas.height = window.innerHeight;
-
-  //  var halfCanvasWidth = (this.canvas.width / 2);
-
+    
     // adjust centrepoint before we start?
     // no because centre point is the same for all boxs
 

@@ -172,7 +172,7 @@ NodeManager.prototype = {
             var cropFound =false;
             while(idx < ajaxResult.length){
                 
-                if(Math.abs(ajaxResult[idx].LayerId) == 4 ) cropFound =true;
+                if(Math.abs(ajaxResult[idx].LayerId) == 4 ) cropFound =true;//old method for defining crop areas left in to handle old data
                 
                 that.AddData(1,ajaxResult[idx].Index, 
                                 ajaxResult[idx].X, 

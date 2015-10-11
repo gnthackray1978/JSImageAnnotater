@@ -48,6 +48,7 @@ function AnnotaterView() {
     this.showmeta = true;
     this.showoptions = true;
     this.showCropper = true;
+    this.showEdges =true;
     this.dataLoader = true;
     this.millisecondsInterval =1000;
     this.selectedFontChanged;
@@ -337,6 +338,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 that.showoptions = true;
          });
 
+
         $('#show_cropper').click(function (e) {
 
             if (that.showCropper) {
@@ -360,7 +362,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         });
         
-       
         $('#map_crop').live("dialogclose", function(){
            that.showCropper = true;
         });
@@ -370,6 +371,39 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             that.showCropper = true;
         });
 
+
+
+        $('#show_edges').click(function (e) {
+
+            if (that.showEdges) {
+                $("#map_edge_add").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_edge_add"]').css("width", "293px");
+           
+                $("#map_edge_add").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showEdges = false;
+            } else {
+                $("#map_edge_add").dialog("close");
+                that.showEdges = true;
+            }
+        });
+
+        $('#map_edge_add').live("dialogclose", function(){
+           that.showEdges = true;
+        });
+
+        $('#btnCancelEdge').click(function (e) {
+            $("#map_edge_add").dialog("close");
+            that.showEdges = true;
+        });
     };
 
 

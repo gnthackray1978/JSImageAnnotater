@@ -67,6 +67,7 @@
         <input id ="show_meta" class ="options_button" type="submit" value="Meta" />
         <input id ="show_options" class ="options_button" type="submit" value="Options" />
         <input id ="show_cropper" class ="options_button" type="submit" value="Cropper" />
+        <input id ="show_edges" class ="edges_button" type="submit" value="Edges" />
     </div>
      
     
@@ -251,6 +252,36 @@
         <input id ="btnSaveCrop" type="submit" value="Save" style="display: none;" />
 
     </div>
+
+    <div id = "map_edge_add" class ="hidePanel" title="Add Edges">
+        <b id = "edgeLabel">Add Edges</b>
+        <br>
+        <br/>
+        <b class = "edgeLabels">X</b>
+        <br/>
+        <input id= "txtX" type="text" />
+        <br/>
+        <b class = "edgeLabels">Y</b>
+        <br/>
+        <input id= "txtY" type="text" />
+        <br/>
+        <b class = "edgeLabels">Length</b>
+        <br/>
+        <input id= "txtLength" type="text" />
+        <br/>
+        <b class = "edgeLabels">Angle</b>
+        <br/>
+        <input id= "txtAngle" type="text" />
+        <br/>
+        
+        <input id ="btnAddEdge" type="submit" value="Add" />
+        <input id ="btnCancelEdge" type="submit" value="Close" />
+        
+        <input id ="btnDeleteEdges" type="submit" value="Delete Edges" />
+        <input id ="btnSaveEdges" type="submit" value="Save" style="display: none;" />
+
+    </div>
+
 
     <canvas id="myCanvas" >    
     </canvas>
