@@ -15,12 +15,25 @@ var NodeManagerController = function (view, nodeDataManager, graphicsContext) {
     this._view.SaveNote($.proxy(this.saveNote, this));
    
     this._view.Delete($.proxy(this.deleteNote, this));
-
+    
+    this._view.NodeEditorOpen($.proxy(this.start, this));
+    
+    this._view.NodeEditorClosed($.proxy(this.exit, this));
 };
 
 NodeManagerController.prototype = {
     
+    start:function(){
+        if (this.nodeManager !== null) {
+            
+        };
+    },
     
+    exit:function(){
+        if (this.nodeManager !== null) {
+             
+        };
+    },
 
     init:function(){
         if (this.nodeManager !== null) {
@@ -30,7 +43,7 @@ NodeManagerController.prototype = {
 
     canvasClick:function(x,y){
         var that = this;
-        
+        console.log('clicked');
         if (this.nodeManager !== null) {
             this.nodeManager.PerformClick(x, y, function(x,y,width,height,angle,annotation,options){
                 that._view.DisplayNodeSelection(x,y,width,height,angle,annotation,options);

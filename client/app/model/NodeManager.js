@@ -21,6 +21,7 @@ var NodeManager = function (data,meta,options) {
  
     this.addNode =false;
     this.deleteNode =false;
+    this.editNode =false;
     this.selectedNote;
 
 };
@@ -79,6 +80,9 @@ NodeManager.prototype = {
                 that.options.SetState(that.addNode);
             }
             
+            if(that.editNode && !that.addNode && !that.deleteNode){
+                
+            }
         });
     },
     //notes 
@@ -124,6 +128,14 @@ NodeManager.prototype = {
         
         this.options.SetState(this.addNode,undefined,true);
         switchComplete(this.addNode);
+    },
+    
+    EnterEditMode : function(){
+        this.editNode =true;    
+    },
+    
+    ExitEditMode : function(){
+        this.editNode =false;
     },
     
     DeleteNoteMode:function(switchComplete){

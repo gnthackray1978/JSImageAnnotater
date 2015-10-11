@@ -64,6 +64,9 @@ function AnnotaterView() {
     
     this.cropperLockKey = 'CROP';
     
+    this.openNodeEditor;
+    this.closeNodeEditor;
+    
     if(postal)
         this.channel = postal.channel("canvas");
 } 
@@ -201,8 +204,12 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 
                 //font-size: 1.1em; */
                 that.showImageUI = false;
+                if(that.closeNodeEditor)
+                    that.closeNodeEditor();
             } else {
-              
+                if(that.openNodeEditor)
+                    that.openNodeEditor();
+                    
                 that.showImageUI = true;
             }
         });
@@ -381,6 +388,9 @@ AnnotaterView.prototype.SaveNote = function (action) {
         e.preventDefault();
     });               
 };
+
+
+
     
 AnnotaterView.prototype.Cancel = function (action) {
         var that = this;
@@ -417,6 +427,20 @@ AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
         });
     }
 },
+
+AnnotaterView.prototype.NodeEditorOpen = function (caller) {
+   this.openNodeEditor = caller;
+    
+},
+
+
+AnnotaterView.prototype.NodeEditorClosed = function (caller) {
+   this.closeNodeEditor = caller;
+},
+
+
+
+
 
 AnnotaterView.prototype.CanvasUpdated = function (action) {
     
