@@ -293,6 +293,7 @@ NodeManager.prototype = {
                         node = this.generations[vidx][hidx];
                         
                         callback(node);
+                        return;
                     }
                 }
                 hidx++;
