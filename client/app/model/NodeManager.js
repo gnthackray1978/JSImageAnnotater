@@ -40,6 +40,9 @@ NodeManager.prototype = {
         if(this.options.GetState().pickMode) return;
         
         this.PointToNode(x,y, function(node){
+            
+            console.log('got point');
+            
             that.selectedNote = node;
             
             that.options.SetState(that.addNode, that.selectedNote);
