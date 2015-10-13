@@ -16,7 +16,7 @@ var NodeManager = function (data,meta,options) {
     this.deleteNode =false;
     this.editNode =false;
     this.selectedNote;
-    this.nodeFactory;
+    
 };
 
 
@@ -159,7 +159,7 @@ NodeManager.prototype = {
         this.generations.push([]);
         this.generations[0] = [];
 
-        var nodeFactory = new Node();
+        var nodeFactory = new Node(this.generations);
 
         nodeFactory.CreateEmptyNode(true,false, function(node){
             this.AddData(0,false,node,function(){});
