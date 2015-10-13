@@ -9,21 +9,14 @@ var NodeManager = function (data,meta,options) {
    
     this._noteDll = data;
     
-    //temp location for this stuff
-    this.centreX=0.0;
-    this.centreY=0.0;
-    
-    
     this.meta = meta;
     this.options = options;
-    // this.nodestore = nodestore;
-    // this.view = view;
  
     this.addNode =false;
     this.deleteNode =false;
     this.editNode =false;
     this.selectedNote;
-
+    this.nodeFactory;
 };
 
 
@@ -156,13 +149,23 @@ NodeManager.prototype = {
         this._noteDll.init(loaded);
     },
 
+
+    AddCropNode: function(){
+        
+    },
+    
     GetGenerations: function (urlId, callback) {
         this.urlId = urlId;
         this.generations.push([]);
         this.generations[0] = [];
 
-        this.AddData(0,0,0,0,900,900,0,'empty',true,false, undefined,1,null,false,false);
+        var nodeFactory = new Node(this.generations);
 
+        nodeFactory.CreateEmptyNode(true,false, function(node){
+            this.AddData(0,false,node,function(){});
+        })
+
+       
         this.generations[1] = [];
 
         var that =this;
@@ -172,32 +175,22 @@ NodeManager.prototype = {
             var cropFound =false;
             while(idx < ajaxResult.length){
                 
-                if(Math.abs(ajaxResult[idx].LayerId) == 4 ) cropFound =true;//old method for defining crop areas left in to handle old data
-                
-                that.AddData(1,ajaxResult[idx].Index, 
-                                ajaxResult[idx].X, 
-                                ajaxResult[idx].Y, 
-                                ajaxResult[idx].Width, 
-                                ajaxResult[idx].Height, 
-                                ajaxResult[idx].D, 
-                                ajaxResult[idx].Annotation,
-                                ajaxResult[idx].Visible,
-                                false,
-                                ajaxResult[idx].Options,
-                                ajaxResult[idx].LayerId,
-                                undefined,
-                                cropFound,
-                                false);
+                nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
+                    if(node.CropArea) 
+                        cropFound =true;
+                    that.AddData(1,true,node,function(){});  
+                })
                 
                 idx++;
             }
             
             if(!cropFound){
-        
-                that.AddData(1, that.NewId(),0,0,0,0,0,'',true, false, undefined,4,undefined,true,false,function(){
-                    that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
-                    callback();
-                });
+                    nodeFactory.CreateEmptyNode(false,true, function(node){
+                        this.AddData(1,false,node,function(){
+                            that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                            callback();
+                    });
+                })
             }
             else
             {
@@ -263,20 +256,7 @@ NodeManager.prototype = {
         }
     },
     
-    NewId : function(){
-          
-        var idx =0;
-        var topNumber =0;
-        while(idx < this.generations[1].length){
-            if(Number(this.generations[1][idx].Index) > Number(topNumber)){
-                topNumber = this.generations[1][idx].Index;
-            }
-            
-            idx++;
-        }
-        
-        return Number(topNumber) + 1;
-    },
+   
     
     PointToNode:function(x, y, callback){
         var vidx =1;
@@ -380,57 +360,41 @@ NodeManager.prototype = {
         
     },
     
-    WriteTextArea: function(id, note){
+    WriteTextArea: function(id, UInote){
         
-        // get text area contents 
-        // make data
-    
-        if(!note)
+        var that = this;
+        
+        if(!UInote)
             console.log('writetextarea note null or undefined');
-          
-        note.Index = id;
-     
-        if(note.Index == 0)
-            note.Index = this.NewId();
         
-        this.AddData(1, note.Index,note.x,note.y,note.width,note.height,note.d,note.text,true, true, note.options,2);
-    
-        return note.Index;
+        var nodeFactory = new Node(this.generations);
+        
+        nodeFactory.MakeNodeFromNote(id, UInote, undefined,2,undefined, function(node){
+                                
+            that.AddData(1, true, node, function(node){
+                return node.Index;
+            });   
+            
+        });
+        
     },
     
-    WriteNote: function(note,x,y,width,height,degree,annotation,options,
+    WriteNote: function(id,x,y,width,height,degree,annotation,options,
                                 layerId, metaData,cropArea,isOpen, callback)
     {
-
-        if(note == undefined)
-            note = this.NewId();
+        var that = this;
         
-        this.AddData(1, note,x,y,width,height,degree,annotation,true, true, 
-                    options,layerId,metaData,cropArea,isOpen,callback);
-    
+        var nodeFactory = new Node(this.generations);
+        
+        nodeFactory.MakeNode(id,x,y,width,height,degree,annotation,
+                            true,options,layerId,metaData,cropArea,isOpen, function(node){
+            that.AddData(1, true, node, callback);   
+        });
     },
     
     
-    AddData: function(genidx,index,x,y,width,height,degree,annotation,
-                            visible,withInit,options,layerId,metaData,cropArea,isOpen, callback){
+    AddData: function(genidx,withInit, node, callback){
  
-        var node = {
-            Annotation: annotation,
-            Index: index,
-            UrlId: this.urlId,
-            X:Number(x),
-            Y:Number(y),
-            Width:Number(width),
-            Height:Number(height),
-            D:Number(degree),
-            Visible: visible,
-            Options: options,
-            LayerId : layerId,
-            MetaData : metaData,
-            CropArea : cropArea,
-            IsOpen: isOpen
-        };
-
         if(genidx === 0){
             this.generations[0].push(node);
             return;
@@ -549,6 +513,7 @@ NodeManager.prototype = {
         if(!withInit && callback){
             callback();
         }
+         
     },
     
    
