@@ -159,7 +159,7 @@ NodeManager.prototype = {
         this.generations.push([]);
         this.generations[0] = [];
 
-        var nodeFactory = new Node(this.generations);
+        var nodeFactory = new Node();
 
         nodeFactory.CreateEmptyNode(true,false, function(node){
             this.AddData(0,false,node,function(){});
