@@ -165,7 +165,7 @@ NodeManager.prototype = {
         var nodeFactory = new Node(that.generations);
 
         nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddData(0,false,node,function(){});
+            that.AddData(0,true,node,function(){});
         })
 
        
