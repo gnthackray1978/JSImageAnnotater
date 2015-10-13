@@ -389,7 +389,7 @@ NodeManager.prototype = {
         var nodeFactory = new Node(this.generations);
         
         nodeFactory.MakeNode(id,x,y,width,height,degree,annotation,
-                            true,options,layerId,metaData,cropArea,isOpen, function(node){
+                            true,options,layerId,metaData,cropArea,isOpen,undefined, function(node){
             that.AddData(1, true, node, callback);   
         });
     },
