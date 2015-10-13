@@ -164,12 +164,6 @@ NodeManager.prototype = {
 
         var nodeFactory = new Node(that.generations);
 
-        nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddData(0,true,node,function(){
-                fillPersistedData();
-            });
-        })
-        
         var fillPersistedData = function(){
             that.generations[1] = [];
             this._noteDll.GetNoteData(urlId,function(ajaxResult) {
@@ -204,6 +198,11 @@ NodeManager.prototype = {
         };
         
         
+        nodeFactory.CreateEmptyNode(true,false, function(node){
+            that.AddData(0,true,node,function(){
+                fillPersistedData();
+            });
+        })
         
     },
     
@@ -400,6 +399,7 @@ NodeManager.prototype = {
  
         if(genidx === 0){
             this.generations[0].push(node);
+            callback();
             return;
         }
 
