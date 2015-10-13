@@ -166,7 +166,7 @@ NodeManager.prototype = {
 
         var fillPersistedData = function(){
             that.generations[1] = [];
-            this._noteDll.GetNoteData(urlId,function(ajaxResult) {
+            that._noteDll.GetNoteData(urlId,function(ajaxResult) {
                 var idx =0;
                 var cropFound =false;
                 while(idx < ajaxResult.length){
@@ -182,7 +182,7 @@ NodeManager.prototype = {
             
                 if(!cropFound){
                         nodeFactory.CreateEmptyNode(false,true, function(node){
-                            this.AddData(1,false,node,function(){
+                            that.AddData(1,false,node,function(){
                                 that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
                                 callback();
                         });
