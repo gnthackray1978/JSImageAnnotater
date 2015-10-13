@@ -174,7 +174,7 @@ NodeManager.prototype = {
                     nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
                         if(node.CropArea) 
                             cropFound =true;
-                        that.AddData(1,true,node,function(){});  
+                        that.AddData(1,false,node,function(){});  
                     })
                     
                     idx++;
@@ -199,7 +199,7 @@ NodeManager.prototype = {
         
         
         nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddData(0,true,node,function(){
+            that.AddData(0,false,node,function(){
                 fillPersistedData();
             });
         })
