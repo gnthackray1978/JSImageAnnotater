@@ -155,20 +155,23 @@ NodeManager.prototype = {
     },
     
     GetGenerations: function (urlId, callback) {
-        this.urlId = urlId;
-        this.generations.push([]);
-        this.generations[0] = [];
+        
+        var that = this;
+        
+        that.urlId = urlId;
+        that.generations.push([]);
+        that.generations[0] = [];
 
-        var nodeFactory = new Node(this.generations);
+        var nodeFactory = new Node(that.generations);
 
         nodeFactory.CreateEmptyNode(true,false, function(node){
-            this.AddData(0,false,node,function(){});
+            that.AddData(0,false,node,function(){});
         })
 
        
-        this.generations[1] = [];
+        that.generations[1] = [];
 
-        var that =this;
+     
 
         this._noteDll.GetNoteData(urlId,function(ajaxResult) {
             var idx =0;
