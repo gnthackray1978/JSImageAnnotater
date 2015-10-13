@@ -1,13 +1,3 @@
-var Nit = function (nodeCollection) {
-    
-    this.nodeCollection = [];
-    
-    if(nodeCollection)
-        this.nodeCollection = nodeCollection;
-    
-    
-    //this.data = typeof (data) !== 'undefined' ? data : {};
-};
 
 var Node = function (nodeCollection) {
     
