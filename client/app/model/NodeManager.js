@@ -165,46 +165,46 @@ NodeManager.prototype = {
         var nodeFactory = new Node(that.generations);
 
         nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddData(0,true,node,function(){});
+            that.AddData(0,true,node,function(){
+                fillPersistedData();
+            });
         })
+        
+        var fillPersistedData = function(){
+            that.generations[1] = [];
+            this._noteDll.GetNoteData(urlId,function(ajaxResult) {
+                var idx =0;
+                var cropFound =false;
+                while(idx < ajaxResult.length){
+                    
+                    nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
+                        if(node.CropArea) 
+                            cropFound =true;
+                        that.AddData(1,true,node,function(){});  
+                    })
+                    
+                    idx++;
+                }
+            
+                if(!cropFound){
+                        nodeFactory.CreateEmptyNode(false,true, function(node){
+                            this.AddData(1,false,node,function(){
+                                that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                                callback();
+                        });
+                    })
+                }
+                else
+                {
+                    that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
+                    callback();
+                }
 
-       
-        that.generations[1] = [];
-
-     
-
-        this._noteDll.GetNoteData(urlId,function(ajaxResult) {
-            var idx =0;
-            var cropFound =false;
-            while(idx < ajaxResult.length){
-                
-                nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
-                    if(node.CropArea) 
-                        cropFound =true;
-                    that.AddData(1,true,node,function(){});  
-                })
-                
-                idx++;
-            }
-            
-            if(!cropFound){
-                    nodeFactory.CreateEmptyNode(false,true, function(node){
-                        this.AddData(1,false,node,function(){
-                            that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
-                            callback();
-                    });
-                })
-            }
-            else
-            {
-                that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
-                callback();
-            }
-            
-            
-            
-            
-        });
+            });
+        };
+        
+        
+        
     },
     
     RefreshMatches: function(){
