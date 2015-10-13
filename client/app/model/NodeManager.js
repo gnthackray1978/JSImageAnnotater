@@ -494,7 +494,7 @@ NodeManager.prototype = {
         while(idx < this.generations[1].length){
             
             //console.log(this.generations[1][idx].PersonId + ' ' + noteId);
-            if(Number(this.generations[1][idx].Index) === Number(index)){
+            if(Number(this.generations[1][idx].Index) === Number(node.Index)){
                 isPresent = true;
                 console.log('AddData updating generations');
                 this.generations[1][idx] =node;
