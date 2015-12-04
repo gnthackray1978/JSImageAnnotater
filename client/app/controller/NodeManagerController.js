@@ -43,7 +43,7 @@ NodeManagerController.prototype = {
 
     canvasClick:function(x,y){
         var that = this;
-        console.log('clicked');
+      //  console.log('clicked');
         if (this.nodeManager !== null) {
             this.nodeManager.PerformClick(x, y, function(x,y,width,height,angle,annotation,options){
                 that._view.DisplayNodeSelection(x,y,width,height,angle,annotation,options);
@@ -76,7 +76,7 @@ NodeManagerController.prototype = {
     deleteNote:function(action){
         var that = this;
         this.nodeManager.DeleteNoteMode(function(deleteNode){
-            that._view.DisplayUpdateDelete(this.deleteNode);
+            that._view.DisplayUpdateDelete(deleteNode);
         });
         
     },
