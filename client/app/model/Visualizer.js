@@ -659,9 +659,11 @@ Visualizer.prototype.SetDrawingQueueReset = function(){
 Visualizer.prototype.SetDrawQueueEntries = function(){
     
     while (this._drawingQueue.length > 0) {
-        console.log(_point[0]+ ' ' +_point[1]);
+        
         
         var _point = this._drawingQueue.shift();
+        console.log(_point[0]+ ' ' +_point[1]);
+        
         this.SetCentrePointOffset(_point[0], _point[1]);
         this.DrawTree();
     }
