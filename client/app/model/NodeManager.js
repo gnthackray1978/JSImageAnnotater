@@ -14,6 +14,7 @@ var NodeManager = function (data,meta,options) {
  
     this.addNode =false;
     this.deleteNode =false;
+    this.deletedNodeCache;
     this.editNode =false;
     this.selectedNote;
     
@@ -37,6 +38,9 @@ NodeManager.prototype = {
             console.log('got point');
             
             that.selectedNote = node;
+            console.log('cleared del node cache');
+            
+            that.deletedNodeCache = undefined; 
             
             that.options.SetState(that.addNode, that.selectedNote);
         
@@ -49,6 +53,8 @@ NodeManager.prototype = {
                         that.selectedNote.options = that.options.GetState().defaultOptions;
                     }
                    
+                    that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
+                    
                     that.selectedNote.Visible =false;
                     
                     that.WriteToDB(that.selectedNote, function(){
@@ -120,9 +126,10 @@ NodeManager.prototype = {
         this.options.SetDefaultOptionState(false);
         this.addNode = false;
         
-        if(this.selectedNote != undefined){
-            this.selectedNote.Visible =true;
-            this.WriteToDB(this.selectedNote, function(){
+        if(this.deletedNodeCache != undefined){
+            this.selectedNote = this.deletedNodeCache;
+            this.deletedNodeCache.Visible =true;
+            this.WriteToDB(this.deletedNodeCache, function(){
                 console.log('node undeleted');
             });
         
