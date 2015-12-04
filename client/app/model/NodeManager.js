@@ -132,11 +132,15 @@ NodeManager.prototype = {
             // this.WriteToDB(this.deletedNodeCache, function(){
             //     console.log('node undeleted');
             // });
-            this.selectedNote= undefined;
+            //this.selectedNote= undefined;
             
-            this.SaveNoteClicked(this.deletedNodeCache, function(){
+            this.AddData(1, true, this.deletedNodeCache, function(){
                 console.log('saved');
-            });
+            });   
+            
+            // this.SaveNoteClicked(this.deletedNodeCache, function(){
+            //     console.log('saved');
+            // });
         }
             
             
