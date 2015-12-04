@@ -132,7 +132,8 @@ NodeManager.prototype = {
             // this.WriteToDB(this.deletedNodeCache, function(){
             //     console.log('node undeleted');
             // });
-        
+            this.selectedNote= undefined;
+            
             this.SaveNoteClicked(this.deletedNodeCache, function(){
                 console.log('saved');
             });
