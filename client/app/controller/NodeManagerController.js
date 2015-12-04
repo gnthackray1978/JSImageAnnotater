@@ -67,7 +67,7 @@ NodeManagerController.prototype = {
     cancelButtonClicked:function(){
         var that = this;
         this.nodeManager.CancelAdd(function(addNode){
-            that._graphicsContext.SetLocked(true);
+            that._graphicsContext.SetLocked(false);
             that._view.DisplayUpdateNoteAdd(addNode);
             that._view.ClearActiveTextArea();
         });

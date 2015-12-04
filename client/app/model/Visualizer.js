@@ -141,7 +141,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         
                         if(cropMainNode.X != 0 && cropMainNode.Y != 0 && cropMainNode.IsOpen)
                         { 
-                            console.log('drawing crop node');
+                        //    console.log('drawing crop node');
                             that._canvasTools.DrawCropBox(
                                 cropMainNode.X,
                                 cropMainNode.Y,
@@ -601,7 +601,7 @@ Visualizer.prototype.SetMouse = function (x, y) {
     
     
 Visualizer.prototype.SetCentreX = function (x) {  
-    console.log('set centre: ' + x);
+//    console.log('set centre: ' + x);
     this.centrePoint = x;
     this.nodestore.centreX = this.centrePoint;
 };
@@ -663,7 +663,7 @@ Visualizer.prototype.SetDrawQueueEntries = function(){
         
         
         var _point = this._drawingQueue.shift();
-        console.log(_point[0]+ ' ' +_point[1]);
+      //  console.log(_point[0]+ ' ' +_point[1]);
         
         this.SetCentrePointOffset(_point[0], _point[1]);
         this.DrawTree();
