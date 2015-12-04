@@ -601,6 +601,7 @@ Visualizer.prototype.SetMouse = function (x, y) {
     
     
 Visualizer.prototype.SetCentreX = function (x) {  
+    console.log('set centre: ' + x);
     this.centrePoint = x;
     this.nodestore.centreX = this.centrePoint;
 };
