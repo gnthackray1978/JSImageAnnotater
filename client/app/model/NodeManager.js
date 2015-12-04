@@ -49,6 +49,12 @@ NodeManager.prototype = {
                         that.selectedNote.options = that.options.GetState().defaultOptions;
                     }
                    
+                    that.selectedNote.Visible =false;
+                    
+                    that.WriteToDB(that.selectedNote, function(){
+                        console.log('node deleted');
+                    });
+                   
                     newNodeSelected(that.selectedNote.X, 
                             that.selectedNote.Y,that.selectedNote.Width, 
                             that.selectedNote.Height,that.selectedNote.D,
