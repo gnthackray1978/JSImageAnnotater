@@ -127,12 +127,15 @@ NodeManager.prototype = {
         this.addNode = false;
         
         if(this.deletedNodeCache != undefined){
-            this.selectedNote = this.deletedNodeCache;
-            this.deletedNodeCache.Visible =true;
-            this.WriteToDB(this.deletedNodeCache, function(){
-                console.log('node undeleted');
-            });
+            // this.selectedNote = this.deletedNodeCache;
+            // this.deletedNodeCache.Visible =true;
+            // this.WriteToDB(this.deletedNodeCache, function(){
+            //     console.log('node undeleted');
+            // });
         
+            this.SaveNoteClicked(this.deletedNodeCache, function(){
+                console.log('saved');
+            });
         }
             
             
