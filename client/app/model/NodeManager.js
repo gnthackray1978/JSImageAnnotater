@@ -26,7 +26,7 @@ NodeManager.prototype = {
 
     PerformClick: function (x, y, newNodeSelected) {
             
-        console.log("canvas clicked");
+    //    console.log("canvas clicked");
          
         var that = this;
         
@@ -35,10 +35,10 @@ NodeManager.prototype = {
         
         this.PointToNode(x,y, function(node){
             
-            console.log('got point');
+           // console.log('got point');
             
             that.selectedNote = node;
-            console.log('cleared del node cache');
+        //    console.log('cleared del node cache');
             
             that.deletedNodeCache = undefined; 
             
