@@ -120,6 +120,15 @@ NodeManager.prototype = {
         this.options.SetDefaultOptionState(false);
         this.addNode = false;
         
+        if(this.selectedNote != undefined){
+            this.selectedNote.Visible =true;
+            this.WriteToDB(this.selectedNote, function(){
+                console.log('node undeleted');
+            });
+        
+        }
+            
+            
         this.options.SetState(this.addNode);
         this.meta.Unload();
         cancelComplete(this.addNode);
