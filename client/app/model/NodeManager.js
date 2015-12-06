@@ -40,7 +40,7 @@ NodeManager.prototype = {
             that.selectedNote = node;
         //    console.log('cleared del node cache');
             
-            that.deletedNodeCache = undefined; 
+          //  that.deletedNodeCache = undefined; 
             
             that.options.SetState(that.addNode, that.selectedNote);
         
