@@ -34,144 +34,180 @@ MyDrive.prototype.init = function(loaded){
     // we should end up with the file id of the config file
     // we should authenticated - or tell users we're not
     // image url should also be set
+
+    var that = this;
+ 
+    var checkAuth = function() {
+        //1. autheniticated
+        //2. load drive api
+        //
     
-    
-    
-    var qryString = window.location.search.replace('?','');
+        gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
+            function(authResult){
+                if (authResult && !authResult.error) {
+                    writeStatement('Authenticated');
+                    
+                    //SET AUTH RESULT
+                    that.authResult = authResult;
 
-     qryString = decodeURI(qryString).replace('state=','');
-
-     console.log(qryString);    
-
-     data = JSON.parse(qryString);
-
-     console.log(data);
-
-    
-     var that = this;
-     
-     writeStatement(qryString);
-     
-     var loadFileInfo = function(fileId, callback) {
-         
-          that.FILEID = fileId;
-          
-          var request = gapi.client.drive.files.get({
-            'fileId': fileId
-          });
-            
-          request.execute(function(resp) {
-        
-                writeStatement(resp.title);
-                writeStatement(resp.description);
-                writeStatement(resp.mimeType);
-                writeStatement(resp.downloadUrl);
-                writeStatement(resp.parents[0].id);
-        
-        
-                writeStatement('links');
-                writeStatement(resp.webContentLink);
-                writeStatement(resp.downloadUrl);
-                writeStatement(resp.webViewLink);
-                
-                
-                that.CONFIGFILENAME = resp.title;
-                that.FILENAME = resp.title;
-                that.IMAGEURL = resp.downloadUrl;
-                that.IMAGEWIDTH =resp.imageMediaMetadata.width;
-                that.IMAGEHEIGHT=resp.imageMediaMetadata.height;
-                
-                callback(resp);
-          });
-    };
-
-    var getConfigFileId = function(folderId, name, ocallback) {
-        
-        var searchForId = function(fileList){
-            writeStatement('retrieved list of files');
-            var idx =0;
-            
-            // if(fileList[idx].title == that.CONFIGFILEFOLDER){
-            //     writeStatement('folder id: '+ fileList[idx].id);
-            // }
-                
-            while(idx < fileList.length){
-                writeStatement(fileList[idx].title);
-                
-                if(fileList[idx].title == name){
-                    //FILEID=resp[idx].id;
-                    ocallback(fileList[idx].id);
-                    writeStatement('found id: '+ fileList[idx].id);
-                    return;
-                }
-                
-                idx++;
-            }    
-            
-            ocallback(-1);
-        };
-        
-        var retrievePageOfFiles = function(request, result) {
-            request.execute(function(resp) {
-                result = result.concat(resp.items);
-                var nextPageToken = resp.nextPageToken;
-               
-                if (nextPageToken) {
-                    request = gapi.client.drive.files.list({
-                    'pageToken': nextPageToken
+                    that.GAPIStage_LoadAPI(function(){
+                        that.GAPIStage_ObtainMainFileInfo(function(info){
+                            that.GAPIStage_ProcessResponse(info);
+                        });
                     });
-                    retrievePageOfFiles(request, result);
-                } 
-                else {
-                    searchForId(result);
+                    
+                    //that.GAPILoadMainFileInfo(fileLoadResponse);
                 }
-            });
-        };
+                else {
+                    writeStatement('Couldnt authenticate!');
+                }
+            }
+        );
         
-        var pstr= '\'' + folderId+ '\'' + ' in parents';
-        
-        writeStatement('searching for: '+ pstr);   
-        
-        var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
-        retrievePageOfFiles(initialRequest, []);
     };
 
-    var createConfigFile = function(parentId, fileName, fileId, content,callback){
-        
-        
-        that._saveFile(parentId, fileName, fileId, content,callback);
-    };
+    window.setTimeout($.proxy(checkAuth, this), 1);
+};
 
-    // var readConfigFile = function(callback){
-        
-    //     var request = gapi.client.drive.files.get({
-    //       'fileId': that.CONFIGFILEID
-    //     });
-        
-    //     request.execute(function(resp) {
-    //       if (resp.id) {
-    //         var token = gapi.auth.getToken();
+MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
+    var that = this;
+    that.CONFIGFILEID =-1;
+    
+    var searchForId = function(fileList){
+        writeStatement('retrieved list of files');
+        var idx =0;
+         
+        while(idx < fileList.length){
+            writeStatement(fileList[idx].title);
             
-    //         $.ajax(resp.downloadUrl, {
-    //           headers: {Authorization: 'Bearer ' + token.access_token},
-    //           success: function(data) {
-                
-    //             var d = JSON.parse(data);
-    //             that.generations = d.generations;
-    //             that.options = d.options;
-    //             that.layers = d.layers;
-    //             callback();
-    //           }
-    //         });
-    //       }
-    //     });
+            if(fileList[idx].title == that.CONFIGFILENAME){
+                that.CONFIGFILEID = fileList[idx].id;
+                ocallback(fileList[idx].id);
+                writeStatement('found id: '+ fileList[idx].id);
+                return;
+            }
+            
+            idx++;
+        }    
         
+        ocallback(-1);
+    };
         
-    // }; 
-     
-    var createDummyFile = function(){
-        var addNode = function(id,fileId,note,x,y,w,h) {
-            var node = {
+    var retrievePageOfFiles = function(request, result) {
+        request.execute(function(resp) {
+            result = result.concat(resp.items);
+            var nextPageToken = resp.nextPageToken;
+           
+            if (nextPageToken) {
+                request = gapi.client.drive.files.list({
+                'pageToken': nextPageToken
+                });
+                retrievePageOfFiles(request, result);
+            } 
+            else {
+                searchForId(result);
+            }
+        });
+    };
+        
+    var pstr= '\'' + that.CONFIGFOLDERID+ '\'' + ' in parents';
+    
+    writeStatement('searching for: '+ pstr);   
+    
+    var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
+    retrievePageOfFiles(initialRequest, []);
+},
+
+MyDrive.prototype.GAPIStage_ProcessConfigFile = function( loaded){
+   
+    var that =this;
+
+    var loadConfigFile = function(configFileId){
+        //create config file if doesnt exist.            
+        if(configFileId == -1){
+            that.GAPIStage_CreateConfigFile(function(fileId){
+                that.GAPIStage_LoadConfigFile(loaded);
+            });
+        }
+        else {
+            that.GAPIStage_LoadConfigFile(loaded);
+        }
+    };
+ 
+    that.GAPIStage_GetConfigFileId(loadConfigFile);
+    
+    
+},
+
+MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
+    var that = this;
+    
+    var searchForId = function(fileList){
+        writeStatement('retrieved list of files');
+        var idx =0;
+        
+        // if(fileList[idx].title == that.CONFIGFILEFOLDER){
+        //     writeStatement('folder id: '+ fileList[idx].id);
+        // }
+            
+        while(idx < fileList.length){
+            writeStatement(fileList[idx].title);
+            
+            if(fileList[idx].title == that.CONFIGFILEFOLDER){
+                //FILEID=resp[idx].id;
+                ocallback(fileList[idx].id);
+                writeStatement('found id: '+ fileList[idx].id);
+                return;
+            }
+            
+            idx++;
+        }    
+        
+        ocallback(-1);
+    };
+        
+    var retrievePageOfFiles = function(request, result) {
+        request.execute(function(resp) {
+            result = result.concat(resp.items);
+            var nextPageToken = resp.nextPageToken;
+           
+            if (nextPageToken) {
+                request = gapi.client.drive.files.list({
+                'pageToken': nextPageToken
+                });
+                retrievePageOfFiles(request, result);
+            } 
+            else {
+                searchForId(result);
+            }
+        });
+    };
+        
+    var pstr= '\'' + that.PARENTFOLDERID+ '\'' + ' in parents';
+    
+    writeStatement('searching for: '+ pstr);   
+    
+    var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
+    retrievePageOfFiles(initialRequest, []);
+},
+
+
+MyDrive.prototype.GAPIStage_CreateConfigFile = function(parentId, fileName,callback){
+    var that = this;
+    
+    var content = this.GAPIStage_CreateDummyFile();
+    
+    content =JSON.stringify(content);
+    
+    this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, null, content,function(id){
+        that.CONFIGFILEID = id;
+        callback(id);
+    });
+},
+
+MyDrive.prototype.GAPIStage_CreateDummyFile = function(){
+    var addNode = function(id,fileId,note,x,y,w,h) {
+        var node = {
                     Annotation: note,
                     Index: id,
                     UrlId: fileId,
@@ -187,132 +223,135 @@ MyDrive.prototype.init = function(loaded){
                     IsOpen:false
                 };
                 
-                return node;
-        };
-        
-        var tgs =[];
-       
-        tgs.push(addNode(1,1,'some test string',100,100,200,65));
-        tgs.push(addNode(2,1,'another value',150,200,200,65));
-        tgs.push(addNode(3,1,'hello monkey',200,400,200,65));
-        
-        var options = {
-            LayerId: 0,
-            UrlId: 1,
-            DefaultFont: "\'Times New Roman\'\, Times\, serif" ,
-            DefaultNoteColour: '#9B9E8F' ,
-            DefaultEditorFontColour: '#FFFFFF' ,
-            DefaultEditorBorderColour: '#FFFFFF' ,
-            DefaultNoteFontColour: '#272D45' ,
-            IsTransparent: true,
-            Visible: true
-        };
-        
-        var oarray = [];
-        
-        oarray.push(options);
-        
-        var c = {
-            urlId : 1,
-            generations: tgs,
-            options : oarray,
-            layers: 1
-        };
-        
-        return c;
-    }; 
-
-    var fileLoadResponse = function(resp){
-         var stripped =  resp.title.substr(0, resp.title.lastIndexOf('.')) || resp.title;
-         that.CONFIGFILENAME = stripped + that.CONFIGFILEEXT;
-         //find config folder
-         getConfigFileId(resp.parents[0].id,that.CONFIGFILEFOLDER,function(folderId){
-           
-            var loadConfigFile = function(){
-                that.ReadConfigFile(that.CONFIGFILEID,function(d){
-                    that.generations = d.generations;
-                    that.options = d.options;
-                    that.layers = d.layers;
-                    loaded();  
-                });
-            };
-           
-            var getConfigFolderContents = function(id){
-                that.CONFIGFOLDERID =id;
-                var readCreateConfigFile = function(configId){
-                    //SET CONFIG ID IF WE HAVE IT
-                    that.CONFIGFILEID =configId;
-                    that.PARENTFOLDERID=resp.parents[0].id;
-                        
-                    if(configId == -1){
-                        var c = createDummyFile();
-                        createConfigFile(id, that.CONFIGFILENAME,null,JSON.stringify(c), function(creaetedfileId){
-                            that.CONFIGFILEID =creaetedfileId;
-                            loadConfigFile();
-                        });
-                    }
-                    else {
-                        loadConfigFile();
-                    }
-                };
-             
-                getConfigFileId(id,that.CONFIGFILENAME,readCreateConfigFile);
-         
-            };
-            
-            if(folderId == -1){
-                that._makeFolder(resp.parents[0].id,that.CONFIGFILEFOLDER,getConfigFolderContents);
-            }
-            else{
-                getConfigFolderContents(folderId);
-            }
-            
-         });
-               
-               
-                     
+        return node;
     };
-                         
-
-
-
-    var checkAuth = function() {
-        //1. autheniticated
-        //2. load drive api
-        //
+        
+    var tgs =[];
+   
+    tgs.push(addNode(1,1,'some test string',100,100,200,65));
+    tgs.push(addNode(2,1,'another value',150,200,200,65));
+    tgs.push(addNode(3,1,'hello monkey',200,400,200,65));
     
-        gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
-            function(authResult){
-                if (authResult && !authResult.error) {
-                    writeStatement('Authenticated');
-                    
-                    //SET AUTH RESULT
-                    that.authResult = authResult;
-                    
-                    
-                    //load the drive api api
-                     gapi.client.load('drive', 'v2', function(r){
-                         loadFileInfo(data.ids[0], fileLoadResponse);
-                     });
-                    
-                    
-                }
-                else {
-                    writeStatement('Couldnt authenticate!');
-                }
-                
-                
-            }
-            
-        );
-        
+    var options = {
+        LayerId: 0,
+        UrlId: 1,
+        DefaultFont: "\'Times New Roman\'\, Times\, serif" ,
+        DefaultNoteColour: '#9B9E8F' ,
+        DefaultEditorFontColour: '#FFFFFF' ,
+        DefaultEditorBorderColour: '#FFFFFF' ,
+        DefaultNoteFontColour: '#272D45' ,
+        IsTransparent: true,
+        Visible: true
     };
+    
+    var oarray = [];
+    
+    oarray.push(options);
+    
+    var c = {
+        urlId : 1,
+        generations: tgs,
+        options : oarray,
+        layers: 1
+    };
+    
+    return c;
+},
 
-    window.setTimeout($.proxy(checkAuth, this), 1);
+
+MyDrive.prototype.GAPIStage_LoadConfigFile = function(loaded){
+    var that = this;
+         
+    that.ReadConfigFile(that.CONFIGFILEID,function(d){
+        that.generations = d.generations;
+        that.options = d.options;
+        that.layers = d.layers;
+        loaded();  
+    });
      
+},
+
+MyDrive.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
+    
+    var that = this;
+    
+    var stripped =  resp.title.substr(0, resp.title.lastIndexOf('.')) || resp.title;
+    
+    that.CONFIGFILENAME = stripped + that.CONFIGFILEEXT;
      
-     
-};
+    that.PARENTFOLDERID = resp.parents[0].id;
+    
+    that.GAPIStage_GetConfigFolderId(function(folderId){
+        that.CONFIGFOLDERID =folderId;
+        
+        //config folder doesnt exist    
+        if(that.CONFIGFOLDERID == -1){
+            that._makeFolder(that.PARENTFOLDERID,that.CONFIGFILEFOLDER,function(newId){
+                that.CONFIGFOLDERID =newId;
+                that.GAPIStage_ProcessConfigFile();
+            } );
+        }
+        else{
+            that.GAPIStage_ProcessConfigFile();
+        }
+            
+    });
+},
+    
+
+
+MyDrive.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
+    
+    var that = this;
+    
+    var qryString = window.location.search.replace('?','');
+        qryString = decodeURI(qryString).replace('state=','');
+      //  console.log('Qry string data: ' + qryString);    
+    var data = JSON.parse(qryString);
+    console.log('Qry string data:' + data);
+    
+    that.FILEID = data.ids[0];
+    
+    
+    
+    var request = gapi.client.drive.files.get({
+        'fileId': that.FILEID
+    });
+    
+    request.execute(function(resp) {
+        
+        writeStatement(resp.title);
+        writeStatement(resp.description);
+        writeStatement(resp.mimeType);
+        writeStatement(resp.downloadUrl);
+        writeStatement(resp.parents[0].id);
+        
+        
+        writeStatement('links');
+        writeStatement(resp.webContentLink);
+        writeStatement(resp.downloadUrl);
+        writeStatement(resp.webViewLink);
+        
+        
+        that.CONFIGFILENAME = resp.title;
+        that.FILENAME = resp.title;
+        that.IMAGEURL = resp.downloadUrl;
+        that.IMAGEWIDTH =resp.imageMediaMetadata.width;
+        that.IMAGEHEIGHT=resp.imageMediaMetadata.height;
+        
+        loaded(resp);
+    });
+},
+
+MyDrive.prototype.GAPIStage_LoadAPI = function(loaded){
+    //load the drive api api
+    gapi.client.load('drive', 'v2', function(r){
+        loaded(r);
+    });
+},
+
+
+
 
 MyDrive.prototype.ReadConfigFile = function(configId, callback){
     var that = this;        
