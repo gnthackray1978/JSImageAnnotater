@@ -63,7 +63,7 @@ VisualizerController.prototype = {
                         
                         that.graphicsContext.nodestore.RefreshMatches();
                         
-                        console.log('got data starting app');
+                     //   console.log('got data starting app');
                         
                         setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
          

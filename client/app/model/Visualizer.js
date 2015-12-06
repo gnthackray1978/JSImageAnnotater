@@ -476,17 +476,17 @@ Visualizer.prototype.SetZoom = function (percentage) {
             
             var debugCentrePoint = this.centrePoint ;
             
-            console.log('SetZoom init values: ip: ' + this.mouseXPercLocat + ' px1: ' + this.percX1 + ' dw: ' + this.drawingWidth + ' centre point: '+ this.centrePoint);
+           // console.log('SetZoom init values: ip: ' + this.mouseXPercLocat + ' px1: ' + this.percX1 + ' dw: ' + this.drawingWidth + ' centre point: '+ this.centrePoint);
             
             //this.centrePoint += (this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat);
 
             this.SetCentreX(this.centrePoint + ((this.drawingWidth / 100) * (this.percX1 - this.mouseXPercLocat)));
             
-            console.log('SetZoom centrepoint moved: ' + (this.percX1 - this.mouseXPercLocat) + '% from ' +debugCentrePoint + ' to ' +  this.centrePoint);
+            //console.log('SetZoom centrepoint moved: ' + (this.percX1 - this.mouseXPercLocat) + '% from ' +debugCentrePoint + ' to ' +  this.centrePoint);
 
             this.ComputeLocations();
             
-            console.log('SetZoom drawing width: ' + this.drawingWidth);
+            //console.log('SetZoom drawing width: ' + this.drawingWidth);
         }  
 
        // console.log('zoom percentage ' + this.zoomPercentage);
@@ -570,7 +570,7 @@ Visualizer.prototype.GetPercDistances = function () {
 
             _onePercentDistance = this.drawingWidth / 100;
             
-            console.log('GetPercDistances: dfx1 ' + _distanceFromX1 + ' 1px ' + _onePercentDistance);
+       //     console.log('GetPercDistances: dfx1 ' + _distanceFromX1 + ' 1px ' + _onePercentDistance);
             
             if(_distanceFromX1 !=0)
                 this.percX1 = _distanceFromX1 / _onePercentDistance;
@@ -626,7 +626,7 @@ Visualizer.prototype.SetCentrePointOffset = function (param_x, param_y) {
         else {
 
             if (this.centrePointXOffset === 0) {
-                console.log('centrePointXOffset reset: ' +param_x );
+             //   console.log('centrePointXOffset reset: ' +param_x );
                 this.centrePointXOffset = this.centrePoint - param_x;
             }
             else {

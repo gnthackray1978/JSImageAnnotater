@@ -126,6 +126,7 @@ NodeManager.prototype = {
         this.options.SetDefaultOptionState(false);
         this.addNode = false;
         
+        
         if(this.deletedNodeCache != undefined){
             // this.selectedNote = this.deletedNodeCache;
             // this.deletedNodeCache.Visible =true;
@@ -133,8 +134,11 @@ NodeManager.prototype = {
             //     console.log('node undeleted');
             // });
             //this.selectedNote= undefined;
+            var that = this;
+            console.log('CancelAdd delete node restored');
             
             this.AddData(1, true, this.deletedNodeCache, function(){
+                that.deletedNodeCache = undefined;
                 console.log('saved');
             });   
             
