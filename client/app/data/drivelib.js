@@ -45,21 +45,21 @@ MyDrive.prototype.init = function(loaded){
         gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
             function(authResult){
                 if (authResult && !authResult.error) {
-                    writeStatement('Authenticated');
+                    console.log('Authenticated');
                     
                     //SET AUTH RESULT
                     that.authResult = authResult;
 
                     that.GAPIStage_LoadAPI(function(){
                         that.GAPIStage_ObtainMainFileInfo(function(info){
-                            that.GAPIStage_ProcessResponse(info);
+                            that.GAPIStage_ProcessResponse(info,loaded);
                         });
                     });
                     
                     //that.GAPILoadMainFileInfo(fileLoadResponse);
                 }
                 else {
-                    writeStatement('Couldnt authenticate!');
+                    console.log('Couldnt authenticate!');
                 }
             }
         );
@@ -74,16 +74,16 @@ MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
     that.CONFIGFILEID =-1;
     
     var searchForId = function(fileList){
-        writeStatement('retrieved list of files');
+        console.log('retrieved list of files');
         var idx =0;
          
         while(idx < fileList.length){
-            writeStatement(fileList[idx].title);
+            console.log(fileList[idx].title);
             
             if(fileList[idx].title == that.CONFIGFILENAME){
                 that.CONFIGFILEID = fileList[idx].id;
                 ocallback(fileList[idx].id);
-                writeStatement('found id: '+ fileList[idx].id);
+                console.log('found id: '+ fileList[idx].id);
                 return;
             }
             
@@ -112,7 +112,7 @@ MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
         
     var pstr= '\'' + that.CONFIGFOLDERID+ '\'' + ' in parents';
     
-    writeStatement('searching for: '+ pstr);   
+    console.log('searching for: '+ pstr);   
     
     var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
     retrievePageOfFiles(initialRequest, []);
@@ -143,20 +143,20 @@ MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
     var that = this;
     
     var searchForId = function(fileList){
-        writeStatement('retrieved list of files');
+        console.log('retrieved list of files');
         var idx =0;
         
         // if(fileList[idx].title == that.CONFIGFILEFOLDER){
-        //     writeStatement('folder id: '+ fileList[idx].id);
+        //     console.log('folder id: '+ fileList[idx].id);
         // }
             
         while(idx < fileList.length){
-            writeStatement(fileList[idx].title);
+            console.log(fileList[idx].title);
             
             if(fileList[idx].title == that.CONFIGFILEFOLDER){
                 //FILEID=resp[idx].id;
                 ocallback(fileList[idx].id);
-                writeStatement('found id: '+ fileList[idx].id);
+                console.log('found id: '+ fileList[idx].id);
                 return;
             }
             
@@ -185,7 +185,7 @@ MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
         
     var pstr= '\'' + that.PARENTFOLDERID+ '\'' + ' in parents';
     
-    writeStatement('searching for: '+ pstr);   
+    console.log('searching for: '+ pstr);   
     
     var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
     retrievePageOfFiles(initialRequest, []);
@@ -288,11 +288,11 @@ MyDrive.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
         if(that.CONFIGFOLDERID == -1){
             that._makeFolder(that.PARENTFOLDERID,that.CONFIGFILEFOLDER,function(newId){
                 that.CONFIGFOLDERID =newId;
-                that.GAPIStage_ProcessConfigFile();
+                that.GAPIStage_ProcessConfigFile(loaded);
             } );
         }
         else{
-            that.GAPIStage_ProcessConfigFile();
+            that.GAPIStage_ProcessConfigFile(loaded);
         }
             
     });
@@ -320,17 +320,17 @@ MyDrive.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     
     request.execute(function(resp) {
         
-        writeStatement(resp.title);
-        writeStatement(resp.description);
-        writeStatement(resp.mimeType);
-        writeStatement(resp.downloadUrl);
-        writeStatement(resp.parents[0].id);
+        console.log(resp.title);
+        console.log(resp.description);
+        console.log(resp.mimeType);
+        console.log(resp.downloadUrl);
+        console.log(resp.parents[0].id);
         
         
-        writeStatement('links');
-        writeStatement(resp.webContentLink);
-        writeStatement(resp.downloadUrl);
-        writeStatement(resp.webViewLink);
+        console.log('links');
+        console.log(resp.webContentLink);
+        console.log(resp.downloadUrl);
+        console.log(resp.webViewLink);
         
         
         that.CONFIGFILENAME = resp.title;
@@ -402,12 +402,12 @@ MyDrive.prototype.BuildSearchCache = function(callback){
     var fileCount =0;
     
     var searchForId = function(fileList){
-        writeStatement('retrieved list of files');
+        console.log('retrieved list of files');
         
         var idx =0;
           
         while(idx < fileList.length){
-            writeStatement(fileList[idx].title);
+            console.log(fileList[idx].title);
             
             var title = fileList[idx].title;
             
@@ -461,7 +461,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
 
 MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
     
-    writeStatement('attempting to make folder');
+    console.log('attempting to make folder');
     
     var metadata = {
         title: folderName,
@@ -483,7 +483,7 @@ MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
         success: function(data) {           
             if(callback)
                 callback(data.id);    
-            writeStatement('Folder created' + data.id);
+            console.log('Folder created' + data.id);
         }
     });
         
@@ -857,14 +857,4 @@ MyDrive.prototype.CleanGenerations = function () {
 
 
 
-function writeStatement(statement){
-   console.log(statement);
-    // var d = new Date();
-    // var n = d.toLocaleTimeString();
-    
-    // var output = $('#output').html();
-
-    // output += '<br/>'+n+ ' ' + statement;
-    
-    // $('#output').html(output);
-}
+ 
