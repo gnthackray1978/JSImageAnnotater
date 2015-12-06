@@ -1,3 +1,5 @@
+/*global gapi*/
+
 var MyDrive = function () {
 
     this.CLIENT_ID = '67881158341-i31rcec2rf6bi26elnf8njnrb7v9ij8q.apps.googleusercontent.com';
@@ -29,45 +31,41 @@ var MyDrive = function () {
 
 
 MyDrive.prototype.init = function(loaded){
-    // by the time all this is finished 
-    
-    // we should end up with the file id of the config file
-    // we should authenticated - or tell users we're not
-    // image url should also be set
-
     var that = this;
  
     var checkAuth = function() {
-        //1. autheniticated
-        //2. load drive api
-        //
-    
-        gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
-            function(authResult){
-                if (authResult && !authResult.error) {
-                    console.log('Authenticated');
-                    
-                    //SET AUTH RESULT
-                    that.authResult = authResult;
-
-                    that.GAPIStage_LoadAPI(function(){
-                        that.GAPIStage_ObtainMainFileInfo(function(info){
-                            that.GAPIStage_ProcessResponse(info,loaded);
-                        });
-                    });
-                    
-                    //that.GAPILoadMainFileInfo(fileLoadResponse);
-                }
-                else {
-                    console.log('Couldnt authenticate!');
-                }
-            }
-        );
-        
+        that.GAPIStage_Authenticate(function(result){
+            that.GAPIStage_LoadAPI(function(){
+                that.GAPIStage_ObtainMainFileInfo(function(info){
+                    that.GAPIStage_ProcessResponse(info,loaded);
+                });
+            });
+        });
     };
 
-    window.setTimeout($.proxy(checkAuth, this), 1);
+    window.setTimeout(checkAuth, 1);
+    
+    var timer = window.setInterval(function()
+    {
+        that.GAPIStage_Authenticate(function(result){});
+    }, 1800000);
+
+
 };
+
+MyDrive.prototype.GAPIStage_Authenticate = function(authenticated){
+    gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
+        function(authResult){
+            if (authResult && !authResult.error) {
+                console.log('Authenticated');
+                authenticated(authResult);
+            }
+            else {
+                console.log('Couldnt authenticate!');
+            }
+        }
+    );
+},
 
 MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
     var that = this;
@@ -320,17 +318,13 @@ MyDrive.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     
     request.execute(function(resp) {
         
-        console.log(resp.title);
-        console.log(resp.description);
-        console.log(resp.mimeType);
-        console.log(resp.downloadUrl);
-        console.log(resp.parents[0].id);
-        
-        
-        console.log('links');
-        console.log(resp.webContentLink);
-        console.log(resp.downloadUrl);
-        console.log(resp.webViewLink);
+        console.log('Title: '+resp.title);
+        console.log('Description: '+resp.description);
+        console.log('MimeType: '+resp.mimeType);
+        console.log('DownloadUrl: '+resp.downloadUrl);
+        console.log('ParentFolderId: '+resp.parents[0].id);
+        console.log('WebContentLink: '+resp.webContentLink);
+        console.log('WebViewLink: '+resp.webViewLink);
         
         
         that.CONFIGFILENAME = resp.title;
