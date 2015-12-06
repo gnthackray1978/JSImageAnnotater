@@ -281,10 +281,10 @@ NodeManager.prototype = {
             
             if((typeof this.generations[1][idx].Annotation) == "string"){
                 var cidx=0;
-                console.log('Unchopped annotation: '+this.generations[1][idx].Annotation);
-                console.log('Chunks: ');
+            //    console.log('Unchopped annotation: '+this.generations[1][idx].Annotation);
+            //    console.log('Chunks: ');
                 while(cidx < chunkList.length){
-                    console.log(chunkList[cidx]);
+                    //console.log(chunkList[cidx]);
                     cidx++;
                 }
             }

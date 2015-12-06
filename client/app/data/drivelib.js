@@ -467,21 +467,29 @@ MyDrive.prototype._saveFile = function(parentId, fileName, fileId, content,callb
 
     var token = gapi.auth.getToken();
     
-    var up = fileId != null ? '/' + fileId : '';
-    
-    $.ajax("https://www.googleapis.com/upload/drive/v2/files" + up + "?uploadType=multipart", {
-      data: data,
-      headers: {Authorization: 'Bearer ' + token.access_token},
-      contentType: false,
-      processData: false,
-      type: fileId != null ? 'PUT' : 'POST',
-      success: function(data) {           
-          console.log('File written');
-          if(callback)
-            callback(data.id);
-      }
-    });
+    if(token == null || token == undefined || token.access_token == null){
+        console.log('TOKEN UNAVAILABLE file not written');
         
+        if(callback)
+            callback();
+    }
+    else
+    {
+        var up = fileId != null ? '/' + fileId : '';
+        
+        $.ajax("https://www.googleapis.com/upload/drive/v2/files" + up + "?uploadType=multipart", {
+          data: data,
+          headers: {Authorization: 'Bearer ' + token.access_token},
+          contentType: false,
+          processData: false,
+          type: fileId != null ? 'PUT' : 'POST',
+          success: function(data) {           
+              console.log('File written');
+              if(callback)
+                callback(data.id);
+          }
+        });
+    }   
 };
 
 //GetNoteData: function (urlId, callback)
