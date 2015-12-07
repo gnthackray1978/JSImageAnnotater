@@ -190,7 +190,7 @@ MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
 },
 
 
-MyDrive.prototype.GAPIStage_CreateConfigFile = function(parentId, fileName,callback){
+MyDrive.prototype.GAPIStage_CreateConfigFile = function(callback){
     var that = this;
     
     var content = this.GAPIStage_CreateDummyFile();
@@ -581,7 +581,8 @@ MyDrive.prototype.PopulatedDummyLaterData = function () {
             {id:1 , order:1 , name : 'image', visible: true, current: false},
             {id:2 , order:2 , name : 'notes', visible: true, current: true},
             {id:3 , order:3 , name : 'metadata', visible: true, current: false},
-            {id:4 , order:4 , name : 'cropdata', visible: true, current: false}
+            {id:4 , order:4 , name : 'cropdata', visible: true, current: false},
+            {id:5 , order:5 , name : 'matches', visible: true, current: false}
         ];
 };
 

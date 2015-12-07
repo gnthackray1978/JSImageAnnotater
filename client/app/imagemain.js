@@ -30,8 +30,7 @@ function loadAll (drive){
     
     
     data.init(function(){
-        var debug = new Debuger(data,appView);
-        var debugController = new DebugController(appView,debug);
+        
         
         var metadata = new Meta(data,appView);
         var metaController = new MetaController(appView,metadata);
@@ -44,6 +43,11 @@ function loadAll (drive){
         
         
         var nodeManager = new NodeManager(data,metadata,options);
+        
+        var debug = new Debuger(data,nodeManager, appView);
+        var debugController = new DebugController(appView,debug);
+        
+        
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
         
         var nodeController = new NodeManagerController(appView, nodeManager,visualizer);
