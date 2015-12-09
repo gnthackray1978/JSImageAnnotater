@@ -420,15 +420,16 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 
                 fileCount++;
                 
-                //erm hopefully this should everything has got populated 
-                if(fileList.length == fileCount){
-                    callback();
-                }
+                // //erm hopefully this should everything has got populated 
+                // if(fileList.length == fileCount){
+                //     callback();
+                // }
             });
             }
             idx++;
         }    
          
+         callback();
     };
     
     var retrievePageOfFiles = function(request, result) {
