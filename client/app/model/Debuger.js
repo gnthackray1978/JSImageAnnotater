@@ -4,7 +4,11 @@ var Debuger = function (dataDll, nodestore) {
  
 };
 
-
+Debuger.prototype.ClearDeleted = function(text){
+    this.dataDll.ClearDeleted(function(){
+        console.log('deleted entries cleared');
+    });
+};
 
 Debuger.prototype.SearchString = function(text){
     var that =this;

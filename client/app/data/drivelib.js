@@ -825,12 +825,7 @@ MyDrive.prototype.CleanGenerations = function () {
         if(this.generations[idx].LayerId !=4
         && this.generations[idx].LayerId !=-4
         && this.generations[idx].Annotation != ''
-        && this.generations[idx].Index != "111111111" 
-        && this.generations[idx].Index != "11111111" 
-        && this.generations[idx].Index != "1111111" 
-        && this.generations[idx].Index != "111111" 
-        && this.generations[idx].Index != "11111" 
-        && this.generations[idx].Index != "1111" 
+   
         ){
             cleanArray.push(this.generations[idx]);
         }
@@ -856,4 +851,38 @@ MyDrive.prototype.CleanGenerations = function () {
 
 
 
+MyDrive.prototype.ClearDeleted = function (callback) {
+    
+    //always layer 4 and only ever 1
+    //generations
+   
+    
+    var idx =0;
+    
+    var cleanArray = [];
+    
+    while(idx < this.generations.length){
+         
+        if(!this.generations.visible){
+            cleanArray.push(this.generations[idx]);
+        }
+        
+        idx++;
+    }
+    
+    this.generations = cleanArray;
+    
+    var c = {
+        urlId : this.FILEID,
+        generations: this.generations,
+        options : this.options,
+        layers : this.layers 
+    };
+        
+        
+    this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
+        callback();
+    });
+ 
+};
  

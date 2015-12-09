@@ -711,7 +711,17 @@ AnnotaterView.prototype.QrySearchButton = function(callback){
     });
 };
 
-
+AnnotaterView.prototype.QryClearDeleted = function(callback){
+    
+     $('#btnDebugCleanDeleted').click(function (e) {
+         
+        var data= $("#txtDebugData").val();
+        
+        callback(data);
+    });
+};
+//
+ 
 
 // LAYERS
 AnnotaterView.prototype.SetLayers= function (layers){

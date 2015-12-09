@@ -7,7 +7,7 @@ var DebugController = function (view, model) {
     
     this._view.QrySearchButton($.proxy(this.qrySearchButton, this));
     
-    
+    this._view.QryClearDeleted($.proxy(this.qryClearButton, this));
 };
 
 DebugController.prototype = {
@@ -19,5 +19,9 @@ DebugController.prototype = {
             this.model.SearchString(text);
         }
     },
-   
+    qryClearButton:function(){
+        if (this.model !== null) {
+            this.model.ClearDeleted();
+        }
+    }
 };
