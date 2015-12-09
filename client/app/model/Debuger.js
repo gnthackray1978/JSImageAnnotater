@@ -73,7 +73,7 @@ Debuger.prototype.FindSearchStrings = function(charCount, text, callback){
    
     var makeString = function(idx, results){
         
-        if((idx + charCount) <=  textComponents.length){
+        if((idx + charCount) <  textComponents.length){
             
             var comparisonString = '';
             
