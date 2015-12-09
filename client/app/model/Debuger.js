@@ -54,9 +54,10 @@ Debuger.prototype.IterateNotes = function(){
                         that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
                              console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
                         });
+                        
                         testCaseIdx ++;
                     }
-                });`
+                });
             }
             
             hidx++;
