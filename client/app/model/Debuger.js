@@ -45,16 +45,19 @@ Debuger.prototype.IterateNotes = function(){
             //return all 
             //testable strings from the node
             //check each one in the searchcache
-            that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
-                var testCaseIdx =0;
-                while(testCaseIdx < result.length){
-                    that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
-                         console.log('found: ' + data.length);
-                    });
-                    testCaseIdx ++;
-                }
-            });
-           
+            if(that.nodestore.generations[vidx][hidx].Annotation)  
+            {
+                that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
+                    var testCaseIdx =0;
+                    while(testCaseIdx < result.length){
+                        
+                        that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
+                             console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
+                        });
+                        testCaseIdx ++;
+                    }
+                });`
+            }
             
             hidx++;
         }
