@@ -396,13 +396,13 @@ MyDrive.prototype.BuildSearchCache = function(callback){
     var fileCount =0;
     
     var searchForId = function(fileList){
-        console.log('retrieved list of files');
+       // console.log('retrieved list of files');
         
         var idx =0;
           
         while(idx < fileList.length){
             
-            console.log(fileList[idx].id+ ' : ' +fileList[idx].title + ' open file: ' + that.FILEID);
+           // console.log(fileList[idx].id+ ' : ' +fileList[idx].title + ' open file: ' + that.FILEID);
             
             var title = fileList[idx].title;
             if(that.CONFIGFILEID != fileList[idx].id){
@@ -413,7 +413,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                     
                     while(nidx < d.generations.length){
                         d.generations[nidx].title = title;
-                        console.log('adding: ' + d.generations[nidx].Annotation);
+                       // console.log('adding: ' + d.generations[nidx].Annotation);
                         that.searchCache.push(d.generations[nidx]);
                         nidx++;    
                     }

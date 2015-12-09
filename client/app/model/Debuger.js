@@ -41,7 +41,7 @@ Debuger.prototype.IterateNotes = function(){
         var hidx=0;
         while (hidx < that.nodestore.generations[vidx].length) {
             
-            console.log('annotation: '+that.nodestore.generations[vidx][hidx].Annotation);
+            //console.log('annotation: '+that.nodestore.generations[vidx][hidx].Annotation);
             //return all 
             //testable strings from the node
             //check each one in the searchcache
