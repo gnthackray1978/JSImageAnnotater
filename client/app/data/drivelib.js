@@ -407,6 +407,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
             var title = fileList[idx].title;
             if(that.FILEID == fileList[idx].id) continue;
             
+            console.log('reading file: ' + fileList[idx].id);
             that.ReadConfigFile(fileList[idx].id,function(d){
                 var nidx =0;
                 
