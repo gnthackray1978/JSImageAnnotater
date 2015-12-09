@@ -90,9 +90,9 @@ Debuger.prototype.FindSearchStrings = function(charCount, text, callback){
         }
     }
     
-    makeString(0);
+    makeString(0,results);
     
-    makeString(1);
+    makeString(1,results);
     
     
     callback(results);
