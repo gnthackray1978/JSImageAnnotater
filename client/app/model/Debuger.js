@@ -72,6 +72,10 @@ Debuger.prototype.FindSearchStrings = function(charCount, text, callback){
     
     var textComponents = text.split(' ');
     
+    for(var i = textComponents.length-1; i--;){
+	    if (textComponents[i].trim() === "") textComponents.splice(i, 1);
+    }
+    
     var results = [];
     
    
