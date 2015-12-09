@@ -38,10 +38,6 @@ function loadAll (drive){
         var options = new Options(data,appView);
         var optionsController = new OptionsController(appView,options);
 
-
-        
-        
-        
         var nodeManager = new NodeManager(data,metadata,options);
         
         var debug = new Debuger(data,nodeManager, appView);
