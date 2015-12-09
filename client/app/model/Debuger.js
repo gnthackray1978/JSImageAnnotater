@@ -72,12 +72,13 @@ Debuger.prototype.FindSearchStrings = function(charCount, text, callback){
     
    
     var makeString = function(idx, results){
+        var initialOffset =idx;
         
         if((idx + charCount) <=  textComponents.length){
             
             var comparisonString = '';
             
-            while(idx < charCount && idx < textComponents.length){
+            while(idx < (charCount+initialOffset) && idx < textComponents.length){
                 comparisonString += textComponents[idx] + ' ';
                 idx++;
                 
