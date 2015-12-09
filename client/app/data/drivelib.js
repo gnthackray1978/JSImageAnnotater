@@ -409,27 +409,27 @@ MyDrive.prototype.BuildSearchCache = function(callback){
             
                 console.log('reading file: ' + fileList[idx].id);
                 that.ReadConfigFile(fileList[idx].id,function(d){
-                var nidx =0;
-                
-                while(nidx < d.generations.length){
-                    d.generations[nidx].title = title;
-                    console.log('adding: ' + d.generations[nidx].Annotation);
-                    that.searchCache.push(d.generations[nidx]);
-                    nidx++;    
-                }
-                
-                fileCount++;
-                
-                // //erm hopefully this should everything has got populated 
-                // if(fileList.length == fileCount){
-                //     callback();
-                // }
-            });
+                    var nidx =0;
+                    
+                    while(nidx < d.generations.length){
+                        d.generations[nidx].title = title;
+                        console.log('adding: ' + d.generations[nidx].Annotation);
+                        that.searchCache.push(d.generations[nidx]);
+                        nidx++;    
+                    }
+                    
+                    fileCount++;
+                    
+                    // //erm hopefully this should everything has got populated 
+                    if((fileList.length -1) == fileCount){
+                        callback();
+                    }
+                });
             }
             idx++;
         }    
          
-         callback();
+         
     };
     
     var retrievePageOfFiles = function(request, result) {
