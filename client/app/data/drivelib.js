@@ -401,7 +401,8 @@ MyDrive.prototype.BuildSearchCache = function(callback){
         var idx =0;
           
         while(idx < fileList.length){
-            console.log(fileList[idx].title);
+            
+            console.log(fileList[idx].id+ ' : ' +fileList[idx].title + ' open file: ' + that.FILEID);
             
             var title = fileList[idx].title;
             if(that.FILEID == fileList[idx].id) continue;
