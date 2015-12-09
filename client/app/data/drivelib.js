@@ -411,7 +411,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                 
                 while(nidx < d.generations.length){
                     d.generations[nidx].title = title;
-                    
+                    console.log('adding: ' + d.generations[nidx].Annotation);
                     that.searchCache.push(d.generations[nidx]);
                     nidx++;    
                 }
