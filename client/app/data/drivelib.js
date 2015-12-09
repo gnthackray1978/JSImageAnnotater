@@ -405,10 +405,10 @@ MyDrive.prototype.BuildSearchCache = function(callback){
             console.log(fileList[idx].id+ ' : ' +fileList[idx].title + ' open file: ' + that.FILEID);
             
             var title = fileList[idx].title;
-            if(that.CONFIGFILEID == fileList[idx].id) continue;
+            if(that.CONFIGFILEID != fileList[idx].id){
             
-            console.log('reading file: ' + fileList[idx].id);
-            that.ReadConfigFile(fileList[idx].id,function(d){
+                console.log('reading file: ' + fileList[idx].id);
+                that.ReadConfigFile(fileList[idx].id,function(d){
                 var nidx =0;
                 
                 while(nidx < d.generations.length){
@@ -425,7 +425,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
                     callback();
                 }
             });
-                
+            }
             idx++;
         }    
          
