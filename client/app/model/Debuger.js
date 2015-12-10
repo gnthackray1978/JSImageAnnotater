@@ -56,7 +56,8 @@ Debuger.prototype.IterateNotes = function(){
                     while(testCaseIdx < result.length){
                         
                         that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
-                             console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
+                             if(data.length >0)
+                                console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
                         });
                         
                         testCaseIdx ++;
