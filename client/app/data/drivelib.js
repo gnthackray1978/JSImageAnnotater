@@ -863,7 +863,7 @@ MyDrive.prototype.ClearDeleted = function (callback) {
     
     while(idx < this.generations.length){
          
-        if(!this.generations[idx].Visible){
+        if(this.generations[idx].Visible){
             cleanArray.push(this.generations[idx]);
         }
         
