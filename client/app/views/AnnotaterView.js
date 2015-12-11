@@ -701,7 +701,7 @@ AnnotaterView.prototype.UpdateInfoWindow = function(data){
     }
 };
 
-AnnotaterView.prototype.QrySearchButton = function(callback){
+AnnotaterView.prototype.QrySetMatches = function(callback){
     
      $('#btnDebugClicked').click(function (e) {
          
