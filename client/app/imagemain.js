@@ -44,8 +44,8 @@ function loadAll (drive){
         var debugController = new DebugController(appView,debug);
         
         
-        var matches = new Matches(data,nodeManager, appView);
-        var matchesController = new DebugController(appView,debug);
+        var matches = new Matches(data,nodeManager);
+        var matchesController = new MatchesController(appView,matches);
         
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
         
