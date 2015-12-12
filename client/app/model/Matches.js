@@ -36,13 +36,15 @@ Matches.prototype.IterateNotes = function(){
     // look through all the notes from other images
     while (vidx < that.nodestore.generations.length) {
         var hidx=0;
-        while (hidx < that.nodestore.generations[vidx].length) {
+        var originalLength = that.nodestore.generations[vidx].length;
+        
+        while (hidx < originalLength) {
             
             //console.log('annotation: '+that.nodestore.generations[vidx][hidx].Annotation);
             //return all 
             //testable strings from the node
             //check each one in the searchcache
-            if(that.nodestore.generations[vidx][hidx].Annotation)  
+            if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
             {
                 that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
                     var testCaseIdx =0;
@@ -121,7 +123,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText){
     matchNode = JSON.parse(JSON.stringify(matchNode));
     matchNode.id = 0;
     matchNode.LayerId =5;
-    matchNode.Match = matchText;
+    matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
     //var originalNote = matchNode.Annotation;
     
     //var startLocation = matchNode.Annotation.IndexOf(matchText);
