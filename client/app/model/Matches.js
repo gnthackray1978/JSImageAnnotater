@@ -40,12 +40,14 @@ Matches.prototype.IterateNotes = function(){
         
         while (hidx < originalLength) {
             
-            //console.log('annotation: '+that.nodestore.generations[vidx][hidx].Annotation);
+            //
             //return all 
             //testable strings from the node
             //check each one in the searchcache
             if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
             {
+                console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
+                
                 that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
                     var testCaseIdx =0;
                     while(testCaseIdx < result.length){

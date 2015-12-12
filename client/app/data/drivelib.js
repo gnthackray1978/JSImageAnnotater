@@ -864,8 +864,7 @@ MyDrive.prototype.ClearDeleted = function (callback) {
     while(idx < this.generations.length){
          
         if(this.generations[idx].Visible 
-        && this.generations[idx].LayerId != 5 
-        && this.generations[idx].Annotation != 'John Brown John Thackwray and'){
+        && this.generations[idx].LayerId != 5){
             cleanArray.push(this.generations[idx]);
         }
         
