@@ -53,12 +53,15 @@ Matches.prototype.IterateNotes = function(){
                     while(testCaseIdx < result.length){
                         
                         that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
+                            // this should return all matches 
+                            
                              if(data.length >0){
-                                var midx =0;
-                                while(midx < data.length){
-                                    that.AddMatch(vidx,hidx,result[testCaseIdx]);
-                                    midx++;
-                                }
+                                that.AddMatch(vidx,hidx,data);
+                                // var midx =0;
+                                // while(midx < data.length){
+                                //     that.AddMatch(vidx,hidx,result[testCaseIdx]);
+                                //     midx++;
+                                // }
                                 console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
                              }
                         });
