@@ -49,7 +49,8 @@ Matches.prototype.IterateNotes = function(){
                 console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
                 
                 var searchComplete = function(vidx,hidx,matches){
-                    that.AddMatch(vidx,hidx,matches);
+                    if(matches.length > 0)
+                        that.AddMatch(vidx,hidx,matches);
                 };
                 
                 that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
