@@ -861,7 +861,7 @@ MyDrive.prototype.ClearDeleted = function (callback) {
     
     var cleanArray = [];
     
-    var customDelete = 'John Brown John Thackwray and';
+    var customDelete = '';
     
     while(idx < this.generations.length){
          

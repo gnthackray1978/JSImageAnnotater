@@ -56,7 +56,7 @@ Matches.prototype.IterateNotes = function(){
                              if(data.length >0){
                                 var midx =0;
                                 while(midx < data.length){
-                                    that.AddMatch(vidx,hidx,data[midx]);
+                                    that.AddMatch(vidx,hidx,result[testCaseIdx]);
                                     midx++;
                                 }
                                 console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
