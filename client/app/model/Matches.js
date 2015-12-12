@@ -121,7 +121,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText){
     matchNode = JSON.parse(JSON.stringify(matchNode));
     matchNode.id = 0;
     matchNode.LayerId =5;
-    
+    matchNode.Match = matchText;
     //var originalNote = matchNode.Annotation;
     
     //var startLocation = matchNode.Annotation.IndexOf(matchText);

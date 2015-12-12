@@ -112,7 +112,8 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             that.nodestore.generations[vidx][hidx].Width,
                             that.nodestore.generations[vidx][hidx].Height,
                             that.nodestore.generations[vidx][hidx].D,
-                            that.nodestore.generations[vidx][hidx].Annotation, '',
+                            that.nodestore.generations[vidx][hidx].Annotation, 
+                            that.nodestore.generations[vidx][hidx].Match,
                             defaultOptions);
                             
                             
