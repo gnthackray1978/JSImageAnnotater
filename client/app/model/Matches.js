@@ -48,22 +48,31 @@ Matches.prototype.IterateNotes = function(){
             {
                 console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
                 
+                var searchComplete = function(vidx,hidx,matches){
+                    that.AddMatch(vidx,hidx,matches);
+                };
+                
                 that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
                     var testCaseIdx =0;
+                    var matches = [];
+                    var retCount=0;
                     while(testCaseIdx < result.length){
-                        
+                        // test each of the search strings
                         that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
+                            retCount++;
                             // this should return all matches 
-                            
-                             if(data.length >0){
-                                that.AddMatch(vidx,hidx,data);
-                                // var midx =0;
-                                // while(midx < data.length){
-                                //     that.AddMatch(vidx,hidx,result[testCaseIdx]);
-                                //     midx++;
-                                // }
-                                console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
-                             }
+                            if(data.length >0){
+                                var midx =0;
+                                while(midx < data.length){
+                                    matches.push(result[testCaseIdx]);
+                                    midx++;
+                                }
+                                //console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
+                            }
+                             
+                            if(retCount==result.length-1) {
+                                searchComplete(vidx,hidx,matches);
+                            }
                         });
                         
                         testCaseIdx ++;
