@@ -861,10 +861,13 @@ MyDrive.prototype.ClearDeleted = function (callback) {
     
     var cleanArray = [];
     
+    var customDelete = 'John Brown John Thackwray and';
+    
     while(idx < this.generations.length){
          
         if(this.generations[idx].Visible 
-        && this.generations[idx].LayerId != 5){
+        && this.generations[idx].LayerId != 5 
+        && this.generations[idx].Annotation != customDelete){
             cleanArray.push(this.generations[idx]);
         }
         
