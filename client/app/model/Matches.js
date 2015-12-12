@@ -123,7 +123,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText){
     //matchNode.level = 5;
     
     matchNode = JSON.parse(JSON.stringify(matchNode));
-    matchNode.id = 0;
+    matchNode.Index = 0;
     matchNode.LayerId =5;
     matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
     //var originalNote = matchNode.Annotation;
