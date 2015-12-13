@@ -20,6 +20,43 @@ Matches.prototype.SetMatches = function(text){
     
 };
 
+Matches.prototype.MergeWithPreceding = function(preceding, current){
+   // var preceding= 'the big brown rat ran accross the room';
+   // var current= 'accross the room very quickly';
+    var precedingA = preceding.split(' ');
+    var currentA = current.split(' ');
+    
+    console.log(preceding + ' ' + current);
+    
+    var makeString = function(strArr,length){
+        var idx =0;
+        var result = '';
+        while(idx < strArr.length && idx < length){
+            result += ' ' + strArr[idx];
+            idx++;
+        }
+        return result.trim();
+    };
+
+    var idx =currentA.length;
+
+    var stringToTest = makeString(precedingA,precedingA.length);
+    
+    var part = '';
+                                    
+    while(idx >=0){
+        part = makeString(currentA,idx);
+        var loc= stringToTest.indexOf(part);
+        if(loc != -1) break;
+        idx--;
+    }
+                                    
+    current = current.replace(part,'');
+    
+    return current;
+                      
+},
+
 Matches.prototype.IterateNotes = function(){
     var that =this;
     
@@ -59,13 +96,24 @@ Matches.prototype.IterateNotes = function(){
                     var retCount=0;
                     while(testCaseIdx < result.length){
                         // test each of the search strings
-                        that.dataDll.QrySearchCache(result[testCaseIdx], function(data){
+                        that.dataDll.QrySearchCache(result[testCaseIdx], function(matchedNodesArray){
                             retCount++;
                             // this should return all matches 
-                            if(data.length >0){
+                            if(matchedNodesArray.length >0){
                                 var midx =0;
-                                while(midx < data.length){
-                                    matches.push(result[testCaseIdx]);
+                                while(midx < matchedNodesArray.length){
+                                    // was any of the current match present in the previous match?
+                                    // if so delete the overlap
+                                    // a potential problem could be if things were processed in the wrong order
+                                    
+                                    var newVal = result[testCaseIdx];
+                                    
+                                    if(matches.length >0){
+                                        
+                                        newVal = that.MergeWithPreceding(matches[matches.length-1], newVal);
+                                    }
+                                     
+                                    matches.push(newVal);
                                     midx++;
                                 }
                                 //console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
