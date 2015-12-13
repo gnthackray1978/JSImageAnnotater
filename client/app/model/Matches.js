@@ -179,7 +179,7 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
 
 Matches.prototype.AddMatch = function(vidx, hidx, matchText){
    
-    var nodeFactory = new Node();
+    var nodeFactory = new Node(this.nodestore.generations);
     
     //var matchNode = this.nodestore.generations[vidx][hidx];
     
