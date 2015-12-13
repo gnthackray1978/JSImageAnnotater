@@ -90,6 +90,15 @@ Node.prototype.NewId = function(){
     return Number(topNumber) + 1;
 };
 
+Node.prototype.CloneNode = function(node, callback){
+    
+    
+    node = JSON.parse(JSON.stringify(node));
+    node.Index = this.NewId();
+
+    return node;
+};
+
 Node.prototype.CreateEmptyNode = function(isFirst, isCropArea, callback){
     // this.AddData(1, note.Index,note.x,note.y,note.width,note.height,
     // note.d,note.text,true, true, note.options,2);

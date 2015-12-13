@@ -179,12 +179,15 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
 
 Matches.prototype.AddMatch = function(vidx, hidx, matchText){
    
-    var matchNode = this.nodestore.generations[vidx][hidx];
+    var nodeFactory = new Node();
+    
+    //var matchNode = this.nodestore.generations[vidx][hidx];
     
     //matchNode.level = 5;
     
-    matchNode = JSON.parse(JSON.stringify(matchNode));
-    matchNode.Index = 0;
+    var matchNode = nodeFactory.CloneNode(this.nodestore.generations[vidx][hidx]);
+    //JSON.parse(JSON.stringify(matchNode));
+    //matchNode.Index = 0;
     matchNode.LayerId =5;
     matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
     //var originalNote = matchNode.Annotation;
