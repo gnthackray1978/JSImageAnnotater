@@ -71,7 +71,7 @@ Matches.prototype.IterateNotes = function(){
                                 //console.log('Found matches for: ' +result[testCaseIdx] +' - '+ data.length);
                             }
                              
-                            if(retCount==result.length-1) {
+                            if(retCount==result.length) {
                                 searchComplete(vidx,hidx,matches);
                             }
                         });
