@@ -55,16 +55,16 @@
 		this.cropnode.Height = tph;
 		this.cropnode.Visible =true;
 		
-		console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
+		//console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
 	},
 	
 	Crop.prototype.GetNode = function(complete){
 	 	var that = this;
 	 
 	    that.nodestore.GetCroppingNode(function(data, initnode){
-	        console.log('got cropping node: ' + data.Index);
+	        //console.log('got cropping node: ' + data.Index);
 	        that.optionsDll.GetOptions(0, function(options){
-				console.log('got cropping node options: ' + options);
+				//console.log('got cropping node options: ' + options);
 				that.cropnode = data;
 		 		
 				that.cropnode.LayerId = -4;// put crop node into edit mode.
@@ -90,10 +90,10 @@
 	    
 		if(that.cropnode){
 	
-			console.log('writing crop node index: ' + this.cropnode.Index);
+			//console.log('writing crop node index: ' + this.cropnode.Index);
 			that.nodestore.WriteNote(that.cropnode.Index, 0,  0,  0, 0, 0, '', that.cropnode.Options,  4,  undefined, true,false,
 										          function(data){ 
-										          	console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
+										          	//console.log('Crop.prototype.Add cancel saved cropnode data: ' +data);
 										          	
 										          	
 										          });
@@ -102,7 +102,7 @@
 	};
 	
 	Crop.prototype.Delete = function(saveFunc){
-		console.log('delete');
+		//console.log('delete');
 		
 		var that = this;
 		if(that.cropnode!= undefined){
@@ -120,7 +120,7 @@
 		if(this.cropnode.IsOpen) this.cropnode.IsOpen =false;
 	},
 	Crop.prototype.Save = function(saveComplete){
-		console.log('save');
+		//console.log('save');
 		//we need to save this to the db to make sure the entry in 
 		// init values array gets updated to correct size.
 		
@@ -132,7 +132,7 @@
 	        && this.cropnode.Height > 1
 	        && this.cropnode.Visible){
 	       
-	        console.log('writing crop node index: ' + this.cropnode.Index);
+	        //console.log('writing crop node index: ' + this.cropnode.Index);
 	        this.nodestore.WriteNote(this.cropnode.Index, 
 									 this.cropnode.X,  
 									 this.cropnode.Y,
