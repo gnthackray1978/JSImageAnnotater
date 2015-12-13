@@ -53,7 +53,7 @@ Matches.prototype.MergeWithPreceding = function(preceding, current){
                                     
     current = current.replace(part,'');
     
-    return current;
+    return current.trim();
                       
 },
 
