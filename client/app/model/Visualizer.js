@@ -106,7 +106,9 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             defaultOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        defaultOptions.FontSize = that._canvasTools.DrawComplexLabel(
+                        
+                        
+                        var calculatedFontSize = that._canvasTools.DrawComplexLabel(
                             that.nodestore.generations[vidx][hidx].X,
                             that.nodestore.generations[vidx][hidx].Y,
                             that.nodestore.generations[vidx][hidx].Width,
@@ -116,6 +118,8 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             that.nodestore.generations[vidx][hidx].Match,
                             defaultOptions);
                             
+                        if(calculatedFontSize != 1)
+                            defaultOptions.FontSize = calculatedFontSize;
                             
                         //matches ????
                         //scan for matches when load 
