@@ -101,12 +101,11 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         && containsLevel(visibleLayers,nlid)
                         && !that.nodestore.generations[vidx][hidx].CropArea)
                     {
+                        var nodeOptions = defaultOptions;
                         
                         if(that.nodestore.generations[vidx][hidx].Options != undefined){
-                            defaultOptions = that.nodestore.generations[vidx][hidx].Options;
+                            nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
-                        
-                        
                         
                         var calculatedFontSize = that._canvasTools.DrawComplexLabel(
                             that.nodestore.generations[vidx][hidx].X,
@@ -116,10 +115,15 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             that.nodestore.generations[vidx][hidx].D,
                             that.nodestore.generations[vidx][hidx].Annotation, 
                             that.nodestore.generations[vidx][hidx].Match,
-                            defaultOptions);
+                            nodeOptions);
                             
-                        if(calculatedFontSize != 1)
+                        if(calculatedFontSize != 1){
+                            // font sizes are constantly changing because of things like the zoom.
+                            // set default options so that when we create a new node we have a sensible font size.
                             defaultOptions.FontSize = calculatedFontSize;
+                            // update current node options so we have current font size.
+                            nodeOptions.FontSize = calculatedFontSize;
+                        }
                             
                         //matches ????
                         //scan for matches when load 
