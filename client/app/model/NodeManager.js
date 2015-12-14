@@ -308,8 +308,10 @@ NodeManager.prototype = {
                     if(m){
                         node = this.generations[vidx][hidx];
                         
-                        callback(node);
-                        return;
+                        if(!node.CropArea){
+                            callback(node);
+                            return;
+                        }
                     }
                 }
                 hidx++;
