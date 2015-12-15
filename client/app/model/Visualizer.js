@@ -542,7 +542,9 @@ Visualizer.prototype.ScaleToScreen = function(debug){
 Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
     
-    
+    this.SetCentreX(500);
+      
+      this.DrawTree();
         
         
      
@@ -586,9 +588,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
       this.SetZoom(percentageDiff);
       
-      this.SetCentreX(ClipWidth);
       
-      this.DrawTree();
       
 };
     
