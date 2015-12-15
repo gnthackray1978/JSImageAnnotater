@@ -178,7 +178,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $(".ui-dialog-title").css("left", "0px");
 
                  $('*[aria-describedby="map_message"]').css("width", "330px");
-                 $('*[aria-describedby="map_message"]').css("height", "250px");
+                 $('*[aria-describedby="map_message"]').css("height", "300px");
 
             } else {
                
