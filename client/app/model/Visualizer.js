@@ -519,7 +519,7 @@ Visualizer.prototype.ScaleToScreen = function(debug){
         
         var ClipWidth = cropMainNode.Width - cropMainNode.X;
         
-        that.ScaleToScreeni(ClipWidth);
+        that.ScaleToScreeni(debug, ClipWidth);
     });
     
 },
@@ -537,7 +537,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       var screenWidth =   screen.width;
      var currentDrawingWidth = this.drawingWidth;
      
-     if(debug !=''){
+     if(debug != undefined && debug !=''){
          currentDrawingWidth = ClipWidth;
      }
      
