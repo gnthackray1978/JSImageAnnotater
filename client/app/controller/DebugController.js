@@ -5,7 +5,7 @@ var DebugController = function (view, model) {
     
     this.init();
     
-    this._view.QryRunScaleToScreen($.proxy(this.qrySearchButton, this));
+    this._view.QryRunScaleToScreen($.proxy(this.qryRunScaleToScreen, this));
     
     this._view.QryClearDeleted($.proxy(this.qryClearButton, this));
 };
