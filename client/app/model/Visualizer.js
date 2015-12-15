@@ -519,12 +519,14 @@ Visualizer.prototype.ScaleToScreen = function(debug){
         
         that.ComputeLocations();
       
-       // var screenWidth =   screen.width;
-     //   var currentDrawingWidth = that.drawingWidth;
+        var screenWidth =   screen.width;
+        var currentDrawingWidth = that.drawingWidth;
      
         var offset = that.drawingWidth - cropMainNode.Width;
         
-        var adjustment =  (offset/2) - cropMainNode.X;
+        var percentageDiff = offset * (that.drawingWidth/100);
+        
+        //var adjustment =  (offset/2) - cropMainNode.X;
         
       //  that.SetCentreX(that.centrePoint + adjustment);
         
@@ -534,41 +536,22 @@ Visualizer.prototype.ScaleToScreen = function(debug){
         
         
         
-        that.ScaleToScreeni(debug, adjustment);
+        that.ScaleToScreeni(debug, cropMainNode.Width);
     });
     
 },
 
 Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
-      
-     this.mouseXPercLocat = 0;
-      this.mouseYPercLocat = 0;
-   
-      // make sure we dont get the mouses position 
-      // when we clicked the draw button.
-      this.mouse_x = 0;
-      this.mouse_y = 0;
-      
-      
-    this.SetCentreX(500);
-      this.ComputeLocations();
-      this.DrawTree();
-        
-        
-     
-     
-     
-     
-     
+ 
       // call this so that drawingwidth is set
      this.ComputeLocations();
       
       var screenWidth =   screen.width;
      var currentDrawingWidth = this.drawingWidth;
      
-    //  if(debug != undefined && debug !=''){
-    //      currentDrawingWidth = ClipWidth;
-    //  }
+    // if(debug != undefined && debug !=''){
+         currentDrawingWidth = ClipWidth;
+    // }
      
      console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
      
@@ -584,6 +567,9 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
       if((sizeDifference / currentDrawingWidth) !=0)
         percentageDiff = (sizeDifference / currentDrawingWidth) * 100;
+      
+      
+      percentageDiff = ClipWidth;
       
       
       console.log('ScaleToScreen: set zoom ' + percentageDiff + '%');
