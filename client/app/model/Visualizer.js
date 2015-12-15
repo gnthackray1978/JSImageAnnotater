@@ -510,9 +510,10 @@ Visualizer.prototype.SetZoomStart = function () {
         this.mouseYPercLocat = this.percY1;
 };
 
-Visualizer.prototype.ScaleToScreen = function(){
+Visualizer.prototype.ScaleToScreen = function(debug){
       
-      
+     console.log('scaletoscreen called with: ' + debug);
+     
       // call this so that drawingwidth is set
      this.ComputeLocations();
       

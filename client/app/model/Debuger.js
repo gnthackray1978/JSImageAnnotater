@@ -1,6 +1,7 @@
-var Debuger = function (dataDll, nodestore) {
+var Debuger = function (dataDll, nodestore,view, visualizer) {
     this.dataDll = dataDll;
     this.nodestore = nodestore;
+    this.visualizer = visualizer;
  
 };
 
@@ -10,21 +11,11 @@ Debuger.prototype.ClearDeleted = function(text){
     });
 };
 
-// Debuger.prototype.SearchString = function(text){
-//     var that =this;
-//     console.log(text);
+Debuger.prototype.RunScaleToScreen = function(text){
+
+    this.visualizer.ScaleToScreen(text);
     
-//     this.dataDll.BuildSearchCache(function(){
-//         console.log('loaded cache');
-        
-//         that.IterateNotes();
-//         // that.dataDll.QrySearchCache(text, function(data){
-//         //     console.log('found: ' + data.length);
-//         // });
-//     });
-    
-    
-// };
+};
 
 
 // Debuger.prototype.IterateNotes = function(){

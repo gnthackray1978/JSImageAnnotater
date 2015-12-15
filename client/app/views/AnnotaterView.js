@@ -720,7 +720,16 @@ AnnotaterView.prototype.QryClearDeleted = function(callback){
         callback(data);
     });
 };
-//
+
+AnnotaterView.prototype.QryRunScaleToScreen = function(callback){
+    
+     $('#btnDebugScaleToScreen').click(function (e) {
+         
+        var data= $("#txtDebugData").val();
+        
+        callback(data);
+    });
+};
  
 
 // LAYERS

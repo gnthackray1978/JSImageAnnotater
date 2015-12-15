@@ -40,8 +40,7 @@ function loadAll (drive){
 
         var nodeManager = new NodeManager(data,metadata,options);
         
-        var debug = new Debuger(data,nodeManager, appView);
-        var debugController = new DebugController(appView,debug);
+
         
         
         var matches = new Matches(data,nodeManager);
@@ -62,7 +61,8 @@ function loadAll (drive){
         var layer = new Layer(data,appView, visualizer);
         var layerController = new LayerController(appView,layer);
 
-        
+        var debug = new Debuger(data,nodeManager, appView,visualizer);
+        var debugController = new DebugController(appView,debug,visualizer);
 
     });
 }
