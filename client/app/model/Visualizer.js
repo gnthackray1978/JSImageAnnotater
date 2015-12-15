@@ -541,12 +541,24 @@ Visualizer.prototype.ScaleToScreen = function(debug){
 
 Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
-    
+     this.mouseXPercLocat = 0;
+      this.mouseYPercLocat = 0;
+   
+      // make sure we dont get the mouses position 
+      // when we clicked the draw button.
+      this.mouse_x = 0;
+      this.mouse_y = 0;
+      
+      
     this.SetCentreX(500);
       
       this.DrawTree();
         
         
+     
+     
+     
+     
      
       // call this so that drawingwidth is set
      this.ComputeLocations();
