@@ -526,7 +526,7 @@ Visualizer.prototype.ScaleToScreen = function(debug){
         
         var adjustment = cropMainNode.X - (offset/2);
         
-        that.SetCentreX(this.centrePoint + adjustment);
+        that.SetCentreX(that.centrePoint + adjustment);
         that.DrawTree();
      
         var ClipWidth = cropMainNode.Width - cropMainNode.X;
