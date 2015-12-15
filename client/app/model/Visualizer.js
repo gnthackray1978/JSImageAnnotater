@@ -551,7 +551,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
       
     this.SetCentreX(500);
-      
+      this.ComputeLocations();
       this.DrawTree();
         
         
