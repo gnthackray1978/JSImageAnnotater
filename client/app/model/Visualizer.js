@@ -512,7 +512,16 @@ Visualizer.prototype.SetZoomStart = function () {
 
 Visualizer.prototype.ScaleToScreen = function(debug){
       
-     console.log('scaletoscreen called with: ' + debug);
+    
+    var that = this;
+     
+     
+    that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
+        console.log('scaletoscreen called with: ' + cropMainNode);    
+            
+    });
+        
+        
      
       // call this so that drawingwidth is set
      this.ComputeLocations();
