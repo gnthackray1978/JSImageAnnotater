@@ -511,15 +511,23 @@ Visualizer.prototype.SetZoomStart = function () {
 };
 
 Visualizer.prototype.ScaleToScreen = function(debug){
-      
-    
     var that = this;
      
      
     that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
-        console.log('scaletoscreen called with: ' + cropMainNode);    
-            
+        console.log('scaletoscreen called with: ' + cropMainNode);
+        
+        var ClipWidth = cropMainNode.Width - cropMainNode.X;
+        
+        that.ScaleToScreeni(ClipWidth);
     });
+    
+},
+
+Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
+      
+    
+    
         
         
      
@@ -528,6 +536,10 @@ Visualizer.prototype.ScaleToScreen = function(debug){
       
       var screenWidth =   screen.width;
      var currentDrawingWidth = this.drawingWidth;
+     
+     if(debug !=''){
+         currentDrawingWidth = ClipWidth;
+     }
      
      console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
      
