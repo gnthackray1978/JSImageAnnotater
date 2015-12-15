@@ -519,22 +519,22 @@ Visualizer.prototype.ScaleToScreen = function(debug){
         
         that.ComputeLocations();
       
-        var screenWidth =   screen.width;
-        var currentDrawingWidth = that.drawingWidth;
+       // var screenWidth =   screen.width;
+     //   var currentDrawingWidth = that.drawingWidth;
      
         var offset = that.drawingWidth - cropMainNode.Width;
         
         var adjustment =  (offset/2) - cropMainNode.X;
         
-        that.SetCentreX(that.centrePoint + adjustment);
+      //  that.SetCentreX(that.centrePoint + adjustment);
         
-        that.DrawTree();
+      //  that.DrawTree();
      
-        var ClipWidth = cropMainNode.Width - cropMainNode.X;
+       // var ClipWidth = cropMainNode.Width - cropMainNode.X;
         
         
         
-        that.ScaleToScreeni(debug, ClipWidth);
+        that.ScaleToScreeni(debug, adjustment);
     });
     
 },
@@ -552,9 +552,9 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       var screenWidth =   screen.width;
      var currentDrawingWidth = this.drawingWidth;
      
-     if(debug != undefined && debug !=''){
-         currentDrawingWidth = ClipWidth;
-     }
+    //  if(debug != undefined && debug !=''){
+    //      currentDrawingWidth = ClipWidth;
+    //  }
      
      console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
      
@@ -586,7 +586,9 @@ Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
       
       this.SetZoom(percentageDiff);
       
+      this.SetCentreX(ClipWidth);
       
+      this.DrawTree();
       
 };
     
