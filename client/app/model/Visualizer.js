@@ -517,17 +517,17 @@ Visualizer.prototype.ScaleToScreen = function(debug){
     that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
         console.log('scaletoscreen called with: ' + cropMainNode);
         
-        this.ComputeLocations();
+        that.ComputeLocations();
       
         var screenWidth =   screen.width;
-        var currentDrawingWidth = this.drawingWidth;
+        var currentDrawingWidth = that.drawingWidth;
      
-        var offset = this.drawingWidth - cropMainNode.Width;
+        var offset = that.drawingWidth - cropMainNode.Width;
         
         var adjustment = cropMainNode.X - (offset/2);
         
-        this.SetCentreX(this.centrePoint + adjustment);
-        this.DrawTree();
+        that.SetCentreX(this.centrePoint + adjustment);
+        that.DrawTree();
      
         var ClipWidth = cropMainNode.Width - cropMainNode.X;
         
