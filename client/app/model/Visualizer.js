@@ -567,7 +567,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     this.mouse_y = 0;
     
     
-    this.SetZoom(croppedPercentageDiff);
+    this.SetZoom(0-croppedPercentageDiff);
       
       
       
