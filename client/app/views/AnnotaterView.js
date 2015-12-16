@@ -936,8 +936,6 @@ AnnotaterView.prototype.QryCropSaveButton = function(action){
     });   
 };
 
-
-
 AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
     var that = this;
     
@@ -959,20 +957,9 @@ AnnotaterView.prototype.QryCanvasMouseUp= function (action) {
 AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
     var that = this;
     
-    //   $("#myCanvas").mousemove(function (evt) {
-    //     if(this.canvasMousemoveLock == ''){
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-    
-    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
-        
-    //         action(_point);
-    //     }
-    // });
-    
     $("#myCanvas").mousemove(function (evt) {
-       // console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
+        console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
         if(that.canvasMousemoveLock == that.cropperLockKey){
-            console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
             action(evt);
         }
     });
