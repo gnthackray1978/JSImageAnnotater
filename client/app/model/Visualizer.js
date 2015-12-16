@@ -571,8 +571,10 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
       
     
     var xOffset = this.centrePoint - cropMainNode.X;
+    var yOffset = this.centreVerticalPoint - cropMainNode.Y;
     
     this.SetCentreX(xOffset);  
+    this.SetCentreY(yOffset);  
     
     this.DrawTree();
       
