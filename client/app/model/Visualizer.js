@@ -566,18 +566,21 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     this.mouse_x = 0;
     this.mouse_y = 0;
     
-    
-    this.SetZoom(0-croppedPercentageDiff);
-      
-    
-    var xOffset = this.centrePoint - cropMainNode.X;
-    var yOffset = this.centreVerticalPoint - cropMainNode.Y;
-    
-    this.SetCentreX(xOffset);  
-    this.SetCentreY(yOffset);  
-    
-    this.DrawTree();
-      
+    if(cropMainNode.Width == 0 && cropMainNode.Height ==0){
+        this.SetZoom(percentageDiff);
+    }else
+    {
+        this.SetZoom(0-croppedPercentageDiff);
+          
+        
+        var xOffset = this.centrePoint - cropMainNode.X;
+        var yOffset = this.centreVerticalPoint - cropMainNode.Y;
+        
+        this.SetCentreX(xOffset);  
+        this.SetCentreY(yOffset);  
+        
+        this.DrawTree();
+    } 
 };
     
 Visualizer.prototype.GetPercDistances = function () {
