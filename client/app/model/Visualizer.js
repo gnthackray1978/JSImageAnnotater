@@ -569,7 +569,12 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     
     this.SetZoom(0-croppedPercentageDiff);
       
-      
+    
+    var xOffset = this.centrePoint - cropMainNode.X;
+    
+    this.SetCentreX(xOffset);  
+    
+    this.DrawTree();
       
 };
     
