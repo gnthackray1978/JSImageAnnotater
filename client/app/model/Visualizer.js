@@ -517,75 +517,57 @@ Visualizer.prototype.ScaleToScreen = function(debug){
     that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
         console.log('scaletoscreen called with: ' + cropMainNode);
         
-        that.ComputeLocations();
-      
-        var screenWidth =   screen.width;
-        var currentDrawingWidth = that.drawingWidth;
-     
-        var offset = that.drawingWidth - cropMainNode.Width;
-        
-        var percentageDiff = offset * (that.drawingWidth/100);
-        
-        //var adjustment =  (offset/2) - cropMainNode.X;
-        
-      //  that.SetCentreX(that.centrePoint + adjustment);
-        
-      //  that.DrawTree();
-     
-       // var ClipWidth = cropMainNode.Width - cropMainNode.X;
-        
-        
-        
-        that.ScaleToScreeni(debug, percentageDiff);
+        that.ScaleToScreeni(debug, cropMainNode);
     });
     
 },
 
-Visualizer.prototype.ScaleToScreeni = function(debug,ClipWidth){
+Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
  
       // call this so that drawingwidth is set
-     this.ComputeLocations();
+    this.ComputeLocations();
       
-      var screenWidth =   screen.width;
-     var currentDrawingWidth = this.drawingWidth;
-     
+    var screenWidth =   screen.width;
+    var currentDrawingWidth = this.drawingWidth;
+    var currentCroppedDrawingWidth = cropMainNode.Width - cropMainNode.X;
 
+    console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
+    
+    var sizeDifference = (screenWidth - currentDrawingWidth);
+    var croppedSizeDifference = (screenWidth - currentCroppedDrawingWidth);
+    
+    var avgSize = (currentDrawingWidth + screenWidth) / 2;
+    var avgCroppedSize = (currentCroppedDrawingWidth + screenWidth) / 2;
+    
+    console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
      
-     console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
-     
-     
-     
-      var sizeDifference = (screenWidth - currentDrawingWidth);
-      
-      var avgSize = (currentDrawingWidth + screenWidth) / 2;
-     
-      console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
-     
-      var percentageDiff = 0;
-      
-      if((sizeDifference / currentDrawingWidth) !=0)
+    var percentageDiff = 0;
+    var croppedPercentageDiff = 0;
+    
+    if((sizeDifference / currentDrawingWidth) !=0)
         percentageDiff = (sizeDifference / currentDrawingWidth) * 100;
+
+    if((croppedSizeDifference / currentCroppedDrawingWidth) !=0)
+        croppedPercentageDiff = (croppedSizeDifference / currentCroppedDrawingWidth) * 100;  
       
       
-        if(debug != undefined && debug !=''){
-            percentageDiff = ClipWidth;
-        }
+    // if(debug != undefined && debug !=''){
+    //     percentageDiff = ClipWidth;
+    // }
+    
+    console.log('ScaleToScreen: set zoom ' + percentageDiff + '% ' + croppedPercentageDiff + '%');
       
       
-      
-      console.log('ScaleToScreen: set zoom ' + percentageDiff + '%');
-      
-      
-      this.mouseXPercLocat = 0;
-      this.mouseYPercLocat = 0;
-   
-      // make sure we dont get the mouses position 
-      // when we clicked the draw button.
-      this.mouse_x = 0;
-      this.mouse_y = 0;
-      
-      
-      this.SetZoom(percentageDiff);
+    this.mouseXPercLocat = 0;
+    this.mouseYPercLocat = 0;
+    
+    // make sure we dont get the mouses position 
+    // when we clicked the draw button.
+    this.mouse_x = 0;
+    this.mouse_y = 0;
+    
+    
+    this.SetZoom(percentageDiff);
       
       
       
