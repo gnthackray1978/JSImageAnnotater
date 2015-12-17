@@ -537,7 +537,7 @@ Visualizer.prototype.ScaleToScreen = function(debug){
      
      
     that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
-        console.log('scaletoscreen called with: ' + cropMainNode);
+        console.log('scaletoscreen called with: ' + cropMainNode.X + ' ' + cropMainNode.Width);
         
         that.ScaleToScreeni(debug, cropMainNode);
     });
@@ -556,7 +556,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
       
     var screenWidth =   screen.width;
     var currentDrawingWidth = this.drawingWidth;
-    var currentCroppedDrawingWidth = cropMainNode.Width;// - cropMainNode.X;
+    var currentCroppedDrawingWidth = cropMainNode.Width - cropMainNode.X;
 
     console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
     
