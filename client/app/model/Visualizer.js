@@ -107,7 +107,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        var calculatedFontSize = that._canvasTools.DrawComplexLabel(
+                        that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
                             that.nodestore.generations[vidx][hidx].X,
                             that.nodestore.generations[vidx][hidx].Y,
                             that.nodestore.generations[vidx][hidx].Width,
@@ -115,14 +115,15 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             that.nodestore.generations[vidx][hidx].D,
                             that.nodestore.generations[vidx][hidx].Annotation, 
                             that.nodestore.generations[vidx][hidx].Match,
-                            nodeOptions);
+                            nodeOptions,
+                            that.nodestore.generations[vidx][hidx].Cache);
                             
-                        if(calculatedFontSize != 1){
+                        if(that.nodestore.generations[vidx][hidx].Cache.FontSize != 1){
                             // font sizes are constantly changing because of things like the zoom.
                             // set default options so that when we create a new node we have a sensible font size.
-                            defaultOptions.FontSize = calculatedFontSize;
+                            defaultOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
                             // update current node options so we have current font size.
-                            nodeOptions.FontSize = calculatedFontSize;
+                            nodeOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
                         }
                             
                         //matches ????
@@ -188,6 +189,26 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
 
 };
 
+Visualizer.prototype.ClearCache=function () {
+    console.log('clearing cache');
+    
+    var hidx =0;
+    var vidx=0;
+    
+    while(vidx < this.nodestore.generations.length)
+    {
+        hidx=0;
+        while(hidx < this.nodestore.generations[vidx].length){
+            
+            this.nodestore.generations[vidx][hidx].Cache = undefined;
+            
+            hidx++;
+        }
+        
+        vidx++;
+    }
+};
+
 Visualizer.prototype.ComputeLocations=function () {
 
     var width = this.nodestore.generations[0][0].Width;
@@ -205,6 +226,7 @@ Visualizer.prototype.ComputeLocations=function () {
         width += (width / 100) * percentageDiff;
         height += (height / 100) * percentageDiff;
         this.currentZoomPercentage = this.zoomPercentage;
+        this.ClearCache();
     }
 
     if(isNaN(this.centrePoint) || isNaN(width)){
