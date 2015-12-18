@@ -198,7 +198,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText){
     
     this.nodestore.AddData(1,true,matchNode, function(e){
         console.log('match node added');
-        that.ClearCache();
+        that.visualizer.ClearCache();
     });
     
 };
