@@ -602,7 +602,7 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
         this.SetZoom(percentageDiff);
     }else
     {
-        this.SetZoom(0-croppedPercentageDiff);
+        this.SetZoom(croppedPercentageDiff);
           
         
         var xOffset = this.centrePoint - cropMainNode.X;
