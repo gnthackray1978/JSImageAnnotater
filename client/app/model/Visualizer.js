@@ -562,7 +562,10 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     var currentDrawingWidth = this.drawingWidth;
     var currentCroppedDrawingWidth = (cropMainNode.X + cropMainNode.Width) - cropMainNode.X;
 
-    console.log('ScaleToScreen: width' + currentDrawingWidth + ' crop width ' + currentCroppedDrawingWidth);
+    console.log('ScaleToScreen: screen width ' + screenWidth);
+    console.log('ScaleToScreen: image width ' + currentDrawingWidth);
+    console.log('ScaleToScreen: cropped width ' + currentCroppedDrawingWidth);
+    
     
     var sizeDifference = (screenWidth - currentDrawingWidth);
     var croppedSizeDifference = (screenWidth - currentCroppedDrawingWidth);
