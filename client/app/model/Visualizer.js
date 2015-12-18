@@ -551,10 +551,6 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
         return;
     }
  
- 
-   // this.drawingWidth = (cropMainNode.X + cropMainNode.Width) - cropMainNode.X;
-  
-   
     // call this so that drawingwidth is set
     this.ComputeLocations();
       
@@ -570,11 +566,6 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     var sizeDifference = (screenWidth - currentDrawingWidth);
     var croppedSizeDifference = (screenWidth - currentCroppedDrawingWidth);
     
-    // var avgSize = (currentDrawingWidth + screenWidth) / 2;
-    // var avgCroppedSize = (currentCroppedDrawingWidth + screenWidth) / 2;
-    
-    // console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
-     
     var percentageDiff = 0;
     var croppedPercentageDiff = 0;
     
@@ -583,9 +574,6 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
 
     if((croppedSizeDifference / currentCroppedDrawingWidth) !=0)
         croppedPercentageDiff = (croppedSizeDifference / currentCroppedDrawingWidth) * 100;  
-      
-      
-
     
     console.log('ScaleToScreen: set zoom ' + percentageDiff + '% ' + croppedPercentageDiff + '%');
       

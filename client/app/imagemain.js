@@ -39,14 +39,12 @@ function loadAll (drive){
         var optionsController = new OptionsController(appView,options);
 
         var nodeManager = new NodeManager(data,metadata,options);
-        
 
-        
-        
-        var matches = new Matches(data,nodeManager);
-        var matchesController = new MatchesController(appView,matches);
-        
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
+        
+        var matches = new Matches(data,nodeManager,visualizer);
+        var matchesController = new MatchesController(appView,matches,visualizer);
+        
         
         var nodeController = new NodeManagerController(appView, nodeManager,visualizer);
         var visualizerController =  new VisualizerController(appView, visualizer);

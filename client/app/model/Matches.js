@@ -1,4 +1,5 @@
-var Matches = function (dataDll, nodestore) {
+var Matches = function (dataDll, nodestore, visualizer) {
+    this.visualizer = visualizer;
     this.dataDll = dataDll;
     this.nodestore = nodestore;
  
@@ -179,6 +180,7 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
 
 Matches.prototype.AddMatch = function(vidx, hidx, matchText){
    
+    var that = this;
     var nodeFactory = new Node(this.nodestore.generations);
     
     //var matchNode = this.nodestore.generations[vidx][hidx];
@@ -196,6 +198,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText){
     
     this.nodestore.AddData(1,true,matchNode, function(e){
         console.log('match node added');
+        that.ClearCache();
     });
     
 };
