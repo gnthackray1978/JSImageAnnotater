@@ -551,22 +551,26 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
         return;
     }
  
+ 
+   // this.drawingWidth = (cropMainNode.X + cropMainNode.Width) - cropMainNode.X;
+  
+   
     // call this so that drawingwidth is set
     this.ComputeLocations();
       
     var screenWidth =   screen.width;
     var currentDrawingWidth = this.drawingWidth;
-    var currentCroppedDrawingWidth = cropMainNode.Width - cropMainNode.X;
+    var currentCroppedDrawingWidth = (cropMainNode.X + cropMainNode.Width) - cropMainNode.X;
 
-    console.log('ScaleToScreen: initial widths drawing ' + currentDrawingWidth + ' screen ' + screenWidth);
+    console.log('ScaleToScreen: width' + currentDrawingWidth + ' crop width ' + currentCroppedDrawingWidth);
     
     var sizeDifference = (screenWidth - currentDrawingWidth);
     var croppedSizeDifference = (screenWidth - currentCroppedDrawingWidth);
     
-    var avgSize = (currentDrawingWidth + screenWidth) / 2;
-    var avgCroppedSize = (currentCroppedDrawingWidth + screenWidth) / 2;
+    // var avgSize = (currentDrawingWidth + screenWidth) / 2;
+    // var avgCroppedSize = (currentCroppedDrawingWidth + screenWidth) / 2;
     
-    console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
+    // console.log('ScaleToScreen: sizediff ' + sizeDifference +' avgsize '+ avgSize);
      
     var percentageDiff = 0;
     var croppedPercentageDiff = 0;
