@@ -1,3 +1,5 @@
+/*global Node*/
+
 var Matches = function (dataDll, nodestore, visualizer) {
     this.visualizer = visualizer;
     this.dataDll = dataDll;
@@ -60,38 +62,47 @@ Matches.prototype.MergeWithPreceding = function(preceding, current){
 
 Matches.prototype.IterateNotes = function(){
     var that =this;
-    
-    //loop through all the notes
-    // that.nodestore.generations[vidx][hidx].X,
-    // that.nodestore.generations[vidx][hidx].Y,
-    // that.nodestore.generations[vidx][hidx].Width,
-    // that.nodestore.generations[vidx][hidx].Height,
-    // that.nodestore.generations[vidx][hidx].D,
-    // that.nodestore.generations[vidx][hidx].Annotation, 
     var vidx = 1;
-    
     // take a node from current map
     // look through all the notes from other images
-    while (vidx < that.nodestore.generations.length) {
-        var hidx=0;
-        var originalLength = that.nodestore.generations[vidx].length;
-        
-        while (hidx < originalLength) {
-            
-            //
-            //return all 
-            //testable strings from the node
-            //check each one in the searchcache
-            if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
-            {
-                console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
+    var hidx=0;
+    var originalLength = that.nodestore.generations[vidx].length;
+    
+    var annotationSearchTotal =0;
+    
+    while (hidx < originalLength) {
+        if(that.nodestore.generations[vidx][hidx].Annotation 
+            && that.nodestore.generations[vidx][hidx].LayerId !=5)  {
+                annotationSearchTotal++;
+            }
+        hidx++;
+    }
+    
+    
+    hidx=0;
+    
+    while (hidx < originalLength) {
+        //return all 
+        //testable strings from the node
+        //check each one in the searchcache
+        if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
+        {
+            console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
                 
-                var searchComplete = function(vidx,hidx,matches){
-                    if(matches.length > 0)
-                        that.AddMatch(vidx,hidx,matches);
-                };
+            var searchComplete = function(vidx,hidx,matches){
                 
-                that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
+                annotationSearchTotal--;
+                
+                if(matches.length > 0)
+                    that.AddMatch(vidx,hidx,matches, function(){
+                         if(annotationSearchTotal==0){
+                                console.log('finished updating notes');
+                                that.visualizer.ClearCache();
+                            }
+                    });
+            };
+                
+            that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
                     var testCaseIdx =0;
                     var matches = [];
                     var retCount=0;
@@ -128,13 +139,10 @@ Matches.prototype.IterateNotes = function(){
                         testCaseIdx ++;
                     }
                 });
-            }
-            
-            hidx++;
         }
-        vidx++;
+            
+        hidx++;
     }
-    
 },
 
 Matches.prototype.FindSearchStrings = function(charCount, text, callback){
@@ -178,27 +186,19 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
     
 }
 
-Matches.prototype.AddMatch = function(vidx, hidx, matchText){
+Matches.prototype.AddMatch = function(vidx, hidx, matchText,callback){
    
     var that = this;
     var nodeFactory = new Node(this.nodestore.generations);
-    
-    //var matchNode = this.nodestore.generations[vidx][hidx];
-    
-    //matchNode.level = 5;
-    
+ 
     var matchNode = nodeFactory.CloneNode(this.nodestore.generations[vidx][hidx]);
-    //JSON.parse(JSON.stringify(matchNode));
-    //matchNode.Index = 0;
+  
     matchNode.LayerId =5;
     matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
-    //var originalNote = matchNode.Annotation;
-    
-    //var startLocation = matchNode.Annotation.IndexOf(matchText);
-    
+  
     this.nodestore.AddData(1,true,matchNode, function(e){
         console.log('match node added');
-        that.visualizer.ClearCache();
+        callback();
     });
     
 };
