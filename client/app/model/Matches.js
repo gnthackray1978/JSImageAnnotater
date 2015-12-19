@@ -94,6 +94,7 @@ Matches.prototype.IterateNotes = function(){
             } 
             
             var searchComplete = function(vidx,hidx,matches){
+                //yuck yuck what a hack need a better way of working at when this is finished.
                 annotationSearchTotal--;
                 
                 console.log('search complete');
@@ -104,13 +105,20 @@ Matches.prototype.IterateNotes = function(){
                     });
             };
                 
+            // this doesnt always bring anything back remember
+            // thats why this isnt working!
             that.FindSearchStrings(4,that.nodestore.generations[vidx][hidx].Annotation, function(result){
                     var testCaseIdx =0;
                     var matches = [];
                     var retCount=0;
+                    
+                    
+                    if(result.length ==0) searchComplete(vidx,hidx,matches);; 
+                    
                     while(testCaseIdx < result.length){
                         // test each of the search strings
                         that.dataDll.QrySearchCache(result[testCaseIdx], function(matchedNodesArray){
+                            
                             retCount++;
                             // this should return all matches 
                             if(matchedNodesArray.length >0){
