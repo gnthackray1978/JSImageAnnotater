@@ -89,15 +89,18 @@ Matches.prototype.IterateNotes = function(){
         {
             console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' - ' + annotationSearchTotal);
             
-            if(annotationSearchTotal==0){
-                console.log('finished updating notes');    
-            } 
+            
             
             var searchComplete = function(vidx,hidx,matches){
                 //yuck yuck what a hack need a better way of working at when this is finished.
                 annotationSearchTotal--;
-                
                 console.log('search complete');
+                
+                if(annotationSearchTotal==0){
+                    console.log('finished updating notes');    
+                } 
+            
+                
                 
                 if(matches.length > 0)
                     that.AddMatch(vidx,hidx,matches, function(){
