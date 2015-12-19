@@ -89,13 +89,13 @@ Matches.prototype.IterateNotes = function(){
         {
             console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
             
-            annotationSearchTotal--;
-            
             if(annotationSearchTotal==0){
                 console.log('finished updating notes');    
             } 
             
             var searchComplete = function(vidx,hidx,matches){
+                annotationSearchTotal--;
+                
                 if(matches.length > 0)
                     that.AddMatch(vidx,hidx,matches, function(){
                         that.visualizer.ClearCache();
