@@ -87,7 +87,7 @@ Matches.prototype.IterateNotes = function(){
         //check each one in the searchcache
         if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
         {
-            console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation);
+            console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' - ' + annotationSearchTotal);
             
             if(annotationSearchTotal==0){
                 console.log('finished updating notes');    
@@ -95,6 +95,8 @@ Matches.prototype.IterateNotes = function(){
             
             var searchComplete = function(vidx,hidx,matches){
                 annotationSearchTotal--;
+                
+                console.log('search complete');
                 
                 if(matches.length > 0)
                     that.AddMatch(vidx,hidx,matches, function(){
