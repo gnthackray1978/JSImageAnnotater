@@ -398,6 +398,8 @@ NodeManager.prototype = {
         
     },
     
+    
+    
     WriteTextArea: function(id, UInote){
         
         var that = this;
@@ -429,6 +431,8 @@ NodeManager.prototype = {
             that.AddData(1, true, node, callback);   
         });
     },
+    
+    
     
     
     AddData: function(genidx,withInit, node, callback){

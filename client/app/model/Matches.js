@@ -9,10 +9,10 @@ var Matches = function (dataDll, nodestore, visualizer) {
 
 Matches.prototype.SetMatches = function(text){
     var that =this;
-    console.log(text);
+    console.log('SetMatches: '+text);
     
     this.dataDll.BuildSearchCache(function(){
-        console.log('loaded cache');
+        console.log('SetMatches: loaded cache');
         
         that.IterateNotes();
         // that.dataDll.QrySearchCache(text, function(data){
@@ -87,7 +87,7 @@ Matches.prototype.IterateNotes = function(){
         //check each one in the searchcache
         if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
         {
-            console.log('find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' - ' + annotationSearchTotal);
+            console.log('IterateNotes: find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' - ' + annotationSearchTotal);
             
             
             
@@ -95,16 +95,15 @@ Matches.prototype.IterateNotes = function(){
                 //yuck yuck what a hack need a better way of working at when this is finished.
                 annotationSearchTotal--;
                 console.log('search complete');
-                
-                if(annotationSearchTotal==0){
-                    console.log('finished updating notes');    
-                } 
-            
-                
-                
+                 
                 if(matches.length > 0)
                     that.AddMatch(vidx,hidx,matches, function(){
-                        that.visualizer.ClearCache();
+                        console.log('IterateNotes: Added Match'); 
+                        if(annotationSearchTotal==0){
+                            console.log('finished updating notes');  
+                            that.visualizer.ClearCache();
+                        } 
+                        
                     });
             };
                 
@@ -210,7 +209,7 @@ Matches.prototype.AddMatch = function(vidx, hidx, matchText,callback){
     matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
   
     this.nodestore.AddData(1,true,matchNode, function(e){
-        console.log('match node added');
+        console.log('AddData: match node added');
         callback();
     });
     
