@@ -7,19 +7,21 @@ var Matches = function (dataDll, nodestore, visualizer) {
  
 };
 
-Matches.prototype.SetMatches = function(text){
+Matches.prototype.SetMatches = function(callback){
     var that =this;
-    console.log('SetMatches: '+text);
+    console.log('SetMatches');
+    
+    var matchingDataReturned = function(matchingData){
+        that.AddMatchNodes(matchingData,function(){
+            that.visualizer.ClearCache();
+            that.visualizer.DrawTree();
+        });
+    };
     
     this.dataDll.BuildSearchCache(function(){
         console.log('SetMatches: loaded cache');
-        
-        that.IterateNotes();
-        // that.dataDll.QrySearchCache(text, function(data){
-        //     console.log('found: ' + data.length);
-        // });
+        that.IterateNotes(matchingDataReturned);
     });
-    
     
 };
 
@@ -60,9 +62,12 @@ Matches.prototype.MergeWithPreceding = function(preceding, current){
                       
 },
 
-Matches.prototype.IterateNotes = function(){
+Matches.prototype.IterateNotes = function(callback){
     var that =this;
     var vidx = 1;
+    var matchingData = [];
+    
+    
     // take a node from current map
     // look through all the notes from other images
     var hidx=0;
@@ -87,24 +92,27 @@ Matches.prototype.IterateNotes = function(){
         //check each one in the searchcache
         if(that.nodestore.generations[vidx][hidx].Annotation && that.nodestore.generations[vidx][hidx].LayerId !=5)  
         {
-            console.log('IterateNotes: find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' - ' + annotationSearchTotal);
+            console.log('IterateNotes: find search string on: '+that.nodestore.generations[vidx][hidx].Annotation+ ' total ' + annotationSearchTotal);
             
             
             
-            var searchComplete = function(vidx,hidx,matches){
+            var searchComplete = function(node,matches){
                 //yuck yuck what a hack need a better way of working at when this is finished.
                 annotationSearchTotal--;
-                console.log('search complete');
+                console.log('IterateNotes: search complete: ' + node.annotation + ' matches ' + matches.length + ' total ' + annotationSearchTotal);
                  
                 if(matches.length > 0)
-                    that.AddMatch(vidx,hidx,matches, function(){
-                        console.log('IterateNotes: Added Match'); 
-                        if(annotationSearchTotal==0){
-                            console.log('finished updating notes');  
-                            that.visualizer.ClearCache();
-                        } 
-                        
+                    
+                    matchingData.push({
+                        node : node,
+                        data : matches
                     });
+                
+                    if(annotationSearchTotal==0){
+                        console.log('IterateNotes: finished updating notes');  
+                        callback(matchingData);
+                    } 
+
             };
                 
             // this doesnt always bring anything back remember
@@ -115,7 +123,7 @@ Matches.prototype.IterateNotes = function(){
                     var retCount=0;
                     
                     
-                    if(result.length ==0) searchComplete(vidx,hidx,matches);; 
+                    if(result.length ==0) searchComplete(that.nodestore.generations[vidx][hidx],matches); 
                     
                     while(testCaseIdx < result.length){
                         // test each of the search strings
@@ -133,7 +141,6 @@ Matches.prototype.IterateNotes = function(){
                                     var newVal = result[testCaseIdx];
                                     
                                     if(matches.length >0){
-                                        
                                         newVal = that.MergeWithPreceding(matches[matches.length-1], newVal);
                                     }
                                      
@@ -144,7 +151,7 @@ Matches.prototype.IterateNotes = function(){
                             }
                              
                             if(retCount==result.length) {
-                                searchComplete(vidx,hidx,matches);
+                                searchComplete(that.nodestore.generations[vidx][hidx],matches);
                             }
                         });
                         
@@ -198,18 +205,24 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
     
 }
 
-Matches.prototype.AddMatch = function(vidx, hidx, matchText,callback){
+Matches.prototype.AddMatchNodes = function(matchingData,callback){
    
     var that = this;
+    var newNodes = [];
+    var idx =0;
     var nodeFactory = new Node(this.nodestore.generations);
- 
-    var matchNode = nodeFactory.CloneNode(this.nodestore.generations[vidx][hidx]);
-  
-    matchNode.LayerId =5;
-    matchNode.Match = matchText; // NOT SAVED BACK TO FILE!!!!
-  
-    this.nodestore.AddData(1,true,matchNode, function(e){
-        console.log('AddData: match node added');
+    
+    while(idx < matchingData.length){
+        var matchNode = nodeFactory.CloneNode(matchingData[idx].node);
+        matchNode.LayerId =5;
+        matchNode.Match = matchingData[idx].data; // NOT SAVED BACK TO FILE!!!!
+        
+        newNodes.push(matchNode);
+        idx++;
+    }
+
+    this.nodestore.AddNodes(true,newNodes, function(e){
+        console.log('AddNode: match node added');
         callback();
     });
     

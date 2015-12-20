@@ -137,7 +137,7 @@ NodeManager.prototype = {
             var that = this;
             console.log('CancelAdd delete node restored');
             
-            this.AddData(1, true, this.deletedNodeCache, function(){
+            this.AddNode(1, true, this.deletedNodeCache, function(){
                 that.deletedNodeCache = undefined;
                 console.log('saved');
             });   
@@ -208,7 +208,7 @@ NodeManager.prototype = {
                     nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
                         if(node.CropArea) 
                             cropFound =true;
-                        that.AddData(1,false,node,function(){});  
+                        that.AddNode(1,false,node,function(){});  
                     })
                     
                     idx++;
@@ -216,7 +216,7 @@ NodeManager.prototype = {
             
                 if(!cropFound){
                         nodeFactory.CreateEmptyNode(false,true, function(node){
-                            that.AddData(1,false,node,function(){
+                            that.AddNode(1,false,node,function(){
                                 that.initialGenerations =  JSON.parse(JSON.stringify(that.generations)); 
                                 callback();
                         });
@@ -233,7 +233,7 @@ NodeManager.prototype = {
         
         
         nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddData(0,false,node,function(){
+            that.AddNode(0,false,node,function(){
                 fillPersistedData();
             });
         })
@@ -411,7 +411,7 @@ NodeManager.prototype = {
         
         nodeFactory.MakeNodeFromNote(id, UInote, undefined,2,undefined, function(node){
                                 
-            that.AddData(1, true, node, function(node){
+            that.AddNode(1, true, node, function(node){
                 return node.Index;
             });   
             
@@ -428,14 +428,36 @@ NodeManager.prototype = {
         
         nodeFactory.MakeNode(id,x,y,width,height,degree,annotation,
                             true,options,layerId,metaData,cropArea,isOpen,undefined, function(node){
-            that.AddData(1, true, node, callback);   
+            that.AddNode(1, true, node, callback);   
         });
     },
     
     
+    AddNodes: function(withInit, nodes, callback){
+        var that =this;
+        var idx =0;
+        var responseCount=0;
+        
+        console.log('AddNodes: ' + nodes.length);
+        
+        while(idx < nodes.length){
+            
+            that.AddNode(1,withInit,nodes[idx],function(){
+                
+                responseCount++;
+                console.log('AddNodes: added ' + nodes.length);
+                if(responseCount == nodes.length){
+                    console.log('AddNodes: finished');
+                    callback();
+                }
+            });
+            
+            idx++;
+        }
+        
+    },
     
-    
-    AddData: function(genidx,withInit, node, callback){
+    AddNode: function(genidx,withInit, node, callback){
  
         if(genidx === 0){
             this.generations[0].push(node);
@@ -521,7 +543,7 @@ NodeManager.prototype = {
             }
             else
             {
-                console.log('AddData writeInitialData updating generations');
+                console.log('AddNode writeInitialData updating generations');
                 that.initialGenerations[1][index]= initialValueNode;
             }
            
@@ -536,7 +558,7 @@ NodeManager.prototype = {
             //console.log(this.generations[1][idx].PersonId + ' ' + noteId);
             if(Number(this.generations[1][idx].Index) === Number(node.Index)){
                 isPresent = true;
-                console.log('AddData updating generations');
+                console.log('AddNode updating generations');
                 this.generations[1][idx] =node;
                 if(withInit)
                     writeInitialData(1,node,idx);
