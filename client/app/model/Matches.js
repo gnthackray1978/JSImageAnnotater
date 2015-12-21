@@ -208,9 +208,16 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
 Matches.prototype.AddMatchNodes = function(matchingData,callback){
    
     var that = this;
-   
     var nodeFactory = new Node(this.nodestore.generations);
-    nodeFactory.CloneNodes(matchingData, function(newNodes){
+    nodeFactory.CloneNodes(function(){
+        var idx =0;
+        var pureNodes =[];
+        while(idx < matchingData.length){
+            pureNodes.push(matchingData[idx].node);
+            idx++;
+        }
+        return pureNodes;
+    }, function(newNodes){
         var idx =0;
         
         while(idx < newNodes.length){
