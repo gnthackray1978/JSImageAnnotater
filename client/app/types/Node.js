@@ -99,6 +99,23 @@ Node.prototype.CloneNode = function(node, callback){
     return node;
 };
 
+Node.prototype.CloneNodes = function(nodes,  callback){
+    
+    var idx =0;
+    var newNodes = [];
+
+    while(idx < nodes.length){
+        var newNode = JSON.parse(JSON.stringify(nodes[idx]));
+        newNode.Index = this.NewId();
+        
+        newNodes.push(newNode);
+        idx++;
+    }
+    
+
+    callback(newNodes);
+};
+
 Node.prototype.CreateEmptyNode = function(isFirst, isCropArea, callback){
     // this.AddData(1, note.Index,note.x,note.y,note.width,note.height,
     // note.d,note.text,true, true, note.options,2);

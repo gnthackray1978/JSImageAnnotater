@@ -208,22 +208,26 @@ Matches.prototype.FindSearchStrings = function(charCount, text, callback){
 Matches.prototype.AddMatchNodes = function(matchingData,callback){
    
     var that = this;
-    var newNodes = [];
-    var idx =0;
+   
     var nodeFactory = new Node(this.nodestore.generations);
-    
-    while(idx < matchingData.length){
-        var matchNode = nodeFactory.CloneNode(matchingData[idx].node);
-        matchNode.LayerId =5;
-        matchNode.Match = matchingData[idx].data; // NOT SAVED BACK TO FILE!!!!
+    nodeFactory.CloneNodes(matchingData, function(newNodes){
+        var idx =0;
         
-        newNodes.push(matchNode);
-        idx++;
-    }
-
-    this.nodestore.AddNodes(true,newNodes, function(e){
-        console.log('AddNode: match node added');
-        callback();
+        while(idx < newNodes.length){
+            newNodes[idx].LayerId =5;
+            newNodes[idx].Match = matchingData[idx].data; // NOT SAVED BACK TO FILE!!!!
+            idx++;
+        }
+        
+        that.nodestore.AddNodes(true,newNodes, function(e){
+            console.log('AddNode: match node added');
+            callback();
+        });
     });
+    
+    
+    
+
+
     
 };
