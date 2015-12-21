@@ -443,7 +443,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         
         
         
-        $('#showTextCreator').click(function (e) {
+        $('#show_textCreator').click(function (e) {
 
             if (that.showTextCreator) {
                 $("#map_textFiles").dialog();
