@@ -49,6 +49,9 @@ function AnnotaterView() {
     this.showoptions = true;
     this.showCropper = true;
     this.showEdges =true;
+    this.showMatches = true;
+    this.showTextCreator =true;
+    
     this.dataLoader = true;
     this.millisecondsInterval =1000;
     this.selectedFontChanged;
@@ -404,6 +407,75 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             $("#map_edge_add").dialog("close");
             that.showEdges = true;
         });
+        
+        
+        $('#show_matcher').click(function (e) {
+
+            if (that.showMatches) {
+                $("#map_matches").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_matches"]').css("width", "293px");
+           
+                $("#map_matches").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showMatches = false;
+            } else {
+                $("#map_matches").dialog("close");
+                that.showMatches = true;
+            }
+        });
+
+        $('#map_matches').live("dialogclose", function(){
+           that.showMatches = true;
+        });
+
+        $('#btnCancelMatches').click(function (e) {
+            $("#map_matches").dialog("close");
+            that.showMatches = true;
+        });
+        
+        
+        
+        $('#showTextCreator').click(function (e) {
+
+            if (that.showTextCreator) {
+                $("#map_textFiles").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_textFiles"]').css("width", "293px");
+           
+                $("#map_textFiles").css("padding", "0px");
+                
+                //font-size: 1.1em; */
+                that.showTextCreator = false;
+            } else {
+                $("#map_textFiles").dialog("close");
+                that.showTextCreator = true;
+            }
+        });
+
+        $('#map_textFiles').live("dialogclose", function(){
+           that.showTextCreator = true;
+        });
+
+        $('#btnCancelTextFile').click(function (e) {
+            $("#map_textFiles").dialog("close");
+            that.showTextCreator = true;
+        });
+        
+        
     };
 
 

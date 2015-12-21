@@ -71,6 +71,8 @@
         <input id ="show_options" class ="options_button" type="submit" value="Options" />
         <input id ="show_cropper" class ="options_button" type="submit" value="Cropper" />
         <input id ="show_edges" class ="edges_button" type="submit" value="Edges" />
+        <input id ="show_matcher" class ="options_button" type="submit" value="Matches" />
+        <input id ="show_textCreator" class ="options_button" type="submit" value="Create Text" />
     </div>
      
     
@@ -168,6 +170,32 @@
         <br/>
         <!--<input  type="text"  />-->
     </div>
+
+    <div id = "map_matches" class ="hidePanel" title="Matches">
+        <br/>
+        <b>Matches</b>
+        <br/>
+        <input id= "txtMatch" type="text" />
+        <br/>
+        <input id ="btnSetMatches" type="submit" value="Set Matches" />
+        <br/>
+        <input id ="btnCleanMatches" type="submit" value="Clean Matches" />
+        <br/>
+        <input id ="btnCancelMatches" type="submit" value="Close" />
+    </div>
+    
+    <div id = "map_textFiles" class ="hidePanel" title="Text File Creator">
+        <br/>
+        <b>Text File Creator</b>
+        <br/>
+        <input id= "txtFileCreator" type="text" />
+        <br/>
+        <input id ="btnCreateTextFile" type="submit" value="Create" />
+        <br/>
+        <input id ="btnCancelTextFile" type="submit" value="Close" />
+    </div>
+
+
 
     <div id = "map_options" class ="hidePanel" title="Options">
         <b id = "options-label">Default Options</b>

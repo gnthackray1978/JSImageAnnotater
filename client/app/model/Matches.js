@@ -1,5 +1,19 @@
 /*global Node*/
 
+/*
+purpose :
+creates list of annotations for other images in the parent folder.
+compares list with annotations in current document. 
+comparison criteria is that 4 words in a sentence must match.
+adds matches into the generations array as layer 5 nodes.
+
+TODO
+move ui stuff into controller
+create some kind of tests
+create proper ui for this, or make run when note is added
+
+*/
+
 var Matches = function (dataDll, nodestore, visualizer) {
     this.visualizer = visualizer;
     this.dataDll = dataDll;

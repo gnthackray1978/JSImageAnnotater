@@ -126,14 +126,11 @@ NodeManager.prototype = {
         this.options.SetDefaultOptionState(false);
         this.addNode = false;
         
+        // chance monti carlo method?
+        // programming bugs
         
         if(this.deletedNodeCache != undefined){
-            // this.selectedNote = this.deletedNodeCache;
-            // this.deletedNodeCache.Visible =true;
-            // this.WriteToDB(this.deletedNodeCache, function(){
-            //     console.log('node undeleted');
-            // });
-            //this.selectedNote= undefined;
+            
             var that = this;
             console.log('CancelAdd delete node restored');
             
@@ -142,9 +139,6 @@ NodeManager.prototype = {
                 console.log('saved');
             });   
             
-            // this.SaveNoteClicked(this.deletedNodeCache, function(){
-            //     console.log('saved');
-            // });
         }
             
             
