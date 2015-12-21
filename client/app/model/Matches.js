@@ -219,7 +219,7 @@ Matches.prototype.AddMatchNodes = function(matchingData,callback){
         return pureNodes;
     };
     
-    var nodeList = makeNodeList();
+    var nodeList = makeNodeList(matchingData);
     
     var nodeFactory = new Node(this.nodestore.generations);
     nodeFactory.CloneNodes(nodeList, function(newNodes){
