@@ -106,7 +106,9 @@ Node.prototype.CloneNodes = function(nodes,  callback){
 
     while(idx < nodes.length){
         var newNode = JSON.parse(JSON.stringify(nodes[idx]));
-        newNode.Index = this.NewId();
+        // +idx because the overall length of the generations array isnt 
+        // changing so newid wont work correctly by itself
+        newNode.Index = this.NewId()+idx;
         
         newNodes.push(newNode);
         idx++;
