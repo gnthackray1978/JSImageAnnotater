@@ -412,7 +412,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         $('#show_matcher').click(function (e) {
 
             if (that.showMatches) {
-                $("#map_matches").dialog({ minHeight: 50 });
+                $("#map_matches").dialog({ minHeight: 150 });
 
                 $(".ui-widget-header").css("height", "7px");
 
