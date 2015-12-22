@@ -42,7 +42,7 @@ function loadAll (drive){
 
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
         
-        var matches = new Matches(data,nodeManager,visualizer);
+        var matches = new Matches(data,nodeManager);
         var matchesController = new MatchesController(appView,matches,visualizer);
         
         

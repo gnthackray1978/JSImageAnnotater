@@ -1,6 +1,6 @@
-var MatchesController = function (view, model) {
+var MatchesController = function (view, model, graphicsContext) {
     this._view = view;
-
+    this._graphicsContext = graphicsContext;
     this.model = model;
     
     this.init();
@@ -16,8 +16,12 @@ MatchesController.prototype = {
         
     },
     qrySetMatches:function(text){
-        if (this.model !== null) {
-            this.model.SetMatches(text);
+        var that =this;
+        if (that.model !== null) {
+            that.model.SetMatches(function(){
+                that._graphicsContext.ClearCache();
+                that._graphicsContext.DrawTree();
+            });
         }
     },
     qryClearButton:function(){

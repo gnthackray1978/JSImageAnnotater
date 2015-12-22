@@ -14,8 +14,8 @@ create proper ui for this, or make run when note is added
 
 */
 
-var Matches = function (dataDll, nodestore, visualizer) {
-    this.visualizer = visualizer;
+var Matches = function (dataDll, nodestore) {
+   
     this.dataDll = dataDll;
     this.nodestore = nodestore;
  
@@ -27,8 +27,7 @@ Matches.prototype.SetMatches = function(callback){
     
     var matchingDataReturned = function(matchingData){
         that.AddMatchNodes(matchingData,function(){
-            that.visualizer.ClearCache();
-            that.visualizer.DrawTree();
+            callback();
         });
     };
     
