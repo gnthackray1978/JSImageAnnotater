@@ -457,6 +457,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 $('*[aria-describedby="map_textFiles"]').css("width", "293px");
            
                 $("#map_textFiles").css("padding", "0px");
+                $("#map_textFiles").css("height", "120px");
                 
                 //font-size: 1.1em; */
                 that.showTextCreator = false;
