@@ -301,14 +301,14 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
            that.showmeta = true;
         });
 
-         $('#btnCancelMetaInfo').click(function (e) {
+        $('#btnCancelMetaInfo').click(function (e) {
              $("#map_metadata").dialog("close");
                 that.showmeta = true;
          });
 
         
 
-         $('#show_options').click(function (e) {
+        $('#show_options').click(function (e) {
 
             if (that.showoptions) {
                 $("#map_options").dialog();
@@ -336,7 +336,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
            that.showoptions = true;
         });
 
-         $('#btnCancelOptions').click(function (e) {
+        $('#btnCancelOptions').click(function (e) {
              $("#map_options").dialog("close");
                 that.showoptions = true;
          });
@@ -760,6 +760,21 @@ AnnotaterView.prototype.GetTextAreaDetails = function () {
     }
 };
 
+
+/*MATCH STUFF*/
+
+AnnotaterView.prototype.QrySetMatches = function(callback){
+    $('#btnSetMatches').click(function (e) {
+        callback();
+    });
+};
+
+AnnotaterView.prototype.QryClearDeleted = function(callback){
+    $('#btnCleanMatches').click(function (e) {
+        callback();
+    });
+};
+
 //DEBUG STUFF
 
 //CALLED FROM MODEL AND UPDATES OPTIONS DATA TO UI
@@ -774,25 +789,7 @@ AnnotaterView.prototype.UpdateInfoWindow = function(data){
     }
 };
 
-AnnotaterView.prototype.QrySetMatches = function(callback){
-    
-     $('#btnDebugClicked').click(function (e) {
-         
-        var data= $("#txtDebugData").val();
-        
-        callback(data);
-    });
-};
 
-AnnotaterView.prototype.QryClearDeleted = function(callback){
-    
-     $('#btnDebugCleanDeleted').click(function (e) {
-         
-        var data= $("#txtDebugData").val();
-        
-        callback(data);
-    });
-};
 
 AnnotaterView.prototype.QryRunScaleToScreen = function(callback){
     

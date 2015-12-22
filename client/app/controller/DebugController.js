@@ -7,7 +7,7 @@ var DebugController = function (view, model) {
     
     this._view.QryRunScaleToScreen($.proxy(this.qryRunScaleToScreen, this));
     
-    this._view.QryClearDeleted($.proxy(this.qryClearButton, this));
+    
 };
 
 DebugController.prototype = {
@@ -18,10 +18,6 @@ DebugController.prototype = {
         if (this.model !== null) {
             this.model.RunScaleToScreen(text);
         }
-    },
-    qryClearButton:function(){
-        if (this.model !== null) {
-            this.model.ClearDeleted();
-        }
     }
+    
 };
