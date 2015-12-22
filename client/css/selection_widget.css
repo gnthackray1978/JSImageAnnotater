@@ -1,3 +1,9 @@
+/* dialog button positioning */
+.dialogfooter{
+    bottom: 5px;
+    position: absolute;
+}
+
 /* meta data buttons etc*/
 .meta-top-label{
     
