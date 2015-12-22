@@ -423,7 +423,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 $('*[aria-describedby="map_matches"]').css("width", "350px");
            
                 $("#map_matches").css("padding", "0px");
-                
+                $("#map_matches").css("height", "150px");
                 //font-size: 1.1em; */
                 that.showMatches = false;
             } else {
