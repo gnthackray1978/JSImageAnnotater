@@ -420,7 +420,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 $(".ui-dialog-title").css("top", "0px");
                 $(".ui-dialog-title").css("left", "0px");
 
-                $('*[aria-describedby="map_matches"]').css("width", "293px");
+                $('*[aria-describedby="map_matches"]').css("width", "350px");
            
                 $("#map_matches").css("padding", "0px");
                 
