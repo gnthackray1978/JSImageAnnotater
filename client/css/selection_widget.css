@@ -4,6 +4,12 @@
     position: absolute;
 }
 
+.dialogContent{
+    height: 150px;
+    position: absolute;
+}
+
+
 /* meta data buttons etc*/
 .meta-top-label{
     
