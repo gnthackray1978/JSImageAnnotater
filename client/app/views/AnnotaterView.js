@@ -51,6 +51,7 @@ function AnnotaterView() {
     this.showEdges =true;
     this.showMatches = true;
     this.showTextCreator =true;
+    this.showToolBar =true;
     
     this.dataLoader = true;
     this.millisecondsInterval =1000;
@@ -477,6 +478,39 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         });
         
         
+        
+        $('#show_tools').click(function (e) {
+
+            if (that.showToolBar) {
+                $("#map_toolbar").dialog();
+
+                $(".ui-widget-header").css("height", "7px");
+
+                $(".ui-dialog-title").css("position", "absolute");
+                $(".ui-dialog-title").css("top", "0px");
+                $(".ui-dialog-title").css("left", "0px");
+
+                $('*[aria-describedby="map_toolbar"]').css("width", "293px");
+           
+                $("#map_toolbar").css("padding", "0px");
+                $("#map_toolbar").css("height", "120px");
+                
+                //font-size: 1.1em; */
+                that.showToolBar = false;
+            } else {
+                $("#map_toolbar").dialog("close");
+                that.showToolBar = true;
+            }
+        });
+
+        $('#map_toolbar').live("dialogclose", function(){
+           that.showToolBar = true;
+        });
+
+        $('#btnCancelToolBar').click(function (e) {
+            $("#map_toolbar").dialog("close");
+            that.showToolBar = true;
+        });
     };
 
 
