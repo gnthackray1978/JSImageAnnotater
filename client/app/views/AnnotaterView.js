@@ -493,7 +493,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 $('*[aria-describedby="map_toolbar"]').css("width", "110px");
            
                 $("#map_toolbar").css("padding", "0px");
-                $("#map_toolbar").css("height", "120px");
+                $("#map_toolbar").css("height", "400px");
                 
                 //font-size: 1.1em; */
                 that.showToolBar = false;
