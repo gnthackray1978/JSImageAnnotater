@@ -9,6 +9,21 @@
     position: absolute;
 }
 
+/* tool bar */
+#toolbarcontainer{
+    width: 60px;
+    
+    position: absolute;
+}
+
+.toolbarbutton{
+    width: 30px;
+    height: 30px;
+    
+    position: absolute;
+}
+
+
 
 /* meta data buttons etc*/
 .meta-top-label{
