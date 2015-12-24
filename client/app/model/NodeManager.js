@@ -108,7 +108,7 @@ NodeManager.prototype = {
             that.meta.Unload();
         };
     
-        this._noteDll.GetActiveLayer(function(layerId){
+        this.GetActiveLayer(function(layerId){
             that.meta.QryNodeMetaData(function(data){
                     that.options.QrySaveData(function(options){
                         saveData.options = options;
@@ -121,67 +121,46 @@ NodeManager.prototype = {
         });
         
     },
+    
+    GetActiveLayer: function (callback) {
+        
+        this._noteDll.GetActiveLayer(function(layerId){
+            callback(layerId);
+        });
+    },
+    
+    
+    
     //options
-    CancelAdd: function (cancelComplete) {
-        this.options.SetDefaultOptionState(false);
-        this.addNode = false;
+    // CancelAdd: function (cancelComplete) {
+    //     this.options.SetDefaultOptionState(false);
+    //     this.addNode = false;
         
-        // chance monti carlo method?
-        // programming bugs
+    //     // chance monti carlo method?
+    //     // programming bugs
         
-        if(this.deletedNodeCache != undefined){
+    //     if(this.deletedNodeCache != undefined){
             
-            var that = this;
-            console.log('CancelAdd delete node restored');
+    //         var that = this;
+    //         console.log('CancelAdd delete node restored');
             
-            this.AddNode(1, true, this.deletedNodeCache, function(){
-                that.deletedNodeCache = undefined;
-                console.log('saved');
-            });   
+    //         this.AddNode(1, true, this.deletedNodeCache, function(){
+    //             that.deletedNodeCache = undefined;
+    //             console.log('saved');
+    //         });   
             
-        }
+    //     }
             
             
-        this.options.SetState(this.addNode);
-        this.meta.Unload();
-        cancelComplete(this.addNode);
-    },
-    //options
-    EnableAdd: function (switchComplete) {
-        this.addNode = true;
-        
-        this.options.SetState(this.addNode,undefined,true);
-        switchComplete(this.addNode);
-    },
-    
-    EnterEditMode : function(){
-        this.editNode =true;    
-    },
-    
-    ExitEditMode : function(){
-        this.editNode =false;
-    },
-    
-    DeleteNoteMode:function(switchComplete){
-        console.log('delete note'); 
-        if(this.deleteNode)
-            this.deleteNode =false;
-        else
-            this.deleteNode =true;
-    
-        switchComplete(this.deleteNode);
-        
-    },
-
+    //     this.options.SetState(this.addNode);
+    //     this.meta.Unload();
+    //     cancelComplete(this.addNode);
+    // },
+ 
     init: function(loaded){
         this._noteDll.init(loaded);
     },
 
-
-    AddCropNode: function(){
-        
-    },
-    
     GetGenerations: function (urlId, callback) {
         
         var that = this;
@@ -587,6 +566,7 @@ NodeManager.prototype = {
     Type : function(){
         return this._noteDll.Type();
     },
+    
     
     GetCroppingNode : function(callback){
         
