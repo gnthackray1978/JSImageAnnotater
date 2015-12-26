@@ -1,5 +1,13 @@
 var NodeManagerController = function (view, nodeDataManager, graphicsContext,metadata,options) {
  
+ 
+    this.addNode =false;
+    this.deleteNode =false;
+    this.deletedNodeCache;
+    this.editNode =false;
+    this.selectedNote; 
+ 
+ 
     this._view = view;
     this._graphicsContext = graphicsContext;
 
@@ -23,7 +31,29 @@ var NodeManagerController = function (view, nodeDataManager, graphicsContext,met
     
     this._view.NodeEditorClosed($.proxy(this.exit, this));
     
+    /*
+    
+    so what about when we need to update other models from this controller.
+    
+    
+    ACTIONS
+    1. start system s1
+    2. s1 node clicked s2
+    3. s3 edit node s3
+    3. s4 cancel edit node s2
+    4. s2 s3 delete node(s) s1
+    5. add node s1
+    6. selection tool activated 
+    
+    STATES
+    1. nodes selectable
+    2. node selectable
+    3. nodes selected
+    4. node selected
+    5. node editting
+    
      
+    */
 };
 
 NodeManagerController.prototype = {
@@ -31,19 +61,19 @@ NodeManagerController.prototype = {
     start:function(){
         if (this.nodeManager !== null) {
             
-        };
+        }
     },
     
     exit:function(){
         if (this.nodeManager !== null) {
              
-        };
+        }
     },
 
     init:function(){
         if (this.nodeManager !== null) {
             this.nodeManager.EnableRun(false);
-        };
+        }
     },
 
     canvasClick:function(x,y){
@@ -60,117 +90,186 @@ NodeManagerController.prototype = {
     },
 
     addButtonClicked:function(){
-        var that = this;
+        //var that = this;
         
-        that.EnableAdd(function(addNode){
-            that._graphicsContext.SetLocked(true);
-            that._view.DisplayUpdateNoteAdd(addNode);
-        });
+        this.addNode = true;
+        this.options.SetState(this.addNode,undefined,true);
+        this._graphicsContext.SetLocked(true);
+        this._view.DisplayUpdateNoteAdd(true);
+        
+        // that.EnableAdd(function(addNode){
+        //     that._graphicsContext.SetLocked(true);
+        //     that._view.DisplayUpdateNoteAdd(addNode);
+        // });
     },
    
    
     cancelButtonClicked:function(){
-        var that = this;
-        this.CancelAdd(function(addNode){
-            that._graphicsContext.SetLocked(false);
-            that._view.DisplayUpdateNoteAdd(addNode);
-            that._view.ClearActiveTextArea();
-        });
-    },
-    
-    deleteNote:function(action){
-        var that = this;
-        that.DeleteNoteMode(function(deleteNode){
-            that._view.DisplayUpdateDelete(deleteNode);
-        });
+         var that = this;
+        // this.CancelAdd(function(addNode){
+        //     that._graphicsContext.SetLocked(false);
+        //     that._view.DisplayUpdateNoteAdd(addNode);
+        //     that._view.ClearActiveTextArea();
+        // });
         
-    },
-    
-    saveNote:function(saveData){
-        var that = this;
-        if (this.nodeManager !== null) {
-            this.SaveNoteClicked(saveData, function(addNode){
-                that._graphicsContext.SetLocked(false);
-                that._graphicsContext.DrawTree();
-                that._graphicsContext.UpdateInfo();
-                that._view.DisplayUpdateNoteAdd(addNode);
-                that._view.ClearActiveTextArea();
-            });
-        }
-    },
-    
-    DeleteNoteMode:function(switchComplete){
-        console.log('delete note'); 
-        if(this.nodeManager.deleteNode)
-            this.nodeManager.deleteNode =false;
-        else
-            this.nodeManager.deleteNode =true;
-    
-        switchComplete(this.nodeManager.deleteNode);
-        
-    },
-    
-    //options
-    EnableAdd: function (switchComplete) {
-        this.nodeManager.addNode = true;
-        
-        this.options.SetState(this.nodeManager.addNode,undefined,true);
-        
-        switchComplete(this.nodeManager.addNode);
-    },
-
-    CancelAdd: function (cancelComplete) {
         this.options.SetDefaultOptionState(false);
-        this.nodeManager.addNode = false;
+        this.addNode = false;
         
         // chance monti carlo method?
         // programming bugs
         
-        if(this.nodeManager.deletedNodeCache != undefined){
+        if(this.deletedNodeCache != undefined){
+            console.log('cancelButtonClicked:  delete node restored');
             
-            var that = this;
-            console.log('CancelAdd delete node restored');
-            
-            this.nodeManager.AddNode(1, true, this.nodeManager.deletedNodeCache, function(){
-                that.nodeManager.deletedNodeCache = undefined;
+            this.nodeManager.AddNode(1, true, this.deletedNodeCache, function(){
+                that.deletedNodeCache = undefined;
                 console.log('saved');
             });   
             
         }
             
             
-        this.options.SetState(this.nodeManager.addNode);
+        this.options.SetState(this.addNode);
         this.meta.Unload();
-        cancelComplete(this.nodeManager.addNode);
-    },
-    //notes 
-    //options
-    SaveNoteClicked:function(saveData, saveComplete){
         
-        console.log('save note');
-        var that = this;
+        that._graphicsContext.SetLocked(this.addNode);
+        that._view.DisplayUpdateNoteAdd(this.addNode);
+        that._view.ClearActiveTextArea();
+    },
     
+    deleteNote:function(action){
+        // var that = this;
+        // that.DeleteNoteMode(function(deleteNode){
+        //     that._view.DisplayUpdateDelete(deleteNode);
+        // });
+        
+        console.log('delete note'); 
+        
+        if(this.deleteNode)
+            this.deleteNode =false;
+        else
+            this.deleteNode =true;
+            
+        this._view.DisplayUpdateDelete(this.deleteNode);    
+    },
+    
+    saveNote:function(saveData){
+        var that = this;
+        
+        if (this.nodeManager == null) return;
+        
         var saveCallback = function(savednode){
-            that.nodeManager.selectedNote = savednode;
-            that.nodeManager.addNode = false;
-            that.options.SetState(that.nodeManager.addNode);
-            saveComplete(that.nodeManager.addNode);
+            that.selectedNote = savednode;
+            that.addNode = false;
+            that.options.SetState(that.addNode);
+            //saveComplete(that.addNode);
+            
+            that._graphicsContext.SetLocked(false);
+            that._graphicsContext.DrawTree();
+            that._graphicsContext.UpdateInfo();
+            that._view.DisplayUpdateNoteAdd(that.addNode);
+            that._view.ClearActiveTextArea();
+            
             that.meta.Unload();
         };
-    
+        
         this.nodeManager.GetActiveLayer(function(layerId){
             that.meta.QryNodeMetaData(function(data){
                     that.options.QrySaveData(function(options){
                         saveData.options = options;
     
-                        that.nodeManager.WriteNote(that.nodeManager.selectedNote,saveData.x,
+                        that.nodeManager.WriteNote(that.selectedNote,saveData.x,
                             saveData.y, saveData.width,saveData.height,saveData.d,
                             saveData.text,saveData.options,layerId, data, false,true, saveCallback);
                     });
             }); 
         });
         
+        // this.SaveNoteClicked(saveData, function(addNode){
+        //     that._graphicsContext.SetLocked(false);
+        //     that._graphicsContext.DrawTree();
+        //     that._graphicsContext.UpdateInfo();
+        //     that._view.DisplayUpdateNoteAdd(addNode);
+        //     that._view.ClearActiveTextArea();
+        // });
+            
+            
+            
+        
     },
+    
+    // DeleteNoteMode:function(switchComplete){
+    //     console.log('delete note'); 
+    //     if(this.nodeManager.deleteNode)
+    //         this.nodeManager.deleteNode =false;
+    //     else
+    //         this.nodeManager.deleteNode =true;
+    
+    //     switchComplete(this.nodeManager.deleteNode);
+        
+    // },
+    
+    //options
+    // EnableAdd: function (switchComplete) {
+    //     this.addNode = true;
+        
+    //     this.options.SetState(this.addNode,undefined,true);
+        
+    //     switchComplete(this.addNode);
+    // },
+
+    // CancelAdd: function (cancelComplete) {
+    //     this.options.SetDefaultOptionState(false);
+    //     this.addNode = false;
+        
+    //     // chance monti carlo method?
+    //     // programming bugs
+        
+    //     if(this.deletedNodeCache != undefined){
+            
+    //         var that = this;
+    //         console.log('CancelAdd delete node restored');
+            
+    //         this.nodeManager.AddNode(1, true, this.deletedNodeCache, function(){
+    //             that.deletedNodeCache = undefined;
+    //             console.log('saved');
+    //         });   
+            
+    //     }
+            
+            
+    //     this.options.SetState(this.addNode);
+    //     this.meta.Unload();
+    //     cancelComplete(this.addNode);
+    // },
+    //notes 
+    //options
+    // SaveNoteClicked:function(saveData, saveComplete){
+        
+    //     console.log('save note');
+    //     var that = this;
+    
+    //     var saveCallback = function(savednode){
+    //         that.selectedNote = savednode;
+    //         that.addNode = false;
+    //         that.options.SetState(that.addNode);
+    //         saveComplete(that.addNode);
+    //         that.meta.Unload();
+    //     };
+    
+    //     this.nodeManager.GetActiveLayer(function(layerId){
+    //         that.meta.QryNodeMetaData(function(data){
+    //                 that.options.QrySaveData(function(options){
+    //                     saveData.options = options;
+    
+    //                     that.nodeManager.WriteNote(that.selectedNote,saveData.x,
+    //                         saveData.y, saveData.width,saveData.height,saveData.d,
+    //                         saveData.text,saveData.options,layerId, data, false,true, saveCallback);
+    //                 });
+    //         }); 
+    //     });
+        
+    // },
     
     PerformClick: function (x, y, newNodeSelected) {
         console.log("NodeManagerController: PerformClick");
@@ -182,33 +281,33 @@ NodeManagerController.prototype = {
         
         this.nodeManager.PointToNode(x,y, function(node){
             
-            that.nodeManager.selectedNote = node;
+            that.selectedNote = node;
        
-            that.options.SetState(that.nodeManager.addNode, that.nodeManager.selectedNote);
+            that.options.SetState(that.addNode, that.selectedNote);
         
             // add/edit node
-            if(that.nodeManager.addNode)
+            if(that.addNode)
             {
-                if(that.nodeManager.selectedNote != undefined)
+                if(that.selectedNote != undefined)
                 {
-                    if(that.nodeManager.selectedNote.options == undefined){
-                        that.nodeManager.selectedNote.options = that.options.GetState().defaultOptions;
+                    if(that.selectedNote.options == undefined){
+                        that.selectedNote.options = that.options.GetState().defaultOptions;
                     }
                    
-                    that.nodeManager.deletedNodeCache = JSON.parse(JSON.stringify(that.nodeManager.selectedNote));
+                    that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
                     
-                    that.nodeManager.selectedNote.Visible =false;
+                    that.selectedNote.Visible =false;
                     
-                    that.nodeManager.WriteToDB(that.nodeManager.selectedNote, function(){
+                    that.nodeManager.WriteToDB(that.selectedNote, function(){
                         console.log('node deleted');
                     });
                    
-                    newNodeSelected(that.nodeManager.selectedNote.X, 
-                            that.nodeManager.selectedNote.Y,that.nodeManager.selectedNote.Width, 
-                            that.nodeManager.selectedNote.Height,that.nodeManager.selectedNote.D,
-                            that.nodeManager.selectedNote.Annotation,that.nodeManager.selectedNote.options);
+                    newNodeSelected(that.selectedNote.X, 
+                            that.selectedNote.Y,that.selectedNote.Width, 
+                            that.selectedNote.Height,that.selectedNote.D,
+                            that.selectedNote.Annotation,that.selectedNote.options);
                         
-                    that.meta.Load(that.nodeManager.selectedNote.MetaData);
+                    that.meta.Load(that.selectedNote.MetaData);
                     that.options.SetDefaultOptionState(false);
                 }
                 else
@@ -219,10 +318,10 @@ NodeManagerController.prototype = {
                     that.options.SetDefaultOptionState(true);
                 }
                 
-                that.options.SetState(that.nodeManager.addNode,that.nodeManager.selectedNote,true);
+                that.options.SetState(that.addNode,that.selectedNote,true);
             }
     
-            if(that.nodeManager.deleteNode && that.nodeManager.selectedNote != undefined){
+            if(that.deleteNode && that.selectedNote != undefined){
                 that.selectedNote.Visible =false;
                 that.WriteToDB(that.selectedNote, function(){
                     console.log('node deleted');
@@ -230,7 +329,7 @@ NodeManagerController.prototype = {
                 that.options.SetState(that.addNode);
             }
             
-            if(that.nodeManager.editNode && !that.nodeManager.addNode && !that.nodeManager.deleteNode){
+            if(that.editNode && !that.addNode && !that.deleteNode){
                 
             }
         });

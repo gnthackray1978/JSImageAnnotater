@@ -1,7 +1,7 @@
 //http://www.w3schools.com/jsref/jsref_cos.asp
 //http://classroom.synonym.com/coordinates-distances-angles-2732.html
 
-var NodeManager = function (data,meta,options) {
+var NodeManager = function (data) {
  
     this.generations = [];
     this.initialGenerations =[];
@@ -9,153 +9,17 @@ var NodeManager = function (data,meta,options) {
    
     this._noteDll = data;
     
-    this.meta = meta;
-    this.options = options;
- 
-    this.addNode =false;
-    this.deleteNode =false;
-    this.deletedNodeCache;
-    this.editNode =false;
-    this.selectedNote;
-    
 };
 
 
 NodeManager.prototype = {
 
-
-    PerformClick: function (x, y, newNodeSelected) {
-            
-    //    console.log("canvas clicked");
-         
-        var that = this;
-        
-        // dont select anything
-        if(this.options.GetState().pickMode) return;
-        
-        this.PointToNode(x,y, function(node){
-            
-           // console.log('got point');
-            
-            that.selectedNote = node;
-        //    console.log('cleared del node cache');
-            
-          //  that.deletedNodeCache = undefined; 
-            
-            that.options.SetState(that.addNode, that.selectedNote);
-        
-            // add/edit node
-            if(that.addNode)
-            {
-                if(that.selectedNote != undefined)
-                {
-                    if(that.selectedNote.options == undefined){
-                        that.selectedNote.options = that.options.GetState().defaultOptions;
-                    }
-                   
-                    that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
-                    
-                    that.selectedNote.Visible =false;
-                    
-                    that.WriteToDB(that.selectedNote, function(){
-                        console.log('node deleted');
-                    });
-                   
-                    newNodeSelected(that.selectedNote.X, 
-                            that.selectedNote.Y,that.selectedNote.Width, 
-                            that.selectedNote.Height,that.selectedNote.D,
-                            that.selectedNote.Annotation,that.selectedNote.options);
-                        
-                    that.meta.Load(that.selectedNote.MetaData);
-                    that.options.SetDefaultOptionState(false);
-                }
-                else
-                {
-                    newNodeSelected(x, y,70,25,0,'',that.options.GetState().tempOptions);
-                    
-                    that.meta.Load([]);
-                    that.options.SetDefaultOptionState(true);
-                }
-                
-                that.options.SetState(that.addNode,that.selectedNote,true);
-            }
-    
-            if(that.deleteNode && that.selectedNote != undefined){
-                that.selectedNote.Visible =false;
-                that.WriteToDB(that.selectedNote, function(){
-                    console.log('node deleted');
-                });
-                that.options.SetState(that.addNode);
-            }
-            
-            if(that.editNode && !that.addNode && !that.deleteNode){
-                
-            }
-        });
-    },
-    //notes 
-    //options
-    SaveNoteClicked:function(saveData, saveComplete){
-        
-        console.log('save note');
-        var that = this;
-    
-        var saveCallback = function(savednode){
-            that.selectedNote = savednode;
-            that.addNode = false;
-            that.options.SetState(that.addNode);
-            saveComplete(that.addNode);
-            that.meta.Unload();
-        };
-    
-        this.GetActiveLayer(function(layerId){
-            that.meta.QryNodeMetaData(function(data){
-                    that.options.QrySaveData(function(options){
-                        saveData.options = options;
-    
-                        that.WriteNote(that.selectedNote,saveData.x,
-                            saveData.y, saveData.width,saveData.height,saveData.d,
-                            saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-                    });
-            }); 
-        });
-        
-    },
-    
     GetActiveLayer: function (callback) {
         
         this._noteDll.GetActiveLayer(function(layerId){
             callback(layerId);
         });
     },
-    
-    
-    
-    //options
-    // CancelAdd: function (cancelComplete) {
-    //     this.options.SetDefaultOptionState(false);
-    //     this.addNode = false;
-        
-    //     // chance monti carlo method?
-    //     // programming bugs
-        
-    //     if(this.deletedNodeCache != undefined){
-            
-    //         var that = this;
-    //         console.log('CancelAdd delete node restored');
-            
-    //         this.AddNode(1, true, this.deletedNodeCache, function(){
-    //             that.deletedNodeCache = undefined;
-    //             console.log('saved');
-    //         });   
-            
-    //     }
-            
-            
-    //     this.options.SetState(this.addNode);
-    //     this.meta.Unload();
-    //     cancelComplete(this.addNode);
-    // },
  
     init: function(loaded){
         this._noteDll.init(loaded);
@@ -264,9 +128,7 @@ NodeManager.prototype = {
             idx++;
         }
     },
-    
-   
-    
+
     PointToNode:function(x, y, callback){
         var vidx =1;
         var hidx =0;
@@ -370,9 +232,7 @@ NodeManager.prototype = {
         }
         
     },
-    
-    
-    
+
     WriteTextArea: function(id, UInote){
         
         var that = this;

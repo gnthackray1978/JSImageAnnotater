@@ -38,7 +38,7 @@ function loadAll (drive){
         var options = new Options(data,appView);
         var optionsController = new OptionsController(appView,options);
 
-        var nodeManager = new NodeManager(data,metadata,options);
+        var nodeManager = new NodeManager(data);
 
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
         
