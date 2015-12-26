@@ -84,7 +84,7 @@ NodeManagerController.prototype = {
                 that._view.DisplayNodeSelection(x,y,width,height,angle,annotation,options);
             });
             
-            if(!this.nodeManager.addNode)
+            if(!this.addNode)
                 that._view.ClearActiveTextArea();
         }
     },
