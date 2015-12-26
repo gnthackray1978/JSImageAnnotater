@@ -58,24 +58,7 @@ var NodeManagerController = function (view, nodeDataManager, graphicsContext,met
 
 NodeManagerController.prototype = {
     
-    start:function(){
-        if (this.nodeManager !== null) {
-            
-        }
-    },
-    
-    exit:function(){
-        if (this.nodeManager !== null) {
-             
-        }
-    },
-
-    init:function(){
-        if (this.nodeManager !== null) {
-            this.nodeManager.EnableRun(false);
-        }
-    },
-
+   
     canvasClick:function(x,y){
         var that = this;
       //  console.log('clicked');
@@ -97,20 +80,11 @@ NodeManagerController.prototype = {
         this._graphicsContext.SetLocked(true);
         this._view.DisplayUpdateNoteAdd(true);
         
-        // that.EnableAdd(function(addNode){
-        //     that._graphicsContext.SetLocked(true);
-        //     that._view.DisplayUpdateNoteAdd(addNode);
-        // });
     },
    
    
     cancelButtonClicked:function(){
-         var that = this;
-        // this.CancelAdd(function(addNode){
-        //     that._graphicsContext.SetLocked(false);
-        //     that._view.DisplayUpdateNoteAdd(addNode);
-        //     that._view.ClearActiveTextArea();
-        // });
+        var that = this;
         
         this.options.SetDefaultOptionState(false);
         this.addNode = false;
@@ -185,91 +159,7 @@ NodeManagerController.prototype = {
             }); 
         });
         
-        // this.SaveNoteClicked(saveData, function(addNode){
-        //     that._graphicsContext.SetLocked(false);
-        //     that._graphicsContext.DrawTree();
-        //     that._graphicsContext.UpdateInfo();
-        //     that._view.DisplayUpdateNoteAdd(addNode);
-        //     that._view.ClearActiveTextArea();
-        // });
-            
-            
-            
-        
     },
-    
-    // DeleteNoteMode:function(switchComplete){
-    //     console.log('delete note'); 
-    //     if(this.nodeManager.deleteNode)
-    //         this.nodeManager.deleteNode =false;
-    //     else
-    //         this.nodeManager.deleteNode =true;
-    
-    //     switchComplete(this.nodeManager.deleteNode);
-        
-    // },
-    
-    //options
-    // EnableAdd: function (switchComplete) {
-    //     this.addNode = true;
-        
-    //     this.options.SetState(this.addNode,undefined,true);
-        
-    //     switchComplete(this.addNode);
-    // },
-
-    // CancelAdd: function (cancelComplete) {
-    //     this.options.SetDefaultOptionState(false);
-    //     this.addNode = false;
-        
-    //     // chance monti carlo method?
-    //     // programming bugs
-        
-    //     if(this.deletedNodeCache != undefined){
-            
-    //         var that = this;
-    //         console.log('CancelAdd delete node restored');
-            
-    //         this.nodeManager.AddNode(1, true, this.deletedNodeCache, function(){
-    //             that.deletedNodeCache = undefined;
-    //             console.log('saved');
-    //         });   
-            
-    //     }
-            
-            
-    //     this.options.SetState(this.addNode);
-    //     this.meta.Unload();
-    //     cancelComplete(this.addNode);
-    // },
-    //notes 
-    //options
-    // SaveNoteClicked:function(saveData, saveComplete){
-        
-    //     console.log('save note');
-    //     var that = this;
-    
-    //     var saveCallback = function(savednode){
-    //         that.selectedNote = savednode;
-    //         that.addNode = false;
-    //         that.options.SetState(that.addNode);
-    //         saveComplete(that.addNode);
-    //         that.meta.Unload();
-    //     };
-    
-    //     this.nodeManager.GetActiveLayer(function(layerId){
-    //         that.meta.QryNodeMetaData(function(data){
-    //                 that.options.QrySaveData(function(options){
-    //                     saveData.options = options;
-    
-    //                     that.nodeManager.WriteNote(that.selectedNote,saveData.x,
-    //                         saveData.y, saveData.width,saveData.height,saveData.d,
-    //                         saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-    //                 });
-    //         }); 
-    //     });
-        
-    // },
     
     PerformClick: function (x, y, newNodeSelected) {
         console.log("NodeManagerController: PerformClick");
