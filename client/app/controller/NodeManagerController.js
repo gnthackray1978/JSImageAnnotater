@@ -63,10 +63,12 @@ var NodeManagerController = function (view, nodeDataManager, graphicsContext,met
     CURRENT 
     0. inactive
     
-    1. edit mode
+    1. free to edit mode
     2. delete mode
     
-    3. nodes selected
+    3. valid save state
+    
+    
     4. node selected
     5. node editting
     */
@@ -102,6 +104,9 @@ NodeManagerController.prototype = {
             case 2: //DELETE MODE
                 this._view.DisplayDeleteState();
                 break;
+            case 3: //VALID TO SAVE
+                this._view.DisplaySaveState();
+                break;
         }
         
     },
@@ -113,6 +118,12 @@ NodeManagerController.prototype = {
     
     activateAction : function(){
         this.state = 0;
+        this.updateState();
+    },
+    
+    nodeTextChanged: function(e){
+        console.log('text changed: ' + e);
+        this.state =3;
         this.updateState();
     },
     
@@ -155,14 +166,15 @@ NodeManagerController.prototype = {
                     that._view.DisplayNodeSelection(that.selectedNote.X, 
                             that.selectedNote.Y,that.selectedNote.Width, 
                             that.selectedNote.Height,that.selectedNote.D,
-                            that.selectedNote.Annotation,that.selectedNote.options);
+                            that.selectedNote.Annotation,that.selectedNote.options, 
+                            that.nodeTextChanged);
                         
                     that.meta.Load(that.selectedNote.MetaData);
                     that.options.SetDefaultOptionState(false);
                 }
                 else
                 {
-                    that._view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions);
+                    that._view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions,that.nodeTextChanged);
                     
                     that.meta.Load([]);
                     that.options.SetDefaultOptionState(true);

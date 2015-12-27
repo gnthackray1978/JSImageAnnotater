@@ -689,7 +689,7 @@ AnnotaterView.prototype.Dispose = function (action) {
 
 
 // the options param is only used here for altering the note text area styling
-AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,note,options) {
+AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
 
         var that = this;
         var mouseDownOnTextarea = function (e) {
@@ -712,6 +712,7 @@ AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,
             that.textarea = document.createElement('textarea');
             that.textarea.className = 'info';
             that.textarea.addEventListener('mousedown', mouseDownOnTextarea);
+            that.textarea.addEventListener('keyup', keyChanged);
             document.body.appendChild(that.textarea);
         }
 
@@ -1511,6 +1512,20 @@ AnnotaterView.prototype.DisplayDeleteState= function () {
 };
 
 AnnotaterView.prototype.DisplayEditState= function () {
+    console.log('View DisplayEditState');
+  
+    $("#imagelabel").html('click drawing to add');
+    
+    $("#btnDeleteNote").hide();
+    $("#btnAddNote").hide();
+    $("#btnOptions").hide();
+    
+    $("#btnCancel").show();
+    $("#btnSaveNote").hide();
+
+};
+
+AnnotaterView.prototype.DisplaySaveState= function () {
     console.log('View DisplayEditState');
   
     $("#imagelabel").html('click drawing to add');
