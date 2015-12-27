@@ -4,10 +4,10 @@ var NodeManagerController = function (view, nodeDataManager, graphicsContext,met
     this.y=0;
     
     
-    this.addNode =false;
-    this.deleteNode =false;
+   // this.addNode =false;
+ //   this.deleteNode =false;
     this.deletedNodeCache;
-    this.editNode =false;
+//    this.editNode =false;
     this.selectedNote; 
  
  
