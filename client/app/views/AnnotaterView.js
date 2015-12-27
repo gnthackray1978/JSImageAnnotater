@@ -702,8 +702,8 @@ AnnotaterView.prototype.AddDisplayNodeSelection = function (width,height,angle,n
 },
 AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
 
-        if(x == undefined) x = that.canvasMouseLastXClick;
-        if(y == undefined) y = that.canvasMouseLastYClick;
+        if(x == undefined) x = this.canvasMouseLastXClick;
+        if(y == undefined) y = this.canvasMouseLastYClick;
 
         var that = this;
         var mouseDownOnTextarea = function (e) {
