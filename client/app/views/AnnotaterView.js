@@ -1492,68 +1492,10 @@ AnnotaterView.prototype.QryTransparencyChanged = function (action) {
     .change();
 };
 
-
-
-
-
-
-
-
 /*
 URL
 
 */
-
-
-//USER CLICKS ADD
-AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
-    
-    
-    console.log('DisplayUpdateNoteAdd: ' + status);
-    if(!status){
-        $("#imagelabel").html('select edit mode');
-        
-        // $("#angleGroup").hide(); 
-        // $("#optionGroup").hide();
-        // $('#btnPickColour').hide();
-    }
-    else
-    {
-        $("#imagelabel").html('click drawing to add');
-        
-    }
-    
-   // $("#btnOptions").toggle();
-    $("#btnAddNote").toggle();
-    $("#btnCancel").toggle();
-    //btnSaveNote
-    $("#btnSaveNote").toggle();
-    
-    //btnDeleteNote
-    $("#btnDeleteNote").toggle();
-    
-
-};
-
-//USER CLICKS DELETE
-AnnotaterView.prototype.DisplayUpdateDelete= function (status) {
-    console.log('View DisplayUpdateDelete: ' + status);
-     
-    //controllabel btnSaveNote
-    if(!status){
-        $("#imagelabel").html('select mode');
-        $("#btnDeleteNote").val('Delete');
-    }
-    else
-    {
-        $("#imagelabel").html('Click note to delete');
-        $("#btnDeleteNote").val('Cancel');
-    }
-    
-    $("#btnAddNote").toggle();
-    $("#btnOptions").toggle();
-};
-
 
 
 AnnotaterView.prototype.DisplayDeleteState= function () {
@@ -1588,6 +1530,7 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
     $("#imagelabel").html('Select Mode');
     
     $("#btnDeleteNote").show();
+    $("#btnDeleteNote").val('Delete');
     $("#btnAddNote").show();
     
     $("#btnCancel").hide();
