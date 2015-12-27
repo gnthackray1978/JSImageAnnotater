@@ -162,7 +162,7 @@ NodeManagerController.prototype = {
             console.log('node saved');
         });
        
-        that._view.DisplayNodeSelection(that.selectedNote.X, 
+        that._view.EditDisplayNodeSelection(that.selectedNote.X, 
                 that.selectedNote.Y,that.selectedNote.Width, 
                 that.selectedNote.Height,that.selectedNote.D,
                 that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
@@ -176,7 +176,7 @@ NodeManagerController.prototype = {
     addNode:function(){
         var that =this;
         
-        that._view.DisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
+        that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
                     
         that.meta.Load([]);
         that.options.SetDefaultOptionState(true);

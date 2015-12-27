@@ -697,10 +697,10 @@ AnnotaterView.prototype.Dispose = function (action) {
 
 
 // the options param is only used here for altering the note text area styling
-AnnotaterView.prototype.DisplayNodeSelection = function (width,height,angle,note,options, keyChanged) {
-    this.DisplayNodeSelection(undefined,undefined,width,height,angle,note,options, keyChanged);
+AnnotaterView.prototype.AddDisplayNodeSelection = function (width,height,angle,note,options, keyChanged) {
+    this.EditDisplayNodeSelection(undefined,undefined,width,height,angle,note,options, keyChanged);
 },
-AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
+AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
 
         if(x == undefined) x = that.canvasMouseLastXClick;
         if(y == undefined) y = that.canvasMouseLastYClick;
