@@ -94,7 +94,7 @@ NodeManagerController.prototype = {
 
                 break;
             case 1: //ADD MODE
-                this.options.SetState(this.addNode,undefined,true);
+                this.options.SetState(true,undefined,true);
                 this._graphicsContext.SetLocked(true);
                 this._view.DisplayUpdateNoteAdd(true);
                 this._view.DisplayUpdateDelete(false);
