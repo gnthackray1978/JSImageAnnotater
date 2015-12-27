@@ -166,15 +166,14 @@ NodeManagerController.prototype = {
                     that._view.DisplayNodeSelection(that.selectedNote.X, 
                             that.selectedNote.Y,that.selectedNote.Width, 
                             that.selectedNote.Height,that.selectedNote.D,
-                            that.selectedNote.Annotation,that.selectedNote.options, 
-                            that.nodeTextChanged);
+                            that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
                         
                     that.meta.Load(that.selectedNote.MetaData);
                     that.options.SetDefaultOptionState(false);
                 }
                 else
                 {
-                    that._view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions,that.nodeTextChanged);
+                    that._view.DisplayNodeSelection(x, y,70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
                     
                     that.meta.Load([]);
                     that.options.SetDefaultOptionState(true);
