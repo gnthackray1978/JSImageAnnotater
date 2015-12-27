@@ -97,7 +97,7 @@ NodeManagerController.prototype = {
                 this.options.SetState(true,undefined,true);
                 this._graphicsContext.SetLocked(true);
                 this._view.DisplayUpdateNoteAdd(true);
-                this._view.DisplayUpdateDelete(false);
+            //    this._view.DisplayUpdateDelete(false);
                 break;
             case 2: //DELETE MODE
                 this._view.DisplayUpdateDelete(true);
