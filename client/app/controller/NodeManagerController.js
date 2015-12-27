@@ -88,7 +88,7 @@ NodeManagerController.prototype = {
                 this._graphicsContext.SetLocked(false);
                 this._view.DisplayUpdateNoteAdd(false);
                 this._view.ClearActiveTextArea();
-                this._view.DisplayUpdateDelete(false);
+                this._view.DisplayUpdateDelete(true);
                 this._graphicsContext.DrawTree();
                 this._graphicsContext.UpdateInfo();
 
@@ -100,7 +100,7 @@ NodeManagerController.prototype = {
             //    this._view.DisplayUpdateDelete(false);
                 break;
             case 2: //DELETE MODE
-                this._view.DisplayUpdateDelete(true);
+                this._view.DisplayUpdateDelete(false);
                 break;
         }
         
