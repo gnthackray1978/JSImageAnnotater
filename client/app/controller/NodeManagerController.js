@@ -223,7 +223,7 @@ NodeManagerController.prototype = {
             // }
             
             
-            this.updateState();
+            that.updateState();
         });
         
         this.updateState();
