@@ -86,9 +86,9 @@ NodeManagerController.prototype = {
                 this.options.SetState(false);
                 this.meta.Unload();
                 this._graphicsContext.SetLocked(false);
-                this._view.DisplayUpdateNoteAdd(false);
+                this._view.DisplayNeutralState();
                 this._view.ClearActiveTextArea();
-                //this._view.DisplayUpdateDelete(true);
+           
                 this._graphicsContext.DrawTree();
                 this._graphicsContext.UpdateInfo();
 
@@ -96,11 +96,11 @@ NodeManagerController.prototype = {
             case 1: //ADD MODE
                 this.options.SetState(true,undefined,true);
                 this._graphicsContext.SetLocked(true);
-                this._view.DisplayUpdateNoteAdd(true);
-              //  this._view.DisplayUpdateDelete(false);
+                this._view.DisplayEditState();
+              
                 break;
             case 2: //DELETE MODE
-                this._view.DisplayUpdateDelete(true);
+                this._view.DisplayDeleteState();
                 break;
         }
         

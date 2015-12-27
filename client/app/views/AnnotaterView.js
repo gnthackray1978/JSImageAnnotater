@@ -1522,6 +1522,7 @@ AnnotaterView.prototype.DisplayUpdateNoteAdd = function (status) {
         $("#imagelabel").html('click drawing to add');
         
     }
+    
    // $("#btnOptions").toggle();
     $("#btnAddNote").toggle();
     $("#btnCancel").toggle();
@@ -1552,6 +1553,49 @@ AnnotaterView.prototype.DisplayUpdateDelete= function (status) {
     $("#btnAddNote").toggle();
     $("#btnOptions").toggle();
 };
+
+
+
+AnnotaterView.prototype.DisplayDeleteState= function () {
+    console.log('View DisplayDeleteState');
+  
+    $("#imagelabel").html('Click note to delete');
+    $("#btnDeleteNote").val('Cancel');
+    $("#btnAddNote").hide();
+    $("#btnOptions").hide();
+    $("#btnCancel").hide();
+    $("#btnSaveNote").hide();
+
+};
+
+AnnotaterView.prototype.DisplayEditState= function () {
+    console.log('View DisplayEditState');
+  
+    $("#imagelabel").html('click drawing to add');
+    
+    $("#btnDeleteNote").hide();
+    $("#btnAddNote").hide();
+    $("#btnOptions").hide();
+    
+    $("#btnCancel").show();
+    $("#btnSaveNote").show();
+
+};
+
+AnnotaterView.prototype.DisplayNeutralState= function () {
+    console.log('View DisplayNeutralState');
+  
+    $("#imagelabel").html('Select Mode');
+    
+    $("#btnDeleteNote").show();
+    $("#btnAddNote").show();
+    
+    $("#btnCancel").hide();
+    $("#btnSaveNote").hide();
+
+};
+
+
 
 //TRIGGERED BY MODEL WHEN DIAGRAM IS READY/NOT READY TO BE RUN
 AnnotaterView.prototype.DisplayUpdateRunButton= function (status) {
