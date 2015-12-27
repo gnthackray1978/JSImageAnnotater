@@ -67,6 +67,10 @@ function AnnotaterView() {
     this.canvasMousemoveLock ='';
     this.canvasMouseclickLock ='';
     
+    this.canvasMouseLastXClick;
+    this.canvasMouseLastYClick;
+    
+    
     this.cropperLockKey = 'CROP';
     
     this.openNodeEditor;
@@ -606,7 +610,11 @@ AnnotaterView.prototype.CanvasClick = function (action) {
     $("#myCanvas").click(function (evt) {
         if(that.canvasMouseclickLock == ''){
             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            action(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+            
+            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+            action(that.canvasMouseLastXClick, that.canvasMouseLastYClick);
         }
     });
 };
@@ -689,7 +697,13 @@ AnnotaterView.prototype.Dispose = function (action) {
 
 
 // the options param is only used here for altering the note text area styling
+AnnotaterView.prototype.DisplayNodeSelection = function (width,height,angle,note,options, keyChanged) {
+    this.DisplayNodeSelection(undefined,undefined,width,height,angle,note,options, keyChanged);
+},
 AnnotaterView.prototype.DisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
+
+        if(x == undefined) x = that.canvasMouseLastXClick;
+        if(y == undefined) y = that.canvasMouseLastYClick;
 
         var that = this;
         var mouseDownOnTextarea = function (e) {
