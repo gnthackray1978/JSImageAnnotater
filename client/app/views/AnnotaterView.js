@@ -88,15 +88,15 @@ function AnnotaterView(channel) {
         
         this._channel.subscribe("lockmouseup", function(data, envelope) {
             console.log('lockmouseup:' + data);
-            that.LockCanvasMouseUp(data);
+            that.LockCanvasMouseUp(data.value);
         });
         
         this._channel.subscribe("lockmousedown", function(data, envelope) {
-            that.LockCanvasMouseDown(data);
+            that.LockCanvasMouseDown(data.value);
         });
         
         this._channel.subscribe("lockmousemove", function(data, envelope) {
-            that.LockCanvasMouseMove(data);
+            that.LockCanvasMouseMove(data.value);
         });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
