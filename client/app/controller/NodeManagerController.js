@@ -188,7 +188,7 @@ NodeManagerController.prototype = {
         var that = this;
         
         that.selectedNote.Visible =false;
-        that.WriteToDB(that.selectedNote, function(){
+        that.nodeManager.WriteToDB(that.selectedNote, function(){
             console.log('node deleted');
         });
         that.options.SetState(false);
