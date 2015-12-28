@@ -109,8 +109,8 @@
             this.model.Delete(function(){
                 that._view.SetCropSaveDisabled();
                 //that._view.UpdateCanvas(that.model,null);
-                this._channel.publish( "scale", { value: that.model } );
-                this._channel.publish( "drawtree", { value: that.model } );
+                that._channel.publish( "scale", { value: that.model } );
+                that._channel.publish( "drawtree", { value: that.model } );
             }); 
         },
         
