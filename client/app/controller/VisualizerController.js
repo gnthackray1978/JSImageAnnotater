@@ -36,7 +36,7 @@ var VisualizerController = function (view, graphicsContext, channel) {
         this.startFromDrive();
         
         if(this.channel){
-            this.channel.subscribe("canvas", function(data, envelope) {
+            this.channel.subscribe("drawtree", function(data, envelope) {
                 that.graphicsContext.DrawTree();
             });
             

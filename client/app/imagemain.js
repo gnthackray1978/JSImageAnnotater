@@ -59,7 +59,7 @@ function loadAll (drive){
 
 
         var cropper = new Crop(nodeManager,data);
-        var crapperController = new CroppingController(appView,cropper);
+        var crapperController = new CroppingController(appView,channel, cropper);
 
         var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
         var urlController = new UrlController(appView,urls,nodeManager.Type());

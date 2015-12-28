@@ -1,8 +1,9 @@
 (function(exports){
 
-    var CroppingController = function (view, model) {
+    var CroppingController = function (view, channel, model) {
         this._view = view;
-    
+        this._channel = channel;
+        
         this.model = model;
         
         this.init();
@@ -119,8 +120,15 @@
                 
                 if(success == undefined) success = true;
                 
-                if(success)
-                    that._view.UpdateCanvas(that.model,null);
+                if(success){
+                 
+                    
+                    this._channel.publish( "scale", { value: that.model } );
+                    this._channel.publish( "drawtree", { value: that.model } );
+                    //that._view.UpdateCanvas(that.model,null);
+                    //that._view.ScaleToScreen(that.model,null);
+                    
+                }
                 else
                     console.log('Crop.Save failed');
                 
