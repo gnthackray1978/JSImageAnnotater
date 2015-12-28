@@ -127,8 +127,8 @@
                 if(success){
                  
                     
-                    this._channel.publish( "scale", { value: that.model } );
-                    this._channel.publish( "drawtree", { value: that.model } );
+                    that._channel.publish( "scale", { value: that.model } );
+                    that._channel.publish( "drawtree", { value: that.model } );
                     //that._view.UpdateCanvas(that.model,null);
                     //that._view.ScaleToScreen(that.model,null);
                     
