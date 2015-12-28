@@ -36,9 +36,9 @@ AngleUtils.prototype = {
 function AnnotaterView(channel) {       
    
     this.textarea = null;
-    this.channel = channel;
-   
+    this._channel = channel;
     this._pickEnabled =false;
+    
     this.showGed = true;
     this.showMapControls = true;
     this.showDebug = true;
@@ -75,8 +75,48 @@ function AnnotaterView(channel) {
     
     this.openNodeEditor;
     this.closeNodeEditor;
+    var that = this;
     
-
+    
+  
+  
+    //         this._view.SetAddButtonAdd();
+    //         this._view.SetCropSaveDisabled(); 
+            
+            
+    if(this._channel){
+        
+        this._channel.subscribe("lockmouseup", function(data, envelope) {
+            console.log('lockmouseup:' + data);
+            that.LockCanvasMouseUp(data);
+        });
+        
+        this._channel.subscribe("lockmousedown", function(data, envelope) {
+            that.LockCanvasMouseDown(data);
+        });
+        
+        this._channel.subscribe("lockmousemove", function(data, envelope) {
+            that.LockCanvasMouseMove(data);
+        });
+        
+        this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
+            that.SetAddButtonAdd();
+        });
+        
+        this._channel.subscribe("setcropsavedisabled", function(data, envelope) {
+            that.SetCropSaveDisabled();
+        });
+        
+        this._channel.subscribe("setaddbuttoncancel", function(data, envelope) {
+            that.SetAddButtonCancel();
+        });
+        
+        this._channel.subscribe("setcropsaveenabled", function(data, envelope) {
+            that.SetCropSaveEnabled();
+        });
+ 
+        
+    }
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
@@ -1707,25 +1747,27 @@ bus
 
 */
 
-AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-   // console.log('canvas publish');
-    if(this.channel){
-        this.channel.publish("canvas", {
-            caller: caller,
-            data: data
-        });
-    }
-};
+ AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
+     
+    console.log('method deleted');
+//     if(this.channel){
+//         this.channel.publish("canvas", {
+//             caller: caller,
+//             data: data
+//         });
+//     }
+ };
 
-AnnotaterView.prototype.ScaleToScreen = function (caller, data) {
-   // console.log('canvas publish');
-    if(this.channel){
-        this.channel.publish("scale", {
-            caller: caller,
-            data: data
-        });
-    }
-};
+ AnnotaterView.prototype.ScaleToScreen = function (caller, data) {
+     console.log('method deleted');
+//   // console.log('canvas publish');
+//     if(this.channel){
+//         this.channel.publish("scale", {
+//             caller: caller,
+//             data: data
+//         });
+//     }
+ };
 
 
 

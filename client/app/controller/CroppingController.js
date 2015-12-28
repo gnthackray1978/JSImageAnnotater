@@ -35,7 +35,8 @@
     
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
-                this._view.LockCanvasMouseMove('CROP');
+                //this._view.LockCanvasMouseMove('CROP');
+                this._channel.publish( "lockmousemove", { value: 'CROP' } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -46,12 +47,16 @@
         
         qryCanvasMouseUp:function(evt){
             if (this.model !== null) {
-                this._view.LockCanvasMouseMove('');
-    	        this._view.LockCanvasMouseUp('');
-                this._view.LockCanvasMouseDown('');
+                //this._view.LockCanvasMouseMove('');
+                this._channel.publish( "lockmousemove", { value: '' } );
+    	        //this._view.LockCanvasMouseUp('');
+    	        this._channel.publish( "lockmouseup", { value: '' } );
+                //this._view.LockCanvasMouseDown('');
+                this._channel.publish( "lockmousedown", { value: '' } );
                 
                 if(this.model.ValidCropNode()){
-                    this._view.SetCropSaveEnabled();
+                    //this._view.SetCropSaveEnabled();
+                    this._channel.publish( "setcropsaveenabled", { value: '' } );
                 }
             }
         },
@@ -72,12 +77,15 @@
         _setAddMode:function(){
             var that = this;
             
-            this._view.SetAddButtonCancel();
+            this._channel.publish( "setaddbuttoncancel", { value: this.model } );
+            //this._view.SetAddButtonCancel();
     	    //this._view.SetCropSaveDisabled();
     	    
     	    this.model.GetNode(function(){
-    	        that._view.LockCanvasMouseUp('CROP');
-	    	    that._view.LockCanvasMouseDown('CROP');
+    	        //that._view.LockCanvasMouseUp('CROP');
+    	        that._channel.publish( "lockmouseup", { value: 'CROP' } );
+	    	    //that._view.LockCanvasMouseDown('CROP');
+	    	    that._channel.publish( "lockmousedown", { value: 'CROP' } );
     	    });
     	    
     	    this.model.addMode =false;
@@ -85,13 +93,18 @@
         _setCancelMode:function(){
             
             //this._view.UpdateCanvas(this.model,null);
-            this._channel.publish( "drawtree", { value: this.model } );
+            this._channel.publish( "lockmouseup", { value: '' } );
             
-            this._view.LockCanvasMouseUp('');
-            this._view.LockCanvasMouseDown('');
-            this._view.LockCanvasMouseMove('');
-            this._view.SetAddButtonAdd();
-            this._view.SetCropSaveDisabled(); 
+            //this._view.LockCanvasMouseUp('');
+            this._channel.publish( "lockmousedown", { value: '' } );
+            //this._view.LockCanvasMouseDown('');
+            this._channel.publish( "lockmousemove", { value: '' } );
+            //this._view.LockCanvasMouseMove('');
+            this._channel.publish( "setaddbuttonadd", { value: this.model } );
+            //this._view.SetAddButtonAdd();
+            this._channel.publish( "setcropsavedisabled", { value: this.model } );
+            //this._view.SetCropSaveDisabled(); 
+            
             this.model.Cancel();
             this.model.addMode =true;
         },
@@ -109,7 +122,8 @@
         qryCropDeleteButton:function(data){
             var that = this;
             this.model.Delete(function(){
-                that._view.SetCropSaveDisabled();
+                //that._view.SetCropSaveDisabled();
+                that._channel.publish( "setcropsavedisabled", { value: this.model } );
                 //that._view.UpdateCanvas(that.model,null);
                 that._channel.publish( "scale", { value: that.model } );
                 that._channel.publish( "drawtree", { value: that.model } );
@@ -138,10 +152,11 @@
                 
             }); 
             
-            this._view.SetAddButtonAdd();
+            that._channel.publish( "setaddbuttonadd", { value: this.model } );
+            //this._view.SetAddButtonAdd();
                  
-            this._view.SetCropSaveDisabled();  
-        
+            //this._view.SetCropSaveDisabled();  
+            that._channel.publish( "setcropsavedisabled", { value: this.model } );
         
         }
     };
