@@ -1,11 +1,11 @@
-var NodeManagerController = function (view, nodeDataManager, graphicsContext,metadata,options) {
+var NodeManagerController = function (view, nodeDataManager, metadata,options,channel) {
  
     this.deletedNodeCache;
     this.selectedNote; 
  
- 
+    this._channel = channel;
     this._view = view;
-    this._graphicsContext = graphicsContext;
+    //this._graphicsContext = graphicsContext;
 
     this.nodeManager = nodeDataManager;
     this.meta = metadata;
@@ -83,18 +83,20 @@ NodeManagerController.prototype = {
                 this.options.SetDefaultOptionState(false);
                 this.options.SetState(false);
                 this.meta.Unload();
-                this._graphicsContext.SetLocked(false);
+                this._channel.publish( "lock", { value: false } );
+                //this._graphicsContext.SetLocked(false);
                 this._view.DisplayNeutralState();
                 this._view.ClearActiveTextArea();
-           
-                this._graphicsContext.DrawTree();
+                this._channel.publish( "drawtree", null);
+                //this._graphicsContext.DrawTree();
                 
                 
                 
                 break;
             case 1: //FREE TO WRITE TO MODE
                 this.options.SetState(true,undefined,true);
-                this._graphicsContext.SetLocked(true);
+                //this._graphicsContext.SetLocked(true);
+                this._channel.publish( "lock", { value: true } );
                 this._view.DisplayEditState();
               
                 break;

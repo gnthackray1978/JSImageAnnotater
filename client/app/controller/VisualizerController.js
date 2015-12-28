@@ -43,6 +43,11 @@ var VisualizerController = function (view, graphicsContext, channel) {
             this.channel.subscribe("scale", function(data, envelope) {
                 that.graphicsContext.ScaleToScreen();
             });
+            
+            this.channel.subscribe("lock", function(data, envelope) {
+                that.graphicsContext.SetLocked(data.value);
+            });
+            
         }
     }
     else
