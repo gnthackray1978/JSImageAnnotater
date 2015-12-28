@@ -265,10 +265,11 @@ NodeManagerController.prototype = {
         switch(this.state){
             case 0:// first click we are neutral go to delete selector
                 this.state = 2;
+                break;
             case 2:// subsequent clicks are cancel
+            case 6:
                 this.state = 0;
-            case 6:// subsequent clicks are cancel
-                this.state = 0;
+                break;
         }
         
         this.updateState();
