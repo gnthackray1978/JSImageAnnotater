@@ -22,8 +22,7 @@ var VisualizerController = function (view, graphicsContext, channel) {
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
     this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
     
-    this._view.BusSubCanvasUpdated($.proxy(this.redraw, this));
-    this._view.BusSubScale($.proxy(this.scale, this));
+
     
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
