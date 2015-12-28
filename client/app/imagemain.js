@@ -1,4 +1,4 @@
- /*global CanvasTools*/
+ /*global CanvasTools postal*/
 
 function handleClientLoad() {
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
  
 function loadAll (drive){
     console.log('pointess');
-    var data;
+    var data, channel;
 
     if(drive) {
         data = new MyDrive();
@@ -24,12 +24,19 @@ function loadAll (drive){
     else {
         data = new MongoNoteData();
     }
-    var appView = new AnnotaterView();
+    
+    if(postal)
+        channel = postal.channel();
+    
+    
+    
+    var appView = new AnnotaterView(channel);
     
     
     
     
     data.init(function(){
+        
         
         
         var metadata = new Meta(data,appView);
@@ -47,7 +54,8 @@ function loadAll (drive){
         
         
         var nodeController = new NodeManagerController(appView, nodeManager, visualizer, metadata,options);
-        var visualizerController =  new VisualizerController(appView, visualizer);
+        
+        var visualizerController =  new VisualizerController(appView, visualizer, channel);
 
 
         var cropper = new Crop(nodeManager,data);

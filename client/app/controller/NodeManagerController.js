@@ -1,13 +1,6 @@
 var NodeManagerController = function (view, nodeDataManager, graphicsContext,metadata,options) {
  
-    this.x=0;
-    this.y=0;
-    
-    
-   // this.addNode =false;
- //   this.deleteNode =false;
     this.deletedNodeCache;
-//    this.editNode =false;
     this.selectedNote; 
  
  
@@ -200,36 +193,17 @@ NodeManagerController.prototype = {
         if(this.options.GetState().pickMode) return;
         
         this.nodeManager.PointToNode(x,y, function(node){
-            
             that.selectedNote = node;
        
-            // if(that.state == 1)
-            //     that.options.SetState(true, that.selectedNote);
-            // else
-            //     that.options.SetState(false, that.selectedNote);
-        
             // add/edit node
             if(that.state == 1 && that.selectedNote != undefined) that.state =4;
             if(that.state == 1 && that.selectedNote == undefined) that.state =5;
             if(that.state == 2 && that.selectedNote != undefined) that.state =6;
             
-            
-            // {
-            //     that.selectedNote.Visible =false;
-            //     that.WriteToDB(that.selectedNote, function(){
-            //         console.log('node deleted');
-            //     });
-            //     that.options.SetState(false);
-            // }
-            
-            
             that.updateState();
         });
         
         this.updateState();
-        
-        //if(this.state == 0)
-        //    that._view.ClearActiveTextArea();
         
     },
 

@@ -1,4 +1,4 @@
-var postal;
+//var postal;
 
 var AngleUtils = function() {};
 
@@ -33,10 +33,10 @@ AngleUtils.prototype = {
   
 
 /** @constructor */
-function AnnotaterView() {       
+function AnnotaterView(channel) {       
    
     this.textarea = null;
- 
+    this.channel = channel;
    
     this._pickEnabled =false;
     this.showGed = true;
@@ -76,8 +76,7 @@ function AnnotaterView() {
     this.openNodeEditor;
     this.closeNodeEditor;
     
-    if(postal)
-        this.channel = postal.channel("canvas");
+
 } 
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
@@ -563,15 +562,9 @@ AnnotaterView.prototype.Delete = function (action) {
     });        
 };
 
-AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-   // console.log('canvas publish');
-    if(this.channel){
-        this.channel.publish("canvas", {
-            caller: caller,
-            data: data
-        });
-    }
-},
+
+
+
 
 AnnotaterView.prototype.NodeEditorOpen = function (caller) {
    this.openNodeEditor = caller;
@@ -587,17 +580,7 @@ AnnotaterView.prototype.NodeEditorClosed = function (caller) {
 
 
 
-AnnotaterView.prototype.CanvasUpdated = function (action) {
-    
-    if(this.channel){
-        var subscription = this.channel.subscribe("canvas", function(data, envelope) {
-            /*do stuff with data */
-        //    console.log('calling draw');
-            action();
-        });
-    }
 
-};
 
 
 // ok so when this click happens we need to determine 
@@ -699,7 +682,8 @@ AnnotaterView.prototype.Dispose = function (action) {
 // the options param is only used here for altering the note text area styling
 AnnotaterView.prototype.AddDisplayNodeSelection = function (width,height,angle,note,options, keyChanged) {
     this.EditDisplayNodeSelection(undefined,undefined,width,height,angle,note,options, keyChanged);
-},
+};
+
 AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
 
         if(x == undefined) x = this.canvasMouseLastXClick;
@@ -1715,3 +1699,44 @@ AnnotaterView.prototype.RunButtonClicked = function (action) {
         e.preventDefault();
     });        
 };
+
+
+/*
+
+bus
+
+*/
+
+AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
+   // console.log('canvas publish');
+    if(this.channel){
+        this.channel.publish("canvas", {
+            caller: caller,
+            data: data
+        });
+    }
+};
+
+AnnotaterView.prototype.ScaleToScreen = function (caller, data) {
+   // console.log('canvas publish');
+    if(this.channel){
+        this.channel.publish("scale", {
+            caller: caller,
+            data: data
+        });
+    }
+};
+
+
+
+// AnnotaterView.prototype.BusSubCanvasUpdated = function (action) {
+    
+//     if(this.channel){
+//         var subscription = this.channel.subscribe("canvas", function(data, envelope) {
+//             /*do stuff with data */
+//         //    console.log('calling draw');
+//             action();
+//         });
+//     }
+
+// };

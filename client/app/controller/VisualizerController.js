@@ -1,6 +1,7 @@
-var VisualizerController = function (view, graphicsContext) {
+var VisualizerController = function (view, graphicsContext, channel) {
  
-
+    this.channel = channel;
+    
     this._mouseDown = false;
     this._view = view;
 
@@ -20,7 +21,10 @@ var VisualizerController = function (view, graphicsContext) {
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
     this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
-    this._view.CanvasUpdated($.proxy(this.redraw, this));
+    
+    this._view.BusSubCanvasUpdated($.proxy(this.redraw, this));
+    this._view.BusSubScale($.proxy(this.scale, this));
+    
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
     
@@ -32,6 +36,15 @@ var VisualizerController = function (view, graphicsContext) {
     if(graphicsContext.nodestore.Type() != 'AJAX'){
         this.startFromDrive();
         
+        if(this.channel){
+            this.channel.subscribe("canvas", function(data, envelope) {
+                that.graphicsContext.DrawTree();
+            });
+            
+            this.channel.subscribe("scale", function(data, envelope) {
+                that.graphicsContext.ScaleToScreen();
+            });
+        }
     }
     else
     {
@@ -185,9 +198,7 @@ VisualizerController.prototype = {
         this.graphicsContext.childlessMarriages = null;
     },
   
-    redraw: function(){
-        this.graphicsContext.DrawTree();
-    },
+   
  
     GameLoop: function () {
 
