@@ -88,7 +88,7 @@ NodeManagerController.prototype = {
                 this._view.ClearActiveTextArea();
            
                 this._graphicsContext.DrawTree();
-                this._graphicsContext.UpdateInfo();
+                
                 
                 
                 break;
@@ -203,7 +203,7 @@ NodeManagerController.prototype = {
             that.updateState();
         });
         
-        this.updateState();
+      //  this.updateState();
         
     },
 

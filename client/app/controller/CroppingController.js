@@ -78,13 +78,9 @@
             var that = this;
             
             this._channel.publish( "setaddbuttoncancel", { value: this.model } );
-            //this._view.SetAddButtonCancel();
-    	    //this._view.SetCropSaveDisabled();
-    	    
-    	    this.model.GetNode(function(){
-    	        //that._view.LockCanvasMouseUp('CROP');
+            
+            this.model.GetNode(function(){
     	        that._channel.publish( "lockmouseup", { value: 'CROP' } );
-	    	    //that._view.LockCanvasMouseDown('CROP');
 	    	    that._channel.publish( "lockmousedown", { value: 'CROP' } );
     	    });
     	    
@@ -92,18 +88,11 @@
         },
         _setCancelMode:function(){
             
-            //this._view.UpdateCanvas(this.model,null);
             this._channel.publish( "lockmouseup", { value: '' } );
-            
-            //this._view.LockCanvasMouseUp('');
             this._channel.publish( "lockmousedown", { value: '' } );
-            //this._view.LockCanvasMouseDown('');
             this._channel.publish( "lockmousemove", { value: '' } );
-            //this._view.LockCanvasMouseMove('');
             this._channel.publish( "setaddbuttonadd", { value: this.model } );
-            //this._view.SetAddButtonAdd();
             this._channel.publish( "setcropsavedisabled", { value: this.model } );
-            //this._view.SetCropSaveDisabled(); 
             
             this.model.Cancel();
             this.model.addMode =true;
@@ -122,9 +111,7 @@
         qryCropDeleteButton:function(data){
             var that = this;
             this.model.Delete(function(){
-                //that._view.SetCropSaveDisabled();
-                that._channel.publish( "setcropsavedisabled", { value: this.model } );
-                //that._view.UpdateCanvas(that.model,null);
+                that._channel.publish( "setcropsavedisabled", { value: that.model } );
                 that._channel.publish( "scale", { value: that.model } );
                 that._channel.publish( "drawtree", { value: that.model } );
             }); 
@@ -134,28 +121,21 @@
             var that = this;
             
             this.model.Save(
-            function(success){
-                
-                if(success == undefined) success = true;
-                
-                if(success){
-                 
+                function(success){
                     
-                    that._channel.publish( "scale", { value: that.model } );
-                    that._channel.publish( "drawtree", { value: that.model } );
-                    //that._view.UpdateCanvas(that.model,null);
-                    //that._view.ScaleToScreen(that.model,null);
+                    if(success == undefined) success = true;
+                    
+                    if(success){
+                        that._channel.publish( "scale", { value: that.model } );
+                        that._channel.publish( "drawtree", { value: that.model } );
+                    }
+                    else
+                        console.log('Crop.Save failed');
                     
                 }
-                else
-                    console.log('Crop.Save failed');
-                
-            }); 
+            ); 
             
             that._channel.publish( "setaddbuttonadd", { value: this.model } );
-            //this._view.SetAddButtonAdd();
-                 
-            //this._view.SetCropSaveDisabled();  
             that._channel.publish( "setcropsavedisabled", { value: this.model } );
         
         }
