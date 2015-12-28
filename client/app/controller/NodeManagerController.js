@@ -262,10 +262,15 @@ NodeManagerController.prototype = {
     deleteNote:function(action){
         console.log('delete note'); 
         
-        if(this.state == 2) 
-            this.state = 0;
-        else
-            this.state = 2;
+        // first click we are neutral go to delete selector
+        if(this.state == 0) this.state = 2;
+        
+        // subsequent clicks are cancel
+        if(this.state == 2) this.state = 0;
+        
+        // subsequent clicks are cancel
+        if(this.state == 6) this.state = 0;
+
         
         this.updateState();
         
