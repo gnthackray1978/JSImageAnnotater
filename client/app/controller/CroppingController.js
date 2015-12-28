@@ -64,7 +64,8 @@
     	        
                 this.model.SetMouseMovingPosition(mx,my);
                 
-                this._view.UpdateCanvas(this.model,null);
+                this._channel.publish( "drawtree", { value: this.model } );
+                //this._view.UpdateCanvas(this.model,null);
             }
         },
     
@@ -83,7 +84,8 @@
         },
         _setCancelMode:function(){
             
-            this._view.UpdateCanvas(this.model,null);
+            //this._view.UpdateCanvas(this.model,null);
+            this._channel.publish( "drawtree", { value: this.model } );
             
             this._view.LockCanvasMouseUp('');
             this._view.LockCanvasMouseDown('');
