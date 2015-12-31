@@ -11,7 +11,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this.meta = metadata;
     this.options = options;
     
-    this._view.SelectNodeButton($.proxy(this.selectedNote, this));
+    this._view.SelectNodeButton($.proxy(this.selectNoteAction, this));
     
     this._view.CanvasClick($.proxy(this.canvasClick, this));
    
@@ -133,6 +133,7 @@ NodeManagerController.prototype = {
                 break;
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');
+                this.selectNote();
                 break;      
         }
         
@@ -207,13 +208,18 @@ NodeManagerController.prototype = {
 
     },
     
-    selectedNote: function(){
+    selectNoteAction: function(){
         
         if(this.state == 8 ) 
             this.state =0;
         else
             this.state =8;
         
+        this.updateState();
+    },
+    
+    selectNote: function(){
+        this.state =8;
         this.updateState();
     },
     
