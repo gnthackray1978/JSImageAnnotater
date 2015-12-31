@@ -222,10 +222,20 @@ NodeManagerController.prototype = {
     selectNote: function(){
         this.state = 8;
         
-        if(this.selectedNote)
-            this.selectedNote.Selected = true;
+        if(this.selectedNote){
+            
+            if(this.selectedNote.Selected == undefined) {    
+                this.selectedNote.Selected = true;
+            }
+            else
+            {
+                this.selectedNote = !this.selectedNote;
+            }
+        }
         else
             console.log('selected note undefined');
+            
+            
         this.updateState();
     },
     

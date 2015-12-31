@@ -107,9 +107,9 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        if(that.nodestore.generations[vidx][hidx].Selected != undefined){
-                            console.log(hidx + ' node selected');
-                        }
+                        // if(that.nodestore.generations[vidx][hidx].Selected != undefined){
+                        //     console.log(hidx + ' node selected');
+                        // }
                         
                         that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
                             that.nodestore.generations[vidx][hidx].X,
@@ -117,6 +117,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             that.nodestore.generations[vidx][hidx].Width,
                             that.nodestore.generations[vidx][hidx].Height,
                             that.nodestore.generations[vidx][hidx].D,
+                            that.nodestore.generations[vidx][hidx].Selected,
                             that.nodestore.generations[vidx][hidx].Annotation, 
                             that.nodestore.generations[vidx][hidx].Match,
                             nodeOptions,
