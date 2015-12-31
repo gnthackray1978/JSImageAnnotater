@@ -642,6 +642,14 @@ AnnotaterView.prototype.NodeEditorClosed = function (caller) {
 // if we're inside an existing node
 // if so get the dims for that node.
 
+
+AnnotaterView.prototype.SelectNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#selectnodebtn").click(function (evt) {
+        action();
+    });
+};
+
 AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
     //here look multiple event firing problems    
