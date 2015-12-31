@@ -164,6 +164,8 @@ NodeManagerController.prototype = {
             console.log('node saved');
         });
        
+        that._channel.publish( "nodeedit", { value: undefined } );
+       
         that._view.EditDisplayNodeSelection(that.selectedNote.X, 
                 that.selectedNote.Y,that.selectedNote.Width, 
                 that.selectedNote.Height,that.selectedNote.D,
@@ -172,7 +174,7 @@ NodeManagerController.prototype = {
         that.meta.Load(that.selectedNote.MetaData);
         
         
-        that._channel.publish( "nodeedit", { value: undefined } );
+        
         
         //that.options.SetDefaultOptionState(false);
         //that.options.SetState(true,that.selectedNote,true);
@@ -183,10 +185,11 @@ NodeManagerController.prototype = {
         var that =this;
         
         
+        that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
         that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
         
-        that._channel.publish( "nodecreation", { value: that.selectedNote } );          
+                  
         
         that.meta.Load([]);
         //that.options.SetDefaultOptionState(true);
