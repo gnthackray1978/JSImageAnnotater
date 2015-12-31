@@ -214,7 +214,7 @@ NodeManagerController.prototype = {
         this.nodeManager.PointToNode(x,y, function(node){
             that.selectedNote = node;
             
-            if(that.selectedNote != node || that.selectedNote.Index != node.Index ){
+            if(that.selectedNote != node && that.selectedNote.Index != node.Index ){
                that._channel.publish( "selectednodechanged", { value: that.selectedNote } ); 
             }
        
