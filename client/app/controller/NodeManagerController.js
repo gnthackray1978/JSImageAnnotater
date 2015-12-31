@@ -172,7 +172,7 @@ NodeManagerController.prototype = {
         that.meta.Load(that.selectedNote.MetaData);
         
         
-        that._channel.publish( "nodecreation", { value: undefined } );
+        that._channel.publish( "nodeedit", { value: undefined } );
         
         //that.options.SetDefaultOptionState(false);
         //that.options.SetState(true,that.selectedNote,true);
@@ -182,9 +182,11 @@ NodeManagerController.prototype = {
     addNode:function(){
         var that =this;
         
+        
+        
         that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
         
-        that._channel.publish( "nodeedit", { value: that.selectedNote } );            
+        that._channel.publish( "nodecreation", { value: that.selectedNote } );          
         
         that.meta.Load([]);
         //that.options.SetDefaultOptionState(true);
