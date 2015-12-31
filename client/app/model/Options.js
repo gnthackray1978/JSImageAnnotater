@@ -27,7 +27,7 @@ var Options = function (optionsDll,view, channel) {
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
         that.SetDefaultOptionState(true);            
-        that.options.SetState(true,data.value,true);
+        that.SetState(true,data.value,true);
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
