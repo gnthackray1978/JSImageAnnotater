@@ -14,6 +14,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     this._view.CanvasClick($.proxy(this.canvasClick, this));
    
+    this._view.CanvasDoubleClick($.proxy(this.canvasDoubleClick, this));
+   
     //note operations
     this._view.Add($.proxy(this.addButtonClicked, this));
     
@@ -89,9 +91,6 @@ NodeManagerController.prototype = {
             case 0: //UI MODE ACTIVE
                 this._channel.publish( "nodeinit", { value: false } );
                 
-                // this.options.SetDefaultOptionState(false);
-                // this.options.SetState(false);
-                
                 this.meta.Unload();
                 this._channel.publish( "lock", { value: false } );
                 
@@ -116,17 +115,21 @@ NodeManagerController.prototype = {
                 break;
                 
             case 4: //EDITTING
+                console.log('updateState: editting');
                 this.editNode();
                 break;
                 
             case 5: //ADDING
+                console.log('updateState: adding');
                 this.addNode();
                 break;
                 
             case 6: //DELETING
                 this.deleteNode();
                 break;
-                
+            case 7: //SELECTING
+                console.log('updateState: selecting');
+                break;    
         }
         
     },
@@ -173,27 +176,17 @@ NodeManagerController.prototype = {
             
         that.meta.Load(that.selectedNote.MetaData);
         
-        
-        
-        
-        //that.options.SetDefaultOptionState(false);
-        //that.options.SetState(true,that.selectedNote,true);
     },
     
     
     addNode:function(){
         var that =this;
         
-        
         that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
         that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
         
-                  
-        
         that.meta.Load([]);
-        //that.options.SetDefaultOptionState(true);
-        //that.options.SetState(true,that.selectedNote,true);
     },
     
     
@@ -207,8 +200,7 @@ NodeManagerController.prototype = {
         });
         
         that.selectedNote = undefined;
-        
-        //that.options.SetState(false);
+
     },
     
     canvasClick:function(x,y){
@@ -224,9 +216,30 @@ NodeManagerController.prototype = {
             }
        
             // add/edit node
-            if(that.state == 1 && that.selectedNote != undefined) that.state =4;
+            if(that.state == 1 && that.selectedNote != undefined) that.state =7;
             if(that.state == 1 && that.selectedNote == undefined) that.state =5;
             if(that.state == 2 && that.selectedNote != undefined) that.state =6;
+            
+            that.updateState();
+        });
+       
+    },
+
+    
+    canvasDoubleClick:function(x,y){
+        var that = this;
+     
+        if(this._mouseClickLocked) return;
+        
+        this.nodeManager.PointToNode(x,y, function(node){
+            that.selectedNote = node;
+            
+            if(that.selectedNote != node && that.selectedNote.Index != node.Index ){
+               that._channel.publish( "selectednodechanged", { value: that.selectedNote } ); 
+            }
+       
+            // add/edit node
+            if(that.state == 1 && that.selectedNote != undefined) that.state =4;
             
             that.updateState();
         });

@@ -657,6 +657,20 @@ AnnotaterView.prototype.CanvasClick = function (action) {
     });
 };
 
+AnnotaterView.prototype.CanvasDoubleClick = function (action) {
+    var that = this;
+    //here look multiple event firing problems    
+    $("#myCanvas").dblclick(function (evt) {
+        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+        
+        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+        
+        action(that.canvasMouseLastXClick, that.canvasMouseLastYClick);
+        
+    });
+};
+
 AnnotaterView.prototype.CanvasMouseUp = function (action) {
     var that = this;
     
