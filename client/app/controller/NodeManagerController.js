@@ -229,7 +229,7 @@ NodeManagerController.prototype = {
             }
             else
             {
-                this.selectedNote = !this.selectedNote;
+                this.selectedNote.Selected = !this.selectedNote.Selected;
             }
         }
         else
