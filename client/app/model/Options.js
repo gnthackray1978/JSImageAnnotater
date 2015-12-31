@@ -22,7 +22,7 @@ var Options = function (optionsDll,view, channel) {
     
     this._channel.subscribe("nodeedit", function(data, envelope) {
         that.SetDefaultOptionState(false);                
-        that.options.SetState(true,data.value,true);
+        that.SetState(true,data.value,true);
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
