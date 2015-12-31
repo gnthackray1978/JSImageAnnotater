@@ -1,16 +1,41 @@
-var Options = function (optionsDll,view) {
+var Options = function (optionsDll,view, channel) {
     this.optionsDll = optionsDll;
+    this._channel = channel;
+    
     this.view = view;
     
     this.optionMode =false;
     this.addNode =false;
-    this.pickMode =false;
+    //this.pickMode =false;
     
     //this.options = {};
     this.defaultOptions;
     this.tempOptions;
     this.selectedColourComponentId =1;// not zero based
     this.currentNode;
+    
+    var that = this;
+    
+    this._channel.subscribe("selectednodechanged", function(data, envelope) {
+                    
+    });
+    
+    this._channel.subscribe("nodeedit", function(data, envelope) {
+        that.SetDefaultOptionState(false);                
+        that.options.SetState(true,data.value,true);
+    });    
+    
+    this._channel.subscribe("nodecreation", function(data, envelope) {
+        that.SetDefaultOptionState(true);            
+        that.options.SetState(true,data.value,true);
+    });
+    
+    this._channel.subscribe("nodeinit", function(data, envelope) {
+        that.SetDefaultOptionState(false);
+        that.SetState(false);                
+    });
+    
+    
 };
 
 Options.prototype.ChangeAngle= function (direction){
@@ -62,7 +87,7 @@ Options.prototype.GetState = function(addNode,callback){
     
     
     return {
-        pickMode: this.pickMode,
+    //    pickMode: this.pickMode,
         defaultOptions: this.defaultOptions,
         tempOptions: this.tempOptions
     };
@@ -145,7 +170,10 @@ Options.prototype._translateViewOptions =function(voptions,moptions){
 //called from colour picker when colour changed
 Options.prototype.updateOptionColour =function(rgb,hex){
 
-    this.setPickState(false);
+    //this.setPickState(false);
+    
+    this._channel.publish( "mouseClickLock", { value: false } );
+
 
     var options = {
         "hexval": '#'+hex,
@@ -263,9 +291,9 @@ Options.prototype._updateOptions =function(options, withUpdate){
     }
 };
 
-Options.prototype.setPickState = function(state){
+// Options.prototype.setPickState = function(state){
      
-    this.pickMode =state;
+//     this.pickMode =state;
     
-};
+// };
 

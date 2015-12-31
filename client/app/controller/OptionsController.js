@@ -8,7 +8,7 @@ var OptionsController = function (view, model) {
     this._view.QrySelectedColourComponent($.proxy(this.qrySelectedColourComponent, this));
     this._view.QryPickedColour($.proxy(this.qryPickedColour, this));
    // this._view.QryDefaultOptionsState($.proxy(this.qryDefaultOptionsState, this));
-    this._view.QryPickState($.proxy(this.qryPickState, this));
+    //this._view.QryPickState($.proxy(this.qryPickState, this));
     this._view.QrySelectedFontChanged($.proxy(this.qrySelectedFontChanged, this));
     this._view.QryTransparencyChanged($.proxy(this.qryTransparencyChanged, this));
     
@@ -31,9 +31,9 @@ OptionsController.prototype = {
     //     this.model.SetDefaultOptionMode(data);  
     // },
     
-    qryPickState: function(state){
-       this.model.setPickState(state);
-    },
+    // qryPickState: function(state){
+    //   this.model.setPickState(state);
+    // },
     
     qryPickedColour: function(rgb,hex){
        this.model.updateOptionColour(rgb,hex);

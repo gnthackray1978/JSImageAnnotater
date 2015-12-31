@@ -42,7 +42,7 @@ function loadAll (drive){
         var metadata = new Meta(data,appView);
         var metaController = new MetaController(appView,metadata);
 
-        var options = new Options(data,appView);
+        var options = new Options(data,appView,channel);
         var optionsController = new OptionsController(appView,options);
 
         var nodeManager = new NodeManager(data);

@@ -5,7 +5,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
  
     this._channel = channel;
     this._view = view;
-    //this._graphicsContext = graphicsContext;
+    this._mouseClickLocked =false;
 
     this.nodeManager = nodeDataManager;
     this.meta = metadata;
@@ -26,6 +26,13 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._view.NodeEditorOpen($.proxy(this.start, this));
     
     this._view.NodeEditorClosed($.proxy(this.exit, this));
+    
+    var that = this;
+    
+    
+    this._channel.subscribe("mouseClickLock", function(data, envelope) {
+        that._mouseClickLocked =data.value;
+    });
     
     /*
     
@@ -80,28 +87,28 @@ NodeManagerController.prototype = {
         
         switch(this.state){
             case 0: //UI MODE ACTIVE
-                this.options.SetDefaultOptionState(false);
-                this.options.SetState(false);
+                this._channel.publish( "nodeinit", { value: false } );
+                
+                // this.options.SetDefaultOptionState(false);
+                // this.options.SetState(false);
+                
                 this.meta.Unload();
                 this._channel.publish( "lock", { value: false } );
-                //this._graphicsContext.SetLocked(false);
+                
                 this._view.DisplayNeutralState();
                 this._view.ClearActiveTextArea();
                 this._channel.publish( "drawtree", null);
-                //this._graphicsContext.DrawTree();
-                
-                
                 
                 break;
             case 1: //FREE TO WRITE TO MODE
-                this.options.SetState(true,undefined,true);
-                //this._graphicsContext.SetLocked(true);
+                //this.options.SetState(true,undefined,true);
                 this._channel.publish( "lock", { value: true } );
                 this._view.DisplayEditState();
               
                 break;
                 
             case 2: //FREE TO DELETE MODE
+            
                 this._view.DisplayDeleteState();
                 break;
             case 3: //VALID TO SAVE
@@ -163,8 +170,12 @@ NodeManagerController.prototype = {
                 that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
             
         that.meta.Load(that.selectedNote.MetaData);
-        that.options.SetDefaultOptionState(false);
-        that.options.SetState(true,that.selectedNote,true);
+        
+        
+        that._channel.publish( "nodecreation", { value: undefined } );
+        
+        //that.options.SetDefaultOptionState(false);
+        //that.options.SetState(true,that.selectedNote,true);
     },
     
     
@@ -172,10 +183,12 @@ NodeManagerController.prototype = {
         var that =this;
         
         that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
-                    
+        
+        that._channel.publish( "nodeedit", { value: that.selectedNote } );            
+        
         that.meta.Load([]);
-        that.options.SetDefaultOptionState(true);
-        that.options.SetState(true,that.selectedNote,true);
+        //that.options.SetDefaultOptionState(true);
+        //that.options.SetState(true,that.selectedNote,true);
     },
     
     
@@ -184,18 +197,26 @@ NodeManagerController.prototype = {
         
         that.selectedNote.Visible =false;
         that.nodeManager.WriteToDB(that.selectedNote, function(){
+            
             console.log('node deleted');
         });
-        that.options.SetState(false);
+        
+        that.selectedNote = undefined;
+        
+        //that.options.SetState(false);
     },
     
     canvasClick:function(x,y){
         var that = this;
      
-        if(this.options.GetState().pickMode) return;
+        if(this._mouseClickLocked) return;
         
         this.nodeManager.PointToNode(x,y, function(node){
             that.selectedNote = node;
+            
+            if(that.selectedNote != node || that.selectedNote.Index != node.Index ){
+               that._channel.publish( "selectednodechanged", { value: that.selectedNote } ); 
+            }
        
             // add/edit node
             if(that.state == 1 && that.selectedNote != undefined) that.state =4;
@@ -204,9 +225,7 @@ NodeManagerController.prototype = {
             
             that.updateState();
         });
-        
-      //  this.updateState();
-        
+       
     },
 
     addButtonClicked:function(){

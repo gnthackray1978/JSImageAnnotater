@@ -37,7 +37,7 @@ function AnnotaterView(channel) {
    
     this.textarea = null;
     this._channel = channel;
-    this._pickEnabled =false;
+    //this._pickEnabled =false;
     
     this.showGed = true;
     this.showMapControls = true;
@@ -117,7 +117,22 @@ function AnnotaterView(channel) {
  
         
     }
+    
+   
+    this.InitOptions();
+    
 } 
+
+AnnotaterView.prototype.InitOptions = function (state){
+    var that = this;
+    
+    $('#btnPickColour').click(function (e) {
+        //that._pickEnabled =true;
+        
+        that._channel.publish( "mouseClickLock", { value: true } );
+        
+    });  
+},
 
 AnnotaterView.prototype.LockCanvasMouseUp = function (state){
     //console.log('LockCanvasMouseUp: ' + state);
@@ -1437,6 +1452,12 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
             
     var that = this;
     
+    var pickEnabled = false;
+        
+    that._channel.subscribe("mouseClickLock", function(data, envelope) {
+        pickEnabled = data.value;
+    });
+        
     // http://www.javascripter.net/faq/rgbtohex.htm
     function rgbToHex(R,G,B) {
         
@@ -1456,7 +1477,9 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
         // getting user coordinates
         
        // console.log("QryPickedColour.click");
-        if(that._pickEnabled)
+       //pickEnabled
+        //if(that._pickEnabled)
+        if(pickEnabled)
         {
             event.stopImmediatePropagation();
 
@@ -1482,7 +1505,8 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
             if(clickResult)
                 clickResult(rgb,hex);
             
-            that._pickEnabled = false;                        
+            //that._pickEnabled = false;     
+            that._channel.publish( "mouseClickLock", { value: false } );
         }
     });
 
@@ -1491,10 +1515,7 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
 AnnotaterView.prototype.QryPickState = function (callback) {
     var that = this;
     
-    $('#btnPickColour').click(function (e) {
-        that._pickEnabled =true;
-        callback(true);
-    }); 
+    
 };
 
 //SAVE DEFAULT OPTIONS CLICKED
