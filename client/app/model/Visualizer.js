@@ -107,6 +107,10 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
+                        if(that.nodestore.generations[vidx][hidx].Selected != undefined){
+                            console.log(hidx + ' node selected');
+                        }
+                        
                         that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
                             that.nodestore.generations[vidx][hidx].X,
                             that.nodestore.generations[vidx][hidx].Y,
