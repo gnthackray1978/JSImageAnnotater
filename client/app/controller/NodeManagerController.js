@@ -130,10 +130,11 @@ NodeManagerController.prototype = {
                 break;
             case 7: //SELECTING
                 console.log('updateState: selecting');
+                this.selectNote();
                 break;
+                
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');
-                this.selectNote();
                 break;      
         }
         
@@ -219,7 +220,7 @@ NodeManagerController.prototype = {
     },
     
     selectNote: function(){
-        this.state =8;
+        this.state = 8;
         
         if(this.selectedNote)
             this.selectedNote.Selected = true;
