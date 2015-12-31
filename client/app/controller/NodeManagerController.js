@@ -11,7 +11,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this.meta = metadata;
     this.options = options;
     
-    this._view.SelectNodeButton($.proxy(this.selectNodeButton, this));
+    this._view.SelectNodeButton($.proxy(this.selectedNote, this));
     
     this._view.CanvasClick($.proxy(this.canvasClick, this));
    
