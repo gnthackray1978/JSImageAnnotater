@@ -13,6 +13,14 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     this._view.SelectNodeButton($.proxy(this.selectNoteAction, this));
     
+    this._view.DeleteNodeButton($.proxy(this.deleteNodeButton, this));
+    
+    this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNode, this));
+    this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
+    this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
+    
+    
+    
     this._view.CanvasClick($.proxy(this.canvasClick, this));
    
     this._view.CanvasDoubleClick($.proxy(this.canvasDoubleClick, this));
@@ -87,6 +95,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 NodeManagerController.prototype = {
     
     updateState :function(){
+        var that = this;
         
         switch(this.state){
             case 0: //UI MODE ACTIVE
@@ -126,8 +135,14 @@ NodeManagerController.prototype = {
                 break;
                 
             case 6: //DELETING
-                this.deleteNode();
+                that.selectedNote.Visible =false;
+                that.nodeManager.WriteToDB(that.selectedNote, function(){
+                    console.log('node deleted');
+                });
+                that.selectedNote = undefined;
                 break;
+                
+                
             case 7: //SELECTING
                 console.log('updateState: selecting');
                 this.selectNote();
@@ -195,18 +210,10 @@ NodeManagerController.prototype = {
         that.meta.Load([]);
     },
     
-    
-    deleteNode: function(){
-        var that = this;
-        
-        that.selectedNote.Visible =false;
-        that.nodeManager.WriteToDB(that.selectedNote, function(){
-            
-            console.log('node deleted');
+    deleteNodeButton: function(){
+        this.nodeManager.DeleteSelection(function(){
+            console.log('nodes deleted');
         });
-        
-        that.selectedNote = undefined;
-
     },
     
     selectNoteAction: function(){
@@ -239,6 +246,40 @@ NodeManagerController.prototype = {
         this.updateState();
     },
     
+    
+    deleteSingleNode : function(){
+        console.log('delete note'); 
+    
+        switch(this.state){
+            case 0:// first click we are neutral go to delete selector
+                this.state = 2;
+                break;
+            case 2:// subsequent clicks are cancel
+            case 6:
+                this.state = 0;
+                break;
+        }
+        
+        this.updateState();
+    },
+    
+    
+    addToolbarNode : function(){
+        this.state = 1;
+        this.updateState();
+    },
+    addButtonClicked:function(){
+        this.state =1;
+        this.updateState();
+    },
+    
+    
+    multiSelectNode : function(){
+        this.state = 1;
+        this.updateState();
+    },
+    
+    
     canvasClick:function(x,y){
         var that = this;
      
@@ -254,6 +295,7 @@ NodeManagerController.prototype = {
             // add/edit node
             if(that.state == 8 && that.selectedNote != undefined) that.state =7;
             if(that.state == 1 && that.selectedNote == undefined) that.state =5;
+            
             if(that.state == 2 && that.selectedNote != undefined) that.state =6;
           
             
@@ -283,10 +325,7 @@ NodeManagerController.prototype = {
        
     },
 
-    addButtonClicked:function(){
-        this.state =1;
-        this.updateState();
-    },
+    
    
    
     cancelButtonClicked:function(){
@@ -309,22 +348,7 @@ NodeManagerController.prototype = {
         }
     },
     
-    deleteNote:function(action){
-        console.log('delete note'); 
-    
-        switch(this.state){
-            case 0:// first click we are neutral go to delete selector
-                this.state = 2;
-                break;
-            case 2:// subsequent clicks are cancel
-            case 6:
-                this.state = 0;
-                break;
-        }
-        
-        this.updateState();
-        
-    },
+  
     
     saveNote:function(saveData){
         var that = this;

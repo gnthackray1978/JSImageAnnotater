@@ -650,6 +650,40 @@ AnnotaterView.prototype.SelectNodeButton = function (action) {
     });
 };
 
+AnnotaterView.prototype.DeleteNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#delnodebtn").click(function (evt) {
+        action();
+    });
+};
+
+AnnotaterView.prototype.DeleteSingleNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#delsinglenodebtn").click(function (evt) {
+        action();
+    });
+};
+
+AnnotaterView.prototype.AddNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#addnodebtn").click(function (evt) {
+        action();
+    });
+};
+
+AnnotaterView.prototype.MultiSelectNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#multiselectnodebtn").click(function (evt) {
+        action();
+    });
+};
+
+
+
+
+
+
+
 AnnotaterView.prototype.CanvasClick = function (action) {
     var that = this;
     //here look multiple event firing problems    
@@ -1582,13 +1616,13 @@ URL
 
 AnnotaterView.prototype.DisplayDeleteState= function () {
     console.log('View DisplayDeleteState');
-  
-    $("#imagelabel").html('Click note to delete');
-    $("#btnDeleteNote").val('Cancel');
-    $("#btnAddNote").hide();
-    $("#btnOptions").hide();
-    $("#btnCancel").hide();
-    $("#btnSaveNote").hide();
+    $("#delsinglenodebtn").val('[DS]');
+    // $("#imagelabel").html('Click note to delete');
+    // $("#btnDeleteNote").val('Cancel');
+    // $("#btnAddNote").hide();
+    // $("#btnOptions").hide();
+    // $("#btnCancel").hide();
+    // $("#btnSaveNote").hide();
 
 };
 
@@ -1625,8 +1659,9 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
   
     $("#imagelabel").html('Select Mode');
     
-    $("#btnDeleteNote").show();
-    $("#btnDeleteNote").val('Delete');
+    $("#delsinglenodebtn").show();
+    $("#delsinglenodebtn").val('DS');
+    
     $("#btnAddNote").show();
     
     $("#btnCancel").hide();

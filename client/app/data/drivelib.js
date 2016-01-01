@@ -575,6 +575,47 @@ MyDrive.prototype.WriteNoteData = function(data,callback){
     });
 };
 
+MyDrive.prototype.WriteNotesData = function(datas,callback){
+    // add note into array
+    // then update file contents to reflect that
+    
+    
+    var didx = 0;
+    
+    while(didx < datas.length){
+    
+        var idx =0;
+        while(idx < this.generations.length){
+            if(this.generations[idx].Index == datas[didx].Index){
+                this.generations[idx] = datas[didx];
+                idx=-1;
+                break;        
+            }
+            idx++;
+        }
+        
+        if(idx!=-1)
+            this.generations.push(datas[didx]);
+        
+        didx++;
+    } 
+    
+    var c = {
+        urlId : this.FILEID,
+        generations: this.generations,
+        options : this.options,
+        layers : this.layers 
+        
+    };
+        
+    this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
+        callback(true);
+    });
+};
+
+
+
+
 MyDrive.prototype.GetOptions= function (urlId,callback){
     
     callback(this.options);

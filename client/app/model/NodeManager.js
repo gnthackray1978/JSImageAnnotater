@@ -420,11 +420,33 @@ NodeManager.prototype = {
         this._noteDll.WriteNoteData(note,callback);
     },
     
+    WriteNotesToDB: function(notes,callback){
+        this._noteDll.WriteNotesData(notes,callback);
+    },
+    
     GetImageData: function (callback) {
         this._noteDll.GetImageData(callback);
     },
     Type : function(){
         return this._noteDll.Type();
+    },
+    
+    DeleteSelection: function(callback){
+        var idx;
+        var deletedNodes = [];
+        
+        while(idx < this.generations[1].length){
+            
+            if(this.generations[1][idx].Selected){
+                this.generations[1][idx].Visible =false;
+                this.generations[1][idx].Selected =false;
+                deletedNodes.push(this.generations[1][idx]);
+            }
+            
+            idx++;
+        }
+        
+        this.WriteNotesToDB(deletedNodes,callback);
     },
     
     
