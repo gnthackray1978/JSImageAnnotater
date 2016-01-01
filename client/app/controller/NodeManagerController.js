@@ -11,26 +11,27 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this.meta = metadata;
     this.options = options;
     
-    this._view.SelectNodeButton($.proxy(this.selectNoteAction, this));
+    this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
+    this._view.DeleteNodeButton($.proxy(this.deleteNodeAction, this));
     
-    this._view.DeleteNodeButton($.proxy(this.deleteNodeButton, this));
-    
-    this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNode, this));
+    this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNodeAction, this));
     this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
     this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
     
+    this._view.SaveNote($.proxy(this.saveAction, this));
     
     
-    this._view.CanvasClick($.proxy(this.canvasClick, this));
+    
+    this._view.CanvasClick($.proxy(this.clickAction, this));
    
-    this._view.CanvasDoubleClick($.proxy(this.canvasDoubleClick, this));
+    this._view.CanvasDoubleClick($.proxy(this.doubleClickAction, this));
    
     //note operations
     this._view.Add($.proxy(this.addButtonClicked, this));
     
     this._view.Cancel($.proxy(this.cancelButtonClicked, this));
     
-    this._view.SaveNote($.proxy(this.saveNote, this));
+    
    
     this._view.Delete($.proxy(this.deleteNote, this));
     
@@ -109,10 +110,9 @@ NodeManagerController.prototype = {
                 this._channel.publish( "drawtree", null);
                 
                 break;
-            case 1: //FREE TO WRITE TO MODE
-                //this.options.SetState(true,undefined,true);
+            case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
-                this._view.DisplayEditState();
+                this._view.DisplayAddState();
               
                 break;
                 
@@ -210,13 +210,15 @@ NodeManagerController.prototype = {
         that.meta.Load([]);
     },
     
-    deleteNodeButton: function(){
+    deleteNodeAction: function(){
+        var that = this;
+        
         this.nodeManager.DeleteSelection(function(){
-            console.log('nodes deleted');
+            that._channel.publish( "drawtree", null);
         });
     },
     
-    selectNoteAction: function(){
+    selectNodeAction: function(){
         
         if(this.state == 8 ) 
             this.state =0;
@@ -247,7 +249,7 @@ NodeManagerController.prototype = {
     },
     
     
-    deleteSingleNode : function(){
+    deleteSingleNodeAction : function(){
         console.log('delete note'); 
     
         switch(this.state){
@@ -265,7 +267,13 @@ NodeManagerController.prototype = {
     
     
     addToolbarNode : function(){
-        this.state = 1;
+        
+        if(this.state == 0)
+            this.state = 1;
+        else
+            this.state = 0;
+        
+        
         this.updateState();
     },
     addButtonClicked:function(){
@@ -280,7 +288,7 @@ NodeManagerController.prototype = {
     },
     
     
-    canvasClick:function(x,y){
+    clickAction:function(x,y){
         var that = this;
      
         if(this._mouseClickLocked) return;
@@ -305,7 +313,7 @@ NodeManagerController.prototype = {
     },
 
     
-    canvasDoubleClick:function(x,y){
+    doubleClickAction:function(x,y){
         var that = this;
      
         if(this._mouseClickLocked) return;
@@ -350,7 +358,7 @@ NodeManagerController.prototype = {
     
   
     
-    saveNote:function(saveData){
+    saveAction:function(saveData){
         var that = this;
         
         var saveCallback = function(savednode){

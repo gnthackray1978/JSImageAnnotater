@@ -582,7 +582,7 @@ AnnotaterView.prototype.hideLoader = function (action) {
 AnnotaterView.prototype.SaveNote = function (action) {
 
     var that = this;
-    $('#btnSaveNote').click(function (e) {
+    $('#btnSave').click(function (e) {
         action(that.GetTextAreaDetails());
         e.preventDefault();
     });               
@@ -1616,7 +1616,7 @@ URL
 
 AnnotaterView.prototype.DisplayDeleteState= function () {
     console.log('View DisplayDeleteState');
-    $("#delsinglenodebtn").val('[DS]');
+    $("#delsinglenodebtn").val('[DC]');
     // $("#imagelabel").html('Click note to delete');
     // $("#btnDeleteNote").val('Cancel');
     // $("#btnAddNote").hide();
@@ -1626,46 +1626,49 @@ AnnotaterView.prototype.DisplayDeleteState= function () {
 
 };
 
-AnnotaterView.prototype.DisplayEditState= function () {
-    console.log('View DisplayEditState');
-  
-    $("#imagelabel").html('click drawing to add');
+AnnotaterView.prototype.DisplayAddState= function () {
+    console.log('View DisplayAddState');
+    $("#addnodebtn").val('[AD]');
+    // $("#imagelabel").html('click drawing to add');
     
-    $("#btnDeleteNote").hide();
-    $("#btnAddNote").hide();
-    $("#btnOptions").hide();
+    // $("#btnDeleteNote").hide();
+    // $("#btnAddNote").hide();
+    // $("#btnOptions").hide();
     
-    $("#btnCancel").show();
-    $("#btnSaveNote").hide();
+    // $("#btnCancel").show();
+    // $("#btnSaveNote").hide();
 
 };
 
 AnnotaterView.prototype.DisplaySaveState= function () {
-    console.log('View DisplayEditState');
+    console.log('View DisplaySaveState');
   
-    $("#imagelabel").html('click drawing to add');
+    // $("#imagelabel").html('click drawing to add');
     
-    $("#btnDeleteNote").hide();
-    $("#btnAddNote").hide();
-    $("#btnOptions").hide();
+    // $("#btnDeleteNote").hide();
+    // $("#btnAddNote").hide();
+    // $("#btnOptions").hide();
     
-    $("#btnCancel").show();
-    $("#btnSaveNote").show();
+    //$("#btnCancel").show();
+    $("#btnSave").show();
 
 };
 
 AnnotaterView.prototype.DisplayNeutralState= function () {
     console.log('View DisplayNeutralState');
   
-    $("#imagelabel").html('Select Mode');
+    //$("#imagelabel").html('Select Mode');
     
-    $("#delsinglenodebtn").show();
-    $("#delsinglenodebtn").val('DS');
+    //$("#delsinglenodebtn").show();
+    $("#delsinglenodebtn").val('DC');
+    $("#addnodebtn").val('AD');
     
-    $("#btnAddNote").show();
     
-    $("#btnCancel").hide();
-    $("#btnSaveNote").hide();
+    //$("#btnAddNote").show();
+    
+    //$("#btnCancel").hide();
+    
+    $("#btnSave").hide();
 
 };
 
