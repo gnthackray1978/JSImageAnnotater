@@ -150,6 +150,7 @@ NodeManagerController.prototype = {
                 
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');
+                this._view.DisplaySelectionState();
                 break;      
         }
         

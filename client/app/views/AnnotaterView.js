@@ -1614,6 +1614,13 @@ URL
 */
 
 
+AnnotaterView.prototype.DisplaySelectionState= function () {
+    console.log('View DisplaySelectionState');
+    $("#selectnodebtn").val('[SN]');
+    $("#delnodebtn").prop('disabled', false); 
+
+};
+
 AnnotaterView.prototype.DisplayDeleteState= function () {
     console.log('View DisplayDeleteState');
     $("#delsinglenodebtn").val('[DC]');
@@ -1661,8 +1668,10 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
     
     //$("#delsinglenodebtn").show();
     $("#delsinglenodebtn").val('DC');
-    $("#addnodebtn").val('AD');
     
+    $("#delnodebtn").prop('disabled', true); 
+    $("#addnodebtn").val('AD');
+    $("#selectnodebtn").val('SN');
     
     //$("#btnAddNote").show();
     
