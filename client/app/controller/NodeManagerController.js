@@ -376,7 +376,7 @@ NodeManagerController.prototype = {
         
         var saveCallback = function(savednode){
             that.deletedNodeCache = undefined;
-            that.selectedNote = savednode;
+            that.selectedNote = undefined;
             that.state =0;
             that.updateState();
         };
@@ -386,7 +386,9 @@ NodeManagerController.prototype = {
                     that.options.QrySaveData(function(options){
                         saveData.options = options;
     
-                        that.nodeManager.WriteNote(that.selectedNote,saveData.x,
+                        var index = (that.selectedNote) ? that.selectedNote.Index : undefined;
+    
+                        that.nodeManager.WriteNote(index,saveData.x,
                             saveData.y, saveData.width,saveData.height,saveData.d,
                             saveData.text,saveData.options,layerId, data, false,true, saveCallback);
                     });
