@@ -432,7 +432,7 @@ NodeManager.prototype = {
     },
     
     DeleteSelection: function(callback){
-        var idx;
+        var idx =0;
         var deletedNodes = [];
         
         while(idx < this.generations[1].length){
