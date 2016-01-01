@@ -330,7 +330,7 @@ NodeManagerController.prototype = {
             }
        
             // add/edit node
-            if(that.state == 1 && that.selectedNote != undefined) that.state =4;
+            if(that.state == 0 && that.selectedNote != undefined) that.state =4;
             
             that.updateState();
         });
