@@ -671,6 +671,14 @@ AnnotaterView.prototype.AddNodeButton = function (action) {
     });
 };
 
+AnnotaterView.prototype.CancelNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#btnNodeCancel").click(function (evt) {
+        action();
+    });
+};
+
+
 AnnotaterView.prototype.MultiSelectNodeButton = function (action) {
     //here look multiple event firing problems    
     $("#multiselectnodebtn").click(function (evt) {
@@ -1644,7 +1652,8 @@ AnnotaterView.prototype.DisplayAddState= function () {
     
     // $("#btnCancel").show();
     // $("#btnSaveNote").hide();
-
+    
+    $("#btnNodeCancel").show();
 };
 
 AnnotaterView.prototype.DisplaySaveState= function () {
@@ -1656,7 +1665,7 @@ AnnotaterView.prototype.DisplaySaveState= function () {
     // $("#btnAddNote").hide();
     // $("#btnOptions").hide();
     
-    //$("#btnCancel").show();
+    $("#btnNodeCancel").show();
     $("#btnSave").show();
 
 };
@@ -1675,7 +1684,7 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
     
     //$("#btnAddNote").show();
     
-    //$("#btnCancel").hide();
+    $("#btnNodeCancel").hide();
     
     $("#btnSave").hide();
 

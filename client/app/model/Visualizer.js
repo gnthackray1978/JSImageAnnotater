@@ -97,7 +97,13 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                     
                     var nlid = that.nodestore.generations[vidx][hidx].LayerId ? that.nodestore.generations[vidx][hidx].LayerId : 2;
                     
+                    var editting = that.nodestore.generations[vidx][hidx].Editting // if node being editted we want to hide it.
+                    
+                    editting = (editting == undefined) ? false : editting;
+                    
+                    
                     if(that.nodestore.generations[vidx][hidx].Visible 
+                        && editting
                         && containsLevel(visibleLayers,nlid)
                         && !that.nodestore.generations[vidx][hidx].CropArea)
                     {

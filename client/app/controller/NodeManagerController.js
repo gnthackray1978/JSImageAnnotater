@@ -16,6 +16,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNodeAction, this));
     this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
+    this._view.CancelNodeButton($.proxy(this.cancelNodeButton, this));
+    
     this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
     
     this._view.SaveNote($.proxy(this.saveAction, this));
@@ -185,7 +187,7 @@ NodeManagerController.prototype = {
        
         that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
         
-        that.selectedNote.Visible =false;
+        that.selectedNote.Editting = true;
         
         // I believe this is to save the options if they weren't already set
         that.nodeManager.WriteToDB(that.selectedNote, function(){
@@ -310,6 +312,13 @@ NodeManagerController.prototype = {
             
             if(that.state == 2 && that.selectedNote != undefined) that.state =6;
           
+            if(that.state == 4 && that.selectedNote == undefined) 
+            {
+                that.restoreCachedNode();
+                that.state =0;
+                
+            }
+            
             
             that.updateState();
         });
@@ -340,7 +349,7 @@ NodeManagerController.prototype = {
     
    
    
-    cancelButtonClicked:function(){
+    cancelNodeButton:function(){
         this.state =0;
         this.updateState();
         this.restoreCachedNode();
@@ -366,6 +375,7 @@ NodeManagerController.prototype = {
         var that = this;
         
         var saveCallback = function(savednode){
+            that.deletedNodeCache = undefined;
             that.selectedNote = savednode;
             that.state =0;
             that.updateState();
