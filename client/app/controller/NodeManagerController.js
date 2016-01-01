@@ -176,7 +176,9 @@ NodeManagerController.prototype = {
     
     editNode:function(){
         var that =this;
-                    
+        
+        that._channel.publish( "lock", { value: true } );
+                            
         if(that.selectedNote.options == undefined){
             that.selectedNote.options = that.options.GetState().defaultOptions;
         }
