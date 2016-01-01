@@ -103,7 +103,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                     
                     
                     if(that.nodestore.generations[vidx][hidx].Visible 
-                        && editting
+                        && !editting
                         && containsLevel(visibleLayers,nlid)
                         && !that.nodestore.generations[vidx][hidx].CropArea)
                     {
