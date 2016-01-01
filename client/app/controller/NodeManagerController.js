@@ -91,6 +91,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     this.state = 0;
     
+    this.updateState();
 };
 
 NodeManagerController.prototype = {
