@@ -29,7 +29,7 @@
     
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
-                this._channel.publish( "lockmousemove", { value: 'CROP' } );
+                this._channel.publish( "lockmousemove", { value: 'RS' } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -71,8 +71,8 @@
             
             // get a node that we'll use to draw the rectangle
             this.model.GetNode(function(){
-    	        that._channel.publish( "lockmouseup", { value: 'CROP' } );
-	    	    that._channel.publish( "lockmousedown", { value: 'CROP' } );
+    	        that._channel.publish( "lockmouseup", { value: 'RS' } );
+	    	    that._channel.publish( "lockmousedown", { value: 'RS' } );
     	    });
         }
         
