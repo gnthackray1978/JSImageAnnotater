@@ -11,18 +11,22 @@
         var that = this;
         
         this._channel.subscribe("selectionRectangleActivated", function(data, envelope) {
+            console.log('s_selectionRectangleActivated');
             that.qrySelectionStart(data.value);
         });
         
         this._channel.subscribe("selectionMouseDown", function(data, envelope) {
+            console.log('s_selectionMouseDown');
             that.qryCanvasMouseDown(data.value);
         });
         
         this._channel.subscribe("selectionMouseUp", function(data, envelope) {
+            console.log('s_selectionMouseUp');
             that.qryCanvasMouseUp(data.value);
         });
         
         this._channel.subscribe("selectionMouseMove", function(data, envelope) {
+            console.log('s_selectionMouseMove');
             that.qryCanvasMouseMove(data.value);
         });
     
