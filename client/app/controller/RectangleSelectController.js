@@ -8,21 +8,22 @@
         this.model = model;
         
         this.init();
-       
+        var that = this;
+        
         this._channel.subscribe("selectionRectangleActivated", function(data, envelope) {
-            this.qrySelectionStart(data.value);
+            that.qrySelectionStart(data.value);
         });
         
         this._channel.subscribe("selectionMouseDown", function(data, envelope) {
-            this.qryCanvasMouseDown(data.value);
+            that.qryCanvasMouseDown(data.value);
         });
         
         this._channel.subscribe("selectionMouseUp", function(data, envelope) {
-            this.qryCanvasMouseUp(data.value);
+            that.qryCanvasMouseUp(data.value);
         });
         
         this._channel.subscribe("selectionMouseMove", function(data, envelope) {
-            this.qryCanvasMouseMove(data.value);
+            that.qryCanvasMouseMove(data.value);
         });
     
     };
