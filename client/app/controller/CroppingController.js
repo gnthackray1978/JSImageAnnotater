@@ -36,7 +36,7 @@
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
                 
-                if(this.addMode) return;
+                if(this.model.addMode) return;
                 
                 
                 this._channel.publish( "lockmousemove", { value: 'CROP' } );
@@ -51,7 +51,7 @@
         qryCanvasMouseUp:function(evt){
             if (this.model !== null) {
                 
-                if(this.addMode) return;
+                if(this.model.addMode) return;
                 
                 this._channel.publish( "lockmousemove", { value: '' } );
     	        this._channel.publish( "lockmouseup", { value: '' } );
@@ -66,7 +66,7 @@
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
                 
-                if(this.addMode) return;
+                if(this.model.addMode) return;
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
