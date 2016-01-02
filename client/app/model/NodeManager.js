@@ -502,7 +502,7 @@ NodeManager.prototype = {
         })
         
         
-        callback();
+       
 
     }
     
