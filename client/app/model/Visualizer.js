@@ -54,9 +54,13 @@ Visualizer.prototype.DrawTree= function () {
        
         that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
             
-            var defaultOptions = that.options.GetState().defaultOptions;
+            that.nodestore.GetSelectionAreaNode(function(selectionNode){
             
-            that.DrawTree2(visibleLayers,defaultOptions, cropMainNode, cropInitNode);
+                var defaultOptions = that.options.GetState().defaultOptions;
+                
+                that.DrawTree2(visibleLayers,defaultOptions, cropMainNode, cropInitNode);
+            
+            });
         });
     });
     
