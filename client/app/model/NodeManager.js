@@ -494,9 +494,9 @@ NodeManager.prototype = {
  
         var nodeFactory = new Node(this.generations);
         
-        nodeFactory.CreateEmptyNode(true,false, function(node){
+        nodeFactory.CreateEmptyNode(false,false, function(node){
             node.SelectionArea =true;
-            that.AddNode(0,false,node,function(){
+            that.AddNode(1,false,node,function(){
                 callback(node);
             });
         })
