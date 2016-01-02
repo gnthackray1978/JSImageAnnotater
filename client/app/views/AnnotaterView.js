@@ -91,6 +91,7 @@ function AnnotaterView(channel) {
         });
         
         this._channel.subscribe("lockmousedown", function(data, envelope) {
+            console.log('locking mousedown: ' + data.value);
             that.canvasMousedownLock = data.value ? data.value : '';
         });
         
