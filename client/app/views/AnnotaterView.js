@@ -156,7 +156,7 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
     $("#myCanvas").mousemove(function (evt) {
         
         if(that.canvasMousemoveLock == key){
-           that._channel.publish( "selectionMouseUp", { value: evt } );
+           that._channel.publish( "selectionMouseMove", { value: evt } );
         }
     });
     
