@@ -471,6 +471,39 @@ NodeManager.prototype = {
  
         callback();
 
+    },
+    
+    GetSelectionAreaNode : function(callback){
+        
+       // this._noteDll.CleanGenerations();
+        
+        
+        var that = this;
+        
+        var idx =0;
+        
+        while(idx < that.generations[1].length){
+            
+            if(that.generations[1][idx].SelectionArea){
+                callback(that.generations[1][idx], that.initialGenerations[1][idx]);
+                return;
+            }
+            
+            idx++;
+        }
+ 
+        var nodeFactory = new Node(this.generations);
+        
+        nodeFactory.CreateEmptyNode(true,false, function(node){
+            node.SelectionArea =true;
+            that.AddNode(0,false,node,function(){
+                callback(node);
+            });
+        })
+        
+        
+        callback();
+
     }
     
 };

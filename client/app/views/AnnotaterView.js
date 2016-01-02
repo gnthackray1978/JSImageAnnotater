@@ -1149,6 +1149,15 @@ AnnotaterView.prototype.QryCropDeleteButton = function(action){
     });   
 };
 
+//rectselstartQryRectangularSelector
+AnnotaterView.prototype.QryRectangularSelector = function(action){
+   
+    $('#rectselstart').click(function (e) {            
+        e.preventDefault();
+        action();
+    });   
+};
+
 
 AnnotaterView.prototype.QryCropSaveButton = function(action){
 
