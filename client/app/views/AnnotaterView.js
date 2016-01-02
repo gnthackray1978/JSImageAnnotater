@@ -87,16 +87,15 @@ function AnnotaterView(channel) {
     if(this._channel){
         
         this._channel.subscribe("lockmouseup", function(data, envelope) {
-            console.log('lockmouseup:' + data);
-            that.LockCanvasMouseUp(data.value);
+            that.canvasMouseupLock =  data.value ? data.value : '';
         });
         
         this._channel.subscribe("lockmousedown", function(data, envelope) {
-            that.LockCanvasMouseDown(data.value);
+            that.canvasMousedownLock = data.value ? data.value : '';
         });
         
         this._channel.subscribe("lockmousemove", function(data, envelope) {
-            that.LockCanvasMouseMove(data.value);
+            that.canvasMousemoveLock = data.value ? data.value : '';
         });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
@@ -120,6 +119,7 @@ function AnnotaterView(channel) {
     
    
     this.InitOptions();
+    this.InitSelectionRectangle();
     
 } 
 
@@ -133,24 +133,38 @@ AnnotaterView.prototype.InitOptions = function (state){
         
     });  
 },
-
-AnnotaterView.prototype.LockCanvasMouseUp = function (state){
-    //console.log('LockCanvasMouseUp: ' + state);
-    this.canvasMouseupLock =  state ? state : '';
-},
-AnnotaterView.prototype.LockCanvasMouseDown = function (state){
-    //console.log('LockCanvasMouseDown: ' + state);
-    this.canvasMousedownLock = state ? state : '';
-},
-AnnotaterView.prototype.LockCanvasMouseMove = function (state){
-    //console.log('LockCanvasMouseMove: ' + state);
-    this.canvasMousemoveLock = state ? state : '';
-},
-AnnotaterView.prototype.LockCanvasMouseClick = function (state){
-   // console.log('LockCanvasMouseClick: ' + state);
-    this.canvasMouseclickLock = state ? state : '';
-},
+ 
+AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
+    var that = this;
+    var key = 'RS';
+    
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.canvasMousedownLock == key)
+            that._channel.publish( "selectionMouseDown", { value: evt } );
+    });
+
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.canvasMouseupLock == key)
+            that._channel.publish( "selectionMouseUp", { value: evt } );
+    });
+
+    $("#myCanvas").mousemove(function (evt) {
+        if(that.canvasMousemoveLock == key){
+           that._channel.publish( "selectionMouseUp", { value: evt } );
+        }
+    });
+    
+    $('#rectselstart').click(function (evt) {            
+        evt.preventDefault();
+        that._channel.publish( "selectionRectangleActivated", { value: evt } );
+    });   
+
+
+
+},
+ 
+ 
 AnnotaterView.prototype.InitPanelVisibility = function () {
 
 
@@ -1149,14 +1163,6 @@ AnnotaterView.prototype.QryCropDeleteButton = function(action){
     });   
 };
 
-//rectselstartQryRectangularSelector
-AnnotaterView.prototype.QryRectangularSelector = function(action){
-   
-    $('#rectselstart').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
 
 
 AnnotaterView.prototype.QryCropSaveButton = function(action){
@@ -1166,6 +1172,8 @@ AnnotaterView.prototype.QryCropSaveButton = function(action){
         action();
     });   
 };
+
+
 
 AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
     var that = this;

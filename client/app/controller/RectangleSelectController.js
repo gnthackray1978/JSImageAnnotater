@@ -3,22 +3,27 @@
     var RectangleSelectController = function (view, channel, model) {
         this._view = view;
         this._channel = channel;
+        this._mouseLockKey = 'RS';
         
         this.model = model;
         
         this.init();
+       
+        this._channel.subscribe("selectionRectangleActivated", function(data, envelope) {
+            this.qrySelectionStart(data.value);
+        });
         
-        if(this._view.QryRectangularSelector)
-            this._view.QryRectangularSelector($.proxy(this.qrySelectionStart, this));
-
-        if(this._view.QryCanvasMouseDown)
-            this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
+        this._channel.subscribe("selectionMouseDown", function(data, envelope) {
+            this.qryCanvasMouseDown(data.value);
+        });
         
-        if(this._view.QryCanvasMouseUp)
-            this._view.QryCanvasMouseUp($.proxy(this.qryCanvasMouseUp, this));
+        this._channel.subscribe("selectionMouseUp", function(data, envelope) {
+            this.qryCanvasMouseUp(data.value);
+        });
         
-        if(this._view.QryCanvasMouseMove)
-            this._view.QryCanvasMouseMove($.proxy(this.qryCanvasMouseMove, this));
+        this._channel.subscribe("selectionMouseMove", function(data, envelope) {
+            this.qryCanvasMouseMove(data.value);
+        });
     
     };
 
@@ -29,7 +34,7 @@
     
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
-                this._channel.publish( "lockmousemove", { value: 'CROP' } );
+                this._channel.publish( "lockmousemove", { value: this._mouseLockKey } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -71,8 +76,8 @@
             
             // get a node that we'll use to draw the rectangle
             this.model.GetNode(function(){
-    	        that._channel.publish( "lockmouseup", { value: 'CROP' } );
-	    	    that._channel.publish( "lockmousedown", { value: 'CROP' } );
+    	        that._channel.publish( "lockmouseup", { value: this._mouseLockKey } );
+	    	    that._channel.publish( "lockmousedown", { value: this._mouseLockKey} );
     	    });
         }
         
