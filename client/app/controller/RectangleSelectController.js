@@ -34,8 +34,10 @@
         },
     
         qryCanvasMouseDown:function(evt){
+            var that =this;
+            
             if (this.model !== null) {
-                this._channel.publish( "lockmousemove", { value: this._mouseLockKey } );
+                this._channel.publish( "lockmousemove", { value: that._mouseLockKey } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -77,14 +79,11 @@
             
             // get a node that we'll use to draw the rectangle
             this.model.GetNode(function(){
-    	        that._channel.publish( "lockmouseup", { value: this._mouseLockKey } );
-	    	    that._channel.publish( "lockmousedown", { value: this._mouseLockKey} );
+    	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
+	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
     	    });
         }
-        
-       
-        
-        
+
     };
 
     exports.RectangleSelectController = RectangleSelectController;
