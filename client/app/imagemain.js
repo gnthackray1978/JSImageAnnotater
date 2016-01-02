@@ -67,8 +67,8 @@ function loadAll (drive){
         var layer = new Layer(data,appView, visualizer);
         var layerController = new LayerController(appView,layer);
 
-        var rectangleSelector = new RectangleSelect(nodeManager);
-        var rectangleSelectorController = new RectangleSelectController(appView,channel,rectangleSelector);
+        // var rectangleSelector = new RectangleSelect(nodeManager);
+        // var rectangleSelectorController = new RectangleSelectController(appView,channel,rectangleSelector);
 
         var debug = new Debuger(data,nodeManager, appView,visualizer);
         var debugController = new DebugController(appView,debug,visualizer);
