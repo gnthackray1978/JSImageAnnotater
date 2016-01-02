@@ -35,7 +35,10 @@
     
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
-                //this._view.LockCanvasMouseMove('CROP');
+                
+                if(this.addMode) return;
+                
+                
                 this._channel.publish( "lockmousemove", { value: 'CROP' } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
@@ -47,15 +50,14 @@
         
         qryCanvasMouseUp:function(evt){
             if (this.model !== null) {
-                //this._view.LockCanvasMouseMove('');
+                
+                if(this.addMode) return;
+                
                 this._channel.publish( "lockmousemove", { value: '' } );
-    	        //this._view.LockCanvasMouseUp('');
     	        this._channel.publish( "lockmouseup", { value: '' } );
-                //this._view.LockCanvasMouseDown('');
                 this._channel.publish( "lockmousedown", { value: '' } );
                 
                 if(this.model.ValidCropNode()){
-                    //this._view.SetCropSaveEnabled();
                     this._channel.publish( "setcropsaveenabled", { value: '' } );
                 }
             }
@@ -64,13 +66,13 @@
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
                 
+                if(this.addMode) return;
+                
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
     	        
                 this.model.SetMouseMovingPosition(mx,my);
-                
                 this._channel.publish( "drawtree", { value: this.model } );
-                //this._view.UpdateCanvas(this.model,null);
             }
         },
     
