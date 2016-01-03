@@ -62,7 +62,7 @@
 		this.selectionnode.Height = tph;
 		this.selectionnode.Visible =true;
 		
-		console.log('selectionnode: ' +this.selectionnode.X + ' ' + this.selectionnode.Y + ' ' + this.selectionnode.Width + ' ' + this.selectionnode.Height);
+		//console.log('selectionnode: ' +this.selectionnode.X + ' ' + this.selectionnode.Y + ' ' + this.selectionnode.Width + ' ' + this.selectionnode.Height);
 	},
 	
 	RectangleSelect.prototype.GetNode = function(complete){
