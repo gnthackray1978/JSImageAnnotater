@@ -69,7 +69,7 @@ NodeManager.prototype = {
     },
 
     DeSelectNodes: function(callback){
-        
+        console.log('DeSelectNodes');
         
         var vidx =1;
         var hidx =0;
