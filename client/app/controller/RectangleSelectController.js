@@ -84,13 +84,20 @@
         qrySelectionStart:function(){
             var that = this;
             
+            that.isStarted = !that.isStarted;
             // enable the rectangular selector
             
-            // get a node that we'll use to draw the rectangle
-            this.model.GetNode(function(){
-    	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
-	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
-    	    });
+            if(that.isStarted){
+                // get a node that we'll use to draw the rectangle
+                this.model.GetNode(function(){
+        	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
+    	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
+        	    });
+            }else
+            {
+                that._channel.publish( "lockmouseup", { value: '' } );
+    	    	that._channel.publish( "lockmousedown", { value: ''} );
+            }
         }
 
     };
