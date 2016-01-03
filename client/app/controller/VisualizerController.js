@@ -37,6 +37,7 @@ var VisualizerController = function (view, graphicsContext, channel) {
         
         if(this.channel){
             this.channel.subscribe("drawtree", function(data, envelope) {
+                console.log('rec ');
                 that.graphicsContext.DrawTree();
             });
             

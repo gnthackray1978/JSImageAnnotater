@@ -75,6 +75,7 @@
                 
                 // check for node inside the selection area here
                 
+                console.log('pub tree draw');
                 this._channel.publish( "drawtree", { value: this.model } );
                 
             }

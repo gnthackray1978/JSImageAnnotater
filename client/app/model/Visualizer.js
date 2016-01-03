@@ -126,7 +126,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                                             that.nodestore.generations[vidx][hidx].Y,
                                             that.nodestore.generations[vidx][hidx].Width,
                                             that.nodestore.generations[vidx][hidx].Height,
-                                            that.nodestore.generations[vidx][hidx].Options);
+                                            nodeOptions);
                             }
                                 
                         }
