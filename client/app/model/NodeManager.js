@@ -497,7 +497,7 @@ NodeManager.prototype = {
             return false;
         };
         
-        if(!findNode())
+        if(!findNode(callback))
         {
             var nodeFactory = new Node(this.generations);
             
