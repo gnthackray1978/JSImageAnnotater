@@ -118,7 +118,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         }
                         
                         if(that.nodestore.generations[vidx][hidx].SelectionArea){
-                            console.log('selection area in loop ' + that.nodestore.generations[vidx][hidx].IsOpen);
+                            //console.log('selection area in loop ' + that.nodestore.generations[vidx][hidx].IsOpen);
                             
                             if(that.nodestore.generations[vidx][hidx].IsOpen){
                                 that._canvasTools.DrawCropBox(
