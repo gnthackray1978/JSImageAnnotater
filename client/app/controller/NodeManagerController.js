@@ -58,9 +58,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("multiselectingend", function(data, envelope) {
-        
-        that.state = that.stateCache;
-        that.updateState();
+    
     });
     
     
@@ -341,6 +339,10 @@ NodeManagerController.prototype = {
                 
             }
             
+            if(that.state == 9 && that.selectedNote == undefined) 
+            {
+                that.state =0;
+            }
             
             that.updateState();
         });
