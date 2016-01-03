@@ -70,7 +70,7 @@
 		
 	    this.nodestore.GetSelectionAreaNode(function(node){
 	    	that.selectionnode = node;
-	    	that.selectionnode = that.options.GetState().defaultOptions;
+	    	that.selectionnode.options = that.options.GetState().defaultOptions;
 	    	complete();
 	    });
 	},
