@@ -58,7 +58,10 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("multiselectingend", function(data, envelope) {
-    
+        
+     //   that.state = 10;
+        
+      //  that.updateState();
     });
     
     
@@ -174,6 +177,9 @@ NodeManagerController.prototype = {
                 break;      
             case 9: //multi selecting
                 console.log('updateState: multi selecting');
+                break;
+            case 10://items selected
+                console.log('updateState: items selected');
                 break;
         }
         
@@ -339,10 +345,16 @@ NodeManagerController.prototype = {
                 
             }
             
-            if(that.state == 9 && that.selectedNote == undefined) 
+            if(that.state == 10 && that.selectedNote == undefined) 
             {
                 that.state =0;
             }
+            
+            if(that.state == 9) 
+            {
+                that.state = 10;
+            }
+            
             
             that.updateState();
         });
