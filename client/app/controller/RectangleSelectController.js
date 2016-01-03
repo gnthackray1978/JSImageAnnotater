@@ -90,6 +90,7 @@
         	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
     	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
     	    	    that._view.DisplayRectangleSelection(true);
+    	    	    that._channel.publish( "multiselectingstart", { value: this.model } );
         	    });
             }else
             {
@@ -112,6 +113,7 @@
 	    	
 	    	this.model.CloseSelection();
 	    	
+	    	this._channel.publish( "multiselectingend", { value: this.model } );
         }
 
     };

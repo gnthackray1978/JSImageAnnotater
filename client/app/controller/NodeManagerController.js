@@ -11,6 +11,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this.meta = metadata;
     this.options = options;
     
+    this.stateCache =0;
+    
     this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
     this._view.DeleteNodeButton($.proxy(this.deleteNodeAction, this));
     
@@ -47,6 +49,20 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._channel.subscribe("mouseClickLock", function(data, envelope) {
         that._mouseClickLocked =data.value;
     });
+    
+    this._channel.subscribe("multiselectingstart", function(data, envelope) {
+        that.stateCache = that.state;
+        that.state = 9;
+        
+        that.updateState();
+    });
+    
+    this._channel.subscribe("multiselectingend", function(data, envelope) {
+        
+        that.state = that.stateCache;
+        that.updateState();
+    });
+    
     
     /*
     
@@ -158,6 +174,9 @@ NodeManagerController.prototype = {
                 console.log('updateState: free to select');
                 this._view.DisplaySelectionState();
                 break;      
+            case 9: //multi selecting
+                console.log('updateState: multi selecting');
+                break;
         }
         
     },
