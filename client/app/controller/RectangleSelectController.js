@@ -2,6 +2,8 @@
 
     var RectangleSelectController = function (view, channel, model) {
         this._view = view;
+        this.isStarted = false;
+        
         this._channel = channel;
         this._mouseLockKey = 'RS';
         
@@ -47,6 +49,8 @@
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
                 
                 this.model.SetMouseStartPosition(mx,my);
+                
+                this.model.OpenSelection();
             }
         },
         
@@ -57,7 +61,7 @@
     	        this._channel.publish( "lockmouseup", { value: '' } );
                 this._channel.publish( "lockmousedown", { value: '' } );
                 
-                
+                this.model.CloseSelection();
             }
         },
     

@@ -17,6 +17,8 @@
         if(this._view.QryCropDeleteButton)
             this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
         
+        
+        
         if(this._view.QryCanvasMouseDown)
             this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
         

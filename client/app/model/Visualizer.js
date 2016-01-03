@@ -54,13 +54,13 @@ Visualizer.prototype.DrawTree= function () {
        
         that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
             
-            that.nodestore.GetSelectionAreaNode(function(selectionNode){
+            //that.nodestore.GetSelectionAreaNode(function(selectionNode){
             
                 var defaultOptions = that.options.GetState().defaultOptions;
                 
                 that.DrawTree2(visibleLayers,defaultOptions, cropMainNode, cropInitNode);
             
-            });
+            //});
         });
     });
     
@@ -117,30 +117,37 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
-                        // if(that.nodestore.generations[vidx][hidx].Selected != undefined){
-                        //     console.log(hidx + ' node selected');
-                        // }
-                        
-                        that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
-                            that.nodestore.generations[vidx][hidx].X,
-                            that.nodestore.generations[vidx][hidx].Y,
-                            that.nodestore.generations[vidx][hidx].Width,
-                            that.nodestore.generations[vidx][hidx].Height,
-                            that.nodestore.generations[vidx][hidx].D,
-                            that.nodestore.generations[vidx][hidx].Selected,
-                            that.nodestore.generations[vidx][hidx].Annotation, 
-                            that.nodestore.generations[vidx][hidx].Match,
-                            nodeOptions,
-                            that.nodestore.generations[vidx][hidx].Cache);
-                            
-                        if(that.nodestore.generations[vidx][hidx].Cache.FontSize != 1){
-                            // font sizes are constantly changing because of things like the zoom.
-                            // set default options so that when we create a new node we have a sensible font size.
-                            defaultOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
-                            // update current node options so we have current font size.
-                            nodeOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
+                        if(that.nodestore.generations[vidx][hidx].SelectionArea){
+                            console.log('selection area in loop ' + that.nodestore.generations[vidx][hidx].IsOpen);
                         }
+                        else
+                        {
+                            // if(that.nodestore.generations[vidx][hidx].Selected != undefined){
+                            //     console.log(hidx + ' node selected');
+                            // }
                             
+                            that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
+                                that.nodestore.generations[vidx][hidx].X,
+                                that.nodestore.generations[vidx][hidx].Y,
+                                that.nodestore.generations[vidx][hidx].Width,
+                                that.nodestore.generations[vidx][hidx].Height,
+                                that.nodestore.generations[vidx][hidx].D,
+                                that.nodestore.generations[vidx][hidx].Selected,
+                                that.nodestore.generations[vidx][hidx].Annotation, 
+                                that.nodestore.generations[vidx][hidx].Match,
+                                nodeOptions,
+                                that.nodestore.generations[vidx][hidx].Cache);
+                                
+                            if(that.nodestore.generations[vidx][hidx].Cache.FontSize != 1){
+                                // font sizes are constantly changing because of things like the zoom.
+                                // set default options so that when we create a new node we have a sensible font size.
+                                defaultOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
+                                // update current node options so we have current font size.
+                                nodeOptions.FontSize = that.nodestore.generations[vidx][hidx].Cache.FontSize;
+                            }
+                        }
+                        
+                        
                         //matches ????
                         //scan for matches when load 
                         //and have refresh method to update periodically
@@ -174,6 +181,8 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                                 cropMainNode.Height,
                                 cropMainNode.Options);
                         }
+                        
+                        
                     } ); 
             }    
             else
