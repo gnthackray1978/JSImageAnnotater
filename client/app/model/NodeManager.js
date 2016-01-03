@@ -57,7 +57,9 @@ NodeManager.prototype = {
                 if(intersectRect(this.generations[vidx][hidx], node)){
                     this.generations[vidx][hidx].Selected = true;
                 }
-                
+                else{
+                    this.generations[vidx][hidx].Selected = false;
+                }
                 hidx++;
             }
             vidx++;
