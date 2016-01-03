@@ -32,12 +32,12 @@ NodeManager.prototype = {
             r1.left = r1.X;
             r1.right = r1.X + r1.Width;
             r1.top = r1.Y;
-            r1.bottom = r1.Y + r1.height;
+            r1.bottom = r1.Y + r1.Height;
             
             r2.left = r2.X;
             r2.right = r2.X + r2.Width;
             r2.top = r2.Y;
-            r2.bottom = r2.Y + r2.height;
+            r2.bottom = r2.Y + r2.Height;
             
             
             return !(r2.left > r1.right || 
