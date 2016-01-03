@@ -57,11 +57,13 @@
         qryCanvasMouseUp:function(evt){
             if (this.model !== null) {
              
-                this._channel.publish( "lockmousemove", { value: '' } );
-    	        this._channel.publish( "lockmouseup", { value: '' } );
-                this._channel.publish( "lockmousedown", { value: '' } );
+            //     this._channel.publish( "lockmousemove", { value: '' } );
+    	       // this._channel.publish( "lockmouseup", { value: '' } );
+            //     this._channel.publish( "lockmousedown", { value: '' } );
                 
-                this.model.CloseSelection();
+                //this.model.CloseSelection();
+                
+                this.finishSelecting();
             }
         },
     
@@ -91,10 +93,24 @@
         	    });
             }else
             {
-                that._channel.publish( "lockmouseup", { value: '' } );
-    	    	that._channel.publish( "lockmousedown", { value: ''} );
-    	    	that._view.DisplayRectangleSelection(false);
+                //that._channel.publish( "lockmouseup", { value: '' } );
+                //that._channel.publish( "lockmousedown", { value: ''} );
+                //that._view.DisplayRectangleSelection(false);
+    	   
+    	        that.finishSelecting();
             }
+        }, 
+        
+        finishSelecting : function(){
+            
+            this._channel.publish( "lockmouseup", { value: '' } );
+	    	this._channel.publish( "lockmousedown", { value: ''} );
+	    	this._channel.publish( "lockmousemove", { value: '' } );
+	    	
+	    	this._view.DisplayRectangleSelection(false);
+	    	
+	    	this.model.CloseSelection();
+	    	
         }
 
     };
