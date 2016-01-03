@@ -1,7 +1,8 @@
 (function(exports){
-	var RectangleSelect = function (nodestore) {
+	var RectangleSelect = function (nodestore, options) {
 	    
 	    this.nodestore = nodestore;
+	    this.options = options;
 	    this.mouse = {x: 0, y: 0};
 		this.start_mouse = {x: 0, y: 0};
 		this.selectionnode;
@@ -69,6 +70,7 @@
 		
 	    this.nodestore.GetSelectionAreaNode(function(node){
 	    	that.selectionnode = node;
+	    	that.selectionnode = that.options.GetState().defaultOptions;
 	    	complete();
 	    });
 	},
