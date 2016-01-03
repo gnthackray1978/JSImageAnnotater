@@ -480,28 +480,35 @@ NodeManager.prototype = {
         
         var that = this;
         
-        var idx =0;
-        
-        while(idx < that.generations[1].length){
+        var findNode = function(callback){   
             
-            if(that.generations[1][idx].SelectionArea){
-                callback(that.generations[1][idx], that.initialGenerations[1][idx]);
-                return;
+            var idx =0;
+            
+            while(idx < that.generations[1].length){
+                
+                if(that.generations[1][idx].SelectionArea){
+                    callback(that.generations[1][idx], that.initialGenerations[1][idx]);
+                    return true;
+                }
+                
+                idx++;
             }
             
-            idx++;
+            return false;
+        };
+        
+        if(!findNode())
+        {
+            var nodeFactory = new Node(this.generations);
+            
+            nodeFactory.CreateEmptyNode(false,false, function(node){
+                node.SelectionArea =true;
+            
+                that.AddNode(1,false,node,function(){
+                    findNode(callback);
+                });
+            })
         }
- 
-        var nodeFactory = new Node(this.generations);
-        
-        nodeFactory.CreateEmptyNode(false,false, function(node){
-            node.SelectionArea =true;
-        
-            that.AddNode(1,false,node,function(){
-                callback(node);
-            });
-        })
-        
         
        
 
