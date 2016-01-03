@@ -141,11 +141,10 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
     var key = 'RS';
     
     $("#myCanvas").mousedown(function (evt) {
-        
-        console.log('InitSelectionRectangle: ' + that.canvasMousedownLock + ' ' + key);
-        
-        if(that.canvasMousedownLock == key)
+        if(that.canvasMousedownLock == key){
+            console.log('InitSelectionRectangle: ' + that.canvasMousedownLock + ' ' + key);
             that._channel.publish( "selectionMouseDown", { value: evt } );
+        }
     });
 
     $("#myCanvas").mouseup(function (evt) {
