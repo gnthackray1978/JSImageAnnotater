@@ -119,6 +119,16 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         
                         if(that.nodestore.generations[vidx][hidx].SelectionArea){
                             console.log('selection area in loop ' + that.nodestore.generations[vidx][hidx].IsOpen);
+                            
+                            if(that.nodestore.generations[vidx][hidx].IsOpen){
+                                that._canvasTools.DrawCropBox(
+                                            that.nodestore.generations[vidx][hidx].X,
+                                            that.nodestore.generations[vidx][hidx].Y,
+                                            that.nodestore.generations[vidx][hidx].Width,
+                                            that.nodestore.generations[vidx][hidx].Height,
+                                            that.nodestore.generations[vidx][hidx].Options);
+                            }
+                                
                         }
                         else
                         {
