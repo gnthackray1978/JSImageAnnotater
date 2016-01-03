@@ -103,6 +103,7 @@
         
         finishSelecting : function(){
             
+            this.isStarted = false;
             this._channel.publish( "lockmouseup", { value: '' } );
 	    	this._channel.publish( "lockmousedown", { value: ''} );
 	    	this._channel.publish( "lockmousemove", { value: '' } );
