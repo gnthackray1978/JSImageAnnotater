@@ -1643,6 +1643,20 @@ URL
 
 */
 
+AnnotaterView.prototype.DisplayRectangleSelection= function (state) {
+    console.log('View DisplayRectangleSelection');
+    if(!state)
+        $("#rectselstart").val('RS');
+    else
+        $("#rectselstart").val('[RS]');
+};
+
+AnnotaterView.prototype.DisplaySelectionState= function () {
+    console.log('View DisplaySelectionState');
+    $("#selectnodebtn").val('[SN]');
+    $("#delnodebtn").prop('disabled', false); 
+
+};
 
 AnnotaterView.prototype.DisplaySelectionState= function () {
     console.log('View DisplaySelectionState');

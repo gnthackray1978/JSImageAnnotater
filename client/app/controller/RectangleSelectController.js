@@ -92,11 +92,13 @@
                 this.model.GetNode(function(){
         	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
     	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
+    	    	    that._view.DisplayRectangleSelection(false);
         	    });
             }else
             {
                 that._channel.publish( "lockmouseup", { value: '' } );
     	    	that._channel.publish( "lockmousedown", { value: ''} );
+    	    	that._view.DisplayRectangleSelection(true);
             }
         }
 
