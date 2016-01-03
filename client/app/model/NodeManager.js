@@ -202,7 +202,7 @@ NodeManager.prototype = {
         while(vidx < this.generations.length){
             hidx=0;
             while(hidx < this.generations[vidx].length){
-                if(this.generations[vidx][hidx].Visible)
+                if(this.generations[vidx][hidx].Visible  && !(this.generations[vidx][hidx].SelectionArea ? this.generations[vidx][hidx].SelectionArea : false))
                 {
                     var m = this.ContainsXY(this.generations[vidx][hidx],x,y);
                     if(m){
