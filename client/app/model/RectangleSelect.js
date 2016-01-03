@@ -62,6 +62,12 @@
 		this.selectionnode.Height = tph;
 		this.selectionnode.Visible =true;
 		
+		
+		this.nodestore.SelectNodes(this.selectionnode, function(){
+			
+		});
+		
+		
 		//console.log('selectionnode: ' +this.selectionnode.X + ' ' + this.selectionnode.Y + ' ' + this.selectionnode.Width + ' ' + this.selectionnode.Height);
 	},
 	

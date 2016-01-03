@@ -25,6 +25,71 @@ NodeManager.prototype = {
         this._noteDll.init(loaded);
     },
 
+    SelectNodes: function(node, callback){
+        
+        var intersectRect = function (r1, r2) {
+            
+            r1.left = r1.X;
+            r1.right = r1.X + r1.Width;
+            r1.top = r1.Y;
+            r1.bottom = r1.Y + r1.height;
+            
+            r2.left = r2.X;
+            r2.right = r2.X + r2.Width;
+            r2.top = r2.Y;
+            r2.bottom = r2.Y + r2.height;
+            
+            
+            return !(r2.left > r1.right || 
+                   r2.right < r1.left || 
+                   r2.top > r1.bottom ||
+                   r2.bottom < r1.top);
+        };
+        
+        var vidx =1;
+        var hidx =0;
+      
+       
+        while(vidx < this.generations.length){
+            hidx=0;
+            while(hidx < this.generations[vidx].length){
+                
+                if(intersectRect(this.generations[vidx][hidx], node)){
+                    this.generations[vidx][hidx].Selected = true;
+                }
+                
+                hidx++;
+            }
+            vidx++;
+        }
+        
+        callback();
+    },
+
+    DeSelectNodes: function(callback){
+        
+        
+        var vidx =1;
+        var hidx =0;
+      
+       
+        while(vidx < this.generations.length){
+            hidx=0;
+            while(hidx < this.generations[vidx].length){
+                
+               
+                    this.generations[vidx][hidx].Selected = false;
+                
+                
+                hidx++;
+            }
+            vidx++;
+        }
+        
+        callback();
+    },
+
+
     GetGenerations: function (urlId, callback) {
         
         var that = this;
