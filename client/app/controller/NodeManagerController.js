@@ -110,7 +110,7 @@ NodeManagerController.prototype = {
                 
                 this._view.DisplayNeutralState();
                 this._view.ClearActiveTextArea();
-                this.nodestore.DeSelectNodes(function(){
+                this.nodeManager.DeSelectNodes(function(){
                     that._channel.publish( "drawtree", null);
                 });
                 
