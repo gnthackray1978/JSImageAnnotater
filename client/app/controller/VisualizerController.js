@@ -17,7 +17,8 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that._view.UpdateInfoWindow(imdat);
     };
 
-    this._view.CanvasClick($.proxy(this.canvasClick, this));
+  //  this._view.CanvasClick($.proxy(this.canvasClick, this));
+    
     this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
     this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
     this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
@@ -49,6 +50,9 @@ var VisualizerController = function (view, graphicsContext, channel) {
                 that.graphicsContext.SetLocked(data.value);
             });
             
+            this.channel.subscribe("singleClick", function(data, envelope) {
+                that.canvasClick(data.value.x, data.value.y);
+            });
         }
     }
     else

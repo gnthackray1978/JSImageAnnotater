@@ -26,9 +26,9 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     
     
-    this._view.CanvasClick($.proxy(this.clickAction, this));
+  //  this._view.CanvasClick($.proxy(this.clickAction, this));
    
-    this._view.CanvasDoubleClick($.proxy(this.doubleClickAction, this));
+  //  this._view.CanvasDoubleClick($.proxy(this.doubleClickAction, this));
    
     //note operations
     this._view.Add($.proxy(this.addButtonClicked, this));

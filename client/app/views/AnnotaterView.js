@@ -120,9 +120,50 @@ function AnnotaterView(channel) {
     
    
     this.InitOptions();
+    
     this.InitSelectionRectangle();
     
+    this.InitGenericMouseClicks();
+    
 } 
+
+
+AnnotaterView.prototype.InitGenericMouseClicks = function (){
+    
+    var that = this;
+    //here look multiple event firing problems    
+    $("#myCanvas").click(function (evt) {
+        if(that.canvasMouseclickLock == ''){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            
+            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+            that._channel.publish( "singleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+        }
+    });
+
+    $("#myCanvas").dblclick(function (evt) {
+        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+        
+        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+        
+        that._channel.publish( "doubleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+        
+    });
+    
+},
 
 AnnotaterView.prototype.InitOptions = function (state){
     var that = this;
@@ -701,53 +742,6 @@ AnnotaterView.prototype.MultiSelectNodeButton = function (action) {
     //here look multiple event firing problems    
     $("#multiselectnodebtn").click(function (evt) {
         action();
-    });
-};
-
-
-
-
-
-
-
-AnnotaterView.prototype.CanvasClick = function (action) {
-    var that = this;
-    //here look multiple event firing problems    
-    $("#myCanvas").click(function (evt) {
-        if(that.canvasMouseclickLock == ''){
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            
-            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-            
-            that._channel.publish( "singleClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
-            
-       
-        }
-    });
-};
-
-AnnotaterView.prototype.CanvasDoubleClick = function (action) {
-    var that = this;
-    //here look multiple event firing problems    
-    $("#myCanvas").dblclick(function (evt) {
-        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-        
-        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-        
-        that._channel.publish( "doubleClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
-        
     });
 };
 
