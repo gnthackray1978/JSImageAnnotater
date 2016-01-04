@@ -64,6 +64,17 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
       //  that.updateState();
     });
     
+    this._channel.subscribe("singleselectchange", function(data, envelope) {
+        
+    });
+    
+    this._channel.subscribe("singleClick", function(data, envelope) {
+        that.clickAction(data.value.x, data.value.y);
+    });
+    
+    this._channel.subscribe("doubleClick", function(data, envelope) {
+        that.doubleClickAction(data.value.x, data.value.y);
+    });
     
     /*
     

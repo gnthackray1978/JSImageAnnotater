@@ -720,7 +720,14 @@ AnnotaterView.prototype.CanvasClick = function (action) {
             that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
             that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
             
-            action(that.canvasMouseLastXClick, that.canvasMouseLastYClick);
+            that._channel.publish( "singleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+            
+       
         }
     });
 };
@@ -734,7 +741,12 @@ AnnotaterView.prototype.CanvasDoubleClick = function (action) {
         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
         
-        action(that.canvasMouseLastXClick, that.canvasMouseLastYClick);
+        that._channel.publish( "doubleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
         
     });
 };
