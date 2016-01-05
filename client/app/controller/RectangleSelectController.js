@@ -226,6 +226,8 @@
                 this._state =0;
             else
                 this._state =1;
+                
+            this.updateState();
         },
         
         deleteNodeAction: function(){ // users are clicking nodes and they are being deleted
@@ -237,9 +239,23 @@
             else
                 this._state =2;
             
+            this.updateState();
+        },
+
+        updateState: function(){
+            
+            switch (this._state) {
+                case 0:
+                    this._view.DisplaySingleSelection(true);
+                    break;
+                case 1:
+                    this._view.DisplaySingleSelection(false);
+                    break;
+                case 2:
+                    // code
+                    break;
+            }
         }
-
-
 
     };
 

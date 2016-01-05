@@ -1713,25 +1713,28 @@ AnnotaterView.prototype.DisplaySaveState= function () {
 
 AnnotaterView.prototype.DisplayNeutralState= function () {
     console.log('View DisplayNeutralState');
-  
-    //$("#imagelabel").html('Select Mode');
-    
-    //$("#delsinglenodebtn").show();
+
     $("#delsinglenodebtn").val('DC');
     
     $("#delnodebtn").prop('disabled', true); 
+    
     $("#addnodebtn").val('AD');
-    $("#selectnodebtn").val('SN');
     
-    //$("#btnAddNote").show();
     
+
     $("#btnNodeCancel").hide();
     
     $("#btnSave").hide();
 
 };
 
-
+AnnotaterView.prototype.DisplaySingleSelection= function (state) {
+    
+    if(!state)
+        $("#selectnodebtn").val('SN');
+    else
+        $("#selectnodebtn").val('[SN]');
+};
 
 //TRIGGERED BY MODEL WHEN DIAGRAM IS READY/NOT READY TO BE RUN
 AnnotaterView.prototype.DisplayUpdateRunButton= function (status) {
