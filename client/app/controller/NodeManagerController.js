@@ -37,6 +37,15 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     var that = this;
     
     
+    this._channel.subscribe("singleSelectionEnabled", function(data, envelope) {
+        
+    });
+    
+    this._channel.subscribe("singleSelectionDisabled", function(data, envelope) {
+        that._view.DisplaySelectionDelete(false);
+    });
+    
+    
     this._channel.subscribe("mouseClickLock", function(data, envelope) {
         that._mouseClickLocked =data.value;
     });

@@ -236,9 +236,11 @@
             switch (this._state) {
                 case 0:
                     this._view.DisplaySingleSelection(false);
+                    this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
                 case 1:
                     this._view.DisplaySingleSelection(true);
+                    this._channel.publish( "singleSelectionDisabled", { value: false} ); 
                     break;
                 case 2:
                     // code
