@@ -170,7 +170,7 @@
                 
                 if(node && that._state == 2){ // no selecting selection ie you point to a node return it so it can be deleted.
                     that._selectedNode = node;
-                    that._channel.publish( "focusednode", { value: this.model } ); 
+                    that._channel.publish( "focusednode", { value: node } ); 
                 }
             });
        
