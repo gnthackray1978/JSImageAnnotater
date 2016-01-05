@@ -197,9 +197,9 @@
             var that = this;
             
             this._nodeManager.SelectNode(this._selectedNode, function(node){
-                that._channel.publish( "nodeselected", { value: this._nodeManager.SelectionCount() } ); 
+                that._channel.publish( "nodeselected", { value: that._nodeManager.SelectionCount() } ); 
             }, function(node){
-                that._channel.publish( "nodedeselected", { value: this._nodeManager.SelectionCount() } ); 
+                that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); 
             });   
             
             
