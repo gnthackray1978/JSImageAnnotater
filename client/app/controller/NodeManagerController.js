@@ -115,11 +115,11 @@ NodeManagerController.prototype = {
     
     selectionChange : function(count){
         if(count >0){
-            this._view.DisplaySelectionDelete(true);
+            this._view.DisplaySelectionDelete(false);
         }
         else
         {
-            this._view.DisplaySelectionDelete(false);
+            this._view.DisplaySelectionDelete(true);
         }
     },
     
