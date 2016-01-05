@@ -74,9 +74,10 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._channel.subscribe("focusednode", function(data, envelope) {
         //node contained with clicked pointer but wasnt selected.
         //for deleting
+        
         that.selectedNote = data.node;
       
-        that.state =6;
+        if(that.state == 2) that.state =6;
         
         that.updateState();
     });
@@ -168,11 +169,13 @@ NodeManagerController.prototype = {
                 break;
                 
             case 6: //DELETING
-                that.selectedNote.Visible =false;
-                that.nodeManager.WriteToDB(that.selectedNote, function(){
-                    console.log('node deleted');
-                });
-                that.selectedNote = undefined;
+                if(that.selectedNote){
+                    that.selectedNote.Visible =false;
+                    that.nodeManager.WriteToDB(that.selectedNote, function(){
+                        console.log('node deleted');
+                    });
+                    that.selectedNote = undefined;
+                }
                 break;
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');

@@ -243,7 +243,9 @@
                     
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
                         console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
+                        that._channel.publish( "drawtree", { value: this.model } ); 
                         that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); //deselect whatever is currently selected
+                        
                     },false);   
                     
                     break;
