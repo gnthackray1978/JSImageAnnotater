@@ -240,7 +240,9 @@
                 case 0:
                     this._view.DisplaySingleSelection(false);// turn off ui button
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
+                    
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
+                        console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
                         that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); //deselect whatever is currently selected
                     },false);   
                     
