@@ -246,10 +246,10 @@
             
             switch (this._state) {
                 case 0:
-                    this._view.DisplaySingleSelection(true);
+                    this._view.DisplaySingleSelection(false);
                     break;
                 case 1:
-                    this._view.DisplaySingleSelection(false);
+                    this._view.DisplaySingleSelection(true);
                     break;
                 case 2:
                     // code
