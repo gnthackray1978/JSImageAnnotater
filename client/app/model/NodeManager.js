@@ -43,8 +43,9 @@ NodeManager.prototype = {
                 else
                     node.Selected = state;
                 
-                selected(node);
                 this._selectionCount++;
+                
+                selected(node);
             }
             else
             {
@@ -54,13 +55,14 @@ NodeManager.prototype = {
                     node.Selected = !node.Selected;
                 
                 if(node.Selected){
-                    selected(node);
                     this._selectionCount++;
+                    selected(node);
                 }
                 else
                 {
-                    deselected(node);
                     this._selectionCount--;
+                    deselected(node);
+                    
                 }
             }
         }
