@@ -222,10 +222,10 @@
             
             if(this._state ==2 ) return;
             
-            if(this._state == 1) 
-                this._state =0;
-            else
+            if(this._state == 0) 
                 this._state =1;
+            else
+                this._state =0;
                 
             this.updateState();
         },
@@ -234,10 +234,10 @@
             
             if(this._state ==1 ) return;
             
-            if(this._state == 2) 
-                this._state = 0;
+            if(this._state == 0) 
+                this._state = 2;
             else
-                this._state =2;
+                this._state =0;
             
             this.updateState();
         },
