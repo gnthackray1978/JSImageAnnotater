@@ -156,7 +156,7 @@
                 if(that._state ==0 ) return; // selections have been turned off.
                 
                 if(node == undefined && !that._isMultiSelecting){
-                    that.nodeManager.DeSelectNodes(function(){
+                    that._nodeManager.DeSelectNodes(function(){
                         that._channel.publish( "drawtree", null);
                     });
                     
