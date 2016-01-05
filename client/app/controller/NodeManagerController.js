@@ -42,7 +42,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("singleSelectionDisabled", function(data, envelope) {
-        that._view.DisplaySelectionDelete(false);
+        that._view.DisplaySelectionDelete(true);
     });
     
     

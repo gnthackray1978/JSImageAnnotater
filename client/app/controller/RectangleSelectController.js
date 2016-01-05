@@ -232,11 +232,16 @@
         },
 
         updateState: function(){
+            var that = this;
             
             switch (this._state) {
                 case 0:
-                    this._view.DisplaySingleSelection(false);
-                    this._channel.publish( "singleSelectionDisabled", { value: false} ); 
+                    this._view.DisplaySingleSelection(false);// turn off ui button
+                    this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
+                    this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
+                        that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); //deselect whatever is currently selected
+                    },false);   
+                    
                     break;
                 case 1:
                     this._view.DisplaySingleSelection(true);

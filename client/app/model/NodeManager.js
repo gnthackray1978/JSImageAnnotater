@@ -30,17 +30,28 @@ NodeManager.prototype = {
         return this._selectionCount;
     },
 
-    SelectNode : function(node, selected, deselected){
+    SelectNode : function(node, selected, deselected, state){
         
+        
+    
+    
         if(node){        
             if(node.Selected == undefined) {    
-                node.Selected = true;
+                
+                if(state==undefined)
+                    node.Selected = true;
+                else
+                    node.Selected = state;
+                
                 selected(node);
                 this._selectionCount++;
             }
             else
             {
-                node.Selected = !node.Selected;
+                if(state!=undefined)
+                    node.Selected = state;
+                else
+                    node.Selected = !node.Selected;
                 
                 if(node.Selected){
                     selected(node);
