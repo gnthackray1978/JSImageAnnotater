@@ -114,6 +114,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 NodeManagerController.prototype = {
     
     selectionChange : function(count){
+        console.log('selectionChange: ' + count);
+        
         if(count >0){
             this._view.DisplaySelectionDelete(false);
         }

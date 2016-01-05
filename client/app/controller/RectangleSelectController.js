@@ -197,8 +197,10 @@
             var that = this;
             
             this._nodeManager.SelectNode(this._selectedNode, function(node){
+                console.log('selectNode nodeselected');
                 that._channel.publish( "nodeselected", { value: that._nodeManager.SelectionCount() } ); 
             }, function(node){
+                console.log('selectNode nodedeselected');
                 that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); 
             });   
             
