@@ -139,7 +139,7 @@
 	    	
 	    	this.model.CloseSelection();
 	    	
-	    	this._channel.publish( "multiselectingend", { value: this.model } );
+	    	this._channel.publish( "multiselectingend", { value: this._nodeManager.SelectionCount()  } );
 	    	
 	    	this.isStarted = false;
 	    	
@@ -194,26 +194,15 @@
         },
 
         selectNode: function(){
-             
-            if(this._selectedNode){        
-                if(this._selectedNode.Selected == undefined) {    
-                    this._selectedNode.Selected = true;
-                    this._channel.publish( "nodeselected", { value: this.model } ); 
-                }
-                else
-                {
-                    this._selectedNode.Selected = !this._selectedNode.Selected;
-                    
-                    if(this._selectedNode.Selected)
-                        this._channel.publish( "nodeselected", { value: this.model } ); 
-                    else
-                        this._channel.publish( "nodedeselected", { value: this.model } ); 
-                }
-            }
-            else
-                console.log('selected note undefined');
-                
-                
+            var that = this;
+            
+            this._nodeManager.SelectNode(this._selectedNode, function(node){
+                that._channel.publish( "nodeselected", { value: this._nodeManager.SelectionCount() } ); 
+            }, function(node){
+                that._channel.publish( "nodedeselected", { value: this._nodeManager.SelectionCount() } ); 
+            });   
+            
+            
             this._channel.publish( "drawtree", { value: this.model } );    
         },
         

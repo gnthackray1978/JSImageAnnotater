@@ -8,6 +8,7 @@ var NodeManager = function (data) {
     this.urlId =0;
    
     this._noteDll = data;
+    this._selectionCount =0;
     
 };
 
@@ -24,7 +25,38 @@ NodeManager.prototype = {
     init: function(loaded){
         this._noteDll.init(loaded);
     },
+    
+    SelectionCount: function(){
+        return this._selectionCount;
+    },
 
+    SelectNode : function(node, selected, deselected){
+        
+        if(node){        
+            if(node.Selected == undefined) {    
+                node.Selected = true;
+                selected(node);
+                this._selectionCount++;
+            }
+            else
+            {
+                node.Selected = !node.Selected;
+                
+                if(node.Selected){
+                    selected(node);
+                    this._selectionCount++;
+                }
+                else
+                {
+                    deselected(node);
+                    this._selectionCount--;
+                }
+            }
+        }
+        else
+            console.log('selected note undefined');
+    },
+    
     SelectNodes: function(node, callback){
         
         var intersectRect = function (r1, r2) {
@@ -49,16 +81,19 @@ NodeManager.prototype = {
         var vidx =1;
         var hidx =0;
       
-       
+        this._selectionCount =0;
+        
         while(vidx < this.generations.length){
             hidx=0;
             while(hidx < this.generations[vidx].length){
                 
                 if(intersectRect(this.generations[vidx][hidx], node)){
                     this.generations[vidx][hidx].Selected = true;
+                    this._selectionCount++;
                 }
                 else{
                     this.generations[vidx][hidx].Selected = false;
+                    this._selectionCount--;
                 }
                 hidx++;
             }
@@ -70,7 +105,7 @@ NodeManager.prototype = {
 
     DeSelectNodes: function(callback){
         console.log('DeSelectNodes');
-        
+        this._selectionCount =0;
         var vidx =1;
         var hidx =0;
       

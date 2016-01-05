@@ -49,18 +49,16 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("multiselectingend", function(data, envelope) {
-        
-     //   that.state = 10;
-        
-      //  that.updateState();
+        that.selectionChange(data.value);
     });
     
     this._channel.subscribe("nodeselected", function(data, envelope) {
-        
+        that.selectionChange(data.value);
     });
     
     this._channel.subscribe("nodedeselected", function(data, envelope) {
-        //that.state =0;
+        that.selectionChange(data.value);
+        
     });
     
     // delete node
@@ -105,6 +103,16 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 };
 
 NodeManagerController.prototype = {
+    
+    selectionChange : function(count){
+        if(count >0){
+            this._view.DisplaySelectionDelete(false);
+        }
+        else
+        {
+            this._view.DisplaySelectionDelete(true);
+        }
+    },
     
     updateState :function(){
         var that = this;

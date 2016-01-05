@@ -1659,26 +1659,20 @@ AnnotaterView.prototype.DisplayRectangleSelection= function (state) {
 AnnotaterView.prototype.DisplaySelectionState= function () {
     console.log('View DisplaySelectionState');
     $("#selectnodebtn").val('[SN]');
-    $("#delnodebtn").prop('disabled', false); 
+     
 
 };
 
-AnnotaterView.prototype.DisplaySelectionState= function () {
-    console.log('View DisplaySelectionState');
-    $("#selectnodebtn").val('[SN]');
-    $("#delnodebtn").prop('disabled', false); 
+AnnotaterView.prototype.DisplaySelectionDelete= function (state) {
+    console.log('View DisplaySelectionDelete');
+    
+    $("#delnodebtn").prop('disabled', state); 
 
 };
 
 AnnotaterView.prototype.DisplayDeleteState= function () {
     console.log('View DisplayDeleteState');
     $("#delsinglenodebtn").val('[DC]');
-    // $("#imagelabel").html('Click note to delete');
-    // $("#btnDeleteNote").val('Cancel');
-    // $("#btnAddNote").hide();
-    // $("#btnOptions").hide();
-    // $("#btnCancel").hide();
-    // $("#btnSaveNote").hide();
 
 };
 
@@ -1727,6 +1721,8 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
     $("#btnSave").hide();
 
 };
+
+
 
 AnnotaterView.prototype.DisplaySingleSelection= function (state) {
     
