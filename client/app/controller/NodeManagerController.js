@@ -138,7 +138,7 @@ NodeManagerController.prototype = {
                 
                 this._view.DisplayNeutralState();
                 this._view.ClearActiveTextArea();
-                
+                this._channel.publish( "drawtree", { value: this.model } ); 
                 break;
             case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
