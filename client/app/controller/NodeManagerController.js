@@ -75,7 +75,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         //node contained with clicked pointer but wasnt selected.
         //for deleting
         
-        that.selectedNote = data;
+        that.selectedNote = data.value;
       
         if(that.state == 2) that.state =6;
         
