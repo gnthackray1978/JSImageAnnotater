@@ -59,6 +59,10 @@
             that.deleteNodeAction();
         });
         
+        this._channel.subscribe("activateNullSelection", function(data, envelope) {
+            that.nullAction();
+        });
+        
         this._channel.subscribe("deactivateSelection", function(data, envelope) {
             that._state =0;
         });
@@ -156,11 +160,16 @@
                 if(that._state ==0 ) return; // selections have been turned off.
                 
                 if(node == undefined && !that._isMultiSelecting){
+                    
                     that._nodeManager.DeSelectNodes(function(){
                         that._channel.publish( "drawtree", null);
                     });
+                        
+                    if(that._state == 3)
+                    {
+                        that._channel.publish( "nullselection", { value: this.model } ); 
+                    }
                     
-                    that._channel.publish( "nullselection", { value: this.model } ); 
                 }
                 
                 if(node && that._state == 1){ // standard selection
@@ -211,7 +220,7 @@
         
         selectNodeAction: function(){ // users are clicking nodes and they are being selected/deselected
             
-            if(this._state ==2 ) return;
+            if(this._state ==2  || this._state == 3) return;
             
             if(this._state == 0) 
                 this._state =1;
@@ -223,10 +232,22 @@
         
         deleteNodeAction: function(){ // users are clicking nodes and they are being deleted
             
-            if(this._state ==1 ) return;
+            if(this._state ==1  || this._state == 3 ) return;
             
             if(this._state == 0) 
                 this._state = 2;
+            else
+                this._state =0;
+            
+            this.updateState();
+        },
+
+        nullAction: function(){ // users are clicking nodes and they are being deleted
+            
+            if(this._state ==1 || this._state ==2 ) return;
+            
+            if(this._state == 0) 
+                this._state = 3;
             else
                 this._state =0;
             
@@ -253,7 +274,10 @@
                     this._view.DisplaySingleSelection(true);
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
-                case 2:
+                case 2:// non select selections
+                    // code
+                    break;
+                case 3: // empty space selections
                     // code
                     break;
             }
