@@ -143,7 +143,7 @@ NodeManagerController.prototype = {
             case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
                 this._view.DisplayAddState();
-                this._channel.publish( "activateStandardSelection", { value: true } );
+                this._channel.publish( "activateNullSelection", { value: true } );
               
                 break;
                 
