@@ -167,6 +167,7 @@
                         
                     if(that._state == 3)
                     {
+                        that._state = 0;
                         that._channel.publish( "nullselection", { value: this.model } ); 
                     }
                     
