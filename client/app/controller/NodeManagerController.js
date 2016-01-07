@@ -100,7 +100,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     //edit existing node
     this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {
         
-        that.selectedNote = data.node;
+        that.selectedNote = data.value;
       
         that.state =4;
         
