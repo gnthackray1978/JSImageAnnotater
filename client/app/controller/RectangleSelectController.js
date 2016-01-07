@@ -157,31 +157,41 @@
             
             this._nodeManager.PointToNode(x,y, function(node){
                 
-                if(that._state ==0 ) return; // selections have been turned off.
-                
+                switch(that._state){
+                    case 0:
+                        return;
+                    case 1://standard we trigger events for null and selection
+                        that._selectedNode = node;
+                        that.selectNode();
+                        break;
+                    case 2:// no selecting selection ie you point to a node return it so it can be deleted.
+                        if(node){ 
+                            that._selectedNode = node;
+                            that._channel.publish( "focusednode", { value: node } ); 
+                        }
+                        else
+                        {
+                            that._channel.publish( "nullselection", { value: undefined } ); 
+                        }
+                        break;
+                    case 3:// only interested in null selections
+                        if(node == undefined && !that._isMultiSelecting){
+                            if(that._state == 3)
+                            {
+                                that._state = 0;
+                                that._channel.publish( "nullselection", { value: undefined } ); 
+                            }
+                        }
+                        break;
+                }
+               
                 if(node == undefined && !that._isMultiSelecting){
-                    
                     that._nodeManager.DeSelectNodes(function(){
                         that._channel.publish( "drawtree", null);
                     });
-                        
-                    if(that._state == 3)
-                    {
-                        that._state = 0;
-                        that._channel.publish( "nullselection", { value: this.model } ); 
-                    }
                     
                 }
                 
-                if(node && that._state == 1){ // standard selection
-                    that._selectedNode = node;
-                    that.selectNode();
-                }
-                
-                if(node && that._state == 2){ // no selecting selection ie you point to a node return it so it can be deleted.
-                    that._selectedNode = node;
-                    that._channel.publish( "focusednode", { value: node } ); 
-                }
             });
        
         },

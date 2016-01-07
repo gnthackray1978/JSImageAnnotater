@@ -88,12 +88,14 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         //for adding
         console.log('null selection caught');
         
-        if(that.state == 4) 
+        if(that.state == 4) //if were editting something
         {
+            that.selectedNote.Editting = false;
+            that.selectedNote = undefined;
             that.restoreCachedNode();
             that.state =0;
         }
-        
+        // if we were in ok to add/edit 
         if(that.state == 1) that.state =5;
         
         that.updateState();
@@ -157,6 +159,7 @@ NodeManagerController.prototype = {
                 break;
                 
             case 3: //VALID TO SAVE
+                console.log('updateState: valid to save');
                 this._view.DisplaySaveState();
                 break;
                 
