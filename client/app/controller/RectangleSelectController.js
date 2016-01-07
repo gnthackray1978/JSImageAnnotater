@@ -161,8 +161,14 @@
                     case 0:
                         return;
                     case 1://standard we trigger events for null and selection
-                        that._selectedNode = node;
-                        that.selectNode();
+                        if(node){ 
+                            that._selectedNode = node;
+                            that.selectNode();
+                        }
+                        else
+                        {
+                            that._channel.publish( "nullselection", { value: undefined } ); 
+                        }
                         break;
                     case 2:// no selecting selection ie you point to a node return it so it can be deleted.
                         if(node){ 
