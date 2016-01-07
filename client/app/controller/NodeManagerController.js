@@ -66,6 +66,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("nodedeselected", function(data, envelope) {
+        console.log('node deselected caught');
         that.selectionChange(data.value);
         
     });
@@ -85,6 +86,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     // add node
     this._channel.subscribe("nullselection", function(data, envelope) {
         //for adding
+        console.log('null selection caught');
         
         if(that.state == 4) 
         {
@@ -208,17 +210,16 @@ NodeManagerController.prototype = {
                             
         if(that.selectedNote.options == undefined){
             that.selectedNote.options = that.options.GetState().defaultOptions;
+            // I believe this is to save the options if they weren't already set
+            that.nodeManager.WriteToDB(that.selectedNote, function(){
+                console.log('node saved');
+            });
         }
        
         that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
         
         that.selectedNote.Editting = true;
-        
-        // I believe this is to save the options if they weren't already set
-        that.nodeManager.WriteToDB(that.selectedNote, function(){
-            console.log('node saved');
-        });
-       
+
         that._channel.publish( "nodeedit", { value: undefined } );
        
         that._view.EditDisplayNodeSelection(that.selectedNote.X, 
