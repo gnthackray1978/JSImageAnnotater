@@ -83,17 +83,14 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.updateState();
     });
     
-    // add node
+    
     this._channel.subscribe("nullselection", function(data, envelope) {
-        //for adding
+        
         console.log('null selection caught');
         
         if(that.state == 4) //if were editting something
         {
-            that.selectedNote.Editting = false;
-            that.selectedNote = undefined;
-            that.restoreCachedNode();
-            that.state =0;
+            that.cancelEdit();
         }
         // if we were in ok to add/edit 
         if(that.state == 1) that.state =5;
@@ -287,6 +284,13 @@ NodeManagerController.prototype = {
     },
 
     cancelNodeButton:function(){
+        this.cancelEdit();
+    },
+    
+    cancelEdit:function(){
+        
+        this.selectedNote.Editting = false;
+        this.selectedNote = undefined;
         this.state =0;
         this.updateState();
         this.restoreCachedNode();

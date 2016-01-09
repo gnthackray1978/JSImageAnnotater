@@ -83,7 +83,8 @@
             var that =this;
             
             if (this.model !== null) {
-                this._channel.publish( "lockmousemove", { value: that._mouseLockKey } );
+                //this._channel.publish( "lockmousemove", { value: that._mouseLockKey } );
+                this.lockMouse(that._mouseLockKey);
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -132,13 +133,16 @@
             }
         }, 
         
+        lockMouse : function(val){
+            this._channel.publish( "lockmouseup", { value: val } );
+	    	this._channel.publish( "lockmousedown", { value: val} );
+	    	this._channel.publish( "lockmousemove", { value: val } );
+        },
+        
         finishSelecting : function(){
             
-            
-            this._channel.publish( "lockmouseup", { value: '' } );
-	    	this._channel.publish( "lockmousedown", { value: ''} );
-	    	this._channel.publish( "lockmousemove", { value: '' } );
-	    	
+            this.lockMouse('');
+           
 	    	this._view.DisplayRectangleSelection(false);
 	    	
 	    	this.model.CloseSelection();
@@ -191,6 +195,8 @@
                         break;
                 }
                
+                // if we havent clicked on anything deselect everything
+                // always do this whatever the state.
                 if(node == undefined && !that._isMultiSelecting){
                     that._nodeManager.DeSelectNodes(function(){
                         that._channel.publish( "drawtree", null);
@@ -275,10 +281,10 @@
             var that = this;
             
             switch (this._state) {
-                case 0:
+                case 0:// SELECTIONS DEACTIVATED nothing can be selected now.
                     this._view.DisplaySingleSelection(false);// turn off ui button
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
-                    
+                    // if there was something selected deselect it.
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
                         console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
                         that._channel.publish( "drawtree", { value: this.model } ); 
