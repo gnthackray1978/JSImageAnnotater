@@ -301,16 +301,16 @@
                     this.lockMouse('');
                     break;
                 case 1:
-                    this.lockMouse(this._mouseLockKey);
+                    this.lockMouse('ss');
                     this._view.DisplaySingleSelection(true);
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
                 case 2:// non select selections
-                    this.lockMouse(this._mouseLockKey);
+                    this.lockMouse('nf');
                     // code
                     break;
                 case 3: // empty space selections
-                    this.lockMouse(this._mouseLockKey);
+                    this.lockMouse('es');
                     // code
                     break;
             }
