@@ -10,14 +10,14 @@
 	
 	RectangleSelect.prototype.OpenSelection = function(){
 		if(this.selectionnode){
-			console.log('open selection');
+			//console.log('open selection');
 			this.selectionnode.IsOpen = true;
 		}
 	},
 	
 	RectangleSelect.prototype.CloseSelection = function(){
 		if(this.selectionnode){
-			console.log('close selection');
+			//console.log('close selection');
 			this.selectionnode.IsOpen = false;
 		}
 	},

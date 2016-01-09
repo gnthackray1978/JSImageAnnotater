@@ -134,6 +134,7 @@
         }, 
         
         lockMouse : function(val){
+            console.log('locked mouse: ' + val);
             this._channel.publish( "lockmouseup", { value: val } );
 	    	this._channel.publish( "lockmousedown", { value: val} );
 	    	this._channel.publish( "lockmousemove", { value: val } );
@@ -292,21 +293,24 @@
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
                     // if there was something selected deselect it.
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
-                        console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
+                        //console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
                         that._channel.publish( "drawtree", { value: this.model } ); 
                         that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); //deselect whatever is currently selected
                         
                     },false);   
-                    
+                    this.lockMouse('');
                     break;
                 case 1:
+                    this.lockMouse(this._mouseLockKey);
                     this._view.DisplaySingleSelection(true);
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
                 case 2:// non select selections
+                    this.lockMouse(this._mouseLockKey);
                     // code
                     break;
                 case 3: // empty space selections
+                    this.lockMouse(this._mouseLockKey);
                     // code
                     break;
             }
