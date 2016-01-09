@@ -163,7 +163,7 @@
                 
                 switch(that._state){
                     case 0:
-                        return;
+                        break;
                     case 1://standard we trigger events for null and selection
                         if(node){ 
                             that._selectedNode = node;
