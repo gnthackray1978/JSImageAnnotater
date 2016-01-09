@@ -29,10 +29,10 @@
             that.qryCanvasMouseDown(data.value);
         });
         
-        this._channel.subscribe("selectionMouseUp", function(data, envelope) {
-            //console.log('s_selectionMouseUp');
-            that.qryCanvasMouseUp(data.value);
-        });
+        // this._channel.subscribe("selectionMouseUp", function(data, envelope) {
+        //     //console.log('s_selectionMouseUp');
+        //     that.qryCanvasMouseUp(data.value);
+        // });
         
         this._channel.subscribe("selectionMouseMove", function(data, envelope) {
             //console.log('s_selectionMouseMove');
@@ -95,11 +95,11 @@
             }
         },
         
-        qryCanvasMouseUp:function(evt){
-            if (this.model !== null) {
-                this.finishSelecting();
-            }
-        },
+        // qryCanvasMouseUp:function(evt){
+        //     if (this.model !== null) {
+        //         this.finishSelecting();
+        //     }
+        // },
     
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
@@ -159,53 +159,59 @@
          
             if(this._mouseClickLocked) return;
             
-            this._nodeManager.PointToNode(x,y, function(node){
-                
-                switch(that._state){
-                    case 0:
-                        break;
-                    case 1://standard we trigger events for null and selection
-                        if(node){ 
-                            that._selectedNode = node;
-                            that.selectNode();
-                        }
-                        else
-                        {
-                            that._channel.publish( "nullselection", { value: undefined } ); 
-                        }
-                        break;
-                    case 2:// no selecting selection ie you point to a node return it so it can be deleted.
-                        if(node){ 
-                            that._selectedNode = node;
-                            that._channel.publish( "focusednode", { value: node } ); 
-                        }
-                        else
-                        {
-                            that._channel.publish( "nullselection", { value: undefined } ); 
-                        }
-                        break;
-                    case 3:// only interested in null selections
-                        if(node == undefined && !that._isMultiSelecting){
-                            if(that._state == 3)
+            if(this._isMultiSelecting)
+            {
+                this.finishSelecting();
+            }
+            else
+            {
+                this._nodeManager.PointToNode(x,y, function(node){
+                    
+                    switch(that._state){
+                        case 0:
+                            break;
+                        case 1://standard we trigger events for null and selection
+                            if(node){ 
+                                that._selectedNode = node;
+                                that.selectNode();
+                            }
+                            else
                             {
-                                that._state = 0;
                                 that._channel.publish( "nullselection", { value: undefined } ); 
                             }
-                        }
-                        break;
-                }
-               
-                // if we havent clicked on anything deselect everything
-                // always do this whatever the state.
-                if(node == undefined && !that._isMultiSelecting){
-                    that._nodeManager.DeSelectNodes(function(){
-                        that._channel.publish( "drawtree", null);
-                    });
+                            break;
+                        case 2:// no selecting selection ie you point to a node return it so it can be deleted.
+                            if(node){ 
+                                that._selectedNode = node;
+                                that._channel.publish( "focusednode", { value: node } ); 
+                            }
+                            else
+                            {
+                                that._channel.publish( "nullselection", { value: undefined } ); 
+                            }
+                            break;
+                        case 3:// only interested in null selections
+                            if(node == undefined && !that._isMultiSelecting){
+                                if(that._state == 3)
+                                {
+                                    that._state = 0;
+                                    that._channel.publish( "nullselection", { value: undefined } ); 
+                                }
+                            }
+                            break;
+                    }
+                  
+                    // if we havent clicked on anything deselect everything
+                    // always do this whatever the state.
+                    if(node == undefined && !that._isMultiSelecting){
+                        that._nodeManager.DeSelectNodes(function(){
+                            that._channel.publish( "drawtree", null);
+                        });
+                        
+                    }
                     
-                }
-                
-            });
-       
+                });
+            }
         },
 
         doubleClickAction:function(x,y){
