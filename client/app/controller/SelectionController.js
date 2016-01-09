@@ -318,6 +318,6 @@
 
     };
 
-    exports.RectangleSelectController = SelectionController;
+    exports.SelectionController = SelectionController;
     
 })(typeof exports === 'undefined'? this: exports);
