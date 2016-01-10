@@ -7,7 +7,7 @@
 	};
 	
 	NodePositioningController.prototype.MoveNodes = function(nodes,x,y){
-	    console.log('NodePositioningController.movenodes: ' + nodes.length + ' - ' + x + ',' + y);
+	    console.log('NodePositioningController.movenodes: ' + (nodes ? nodes.length : nodes) + ' - ' + x + ',' + y);
 	},
 
     exports.NodePositioningController = NodePositioningController;
