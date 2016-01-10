@@ -32,7 +32,7 @@
             that.updateState();
         });
         
-        
+        that.updateState();
 	};
 	
 	NodePositioningController.prototype.PositioningActivated = function(node){
