@@ -738,12 +738,7 @@ AnnotaterView.prototype.CancelNodeButton = function (action) {
 };
 
 
-AnnotaterView.prototype.MultiSelectNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#multiselectnodebtn").click(function (evt) {
-        action();
-    });
-};
+
 
 AnnotaterView.prototype.CanvasMouseUp = function (action) {
     var that = this;
@@ -1732,6 +1727,31 @@ AnnotaterView.prototype.DisplayNeutralState= function () {
 
 };
 
+AnnotaterView.prototype.DisableNodePositioning = function (state) {
+    
+    if(!state)
+        $("#enableNodePositioning").prop('disabled', false);
+    else
+    {
+        $("#enableNodePositioning").val('PN');
+        $("#enableNodePositioning").prop('disabled', true);
+    }
+};
+
+AnnotaterView.prototype.ToggleNodePositioning = function (state) {
+    
+    if(!state)
+        $("#enableNodePositioning").val('PN');
+    else
+        $("#enableNodePositioning").val('[PN]');
+};
+
+AnnotaterView.prototype.ActivateNodePositioning = function (action) {
+    //here look multiple event firing problems    
+    $("#enableNodePositioning").click(function (evt) {
+        action();
+    });
+};
 
 
 AnnotaterView.prototype.DisplaySingleSelection= function (state) {
@@ -1741,6 +1761,9 @@ AnnotaterView.prototype.DisplaySingleSelection= function (state) {
     else
         $("#selectnodebtn").val('[SN]');
 };
+
+
+
 
 //TRIGGERED BY MODEL WHEN DIAGRAM IS READY/NOT READY TO BE RUN
 AnnotaterView.prototype.DisplayUpdateRunButton= function (status) {
