@@ -42,9 +42,11 @@
 	    
 	    if(this._state != 0){
 	    
-            if(this._state == 1 && this._state == 3) this._state =2;
+	        if(this._state == 1) this._state =2;
+	    
+            if(this._state == 3) this._state =2;
             
-            if(this._state == 1 && this._state == 2) this._state =3;
+            if(this._state == 2) this._state =3;
 	    }
 	    
         this.updateState();
