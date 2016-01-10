@@ -8,6 +8,14 @@
 		
 	};
 	
+	NodePositioning.prototype.OpenSelection = function(){
+	
+	},
+	
+	NodePositioning.prototype.CloseSelection = function(){
+	
+	},
+	
 	NodePositioning.prototype.MoveNodes = function(nodes,x,y){
 	
 	},
