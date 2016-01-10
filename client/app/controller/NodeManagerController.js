@@ -20,7 +20,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
     this._view.CancelNodeButton($.proxy(this.cancelNodeButton, this));
     
-    this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
+   // this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
     
     this._view.SaveNote($.proxy(this.saveAction, this));
  
