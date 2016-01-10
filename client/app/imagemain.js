@@ -1,4 +1,15 @@
- /*global CanvasTools postal*/
+ /*global 
+ CanvasTools postal  Meta MyDrive
+ AnnotaterView MetaController Options
+ OptionsController NodeManager
+ Visualizer
+ Matches MatchesController
+ NodeManagerController
+ VisualizerController
+ Crop CroppingController
+ 
+ 
+ */
 
 function handleClientLoad() {
 
@@ -70,7 +81,10 @@ function loadAll (drive){
         var selector = new Selection(nodeManager,options);
         var selectorController = new SelectionController(appView,channel,selector,nodeManager);
 
-        var debug = new Debuger(data,nodeManager, appView,visualizer);
+        var nodePositioning = new NodePositioning(nodeManager,channel);
+        var nodePositioningController = new NodePositioningController(nodeManager,channel);
+        
+        var debug = new Debuger(data,nodeManager, appView,visualizer,nodePositioningController);
         var debugController = new DebugController(appView,debug,visualizer);
         
         

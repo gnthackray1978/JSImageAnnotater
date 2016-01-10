@@ -44,6 +44,8 @@
 <script src="app/model/Matches.js"></script>
 <script src="app/model/Text.js"></script>
 <script src="app/model/Selection.js"></script>
+<script src="app/model/NodePositioning.js"></script>
+
 <script src="app/views/AnnotaterView.js"></script>
 
 
@@ -58,6 +60,8 @@
 <script src="app/controller/MatchesController.js"></script>
 <script src="app/controller/TextController.js"></script>
 <script src="app/controller/SelectionController.js"></script>
+<script src="app/controller/NodePositioning.js"></script>
+
 <script src="app/imagemain.js"></script>
 
 <script src="https://apis.google.com/js/client.js?onload=handleClientLoad" type="text/javascript" ></script>
@@ -177,9 +181,8 @@
         <input id ="btnDebugCleanDeleted" type="submit" value="Clean Deleted" />
         <br/>
         <input id ="btnDebugScaleToScreen" type="submit" value="Scale To Screen" />
-        <!--<b id = "options-label">Results</b>-->
         <br/>
-        <!--<input  type="text"  />-->
+        <input id ="btnDebugMoveNode" type="submit" value="Move Node" />
     </div>
 
     <div id = "map_matches" class ="hidePanel" title="Matches">

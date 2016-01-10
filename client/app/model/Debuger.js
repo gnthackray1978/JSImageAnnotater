@@ -1,8 +1,8 @@
-var Debuger = function (dataDll, nodestore,view, visualizer) {
+var Debuger = function (dataDll, nodestore,view, visualizer, nodePositioning) {
     this.dataDll = dataDll;
     this.nodestore = nodestore;
     this.visualizer = visualizer;
- 
+    this._nodePositioning  = nodePositioning;
 };
 
 Debuger.prototype.ClearDeleted = function(text){
@@ -17,6 +17,17 @@ Debuger.prototype.RunScaleToScreen = function(text){
     
 };
 
+Debuger.prototype.RunMoveNode = function(text){
+   var coords = text.split(','); 
+   var x = 0;
+   var y = 0;
+   if(coords.length > 1){
+       x = coords[0];
+       y = coords[1];
+   }
+   
+   this._nodePositioning.movenodes(undefined,x,y);
+};
 
 // Debuger.prototype.IterateNotes = function(){
 //     var that =this;

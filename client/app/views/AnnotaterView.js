@@ -977,6 +977,16 @@ AnnotaterView.prototype.QryRunScaleToScreen = function(callback){
     });
 };
  
+AnnotaterView.prototype.QryRunMoveNode = function(callback){
+    
+     $('#btnDebugMoveNode').click(function (e) {
+         
+        var data= $("#txtDebugData").val();
+        
+        callback(data);
+    });
+};
+ 
 
 // LAYERS
 AnnotaterView.prototype.SetLayers= function (layers){
