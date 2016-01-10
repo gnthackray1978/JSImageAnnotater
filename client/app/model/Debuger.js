@@ -26,7 +26,7 @@ Debuger.prototype.RunMoveNode = function(text){
        y = coords[1];
    }
    
-   this._nodePositioning.movenodes(undefined,x,y);
+   this._nodePositioning.MoveNodes(undefined,x,y);
 };
 
 // Debuger.prototype.IterateNotes = function(){
