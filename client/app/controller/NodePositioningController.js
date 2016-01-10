@@ -40,13 +40,23 @@
 	    // find all the selected nodes.
 	    // if selection is enabled.
 	    
-	    if(this._state != 0){
+	   // if(this._state != 0){
 	    
-	        if(this._state == 1) this._state =2;
+	   //     if(this._state == 1) this._state =2;
 	    
-            if(this._state == 3) this._state =2;
+    //         if(this._state == 3) this._state =2;
             
-            if(this._state == 2) this._state =3;
+    //         if(this._state == 2) this._state =3;
+	   // }
+	    
+	    switch(this._state){
+	        case 1:
+	        case 3:
+	            this._state = 2;
+	            break;
+	        case 2:
+	            this._state = 3;
+	            break;
 	    }
 	    
         this.updateState();
