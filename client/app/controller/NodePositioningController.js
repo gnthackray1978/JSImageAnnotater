@@ -23,6 +23,16 @@
 	        that.PositioningActivated();
 	    });
 	    
+	    this._channel.subscribe("selectionMouseDown", function(data, envelope) {
+            //console.log('s_selectionMouseDown');
+            that.qryCanvasMouseDown(data.value);
+        });
+        
+        this._channel.subscribe("selectionMouseMove", function(data, envelope) {
+            //console.log('s_selectionMouseMove');
+            that.qryCanvasMouseMove(data.value);
+        });
+	    
 	    this._channel.subscribe("singleClick", function(data, envelope) {
             that.clickAction(data.value.x, data.value.y);
         });
