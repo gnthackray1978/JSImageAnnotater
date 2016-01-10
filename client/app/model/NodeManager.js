@@ -116,6 +116,8 @@ NodeManager.prototype = {
         callback();
     },
 
+
+
     DeSelectNodes: function(callback){
         console.log('DeSelectNodes');
         this._selectionCount =0;
@@ -139,6 +141,25 @@ NodeManager.prototype = {
         callback();
     },
 
+    GetSelectedNodes : function(callback){
+        console.log('GetSelectedNodes');
+        var selectedNodes = [];
+        var vidx =1;
+        var hidx =0;
+      
+        while(vidx < this.generations.length){
+            hidx=0;
+            while(hidx < this.generations[vidx].length){
+                if(this.generations[vidx][hidx].Selected){
+                    selectedNodes.push(this.generations[vidx][hidx]);
+                }
+                hidx++;
+            }
+            vidx++;
+        }
+        
+        callback(selectedNodes);
+    },
 
     GetGenerations: function (urlId, callback) {
         

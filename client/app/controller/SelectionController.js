@@ -83,7 +83,7 @@
             var that =this;
             
             if (this.model !== null) {
-                //this._channel.publish( "lockmousemove", { value: that._mouseLockKey } );
+                
                 this.lockMouse(that._mouseLockKey);
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;

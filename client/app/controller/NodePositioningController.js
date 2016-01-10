@@ -1,16 +1,31 @@
 (function(exports){
-	var NodePositioningController = function (nodestore, channel,view) {
+	var NodePositioningController = function (nodestore, channel,view,model) {
 	    
 	    this._nodeStore = nodestore;
 	    this._channel = channel;
 	    this._view = view;
 	    this._state =0;
+	    this._mouseLockKey = 'NP';
+        this.model = model;
+	    this._selectedNodes;
 	    
+	    this._isMultiSelecting =false;
+        this._mouseClickLocked =false;
+        
+        this.isStarted = false;
+        
+        
+        
+      
 	    var that = this;
 	    
 	    that._view.ActivateNodePositioning(function(){
 	        that.PositioningActivated();
 	    });
+	    
+	    this._channel.subscribe("singleClick", function(data, envelope) {
+            that.clickAction(data.value.x, data.value.y);
+        });
 	    
 	    this._channel.subscribe("multiselectingend", function(data, envelope) {
             that.selectionChange(data.value);
@@ -34,33 +49,81 @@
         
         that.updateState();
 	};
+
+	NodePositioningController.prototype.lockMouse = function(val){
+        console.log('locked mouse: ' + val);
+        this._channel.publish( "lockmouseup", { value: val } );
+    	this._channel.publish( "lockmousedown", { value: val} );
+    	this._channel.publish( "lockmousemove", { value: val } );
+    },
+
+    NodePositioningController.prototype.qryCanvasMouseDown = function(evt){
+        var that =this;
+        
+        if(that._state != 2) return;
+        
+        
+        if (this.model !== null) {
+            
+            this.lockMouse(that._mouseLockKey);
+            
+            var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
+	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
+            
+            this.model.SetMouseStartPosition(mx,my);
+            
+            // signal model we've started to move.
+            this.model.OpenSelection();
+        }
+    },
+        
+    NodePositioningController.prototype.qryCanvasMouseMove = function(evt){
+        
+        if(this._state != 2) return;
+        
+        if(this.model !== null) {
+            
+            var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
+	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
+	        
+            this.model.SetMouseMovingPosition(mx,my);
+            this._channel.publish( "drawtree", { value: this.model } );
+        }
+    },
 	
 	NodePositioningController.prototype.PositioningActivated = function(node){
 	    console.log('PositioningActivated');
 	    // find all the selected nodes.
 	    // if selection is enabled.
-	    
-	   // if(this._state != 0){
-	    
-	   //     if(this._state == 1) this._state =2;
-	    
-    //         if(this._state == 3) this._state =2;
-            
-    //         if(this._state == 2) this._state =3;
-	   // }
-	    
+
 	    switch(this._state){
 	        case 1:
 	        case 3:
 	            this._state = 2;
+	            this.isStarted = true;
+	            this._channel.publish( "lockmouseup", { value: this._mouseLockKey } );
+    	    	this._channel.publish( "lockmousedown", { value: this._mouseLockKey} );
 	            break;
 	        case 2:
 	            this._state = 3;
+	            this.finishSelecting();
 	            break;
 	    }
 	    
         this.updateState();
 	},
+
+    NodePositioningController.prototype.clickAction = function(x,y){
+       
+		if(this.isStarted) this.finishSelecting();      
+        
+    },
+
+	NodePositioningController.prototype.finishSelecting = function(){
+        this.lockMouse('');
+    	this.model.CloseSelection();
+    	this.isStarted = false;
+    },
 	
 	NodePositioningController.prototype.updateState = function(node){
 	    console.log('selection changed');
@@ -76,18 +139,32 @@
 	           
            case 2: // positioning switched on
 	           this._view.ToggleNodePositioning(true);
+	           this._channel.publish( "lockmouseup", { value: this._mouseLockKey } );
+    	       this._channel.publish( "lockmousedown", { value: this._mouseLockKey} );
 	           break;
 	       case 3: // positioning switched off
 	           this._view.ToggleNodePositioning(false);
+	           this.finishSelecting();
 	           break;         
 	       
 	    }
 	},
 	
-	NodePositioningController.prototype.selectionChange = function(node){
+	NodePositioningController.prototype.selectionChange = function(node, callback){
 	    console.log('selection changed');
 	    // find all the selected nodes.
 	    // if selection is enabled.
+	    
+	    // ok so we need to know 2 things before we start moving things.
+	    // do we have at least 1 node selected
+	    // is state == 2
+	    
+	    if(this._state ==2 ){ 
+	        
+	        this._nodeStore.GetSelectedNodes(function(selectedNodes){
+	            this._selectedNodes = selectedNodes;
+	        });
+	    }
 	},
 	
 	NodePositioningController.prototype.MoveNodes = function(nodes,x,y){
