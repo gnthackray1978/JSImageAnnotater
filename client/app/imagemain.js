@@ -82,7 +82,7 @@ function loadAll (drive){
         var selectorController = new SelectionController(appView,channel,selector,nodeManager);
 
         var nodePositioning = new NodePositioning(nodeManager,channel);
-        var nodePositioningController = new NodePositioningController(nodeManager,channel, appView);
+        var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
         
         var debug = new Debuger(data,nodeManager, appView,visualizer,nodePositioningController);
         var debugController = new DebugController(appView,debug,visualizer);
