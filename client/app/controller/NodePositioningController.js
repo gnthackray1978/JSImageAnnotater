@@ -134,6 +134,7 @@
     },
 
 	NodePositioningController.prototype.finishSelecting = function(){
+		console.log('finishSelecting');
         this.lockMouse('');
     	this.model.CloseSelection();
     	this.isStarted = false;
