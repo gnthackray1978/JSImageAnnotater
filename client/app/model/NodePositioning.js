@@ -5,6 +5,7 @@
 	    this._channel = channel;
 	    this._mouse = {x: 0, y: 0};
 		this._start_mouse = {x: 0, y: 0};
+		this._last_mouse = {x: 0, y: 0};
 		this._selectedNodes;
 		this.SelectedNodeCount =0;
 	};
@@ -26,34 +27,50 @@
 		
 		
 	},
-	
-	NodePositioning.prototype.MoveNodes = function(nodes,x,y){
-	
-	},
+	 
 
 	NodePositioning.prototype.SetMouseMovingPosition = function(mx,my){
 		
 		this._mouse.x = mx;
 		this._mouse.y = my;
 		
+	    
 		this.MoveNodes();
 	},
 
 	NodePositioning.prototype.SetMouseStartPosition = function(mx,my){
 		this._mouse.x = mx;
 		this._mouse.y = my;
-		
+		this._last_mouse.x = mx;
+	    this._last_mouse.y = my;
 		this._start_mouse.x = this._mouse.x;
 		this._start_mouse.y = this._mouse.y;
+		
+		
 	},
 	
 	NodePositioning.prototype.MoveNodes = function() {
-		var tpx = this._start_mouse.x;
-		var tpy = this._start_mouse.y;
+	    
+	    var tpx = this._last_mouse.x - this._mouse.x;
+	    var tpy = this._last_mouse.y - this._mouse.y;
+	    
+		// var tpy = this._start_mouse.y;
 		
-		tpx = tpx- this._mouse.x;
-		tpy = tpy- this._mouse.y;	
+	 	//tpx = tpx- this._mouse.x;
+		// tpy = tpy- this._mouse.y;	
 		 
+		 
+		 
+		var idx =0;
+		
+		while(idx < this.selectedNodes.length){
+			this.selectedNodes[idx].X += tpx;
+			this.selectedNodes[idx].Y += tpy;
+			
+			idx++;
+		}
+		
+		
 		 
 		console.log('NodePositioning.prototype.MoveNodes: ' + tpx + ' ' + tpy);
 	}
