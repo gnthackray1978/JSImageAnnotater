@@ -39,21 +39,9 @@
 	NodePositioning.prototype.updateSelectArea = function() {
 		var tpx = this._start_mouse.x;
 		var tpy = this._start_mouse.y;
-		var tpw = this._mouse.x - this._start_mouse.x ;
-		var tph = this._mouse.y - this._start_mouse.y;
-		
-		if(tpw < 0){
-			tpx = this._start_mouse.x - Math.abs(tpw);
-			tpw = Math.abs(tpw);
-			
-		}
-	 
-		if(tph < 0){
-			tpy = this._start_mouse.y - Math.abs(tph);
-			tph = Math.abs(tph);
-			
-		}
-		
+		tpx = tpx- this._mouse.x;
+		tpy = tpy- this._mouse.y;	
+		 
 		console.log('NodePositioning.prototype.updateSelectArea: ' + tpx + ' ' + tpy);
 	}
 	
