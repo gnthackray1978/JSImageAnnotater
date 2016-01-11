@@ -125,6 +125,8 @@ function AnnotaterView(channel) {
     
     this.InitGenericMouseClicks();
     
+    this.InitNodePositioning();
+    
 } 
 
 
@@ -176,6 +178,33 @@ AnnotaterView.prototype.InitOptions = function (state){
     });  
 },
  
+ 
+AnnotaterView.prototype.InitNodePositioning = function (state){
+    
+    var that = this;
+    var key = 'NP';
+    
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.canvasMousedownLock == key){
+            that._channel.publish( "positionMouseDown", { value: evt } );
+        }
+    });
+
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.canvasMouseupLock == key)
+            that._channel.publish( "positionMouseUp", { value: evt } );
+    });
+
+    $("#myCanvas").mousemove(function (evt) {
+        //argh argh
+        if(that.canvasMousemoveLock == key){
+           that._channel.publish( "positionMouseMove", { value: evt } );
+        }
+    });
+
+},
+
+
 AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
     var that = this;
@@ -629,6 +658,8 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             that.showToolBar = true;
         });
     };
+
+
 
 
 
