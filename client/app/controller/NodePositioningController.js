@@ -125,7 +125,11 @@
 
     NodePositioningController.prototype.clickAction = function(x,y){
        
-		if(this.isStarted) this.finishSelecting();      
+		if(this.isStarted) {
+			//this.finishSelecting();      
+			this._state =3;
+			this.updateState();
+		}
         
     },
 
