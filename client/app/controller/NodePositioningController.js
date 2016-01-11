@@ -23,12 +23,12 @@
 	        that.PositioningActivated();
 	    });
 	    
-	    this._channel.subscribe("selectionMouseDown", function(data, envelope) {
+	    this._channel.subscribe("positionMouseDown", function(data, envelope) {
             //console.log('s_selectionMouseDown');
             that.qryCanvasMouseDown(data.value);
         });
         
-        this._channel.subscribe("selectionMouseMove", function(data, envelope) {
+        this._channel.subscribe("positionMouseMove", function(data, envelope) {
             //console.log('s_selectionMouseMove');
             that.qryCanvasMouseMove(data.value);
         });
