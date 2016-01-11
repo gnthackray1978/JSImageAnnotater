@@ -7,7 +7,7 @@
 	    this._state =0;
 	    this._mouseLockKey = 'NP';
         this.model = model;
-	    this._selectedNodes;
+	    this._selectedNodeCount=0;
 	    
 	    this._isMultiSelecting =false;
         this._mouseClickLocked =false;
@@ -83,7 +83,7 @@
             this.model.SetMouseStartPosition(mx,my);
             
             // signal model we've started to move.
-            this.model.OpenSelection();
+            this.model.StartMove();
         }
     },
         
@@ -136,7 +136,7 @@
 	NodePositioningController.prototype.finishSelecting = function(){
 		console.log('finishSelecting');
         this.lockMouse('');
-    	this.model.CloseSelection();
+    	this.model.FinishMove();
     	this.isStarted = false;
     },
 	
@@ -165,8 +165,11 @@
 	    }
 	},
 	
-	NodePositioningController.prototype.selectionChange = function(node, callback){
-	    console.log('selection changed');
+	NodePositioningController.prototype.selectionChange = function(countselected, callback){
+	    console.log('Selection changed: ' + countselected);
+	    
+	    this.model.SelectedNodeCount = countselected;
+	    
 	    // find all the selected nodes.
 	    // if selection is enabled.
 	    
@@ -176,9 +179,9 @@
 	    
 	    if(this._state ==2 ){ 
 	        
-	        this._nodeStore.GetSelectedNodes(function(selectedNodes){
-	            this._selectedNodes = selectedNodes;
-	        });
+	        // this._nodeStore.GetSelectedNodes(function(selectedNodes){
+	        //     this._selectedNodes = selectedNodes;
+	        // });
 	    }
 	},
 	

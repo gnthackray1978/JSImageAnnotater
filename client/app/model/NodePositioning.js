@@ -5,15 +5,26 @@
 	    this._channel = channel;
 	    this._mouse = {x: 0, y: 0};
 		this._start_mouse = {x: 0, y: 0};
-		
+		this._selectedNodes;
+		this.SelectedNodeCount =0;
 	};
 	
-	NodePositioning.prototype.OpenSelection = function(){
-	
+	NodePositioning.prototype.StartMove = function(){
+		
+		console.log('StartMove: ' + this.SelectedNodeCount);
+		
+		this._nodeStore.GetSelectedNodes(function(selectedNodes){
+            this._selectedNodes = selectedNodes;
+        });
 	},
 	
-	NodePositioning.prototype.CloseSelection = function(){
-	
+	NodePositioning.prototype.FinishMove = function(){
+		
+		
+		//this._selectedNodes;
+		// save the changes here somehow.
+		
+		
 	},
 	
 	NodePositioning.prototype.MoveNodes = function(nodes,x,y){
@@ -25,7 +36,7 @@
 		this._mouse.x = mx;
 		this._mouse.y = my;
 		
-		this.updateSelectArea();
+		this.MoveNodes();
 	},
 
 	NodePositioning.prototype.SetMouseStartPosition = function(mx,my){
@@ -36,13 +47,15 @@
 		this._start_mouse.y = this._mouse.y;
 	},
 	
-	NodePositioning.prototype.updateSelectArea = function() {
+	NodePositioning.prototype.MoveNodes = function() {
 		var tpx = this._start_mouse.x;
 		var tpy = this._start_mouse.y;
+		
 		tpx = tpx- this._mouse.x;
 		tpy = tpy- this._mouse.y;	
 		 
-		console.log('NodePositioning.prototype.updateSelectArea: ' + tpx + ' ' + tpy);
+		 
+		console.log('NodePositioning.prototype.MoveNodes: ' + tpx + ' ' + tpy);
 	}
 	
 
