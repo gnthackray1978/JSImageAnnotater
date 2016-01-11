@@ -84,6 +84,7 @@
             
             // signal model we've started to move.
             this.model.StartMove();
+            this._channel.publish( "mouseClickLock", { value: true } );
         }
     },
         
@@ -124,7 +125,10 @@
 	},
 
     NodePositioningController.prototype.clickAction = function(x,y){
-       
+        
+        
+        this._channel.publish( "mouseClickLock", { value: false } );
+        
 		if(this.isStarted) {
 			//this.finishSelecting();      
 			this._state =3;
