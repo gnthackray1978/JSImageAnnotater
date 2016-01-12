@@ -79,9 +79,10 @@
 			this._selectedNodes[idx].X += tpx;
 			
 			this._selectedNodes[idx].Y += tpy;
-			
+			this._nodeStore.UpdateNode(this._selectedNodes[idx]);
 			idx++;
 		}
+		
 		
 		//console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
 		

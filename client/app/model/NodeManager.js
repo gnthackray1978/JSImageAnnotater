@@ -551,6 +551,107 @@ NodeManager.prototype = {
     },
     
    
+    UpdateNode: function( node, callback){
+ 
+        var that = this;
+        
+        var writeInitialData = function(level,node, index ){
+            
+            
+            var initialValueNode =  JSON.parse(JSON.stringify(node));
+        
+        
+            // first determine if this is existing entry
+            if(level != 1)
+            {
+                console.log('writeInitialData incorrect level:' + level );
+                return;
+            }
+            if(!that.initialGenerations){
+                console.log('writeInitialData initialGenerations unitialized!');
+                return;
+            }
+            
+            // do percentage increase/decrease here
+            
+            var currentDrawingWidth =that.generations[0][0].Width;
+            var currentDrawingHeight = that.generations[0][0].Height;
+    
+            var xOffset =0;
+            var yOffset =0;
+            
+            if(that.generations[0][0].X < 0)
+            {
+                xOffset = Math.abs(that.generations[0][0].X);
+                
+            }
+            
+            if(that.generations[0][0].Y < 0)
+            {
+                yOffset = Math.abs(that.generations[0][0].Y);
+                
+            }
+            
+            if(that.generations[0][0].X > 0)
+            {
+                xOffset = 0-that.generations[0][0].X;
+                
+            }
+            
+            if(that.generations[0][0].Y > 0)
+            {
+                yOffset = 0-that.generations[0][0].Y;
+                
+            }
+
+            var pcx1 = ((node.X + xOffset) / currentDrawingWidth) * 100;
+         
+            var pcy1 = ((node.Y + yOffset) / currentDrawingHeight) * 100;
+        
+        
+            var pcW = ((node.Width ) / currentDrawingWidth) * 100;
+         
+            var pcH = ((node.Height) / currentDrawingHeight) * 100;
+        
+            var pxInitWidth = (that.initialGenerations[0][0].Width) /100;
+            
+            var pxInitHeight = (that.initialGenerations[0][0].Height)/100;
+            
+            initialValueNode.X = pcx1 * pxInitWidth;
+           
+            initialValueNode.Y = pcy1 * pxInitHeight;
+     
+            initialValueNode.Width = pcW * pxInitWidth;
+           
+            initialValueNode.Height = pcH * pxInitHeight;
+     
+            //if we have no index that means its a new entry that needs adding
+            if(index == undefined){
+                that.initialGenerations[1].push(initialValueNode);
+            }
+            else
+            {
+                console.log('AddNode writeInitialData updating generations');
+                that.initialGenerations[1][index]= initialValueNode;
+            }
+           
+            callback(true);
+        };
+        
+        var idx =0;
+        while(idx < this.generations[1].length){
+            if(Number(this.generations[1][idx].Index) === Number(node.Index)){
+                console.log('AddNode updating generations');
+                this.generations[1][idx] =node;
+                writeInitialData(1,node,idx);
+                return;
+            }
+            
+            idx++;
+        }
+        
+        callback(false);
+    },
     
     WriteToDB: function(note,callback){
         this._noteDll.WriteNoteData(note,callback);
