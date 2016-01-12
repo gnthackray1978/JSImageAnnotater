@@ -58,7 +58,7 @@
 	    
 	    var tpx = this._last_mouse.x - this._mouse.x;
 	    
-	    console.log('set Move Nodes x: ' + this._last_mouse.x + ' ' + this._mouse.x);
+	    
 	    
 	    var tpy = this._last_mouse.y - this._mouse.y;
 	    
@@ -68,12 +68,14 @@
 		// tpy = tpy- this._mouse.y;	
 		 
 		 
-		 
+		console.log('set Move Nodes x: ' + this._last_mouse.x + ' ' + this._mouse.x + ' tpx: ' + tpx);
+		
 		var idx =0;
 		
 		while(idx < this._selectedNodes.length){
 			this._selectedNodes[idx].IsMove =true;
 			this._selectedNodes[idx].X += tpx;
+			
 			this._selectedNodes[idx].Y += tpy;
 			
 			idx++;
