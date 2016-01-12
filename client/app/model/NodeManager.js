@@ -635,7 +635,8 @@ NodeManager.prototype = {
                 that.initialGenerations[1][index]= initialValueNode;
             }
            
-            callback(true);
+            if(callback)
+                callback(true);
         };
         
         var idx =0;
@@ -650,7 +651,8 @@ NodeManager.prototype = {
             idx++;
         }
         
-        callback(false);
+        if(callback)
+            callback(false);
     },
     
     WriteToDB: function(note,callback){
