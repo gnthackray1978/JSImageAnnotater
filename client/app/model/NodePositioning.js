@@ -63,9 +63,9 @@
 		 
 		var idx =0;
 		
-		while(idx < this.selectedNodes.length){
-			this.selectedNodes[idx].X += tpx;
-			this.selectedNodes[idx].Y += tpy;
+		while(idx < this._selectedNodes.length){
+			this._selectedNodes[idx].X += tpx;
+			this._selectedNodes[idx].Y += tpy;
 			
 			idx++;
 		}
