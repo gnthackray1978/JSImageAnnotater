@@ -30,8 +30,8 @@ Debuger.prototype.RunMoveNode = function(text){
     while(idx < this.nodestore.generations[1].length){
         if(Number(this.nodestore.generations[1][idx].Index) === 172)
         {
-            this.nodestore.generations[1][idx].X += x;
-            this.nodestore.generations[1][idx].Y += y;
+            this.nodestore.generations[1][idx].X += Number(x);
+            this.nodestore.generations[1][idx].Y += Number(y);
            
             this.nodestore.UpdateNode(this.nodestore.generations[1][idx], function(){
                 console.log('finished');
