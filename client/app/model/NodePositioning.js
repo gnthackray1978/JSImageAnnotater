@@ -11,11 +11,11 @@
 	};
 	
 	NodePositioning.prototype.StartMove = function(){
-		
+		var that = this;
 		console.log('StartMove: ' + this.SelectedNodeCount);
 		
 		this._nodeStore.GetSelectedNodes(function(selectedNodes){
-            this._selectedNodes = selectedNodes;
+            that._selectedNodes = selectedNodes;
         });
 	},
 	
