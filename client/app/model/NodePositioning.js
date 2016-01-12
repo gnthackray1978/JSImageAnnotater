@@ -68,11 +68,11 @@
 		// tpy = tpy- this._mouse.y;	
 		 
 		 
-		console.log('set Move Nodes x: ' + this._last_mouse.x + ' ' + this._mouse.x + ' tpx: ' + tpx);
+		//console.log('set Move Nodes x: ' + this._last_mouse.x + ' ' + this._mouse.x + ' tpx: ' + tpx);
 		
 		var idx =0;
 		
-		console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
+		//console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
 		
 		while(idx < this._selectedNodes.length){
 			this._selectedNodes[idx].IsMove =true;
@@ -83,11 +83,11 @@
 			idx++;
 		}
 		
-		console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
+		//console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
 		
 		
 		 
-		console.log('NodePositioning.prototype.MoveNodes: ' + tpx + ' ' + tpy);
+		//console.log('NodePositioning.prototype.MoveNodes: ' + tpx + ' ' + tpy);
 	}
 	
 
