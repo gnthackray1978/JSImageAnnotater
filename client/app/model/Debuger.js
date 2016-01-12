@@ -28,7 +28,7 @@ Debuger.prototype.RunMoveNode = function(text){
    
     var idx =0;
     while(idx < this.nodestore.generations[1].length){
-        if(Number(this.nodestore.generations[1][idx].Index) === 150){
+        if(Number(this.nodestore.generations[1][idx].Index) === 172){
         {
             this.nodestore.generations[1][idx].X = x;
             this.nodestore.generations[1][idx].Y = y;
