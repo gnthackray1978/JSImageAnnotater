@@ -72,6 +72,8 @@
 		
 		var idx =0;
 		
+		console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
+		
 		while(idx < this._selectedNodes.length){
 			this._selectedNodes[idx].IsMove =true;
 			this._selectedNodes[idx].X += tpx;
@@ -80,6 +82,8 @@
 			
 			idx++;
 		}
+		
+		console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
 		
 		
 		 
