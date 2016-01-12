@@ -18,15 +18,31 @@ Debuger.prototype.RunScaleToScreen = function(text){
 };
 
 Debuger.prototype.RunMoveNode = function(text){
-   var coords = text.split(','); 
-   var x = 0;
-   var y = 0;
-   if(coords.length > 1){
-       x = coords[0];
-       y = coords[1];
-   }
+    var coords = text.split(','); 
+    var x = 0;
+    var y = 0;
+    if(coords.length > 1){
+        x = coords[0];
+        y = coords[1];
+    }
    
-   this._nodePositioning.MoveNodes(undefined,x,y);
+    var idx =0;
+    while(idx < this.nodestore.generations[1].length){
+        if(Number(this.nodestore.generations[1][idx].Index) === 150){
+        {
+            this.nodestore.generations[1][idx].X = x;
+            this.nodestore.generations[1][idx].Y = y;
+           
+            this.nodestore.UpdateNode(this.nodestore.generations[1][idx], function(){
+                console.log('finished');
+            });
+            
+            
+        }
+        idx++;
+    }
+   
+   
 };
 
 // Debuger.prototype.IterateNotes = function(){
