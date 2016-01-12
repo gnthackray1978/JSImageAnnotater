@@ -134,9 +134,9 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         }
                         else
                         {
-                            // if(that.nodestore.generations[vidx][hidx].Selected != undefined){
-                            //     console.log(hidx + ' node selected');
-                            // }
+                            if(that.nodestore.generations[vidx][hidx].IsMove != undefined){
+                                console.log(hidx + ' node IsMove');
+                            }
                             
                             that.nodestore.generations[vidx][hidx].Cache = that._canvasTools.DrawComplexLabel(
                                 that.nodestore.generations[vidx][hidx].X,
