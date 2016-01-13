@@ -249,13 +249,13 @@ AnnotaterView.prototype.InitCrop = function (state){
 
     $("#myCanvas").mouseup(function (evt) {
         if(that.canvasMouseupLock == key)
-            that._channel.publish( "cropMouseDown", { value: evt } );
+            that._channel.publish( "cropMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         
         if(that.canvasMousemoveLock == key){
-            that._channel.publish( "cropMouseDown", { value: evt } );
+            that._channel.publish( "cropMouseMove", { value: evt } );
         }
     });
 
