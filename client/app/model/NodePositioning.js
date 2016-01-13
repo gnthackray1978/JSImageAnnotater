@@ -41,11 +41,10 @@
 	NodePositioning.prototype.SetMouseStartPosition = function(mx,my){
 		this._mouse.x = mx;
 		this._mouse.y = my;
+		
 		this._last_mouse.x = mx;
-		
-		console.log('set last mouse x: ' + mx);
-		
 	    this._last_mouse.y = my;
+	    
 		this._start_mouse.x = this._mouse.x;
 		this._start_mouse.y = this._mouse.y;
 		
@@ -57,9 +56,6 @@
 	    
 	    
 	    var tpx = this._last_mouse.x - this._mouse.x;
-	    
-	    
-	    
 	    var tpy = this._last_mouse.y - this._mouse.y;
 	    
 		// var tpy = this._start_mouse.y;
@@ -83,12 +79,11 @@
 			idx++;
 		}
 		
-		
-		//console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
-		
-		
-		 
-		//console.log('NodePositioning.prototype.MoveNodes: ' + tpx + ' ' + tpy);
+		this._last_mouse.x = this._mouse.x;
+	    this._last_mouse.y = this._mouse.y;
+	    
+	    if(this._selectedNodes.length >0)
+	    	console.log('MoveNodes: ' + this._selectedNodes[0].X);
 	}
 	
 
