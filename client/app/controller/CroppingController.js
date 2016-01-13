@@ -5,6 +5,7 @@
         this._channel = channel;
         
         this.model = model;
+        var that = this;
         
         this.init();
         
@@ -18,15 +19,17 @@
             this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
         
         
+        this._channel.subscribe("cropMouseDown", function(data, envelope) {
+            that.qryCanvasMouseDown(data.value);
+        });
         
-        if(this._view.QryCanvasMouseDown)
-            this._view.QryCanvasMouseDown($.proxy(this.qryCanvasMouseDown, this));
+        this._channel.subscribe("cropMouseUp", function(data, envelope) {
+            that.qryCanvasMouseUp(data.value);
+        });
         
-        if(this._view.QryCanvasMouseUp)
-            this._view.QryCanvasMouseUp($.proxy(this.qryCanvasMouseUp, this));
-        
-        if(this._view.QryCanvasMouseMove)
-            this._view.QryCanvasMouseMove($.proxy(this.qryCanvasMouseMove, this));
+        this._channel.subscribe("cropMouseMove", function(data, envelope) {
+            that.qryCanvasMouseMove(data.value);
+        });
     
     };
 

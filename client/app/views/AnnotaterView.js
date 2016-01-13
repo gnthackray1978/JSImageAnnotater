@@ -65,13 +65,12 @@ function AnnotaterView(channel) {
     this.canvasMouseupLock ='';
     this.canvasMousedownLock ='';
     this.canvasMousemoveLock ='';
-    this.canvasMouseclickLock ='';
-    
+   
     this.canvasMouseLastXClick;
     this.canvasMouseLastYClick;
     
     
-    this.cropperLockKey = 'CROP';
+    
     
     this.openNodeEditor;
     this.closeNodeEditor;
@@ -127,6 +126,7 @@ function AnnotaterView(channel) {
     
     this.InitNodePositioning();
     
+    this.InitCrop();
 } 
 
 
@@ -135,19 +135,19 @@ AnnotaterView.prototype.InitGenericMouseClicks = function (){
     var that = this;
     //here look multiple event firing problems    
     $("#myCanvas").click(function (evt) {
-        if(that.canvasMouseclickLock == ''){
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            
-            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-            
-            that._channel.publish( "singleClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
-        }
+        
+        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+        
+        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+        
+        that._channel.publish( "singleClick", { value: 
+            {
+                x : that.canvasMouseLastXClick,
+                y : that.canvasMouseLastYClick
+            } 
+        } );
+        
     });
 
     $("#myCanvas").dblclick(function (evt) {
@@ -212,7 +212,7 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
     $("#myCanvas").mousedown(function (evt) {
         if(that.canvasMousedownLock == key){
-            console.log('InitSelectionRectangle: ' + that.canvasMousedownLock + ' ' + key);
+            //console.log('InitSelectionRectangle: ' + that.canvasMousedownLock + ' ' + key);
             that._channel.publish( "selectionMouseDown", { value: evt } );
         }
     });
@@ -234,6 +234,30 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
         that._channel.publish( "selectionRectangleActivated", { value: evt } );
     });   
 
+
+
+},
+ 
+AnnotaterView.prototype.InitCrop = function (state){
+    var that = this;
+    var key = 'CROP';
+   
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.canvasMousedownLock == key)
+            that._channel.publish( "cropMouseDown", { value: evt } );
+    });
+
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.canvasMouseupLock == key)
+            that._channel.publish( "cropMouseDown", { value: evt } );
+    });
+
+    $("#myCanvas").mousemove(function (evt) {
+        
+        if(that.canvasMousemoveLock == key){
+            that._channel.publish( "cropMouseDown", { value: evt } );
+        }
+    });
 
 
 },
@@ -792,8 +816,7 @@ AnnotaterView.prototype.CanvasMouseDown = function (action) {
         }
     });
 };
-    
-    
+ 
 AnnotaterView.prototype.CanvasMouseMove = function (action) {
     var that = this;
     
@@ -807,6 +830,8 @@ AnnotaterView.prototype.CanvasMouseMove = function (action) {
         }
     });
 };
+    
+    
     
 AnnotaterView.prototype.ButtonPressDown = function (action) {
 
@@ -1221,34 +1246,7 @@ AnnotaterView.prototype.QryCropSaveButton = function(action){
 
 
 
-AnnotaterView.prototype.QryCanvasMouseDown= function (action) {
-    var that = this;
-    
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == that.cropperLockKey)
-            action(evt);
-    });
-};
 
-AnnotaterView.prototype.QryCanvasMouseUp= function (action) {
-    var that = this;
-    
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == that.cropperLockKey)
-            action(evt);
-    });
-};
-
-AnnotaterView.prototype.QryCanvasMouseMove = function (action) {
-    var that = this;
-    
-    $("#myCanvas").mousemove(function (evt) {
-        //console.log('QryCanvasMouseMove: ' + that.canvasMousemoveLock +' ' + that.cropperLockKey);
-        if(that.canvasMousemoveLock == that.cropperLockKey){
-            action(evt);
-        }
-    });
-};
 
 
 
