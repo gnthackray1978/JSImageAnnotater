@@ -163,6 +163,7 @@ VisualizerController.prototype = {
             this.graphicsContext.SetMouse(_point[0], _point[1]);
            
             if (this._mouseDown) {
+                console.log('canvasMouseMove');
                 this.graphicsContext.SetDrawingQueueValue(_point);
                // this._moustQueue.push(_point);
             }
@@ -215,14 +216,6 @@ VisualizerController.prototype = {
  
     GameLoop: function () {
 
-        // while (this._moustQueue.length > 0) {
-        //     var _point = this._moustQueue.shift();
-
-
-        //     this.graphicsContext.SetCentrePoint(_point[0], _point[1]);
-        //     this.graphicsContext.DrawTree();
-        // }
-        
         this.graphicsContext.SetDrawQueueEntries();
         
         setTimeout($.proxy(this.GameLoop, this));
