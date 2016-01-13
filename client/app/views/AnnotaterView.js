@@ -243,6 +243,8 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
         if(that.GetKey(that.canvasMousemoveLocks) == key){
            that._channel.publish( "positionMouseMove", { value: evt } );
         }
+        
+        evt.stopPropagation();
     });
 
 },
@@ -269,6 +271,8 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
         if(that.GetKey(that.canvasMousemoveLocks) == key){
            that._channel.publish( "selectionMouseMove", { value: evt } );
         }
+        
+        evt.stopPropagation();
     });
     
     $('#rectselstart').click(function (evt) {            
@@ -287,6 +291,7 @@ AnnotaterView.prototype.InitCrop = function (state){
     $("#myCanvas").mousedown(function (evt) {
         if(that.GetKey(that.canvasMousedownLocks) == key)
             that._channel.publish( "cropMouseDown", { value: evt } );
+        
     });
 
     $("#myCanvas").mouseup(function (evt) {
@@ -299,6 +304,8 @@ AnnotaterView.prototype.InitCrop = function (state){
         if(that.GetKey(that.canvasMousemoveLocks) == key){
             that._channel.publish( "cropMouseMove", { value: evt } );
         }
+        
+        evt.stopPropagation();
     });
 
 
@@ -327,6 +334,8 @@ AnnotaterView.prototype.InitVis = function (state){
         
             that._channel.publish( "visMouseMove", { value: _point } );
         }
+        
+        evt.stopPropagation();
     });
 
 
