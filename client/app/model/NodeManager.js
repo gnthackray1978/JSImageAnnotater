@@ -631,7 +631,7 @@ NodeManager.prototype = {
             }
             else
             {
-                console.log('AddNode writeInitialData updating generations');
+                //console.log('AddNode writeInitialData updating generations');
                 that.initialGenerations[1][index]= initialValueNode;
             }
            
@@ -642,7 +642,7 @@ NodeManager.prototype = {
         var idx =0;
         while(idx < this.generations[1].length){
             if(Number(this.generations[1][idx].Index) === Number(node.Index)){
-                console.log('AddNode updating generations');
+                //console.log('AddNode updating generations');
                 this.generations[1][idx] =node;
                 writeInitialData(1,node,idx);
                 return;
