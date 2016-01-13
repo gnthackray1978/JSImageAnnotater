@@ -266,8 +266,8 @@ Visualizer.prototype.ComputeLocations=function () {
     }
 
     if(isNaN(this.centrePoint) || isNaN(width)){
-        console.log('ComputeLocations NAN variables: cp ' + this.centrePoint + ' wdth: ' + width + ' zp: ' + this.zoomPercentage);
-        console.log(this.nodestore.generations[0][0]);
+    //    console.log('ComputeLocations NAN variables: cp ' + this.centrePoint + ' wdth: ' + width + ' zp: ' + this.zoomPercentage);
+    //    console.log(this.nodestore.generations[0][0]);
     }
     
     // adjust centrepoint before we start?
