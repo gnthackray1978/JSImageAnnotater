@@ -127,6 +127,8 @@ function AnnotaterView(channel) {
     this.InitNodePositioning();
     
     this.InitCrop();
+    
+    this.InitVis();
 } 
 
 
@@ -262,7 +264,30 @@ AnnotaterView.prototype.InitCrop = function (state){
 
 },
  
- 
+AnnotaterView.prototype.InitVis = function (state){
+    var that = this;
+    var key = '';
+   
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.canvasMousedownLock == key)
+            that._channel.publish( "visMouseDown", { value: evt } );
+    });
+
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.canvasMouseupLock == key)
+            that._channel.publish( "visMouseUp", { value: evt } );
+    });
+
+    $("#myCanvas").mousemove(function (evt) {
+        
+        if(that.canvasMousemoveLock == key){
+            that._channel.publish( "visMouseMove", { value: evt } );
+        }
+    });
+
+
+},
+
 AnnotaterView.prototype.InitPanelVisibility = function () {
 
 
