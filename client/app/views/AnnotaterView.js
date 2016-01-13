@@ -315,7 +315,11 @@ AnnotaterView.prototype.InitVis = function (state){
     $("#myCanvas").mousemove(function (evt) {
         
         if(that.GetKey(that.canvasMousemoveLocks) == key){
-            that._channel.publish( "visMouseMove", { value: evt } );
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    
+            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+        
+            that._channel.publish( "visMouseMove", { value: _point } );
         }
     });
 
