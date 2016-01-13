@@ -72,9 +72,9 @@
 		
 		while(idx < this._selectedNodes.length){
 			this._selectedNodes[idx].IsMove =true;
-			this._selectedNodes[idx].X += tpx;
+			this._selectedNodes[idx].X -= tpx;
 			
-			this._selectedNodes[idx].Y += tpy;
+			this._selectedNodes[idx].Y -= tpy;
 			this._nodeStore.UpdateNode(this._selectedNodes[idx]);
 			idx++;
 		}
