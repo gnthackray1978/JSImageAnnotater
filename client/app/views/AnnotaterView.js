@@ -152,15 +152,15 @@ function AnnotaterView(channel) {
     }
     
    
-    this.InitOptions();
+   // this.InitOptions();
     
-    this.InitSelectionRectangle();
+   // this.InitSelectionRectangle();
     
-    this.InitGenericMouseClicks();
+  //  this.InitGenericMouseClicks();
     
-    this.InitNodePositioning();
+   // this.InitNodePositioning();
     
-    this.InitCrop();
+  //  this.InitCrop();
     
     this.InitVis();
 } 
