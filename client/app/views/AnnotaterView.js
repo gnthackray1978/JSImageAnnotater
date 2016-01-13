@@ -63,8 +63,14 @@ function AnnotaterView(channel) {
     this.metaButtonCallback;
     
     this.canvasMouseupLock ='';
+    this.canvasMouseupLocks = [];
+    
     this.canvasMousedownLock ='';
+    this.canvasMousedownLocks = [];
+    
     this.canvasMousemoveLock ='';
+    this.canvasMousemoveLocks = [];
+   
    
     this.canvasMouseLastXClick;
     this.canvasMouseLastYClick;
@@ -86,16 +92,38 @@ function AnnotaterView(channel) {
     if(this._channel){
         
         this._channel.subscribe("lockmouseup", function(data, envelope) {
-            that.canvasMouseupLock =  data.value ? data.value : '';
+            
+            var key = data.value ? data.value : '';
+            
+            that.canvasMouseupLock =  key;
+            
+            if(key == '')
+                that.canvasMouseupLocks.pop();
+            else
+                that.canvasMouseupLocks.push(key);
+            
         });
         
         this._channel.subscribe("lockmousedown", function(data, envelope) {
-            console.log('locking mousedown: ' + data.value);
-            that.canvasMousedownLock = data.value ? data.value : '';
+            var key = data.value ? data.value : '';
+            
+            that.canvasMousedownLock = key;
+            
+            if(key == '')
+                that.canvasMousedownLocks.pop();
+            else
+                that.canvasMousedownLocks.push(key);
         });
         
         this._channel.subscribe("lockmousemove", function(data, envelope) {
-            that.canvasMousemoveLock = data.value ? data.value : '';
+            var key = data.value ? data.value : '';
+            
+            that.canvasMousemoveLock = key;
+            
+            if(key == '')
+                that.canvasMousemoveLocks.pop();
+            else
+                that.canvasMousemoveLocks.push(key);
         });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
@@ -180,26 +208,33 @@ AnnotaterView.prototype.InitOptions = function (state){
     });  
 },
  
+
+AnnotaterView.prototype.GetKey = function (array){
+    return array[array.length-1]!=undefined ? array[array.length-1] : '';
+    
+},
  
 AnnotaterView.prototype.InitNodePositioning = function (state){
     
     var that = this;
     var key = 'NP';
     
+    
+    
     $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == key){
+        if(that.GetKey(that.canvasMousedownLocks) == key){
             that._channel.publish( "positionMouseDown", { value: evt } );
         }
     });
 
     $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == key)
+        if(that.GetKey(that.canvasMouseupLocks) == key)
             that._channel.publish( "positionMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         //argh argh
-        if(that.canvasMousemoveLock == key){
+        if(that.GetKey(that.canvasMousemoveLocks) == key){
            that._channel.publish( "positionMouseMove", { value: evt } );
         }
     });
@@ -213,20 +248,19 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
     var key = 'RS';
     
     $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == key){
-            //console.log('InitSelectionRectangle: ' + that.canvasMousedownLock + ' ' + key);
+        if(that.GetKey(that.canvasMousedownLocks) == key){
             that._channel.publish( "selectionMouseDown", { value: evt } );
         }
     });
 
     $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == key)
+        if(that.GetKey(that.canvasMouseupLocks) == key)
             that._channel.publish( "selectionMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         //argh argh
-        if(that.canvasMousemoveLock == key){
+        if(that.GetKey(that.canvasMousemoveLocks) == key){
            that._channel.publish( "selectionMouseMove", { value: evt } );
         }
     });
@@ -245,18 +279,18 @@ AnnotaterView.prototype.InitCrop = function (state){
     var key = 'CROP';
    
     $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == key)
+        if(that.GetKey(that.canvasMousedownLocks) == key)
             that._channel.publish( "cropMouseDown", { value: evt } );
     });
 
     $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == key)
+        if(that.GetKey(that.canvasMouseupLocks)== key)
             that._channel.publish( "cropMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         
-        if(that.canvasMousemoveLock == key){
+        if(that.GetKey(that.canvasMousemoveLocks) == key){
             that._channel.publish( "cropMouseMove", { value: evt } );
         }
     });
@@ -269,18 +303,18 @@ AnnotaterView.prototype.InitVis = function (state){
     var key = '';
    
     $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == key)
+        if(that.GetKey(that.canvasMousedownLocks) == key)
             that._channel.publish( "visMouseDown", { value: evt } );
     });
 
     $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == key)
+        if(that.GetKey(that.canvasMouseupLocks) == key)
             that._channel.publish( "visMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         
-        if(that.canvasMousemoveLock == key){
+        if(that.GetKey(that.canvasMousemoveLocks) == key){
             that._channel.publish( "visMouseMove", { value: evt } );
         }
     });
