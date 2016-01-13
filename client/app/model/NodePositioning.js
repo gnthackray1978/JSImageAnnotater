@@ -82,8 +82,8 @@
 		this._last_mouse.x = this._mouse.x;
 	    this._last_mouse.y = this._mouse.y;
 	    
-	    if(this._selectedNodes.length >0)
-	    	console.log('MoveNodes: ' + this._selectedNodes[0].X);
+	   // if(this._selectedNodes.length >0)
+	   // 	console.log('MoveNodes: ' + this._selectedNodes[0].X);
 	}
 	
 
