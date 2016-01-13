@@ -99,8 +99,10 @@ function AnnotaterView(channel) {
             
             if(key == '')
                 that.canvasMouseupLocks.pop();
-            else
-                that.canvasMouseupLocks.push(key);
+            else{
+                if(that.canvasMouseupLocks.indexOf(key)==-1)
+                    that.canvasMouseupLocks.push(key);
+            }
             
         });
         
@@ -111,8 +113,10 @@ function AnnotaterView(channel) {
             
             if(key == '')
                 that.canvasMousedownLocks.pop();
-            else
-                that.canvasMousedownLocks.push(key);
+            else{
+                if(that.canvasMousedownLocks.indexOf(key)==-1)
+                    that.canvasMousedownLocks.push(key);
+            }
         });
         
         this._channel.subscribe("lockmousemove", function(data, envelope) {
@@ -122,8 +126,10 @@ function AnnotaterView(channel) {
             
             if(key == '')
                 that.canvasMousemoveLocks.pop();
-            else
-                that.canvasMousemoveLocks.push(key);
+            else{
+                if(that.canvasMousemoveLocks.indexOf(key)==-1)
+                    that.canvasMousemoveLocks.push(key);
+            }
         });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
