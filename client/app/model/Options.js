@@ -13,6 +13,7 @@ var Options = function (optionsDll,view, channel) {
     this.tempOptions;
     this.selectedColourComponentId =1;// not zero based
     this.currentNode;
+    this._state =0;
     
     var that = this;
     
@@ -23,20 +24,42 @@ var Options = function (optionsDll,view, channel) {
     this._channel.subscribe("nodeedit", function(data, envelope) {
         that.SetDefaultOptionState(false);                
         that.SetState(true,data.value,true);
+        that._state =1;
+        that.UpdateState();
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
         that.SetDefaultOptionState(true);            
         that.SetState(true,data.value,true);
+        that._state =2;
+        that.UpdateState();
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
         that.SetDefaultOptionState(false);
-        that.SetState(false);                
+        that.SetState(false);
+        that._state =0;
+        that.UpdateState();
     });
     
-    
+    this.UpdateState();
 };
+
+Options.prototype.UpdateState= function (){
+    
+    switch(this._state){
+        case 0:
+            console.log('OPTIONS default state 0');
+            break;
+        case 1:
+            console.log('OPTIONS edit state 1');
+            break;
+        case 2:
+            console.log('OPTIONS new state 2');
+            break;
+        
+    }
+},
 
 Options.prototype.ChangeAngle= function (direction){
     
