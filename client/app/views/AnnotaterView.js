@@ -318,6 +318,9 @@ AnnotaterView.prototype.InitVis = function (state){
     $("#myCanvas").mousedown(function (evt) {
         if(that.GetKey(that.canvasMousedownLocks) == key)
             that._channel.publish( "visMouseDown", { value: evt } );
+            
+        evt.preventDefault();
+        evt.stopPropagation();
     });
 
     $("#myCanvas").mouseup(function (evt) {
@@ -335,6 +338,7 @@ AnnotaterView.prototype.InitVis = function (state){
             that._channel.publish( "visMouseMove", { value: _point } );
         }
         
+        evt.preventDefault();
         evt.stopPropagation();
     });
 
