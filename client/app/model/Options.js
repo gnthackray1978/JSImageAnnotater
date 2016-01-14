@@ -90,6 +90,7 @@ Options.prototype.UpdateState= function (){
     
     switch(this._state){
         case 0:
+            this.SetOptionsLoad();
             console.log('OPTIONS default state 0');
             break;
         case 1:
