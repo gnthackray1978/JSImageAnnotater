@@ -471,7 +471,7 @@ Visualizer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  s
 
         this.zoomPercentage = zoomPerc;
 
-        this.options.SetState(this.isLocked,this.currentNode);
+        //this.options.SetState(this.isLocked,this.currentNode);
 };
     
 Visualizer.prototype.MoveTree = function (direction) {

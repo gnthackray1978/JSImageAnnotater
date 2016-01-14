@@ -90,7 +90,7 @@ Options.prototype.UpdateState= function (){
     
     switch(this._state){
         case 0:
-            this.SetOptionsLoad();
+            this.LoadDefaultOptions();
             console.log('OPTIONS default state 0');
             break;
         case 1:
@@ -98,6 +98,8 @@ Options.prototype.UpdateState= function (){
             break;
         case 2:
             console.log('OPTIONS new state 2');
+            if(this.tempOptions == undefined)
+                this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions));
             break;
         case 3:
             console.log('OPTIONS multi edit state 3');
@@ -134,12 +136,12 @@ Options.prototype.SetState = function(addNode,currentNode, refreshView){
     this.currentNode = currentNode;
     this.addNode = addNode;
     
-    if(this.addNode)
-    {
-        if(this.tempOptions == undefined)
-            this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
+    // if(this.addNode)
+    // {
+    //     if(this.tempOptions == undefined)
+    //         this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
         
-    }
+    // }
      
     if(refreshView){
         if(currentNode != undefined)
@@ -163,7 +165,7 @@ Options.prototype.GetState = function(addNode,callback){
 
 
 
-Options.prototype.SetOptionsLoad =function(){
+Options.prototype.LoadDefaultOptions =function(){
     
     var that = this;
     
