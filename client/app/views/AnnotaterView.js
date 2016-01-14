@@ -75,62 +75,52 @@ function AnnotaterView(channel) {
     this.canvasMouseLastXClick;
     this.canvasMouseLastYClick;
     
-    
-    
-    
     this.openNodeEditor;
     this.closeNodeEditor;
     var that = this;
-    
-    
-  
-  
-    //         this._view.SetAddButtonAdd();
-    //         this._view.SetCropSaveDisabled(); 
-            
-            
+          
     if(this._channel){
         
-        // this._channel.subscribe("lockmouseup", function(data, envelope) {
+        this._channel.subscribe("lockmouseup", function(data, envelope) {
             
-        //     var key = data.value ? data.value : '';
+            var key = data.value ? data.value : '';
             
-        //     that.canvasMouseupLock =  key;
+            that.canvasMouseupLock =  key;
             
-        //     if(key == '')
-        //         that.canvasMouseupLocks.pop();
-        //     else{
-        //         if(that.canvasMouseupLocks.indexOf(key)==-1)
-        //             that.canvasMouseupLocks.push(key);
-        //     }
+            if(key == '')
+                that.canvasMouseupLocks.pop();
+            else{
+                if(that.canvasMouseupLocks.indexOf(key)==-1)
+                    that.canvasMouseupLocks.push(key);
+            }
             
-        // });
+        });
         
-        // this._channel.subscribe("lockmousedown", function(data, envelope) {
-        //     var key = data.value ? data.value : '';
+        this._channel.subscribe("lockmousedown", function(data, envelope) {
+            var key = data.value ? data.value : '';
             
-        //     that.canvasMousedownLock = key;
+            that.canvasMousedownLock = key;
             
-        //     if(key == '')
-        //         that.canvasMousedownLocks.pop();
-        //     else{
-        //         if(that.canvasMousedownLocks.indexOf(key)==-1)
-        //             that.canvasMousedownLocks.push(key);
-        //     }
-        // });
+            if(key == '')
+                that.canvasMousedownLocks.pop();
+            else{
+                if(that.canvasMousedownLocks.indexOf(key)==-1)
+                    that.canvasMousedownLocks.push(key);
+            }
+        });
         
-        // this._channel.subscribe("lockmousemove", function(data, envelope) {
-        //     var key = data.value ? data.value : '';
+        this._channel.subscribe("lockmousemove", function(data, envelope) {
+            var key = data.value ? data.value : '';
             
-        //     that.canvasMousemoveLock = key;
+            that.canvasMousemoveLock = key;
             
-        //     if(key == '')
-        //         that.canvasMousemoveLocks.pop();
-        //     else{
-        //         if(that.canvasMousemoveLocks.indexOf(key)==-1)
-        //             that.canvasMousemoveLocks.push(key);
-        //     }
-        // });
+            if(key == '')
+                that.canvasMousemoveLocks.pop();
+            else{
+                if(that.canvasMousemoveLocks.indexOf(key)==-1)
+                    that.canvasMousemoveLocks.push(key);
+            }
+        });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
             that.SetAddButtonAdd();
@@ -152,15 +142,15 @@ function AnnotaterView(channel) {
     }
     
    
-   // this.InitOptions();
+    this.InitOptions();
     
-   // this.InitSelectionRectangle();
+    this.InitSelectionRectangle();
     
-  //  this.InitGenericMouseClicks();
+    this.InitGenericMouseClicks();
     
-   // this.InitNodePositioning();
+    this.InitNodePositioning();
     
-  //  this.InitCrop();
+    this.InitCrop();
     
     this.InitVis();
 } 
@@ -313,27 +303,27 @@ AnnotaterView.prototype.InitVis = function (state){
     var that = this;
     var key = '';
    
-    // $("#myCanvas").mousedown(function (evt) {
-    //     if(that.GetKey(that.canvasMousedownLocks) == key)
-    //         that._channel.publish( "visMouseDown", { value: evt } );
-    // });
+    $("#myCanvas").mousedown(function (evt) {
+        if(that.GetKey(that.canvasMousedownLocks) == key)
+            that._channel.publish( "visMouseDown", { value: evt } );
+    });
 
-    // $("#myCanvas").mouseup(function (evt) {
-    //     if(that.GetKey(that.canvasMouseupLocks) == key)
-    //         that._channel.publish( "visMouseUp", { value: evt } );
-    // });
+    $("#myCanvas").mouseup(function (evt) {
+        if(that.GetKey(that.canvasMouseupLocks) == key)
+            that._channel.publish( "visMouseUp", { value: evt } );
+    });
 
-    // $("#myCanvas").mousemove(function (evt) {
+    $("#myCanvas").mousemove(function (evt) {
         
-    //     if(that.GetKey(that.canvasMousemoveLocks) == key){
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+        if(that.GetKey(that.canvasMousemoveLocks) == key){
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
-    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         
-    //         that._channel.publish( "visMouseMove", { value: _point } );
-    //     }
+            that._channel.publish( "visMouseMove", { value: _point } );
+        }
          
-    // });
+    });
 
 
 },
@@ -867,47 +857,6 @@ AnnotaterView.prototype.CancelNodeButton = function (action) {
     });
 };
 
-
-
-
-AnnotaterView.prototype.CanvasMouseUp = function (action) {
-    var that = this;
-    
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.canvasMouseupLock == ''){
-            evt.preventDefault();
-            action();
-        }
-    });
-};
-
-AnnotaterView.prototype.CanvasMouseDown = function (action) {
-    var that = this;
-    
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.canvasMousedownLock == ''){
-            evt.preventDefault();
-            action();
-        }
-    });
-};
- 
-AnnotaterView.prototype.CanvasMouseMove = function (action) {
-    var that = this;
-    
-    $("#myCanvas").mousemove(function (evt) {
-        if(that.canvasMousemoveLock == ''){
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-    
-            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
-        
-            action(_point);
-        }
-    });
-};
-    
-    
-    
 AnnotaterView.prototype.ButtonPressDown = function (action) {
 
         var that = this;
