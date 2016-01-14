@@ -69,23 +69,23 @@ function loadAll (drive){
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
 
 
-        var cropper = new Crop(nodeManager,data);
-        var crapperController = new CroppingController(appView,channel, cropper);
+        // var cropper = new Crop(nodeManager,data);
+        // var crapperController = new CroppingController(appView,channel, cropper);
 
-        var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
-        var urlController = new UrlController(appView,urls,nodeManager.Type());
+        // var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
+        // var urlController = new UrlController(appView,urls,nodeManager.Type());
         
-        var layer = new Layer(data,appView, visualizer);
-        var layerController = new LayerController(appView,layer);
+        // var layer = new Layer(data,appView, visualizer);
+        // var layerController = new LayerController(appView,layer);
 
-        var selector = new Selection(nodeManager,options);
-        var selectorController = new SelectionController(appView,channel,selector,nodeManager);
+        // var selector = new Selection(nodeManager,options);
+        // var selectorController = new SelectionController(appView,channel,selector,nodeManager);
 
-        var nodePositioning = new NodePositioning(nodeManager,channel);
-        var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
+        // var nodePositioning = new NodePositioning(nodeManager,channel);
+        // var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
         
-        var debug = new Debuger(data,nodeManager, appView,visualizer,nodePositioningController);
-        var debugController = new DebugController(appView,debug,visualizer);
+        // var debug = new Debuger(data,nodeManager, appView,visualizer,nodePositioningController);
+        // var debugController = new DebugController(appView,debug,visualizer);
         
         
         

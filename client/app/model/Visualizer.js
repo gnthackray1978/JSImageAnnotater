@@ -757,8 +757,6 @@ Visualizer.prototype.SetDrawingQueueReset = function(){
 Visualizer.prototype.SetDrawQueueEntries = function(){
     
     while (this._drawingQueue.length > 0) {
-        
-        
         var _point = this._drawingQueue.shift();
       //  console.log(_point[0]+ ' ' +_point[1]);
         
