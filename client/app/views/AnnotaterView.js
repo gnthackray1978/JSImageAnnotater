@@ -313,27 +313,27 @@ AnnotaterView.prototype.InitVis = function (state){
     var that = this;
     var key = '';
    
-    $("#myCanvas").mousedown(function (evt) {
-        //if(that.GetKey(that.canvasMousedownLocks) == key)
-            that._channel.publish( "visMouseDown", { value: evt } );
-    });
+    // $("#myCanvas").mousedown(function (evt) {
+    //     if(that.GetKey(that.canvasMousedownLocks) == key)
+    //         that._channel.publish( "visMouseDown", { value: evt } );
+    // });
 
-    $("#myCanvas").mouseup(function (evt) {
-        //if(that.GetKey(that.canvasMouseupLocks) == key)
-            that._channel.publish( "visMouseUp", { value: evt } );
-    });
+    // $("#myCanvas").mouseup(function (evt) {
+    //     if(that.GetKey(that.canvasMouseupLocks) == key)
+    //         that._channel.publish( "visMouseUp", { value: evt } );
+    // });
 
-    $("#myCanvas").mousemove(function (evt) {
+    // $("#myCanvas").mousemove(function (evt) {
         
-       // if(that.GetKey(that.canvasMousemoveLocks) == key){
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    //     if(that.GetKey(that.canvasMousemoveLocks) == key){
+    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
-            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         
-            that._channel.publish( "visMouseMove", { value: _point } );
-       // }
+    //         that._channel.publish( "visMouseMove", { value: _point } );
+    //     }
          
-    });
+    // });
 
 
 },

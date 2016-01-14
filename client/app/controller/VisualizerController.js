@@ -17,17 +17,22 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that._view.UpdateInfoWindow(imdat);
     };
 
-    this.channel.subscribe("visMouseDown", function(data, envelope) {
-        that.canvasMouseDown(data.value);
-    });
+    // this.channel.subscribe("visMouseDown", function(data, envelope) {
+    //     that.canvasMouseDown(data.value);
+    // });
     
-    this.channel.subscribe("visMouseUp", function(data, envelope) {
-        that.canvasMouseUp(data.value);
-    });
+    // this.channel.subscribe("visMouseUp", function(data, envelope) {
+    //     that.canvasMouseUp(data.value);
+    // });
     
-    this.channel.subscribe("visMouseMove", function(data, envelope) {
-        that.canvasMouseMove(data.value);
-    });
+    // this.channel.subscribe("visMouseMove", function(data, envelope) {
+    //     that.canvasMouseMove(data.value);
+    // });
+
+    this._view.CanvasMouseDown($.proxy(this.canvasMouseDown, this));
+    this._view.CanvasMouseUp($.proxy(this.canvasMouseUp, this));
+    this._view.CanvasMouseMove($.proxy(this.canvasMouseMove, this));
+    
 
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
