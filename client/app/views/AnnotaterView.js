@@ -91,46 +91,46 @@ function AnnotaterView(channel) {
             
     if(this._channel){
         
-        this._channel.subscribe("lockmouseup", function(data, envelope) {
+        // this._channel.subscribe("lockmouseup", function(data, envelope) {
             
-            var key = data.value ? data.value : '';
+        //     var key = data.value ? data.value : '';
             
-            that.canvasMouseupLock =  key;
+        //     that.canvasMouseupLock =  key;
             
-            if(key == '')
-                that.canvasMouseupLocks.pop();
-            else{
-                if(that.canvasMouseupLocks.indexOf(key)==-1)
-                    that.canvasMouseupLocks.push(key);
-            }
+        //     if(key == '')
+        //         that.canvasMouseupLocks.pop();
+        //     else{
+        //         if(that.canvasMouseupLocks.indexOf(key)==-1)
+        //             that.canvasMouseupLocks.push(key);
+        //     }
             
-        });
+        // });
         
-        this._channel.subscribe("lockmousedown", function(data, envelope) {
-            var key = data.value ? data.value : '';
+        // this._channel.subscribe("lockmousedown", function(data, envelope) {
+        //     var key = data.value ? data.value : '';
             
-            that.canvasMousedownLock = key;
+        //     that.canvasMousedownLock = key;
             
-            if(key == '')
-                that.canvasMousedownLocks.pop();
-            else{
-                if(that.canvasMousedownLocks.indexOf(key)==-1)
-                    that.canvasMousedownLocks.push(key);
-            }
-        });
+        //     if(key == '')
+        //         that.canvasMousedownLocks.pop();
+        //     else{
+        //         if(that.canvasMousedownLocks.indexOf(key)==-1)
+        //             that.canvasMousedownLocks.push(key);
+        //     }
+        // });
         
-        this._channel.subscribe("lockmousemove", function(data, envelope) {
-            var key = data.value ? data.value : '';
+        // this._channel.subscribe("lockmousemove", function(data, envelope) {
+        //     var key = data.value ? data.value : '';
             
-            that.canvasMousemoveLock = key;
+        //     that.canvasMousemoveLock = key;
             
-            if(key == '')
-                that.canvasMousemoveLocks.pop();
-            else{
-                if(that.canvasMousemoveLocks.indexOf(key)==-1)
-                    that.canvasMousemoveLocks.push(key);
-            }
-        });
+        //     if(key == '')
+        //         that.canvasMousemoveLocks.pop();
+        //     else{
+        //         if(that.canvasMousemoveLocks.indexOf(key)==-1)
+        //             that.canvasMousemoveLocks.push(key);
+        //     }
+        // });
         
         this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
             that.SetAddButtonAdd();
