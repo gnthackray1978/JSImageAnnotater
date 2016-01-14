@@ -382,7 +382,7 @@ Visualizer.prototype.setImageObject = function(urlId, jsonData, callback){
             
         }
         
-        that.options.SetOptionsLoad(urlId);
+        //that.options.SetOptionsLoad();
         
         console.log('setImageObject url: ' + that.imageData.url);
         

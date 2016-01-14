@@ -162,19 +162,14 @@ Options.prototype.GetState = function(addNode,callback){
 
 
 
-Options.prototype.SetOptionsLoad =function(urlId){
-    console.log('GetUrls');
+Options.prototype.SetOptionsLoad =function(){
     
     var that = this;
     
-    that.optionsDll.GetOptions(urlId, function(jsonData){
-         if(jsonData.length > 0){
-                // we are in the future going to have many layers
-                // currently we have 1 layer so just default to that
-                // which is always going to be layer 0
-                that.defaultOptions = jsonData[0];
-                
-            }
+    that.optionsDll.GetOptions(function(jsonData){
+        if(jsonData.length > 0){
+            that.defaultOptions = jsonData[0];
+        }
     });
  
 };

@@ -616,7 +616,7 @@ MyDrive.prototype.WriteNotesData = function(datas,callback){
 
 
 
-MyDrive.prototype.GetOptions= function (urlId,callback){
+MyDrive.prototype.GetOptions= function (callback){
     
     callback(this.options);
 };

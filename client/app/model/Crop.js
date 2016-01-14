@@ -63,7 +63,7 @@
 	 
 	    that.nodestore.GetCroppingNode(function(data, initnode){
 	        //console.log('got cropping node: ' + data.Index);
-	        that.optionsDll.GetOptions(0, function(options){
+	        that.optionsDll.GetOptions(function(options){
 				//console.log('got cropping node options: ' + options);
 				that.cropnode = data;
 		 		
