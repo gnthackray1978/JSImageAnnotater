@@ -163,7 +163,7 @@ VisualizerController.prototype = {
             this.graphicsContext.SetMouse(_point[0], _point[1]);
            
             if (this._mouseDown) {
-                console.log('canvasMouseMove');
+                //console.log('canvasMouseMove');
                 this.graphicsContext.SetDrawingQueueValue(_point);
                // this._moustQueue.push(_point);
             }

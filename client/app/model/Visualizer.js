@@ -50,7 +50,7 @@ var Visualizer = function (data, nodestore,canvasTools, options) {
 Visualizer.prototype.DrawTree= function () {
     var that = this;
     
-    console.log('DrawTree');
+    //console.log('DrawTree');
     
     that.data.GetVisibleLayer(function(visibleLayers){
        
