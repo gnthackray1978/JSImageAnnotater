@@ -42,6 +42,47 @@ var Options = function (optionsDll,view, channel) {
         that.UpdateState();
     });
     
+    this._channel.subscribe("multiselectingstart", function(data, envelope) {});
+    this._channel.subscribe("multiselectingend", function(data, envelope) {
+        if(data.value == 0){
+            that._state =0;
+        }else if(data.value ==1 ){
+            that._state =1;
+        }else
+        {
+            that._state =3;
+        }
+        that.UpdateState();
+    });
+    this._channel.subscribe("nodeselected", function(data, envelope) {
+        if(data.value == 0){
+            that._state =0;
+        }else if(data.value ==1 ){
+            that._state =1;
+        }else
+        {
+            that._state =3;
+        }
+        that.UpdateState();
+    });
+    this._channel.subscribe("nodedeselected", function(data, envelope) {
+         if(data.value == 0){
+            that._state =0;
+        }else if(data.value ==1 ){
+            that._state =1;
+        }else
+        {
+            that._state =3;
+        }
+        that.UpdateState();
+    });
+    this._channel.subscribe("focusednode", function(data, envelope) {});
+    this._channel.subscribe("nullselection", function(data, envelope) {
+        that._state =0;
+        that.UpdateState();
+    });
+    this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {});
+    
     this.UpdateState();
 };
 
@@ -56,6 +97,9 @@ Options.prototype.UpdateState= function (){
             break;
         case 2:
             console.log('OPTIONS new state 2');
+            break;
+        case 3:
+            console.log('OPTIONS multi edit state 3');
             break;
         
     }
