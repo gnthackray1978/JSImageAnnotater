@@ -214,7 +214,6 @@ AnnotaterView.prototype.InitOptions = function (state){
     });  
 },
  
-
 AnnotaterView.prototype.GetKey = function (array){
     return array[array.length-1]!=undefined ? array[array.length-1] : '';
     
@@ -248,7 +247,6 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
     });
 
 },
-
 
 AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
@@ -316,30 +314,25 @@ AnnotaterView.prototype.InitVis = function (state){
     var key = '';
    
     $("#myCanvas").mousedown(function (evt) {
-        if(that.GetKey(that.canvasMousedownLocks) == key)
+        //if(that.GetKey(that.canvasMousedownLocks) == key)
             that._channel.publish( "visMouseDown", { value: evt } );
-            
-        evt.preventDefault();
-        evt.stopPropagation();
     });
 
     $("#myCanvas").mouseup(function (evt) {
-        if(that.GetKey(that.canvasMouseupLocks) == key)
+        //if(that.GetKey(that.canvasMouseupLocks) == key)
             that._channel.publish( "visMouseUp", { value: evt } );
     });
 
     $("#myCanvas").mousemove(function (evt) {
         
-        if(that.GetKey(that.canvasMousemoveLocks) == key){
+       // if(that.GetKey(that.canvasMousemoveLocks) == key){
             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
             var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         
             that._channel.publish( "visMouseMove", { value: _point } );
-        }
-        
-        evt.preventDefault();
-        evt.stopPropagation();
+       // }
+         
     });
 
 
