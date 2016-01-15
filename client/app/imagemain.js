@@ -52,11 +52,13 @@ function loadAll (drive){
         
         var metadata = new Meta(data,appView);
         var metaController = new MetaController(appView,metadata);
+        
+        var nodeManager = new NodeManager(data);
 
-        var options = new Options(data,appView,channel);
+        var options = new Options(data,nodeManager, appView,channel);
         var optionsController = new OptionsController(appView,options);
 
-        var nodeManager = new NodeManager(data);
+        
 
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
         

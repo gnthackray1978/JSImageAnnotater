@@ -208,13 +208,13 @@ NodeManagerController.prototype = {
         
         that._channel.publish( "lock", { value: true } );
                             
-        if(that.selectedNote.options == undefined){
-            that.selectedNote.options = that.options.GetState().defaultOptions;
-            // I believe this is to save the options if they weren't already set
-            that.nodeManager.WriteToDB(that.selectedNote, function(){
-                console.log('node saved');
-            });
-        }
+        // if(that.selectedNote.options == undefined){
+        //     that.selectedNote.options = that.options.GetState().defaultOptions;
+        //     // I believe this is to save the options if they weren't already set
+        //     that.nodeManager.WriteToDB(that.selectedNote, function(){
+        //         console.log('node saved');
+        //     });
+        // }
        
         that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
         

@@ -1,19 +1,15 @@
 
-var Node = function (nodeCollection) {
+var Node = function (nodeCollection, optionsDll) {
+    
+    this._optionsDll = optionsDll;
     
     this.nodeCollection = [];
     
     if(nodeCollection)
         this.nodeCollection = nodeCollection;
-    
-    
-    //this.data = typeof (data) !== 'undefined' ? data : {};
-};
 
-    // AddData: function(genidx,index,x,y,width,height,degree,annotation,
-    //                         visible,withInit,options,layerId,metaData,cropArea,isOpen, callback){
-                                
-                                
+};
+                             
 Node.prototype.MakeNode = function(index,x,y,width,height,degree,annotation,
                             visible,options,layerId,metaData,cropArea,isOpen,urlId, callback){
     
@@ -45,8 +41,6 @@ Node.prototype.MakeNode = function(index,x,y,width,height,degree,annotation,
 
 
 Node.prototype.MakeNodeFromNote = function(id, note, metaData, layerId, urlId, callback){
-    // this.AddData(1, note.Index,note.x,note.y,note.width,note.height,
-    // note.d,note.text,true, true, note.options,2);
     
     if(id == 0)
         id = this.NewId();
@@ -136,7 +130,18 @@ Node.prototype.CreateEmptyNode = function(isFirst, isCropArea, callback){
     }
     
     var layerId =2;
+    var options = undefined;
+    var that = this;
     
-    this.MakeNode(id,0,0,w,h,0,"",true,undefined, layerId,undefined,isCropArea, false, undefined, callback )
-    
+    if(that._optionsDll){
+        that._optionsDll.GetOptions(function(jsonData){
+            if(jsonData.length > 0){
+                options = jsonData[0];
+            }
+            that.MakeNode(id,0,0,w,h,0,"",true,options, layerId,undefined,isCropArea, false, undefined, callback )
+        });
+    }
+    else{
+        that.MakeNode(id,0,0,w,h,0,"",true,options, layerId,undefined,isCropArea, false, undefined, callback )
+    }
 };

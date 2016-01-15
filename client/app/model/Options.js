@@ -1,4 +1,6 @@
-var Options = function (optionsDll,view, channel) {
+var Options = function (optionsDll,nodeManager, view, channel) {
+    
+    this._nodeManager = nodeManager;
     this.optionsDll = optionsDll;
     this._channel = channel;
     
@@ -17,63 +19,57 @@ var Options = function (optionsDll,view, channel) {
     
     var that = this;
     
+   
+    
+    var calcState = function(val){
+        if(val == 0){
+            that._state =0;
+        }else if(val ==1 ){
+            that._state =1;
+        }else
+        {
+            that._state =3;
+        }
+    };
+    
+    
     this._channel.subscribe("selectednodechanged", function(data, envelope) {
                     
     });
     
     this._channel.subscribe("nodeedit", function(data, envelope) {
         that.SetDefaultOptionState(false);                
-        that.SetState(true,data.value,true);
+        //that.SetState(true,data.value,true);
         that._state =1;
         that.UpdateState();
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
         that.SetDefaultOptionState(true);            
-        that.SetState(true,data.value,true);
+        //that.SetState(true,data.value,true);
         that._state =2;
         that.UpdateState();
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
         that.SetDefaultOptionState(false);
-        that.SetState(false);
+        //that.SetState(false);
         that._state =0;
         that.UpdateState();
     });
     
     this._channel.subscribe("multiselectingstart", function(data, envelope) {});
     this._channel.subscribe("multiselectingend", function(data, envelope) {
-        if(data.value == 0){
-            that._state =0;
-        }else if(data.value ==1 ){
-            that._state =1;
-        }else
-        {
-            that._state =3;
-        }
+        calcState(data.value);
         that.UpdateState();
     });
+    
     this._channel.subscribe("nodeselected", function(data, envelope) {
-        if(data.value == 0){
-            that._state =0;
-        }else if(data.value ==1 ){
-            that._state =1;
-        }else
-        {
-            that._state =3;
-        }
+        calcState(data.value);
         that.UpdateState();
     });
     this._channel.subscribe("nodedeselected", function(data, envelope) {
-         if(data.value == 0){
-            that._state =0;
-        }else if(data.value ==1 ){
-            that._state =1;
-        }else
-        {
-            that._state =3;
-        }
+        calcState(data.value);
         that.UpdateState();
     });
     this._channel.subscribe("focusednode", function(data, envelope) {});
@@ -87,6 +83,7 @@ var Options = function (optionsDll,view, channel) {
 };
 
 Options.prototype.UpdateState= function (){
+    var that = this;
     
     switch(this._state){
         case 0:
@@ -94,12 +91,22 @@ Options.prototype.UpdateState= function (){
             console.log('OPTIONS default state 0');
             break;
         case 1:
+            that._nodeManager.GetSelectedNodes(function(selection){
+                if(selection.length > 0){
+                   that.currentNode = selection[0]; 
+                   that._updateOptionsToView(that.currentNode.options);
+                }
+            });
             console.log('OPTIONS edit state 1');
             break;
         case 2:
             console.log('OPTIONS new state 2');
+            this.addNode = true;
+            
             if(this.tempOptions == undefined)
                 this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions));
+            
+            this._updateOptionsToView(this.tempOptions);
             break;
         case 3:
             console.log('OPTIONS multi edit state 3');
@@ -132,26 +139,26 @@ Options.prototype.SetDefaultOptionState = function(state){
     this.view.SetDefaultOptionsUI(state);
 };
 
-Options.prototype.SetState = function(addNode,currentNode, refreshView){
-    this.currentNode = currentNode;
-    this.addNode = addNode;
+// Options.prototype.SetState = function(addNode,currentNode, refreshView){
+//     this.currentNode = currentNode;
+//     this.addNode = addNode;
     
-    // if(this.addNode)
-    // {
-    //     if(this.tempOptions == undefined)
-    //         this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
+//     // if(this.addNode)
+//     // {
+//     //     if(this.tempOptions == undefined)
+//     //         this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
         
-    // }
+//     // }
      
-    if(refreshView){
-        if(currentNode != undefined)
-            this._updateOptionsToView(this.currentNode.options);
-        else
-            this._updateOptionsToView(this.tempOptions);
+//     if(refreshView){
+//         if(currentNode != undefined)
+//             this._updateOptionsToView(this.currentNode.options);
+//         else
+//             this._updateOptionsToView(this.tempOptions);
         
-    }
+//     }
     
-};
+// };
 
 Options.prototype.GetState = function(addNode,callback){
     

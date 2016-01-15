@@ -164,6 +164,7 @@ NodeManager.prototype = {
     GetGenerations: function (urlId, callback) {
         
         var that = this;
+        var defaultOptions;
         
         that.urlId = urlId;
         that.generations.push([]);
@@ -171,12 +172,14 @@ NodeManager.prototype = {
 
         var nodeFactory = new Node(that.generations);
 
-        var fillPersistedData = function(){
+        var fillPersistedData = function(defaultOptions){
             that.generations[1] = [];
             that._noteDll.GetNoteData(urlId,function(ajaxResult) {
                 var idx =0;
                 var cropFound =false;
                 while(idx < ajaxResult.length){
+                    
+                    if(!ajaxResult[idx].options) ajaxResult[idx].Options = defaultOptions;
                     
                     nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
                         if(node.CropArea) 
@@ -204,12 +207,20 @@ NodeManager.prototype = {
             });
         };
         
-        
-        nodeFactory.CreateEmptyNode(true,false, function(node){
-            that.AddNode(0,false,node,function(){
-                fillPersistedData();
+        that._noteDll.GetOptions(function(jsonData){
+            if(jsonData.length > 0){
+                defaultOptions = jsonData[0];
+            }
+            
+            nodeFactory.CreateEmptyNode(true,false, function(node){
+                that.AddNode(0,false,node,function(){
+                    fillPersistedData(defaultOptions);
+                });
             });
-        })
+        });
+    
+    
+        
         
     },
     
@@ -742,6 +753,8 @@ NodeManager.prototype = {
             
             nodeFactory.CreateEmptyNode(false,false, function(node){
                 node.SelectionArea =true;
+            
+                //that._noteDll.GetImageData(callback);
             
                 that.AddNode(1,false,node,function(){
                     findNode(callback);
