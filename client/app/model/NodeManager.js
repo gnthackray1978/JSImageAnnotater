@@ -179,7 +179,7 @@ NodeManager.prototype = {
                 var cropFound =false;
                 while(idx < ajaxResult.length){
                     
-                    if(!ajaxResult[idx].options) ajaxResult[idx].Options = defaultOptions;
+                    if(!ajaxResult[idx].Options) ajaxResult[idx].Options = defaultOptions;
                     
                     nodeFactory.CorrectErrors(ajaxResult[idx],function(node){
                         if(node.CropArea) 
