@@ -67,7 +67,7 @@ Visualizer.prototype.DrawTree= function () {
             
                 //var defaultOptions = that.options.GetState().defaultOptions;
                 
-                that.DrawTree2(visibleLayers,this.defaultOptions, cropMainNode, cropInitNode);
+                that.DrawTree2(visibleLayers,that.defaultOptions, cropMainNode, cropInitNode);
             
             //});
         });
