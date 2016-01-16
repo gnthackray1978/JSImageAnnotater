@@ -76,6 +76,8 @@
 		
 	    this.nodestore.GetSelectionAreaNode(function(node){
 	    	that.selectionnode = node;
+	    	that.selectionnode.Options.DefaultEditorBorderColour = 'red';
+	        that.selectionnode.Options.BorderWidth = 5;
 	    	complete();
 	    });
 	},
