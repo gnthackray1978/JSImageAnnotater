@@ -186,6 +186,10 @@ Options.prototype.LoadDefaultOptions =function(){
             that.defaultOptions.Selection ={};
             that.defaultOptions.Selection.BorderWidth = 3;
             that.defaultOptions.Selection.Colour = 'red';
+            that.defaultOptions.Selector ={};
+            that.defaultOptions.Selector.BorderWidth = 3;
+            that.defaultOptions.Selector.Colour = 'grey';
+            
             that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
         }
         

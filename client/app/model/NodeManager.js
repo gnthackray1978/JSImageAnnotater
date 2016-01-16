@@ -170,7 +170,7 @@ NodeManager.prototype = {
         that.generations.push([]);
         that.generations[0] = [];
 
-        var nodeFactory = new Node(that.generations);
+        var nodeFactory = new Node(that.generations, that._channel);
 
         var fillPersistedData = function(defaultOptions){
             that.generations[1] = [];
@@ -387,7 +387,7 @@ NodeManager.prototype = {
         if(!UInote)
             console.log('writetextarea note null or undefined');
         
-        var nodeFactory = new Node(this.generations);
+        var nodeFactory = new Node(this.generations, that._channel);
         
         nodeFactory.MakeNodeFromNote(id, UInote, undefined,2,undefined, function(node){
                                 
@@ -404,7 +404,7 @@ NodeManager.prototype = {
     {
         var that = this;
         
-        var nodeFactory = new Node(this.generations);
+        var nodeFactory = new Node(this.generations, that._channel);
         
         nodeFactory.MakeNode(id,x,y,width,height,degree,annotation,
                             true,options,layerId,metaData,cropArea,isOpen,undefined, function(node){
@@ -749,7 +749,7 @@ NodeManager.prototype = {
         
         if(!findNode(callback))
         {
-            var nodeFactory = new Node(this.generations, that._noteDll);
+            var nodeFactory = new Node(that.generations, that._channel);
             
             nodeFactory.CreateEmptyNode(false,false, function(node){
                 node.SelectionArea =true;

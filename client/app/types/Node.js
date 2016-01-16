@@ -1,13 +1,20 @@
 
-var Node = function (nodeCollection, optionsDll) {
+var Node = function (nodeCollection, channel) {
+    var that = this;
     
-    this._optionsDll = optionsDll;
     
     this.nodeCollection = [];
     
     if(nodeCollection)
         this.nodeCollection = nodeCollection;
-
+    
+    this.defaultOptions;
+    
+    if(channel){
+        channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
+            that.defaultOptions = data.value;    
+        });
+    }
 };
                              
 Node.prototype.MakeNode = function(index,x,y,width,height,degree,annotation,
@@ -130,18 +137,7 @@ Node.prototype.CreateEmptyNode = function(isFirst, isCropArea, callback){
     }
     
     var layerId =2;
-    var options = undefined;
-    var that = this;
+   
+    this.MakeNode(id,0,0,w,h,0,"",true,this.defaultOptions, layerId,undefined,isCropArea, false, undefined, callback );
     
-    if(that._optionsDll){
-        that._optionsDll.GetOptions(function(jsonData){
-            if(jsonData.length > 0){
-                options = jsonData[0];
-            }
-            that.MakeNode(id,0,0,w,h,0,"",true,options, layerId,undefined,isCropArea, false, undefined, callback )
-        });
-    }
-    else{
-        that.MakeNode(id,0,0,w,h,0,"",true,options, layerId,undefined,isCropArea, false, undefined, callback )
-    }
 };
