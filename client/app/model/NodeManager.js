@@ -749,7 +749,7 @@ NodeManager.prototype = {
         
         if(!findNode(callback))
         {
-            var nodeFactory = new Node(this.generations);
+            var nodeFactory = new Node(this.generations, that._noteDll);
             
             nodeFactory.CreateEmptyNode(false,false, function(node){
                 node.SelectionArea =true;
