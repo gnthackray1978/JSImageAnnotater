@@ -10,6 +10,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this.nodeManager = nodeDataManager;
     this.meta = metadata;
     this.options = options;
+    this.newOptions;
     
     this.stateCache =0;
     
@@ -106,6 +107,10 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.state =4;
         
         that.updateState();
+    });
+    
+    this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {
+        that.newOptions = data.value;
     });
 
     this.state = 0;
@@ -237,7 +242,7 @@ NodeManagerController.prototype = {
         
         that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
-        that._view.AddDisplayNodeSelection(70,25,0,'',that.options.GetState().tempOptions,$.proxy(that.nodeTextChanged, that));
+        that._view.AddDisplayNodeSelection(70,25,0,'',that.newOptions,$.proxy(that.nodeTextChanged, that));
         
         that.meta.Load([]);
     },

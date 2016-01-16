@@ -106,6 +106,7 @@ Options.prototype.UpdateState= function (){
             if(this.tempOptions == undefined)
                 this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions));
             
+            this._channel.publish( "newOptionsLoaded", { value: this.tempOptions } );
             this._updateOptionsToView(this.tempOptions);
             break;
         case 3:
@@ -160,15 +161,15 @@ Options.prototype.SetDefaultOptionState = function(state){
     
 // };
 
-Options.prototype.GetState = function(addNode,callback){
+// Options.prototype.GetState = function(addNode,callback){
     
     
-    return {
-    //    pickMode: this.pickMode,
-        defaultOptions: this.defaultOptions,
-        tempOptions: this.tempOptions
-    };
-};
+//     return {
+//     //    pickMode: this.pickMode,
+//         defaultOptions: this.defaultOptions,
+//         tempOptions: this.tempOptions
+//     };
+// };
 
 
 
@@ -179,7 +180,9 @@ Options.prototype.LoadDefaultOptions =function(){
     that.optionsDll.GetOptions(function(jsonData){
         if(jsonData.length > 0){
             that.defaultOptions = jsonData[0];
+            that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
         }
+        
     });
  
 };

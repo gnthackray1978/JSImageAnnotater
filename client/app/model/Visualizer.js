@@ -45,7 +45,14 @@ var Visualizer = function (data, nodestore,canvasTools, options) {
     
     this.EnableRun;
     this.UpdateInfo;
+    this.defaultOptions;
+    //
+    
 };
+
+Visualizer.prototype.SetDefaultOptions= function (defaultOptions) {
+    this.defaultOptions = defaultOptions;
+},
 
 Visualizer.prototype.DrawTree= function () {
     var that = this;
@@ -58,9 +65,9 @@ Visualizer.prototype.DrawTree= function () {
             
             //that.nodestore.GetSelectionAreaNode(function(selectionNode){
             
-                var defaultOptions = that.options.GetState().defaultOptions;
+                //var defaultOptions = that.options.GetState().defaultOptions;
                 
-                that.DrawTree2(visibleLayers,defaultOptions, cropMainNode, cropInitNode);
+                that.DrawTree2(visibleLayers,this.defaultOptions, cropMainNode, cropInitNode);
             
             //});
         });
@@ -120,10 +127,7 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                         }
                         
                         if(that.nodestore.generations[vidx][hidx].SelectionArea){
-                            
-                            
-                            
-                            
+
                             if(that.nodestore.generations[vidx][hidx].IsOpen){
                                 that._canvasTools.DrawCropBox(
                                             that.nodestore.generations[vidx][hidx].X,

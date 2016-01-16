@@ -28,7 +28,11 @@ var VisualizerController = function (view, graphicsContext, channel) {
     this.channel.subscribe("visMouseMove", function(data, envelope) {
         that.canvasMouseMove(data.value);
     });
-
+    
+    this.channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
+        that.graphicsContext.SetDefaultOptions(data.value);
+    });
+    
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
     
