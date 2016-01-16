@@ -55,12 +55,11 @@ function loadAll (drive){
         
         var nodeManager = new NodeManager(data);
 
-        var options = new Options(data,nodeManager, appView,channel);
-        var optionsController = new OptionsController(appView,options);
 
+
+        var visualizer = new Visualizer(data, nodeManager,  new CanvasTools());
         
-
-        var visualizer = new Visualizer(data, nodeManager,  new CanvasTools(), options);
+        
         
         var matches = new Matches(data,nodeManager);
         var matchesController = new MatchesController(appView,matches,visualizer);
@@ -69,7 +68,9 @@ function loadAll (drive){
         var nodeController = new NodeManagerController(appView, nodeManager, metadata,options,channel);
         
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
-
+        
+        var options = new Options(data,nodeManager, appView,channel);
+        var optionsController = new OptionsController(appView,options);
 
         var cropper = new Crop(nodeManager,data);
         var crapperController = new CroppingController(appView,channel, cropper);

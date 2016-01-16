@@ -1,12 +1,12 @@
 var  CanvasTools;
 
-var Visualizer = function (data, nodestore,canvasTools, options) {
+var Visualizer = function (data, nodestore,canvasTools) {
     //could inject this
     this._drawingQueue = [];
     this._canvasTools = canvasTools;
     
     
-    this.options = options;
+   // this.options = options;
     this.nodestore = nodestore;
     this.data = data;
 
