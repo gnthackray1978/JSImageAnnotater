@@ -33,43 +33,25 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that.graphicsContext.SetDefaultOptions(data.value);
     });
     
+    this.channel.subscribe("drawtree", function(data, envelope) {
+        that.graphicsContext.DrawTree();
+    });
+    
+    this.channel.subscribe("scale", function(data, envelope) {
+        that.graphicsContext.ScaleToScreen();
+    });
+    
+    this.channel.subscribe("lock", function(data, envelope) {
+        that.graphicsContext.SetLocked(data.value);
+    });
+    
+    this.channel.subscribe("singleClick", function(data, envelope) {
+        that.canvasClick(data.value.x, data.value.y);
+    });
+            
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
     
-    
-    //note operations
-   
-    this._view.InitPanelVisibility();
-
-    if(graphicsContext.nodestore.Type() != 'AJAX'){
-        this.startFromDrive();
-        
-        if(this.channel){
-            this.channel.subscribe("drawtree", function(data, envelope) {
-                //console.log('rec ');
-                that.graphicsContext.DrawTree();
-            });
-            
-            this.channel.subscribe("scale", function(data, envelope) {
-                that.graphicsContext.ScaleToScreen();
-            });
-            
-            this.channel.subscribe("lock", function(data, envelope) {
-                that.graphicsContext.SetLocked(data.value);
-            });
-            
-            this.channel.subscribe("singleClick", function(data, envelope) {
-                that.canvasClick(data.value.x, data.value.y);
-            });
-        }
-    }
-    else
-    {
-        this.init();
-        
-        this._view.RunButtonClicked($.proxy(this.startFromAjax, this));
-    }
-
 
 
 };
@@ -111,40 +93,6 @@ VisualizerController.prototype = {
 
     },
     
-    init:function(){
-         if (this._view !== null) {
-             this._view.DisplayUpdateRunButton(false);   
-         };
-    },
-        
-    startFromAjax: function (id) {
-    
-        var that = this;
-        //set image 
-      
-        var canvas = document.getElementById("myCanvas");
-  
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        that.graphicsContext.nodestore.GetGenerations(id, function(){
-            
-            console.log('got data starting app');
-            
-            setTimeout($.proxy(that.GameLoop,that), 1000 / 50);
-
-            //that._moustQueue[that._moustQueue.length] = new Array(1000000, 1000000);
-            that.graphicsContext.SetDrawingQueueReset();
-
-
-            that.graphicsContext.SetInitialValues(100, 0.0, 0.0, screen.width, screen.height);
-            that.graphicsContext.UpdateGenerationState();
-            that.graphicsContext.ScaleToScreen();
-           
-        });
-     
-    },
-     
     boxButtonUp:function(milliseconds){
         clearInterval(milliseconds);
     

@@ -55,11 +55,7 @@ function loadAll (drive){
         
         var nodeManager = new NodeManager(data);
 
-
-
         var visualizer = new Visualizer(data, nodeManager,  new CanvasTools());
-        
-        
         
         var matches = new Matches(data,nodeManager);
         var matchesController = new MatchesController(appView,matches,visualizer);
@@ -91,7 +87,9 @@ function loadAll (drive){
         var debugController = new DebugController(appView,debug,visualizer);
         
         
-        
+        appView.InitPanelVisibility();
+
+        visualizerController.startFromDrive();
 
     });
 }
