@@ -118,6 +118,9 @@ Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMain
                             nodeOptions = that.nodestore.generations[vidx][hidx].Options;
                         }
                         
+                        // hack for now. we dont save selection options 
+                        nodeOptions.Selection = defaultOptions.Selection;
+                        
                         if(that.nodestore.generations[vidx][hidx].SelectionArea){
 
                             if(that.nodestore.generations[vidx][hidx].IsOpen){

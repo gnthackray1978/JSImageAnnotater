@@ -128,7 +128,10 @@ Options.prototype.CreateComponentList = function(){
     component.push({id: 2, name: 'Editor Font'});
     component.push({id: 3, name: 'Editor Border'});
     component.push({id: 4, name: 'Note Font'});
-     
+    component.push({id: 5, name: 'Selection Box'});
+    component.push({id: 6, name: 'Crop Box'});
+    component.push({id: 7, name: 'Selected Node'});
+    
     this.view.SetColourComponents(component);
 };
 
@@ -180,6 +183,9 @@ Options.prototype.LoadDefaultOptions =function(){
     that.optionsDll.GetOptions(function(jsonData){
         if(jsonData.length > 0){
             that.defaultOptions = jsonData[0];
+            that.defaultOptions.Selection ={};
+            that.defaultOptions.Selection.BorderWidth = 3;
+            that.defaultOptions.Selection.Colour = 'red';
             that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
         }
         
