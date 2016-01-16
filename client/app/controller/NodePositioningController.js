@@ -170,7 +170,7 @@
 	},
 	
 	NodePositioningController.prototype.selectionChange = function(countselected, callback){
-	    console.log('Selection changed: ' + countselected);
+	    //console.log('Selection changed: ' + countselected);
 	    
 	    this.model.SelectedNodeCount = countselected;
 	    

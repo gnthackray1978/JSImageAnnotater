@@ -60,16 +60,8 @@ Visualizer.prototype.DrawTree= function () {
     //console.log('DrawTree');
     
     that.data.GetVisibleLayer(function(visibleLayers){
-       
         that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
-            
-            //that.nodestore.GetSelectionAreaNode(function(selectionNode){
-            
-                //var defaultOptions = that.options.GetState().defaultOptions;
-                
-                that.DrawTree2(visibleLayers,that.defaultOptions, cropMainNode, cropInitNode);
-            
-            //});
+            that.DrawTree2(visibleLayers,that.defaultOptions, cropMainNode, cropInitNode);
         });
     });
     

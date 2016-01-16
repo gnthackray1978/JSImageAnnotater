@@ -134,7 +134,7 @@
         }, 
         
         lockMouse : function(val){
-            console.log('locked mouse: ' + val);
+            //console.log('locked mouse: ' + val);
             this._channel.publish( "lockmouseup", { value: val } );
 	    	this._channel.publish( "lockmousedown", { value: val} );
 	    	this._channel.publish( "lockmousemove", { value: val } );
