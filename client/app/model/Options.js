@@ -349,18 +349,18 @@ Options.prototype._updateOptions =function(options, withUpdate){
             that._updateOptionsToView(options);
     };
     
-    if(this.optionMode){
+    if(this._state ==0){
         this._translateViewOptions(options,this.defaultOptions);
         finalAction(this.defaultOptions);
     }
     
-    if(this.addNode){
+    if(this._state !=0){
         if(this.currentNode !== undefined)
         {
-            if(this.currentNode.options != undefined){
+            if(this.currentNode.Options != undefined){
             
-                this._translateViewOptions(options, this.currentNode.options);
-                finalAction(this.currentNode.options);
+                this._translateViewOptions(options, this.currentNode.Options);
+                finalAction(this.currentNode.Options);
             }
             else
             {
