@@ -94,7 +94,7 @@ Options.prototype.UpdateState= function (){
             that._nodeManager.GetSelectedNodes(function(selection){
                 if(selection.length > 0){
                    that.currentNode = selection[0]; 
-                   that._updateOptionsToView(that.currentNode.options);
+                   that._updateOptionsToView(that.currentNode.Options);
                 }
             });
             console.log('OPTIONS edit state 1');
