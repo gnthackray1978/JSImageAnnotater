@@ -83,19 +83,24 @@ Visualizer.prototype.SetDefaultOptions= function (defaultOptions) {
 },
 
 Visualizer.prototype.DrawTree= function () {
+    
+    requestAnimationFrame(this.DrawOuter);
+},
+
+Visualizer.prototype.DrawOuter= function () {
     var that = this;
     
     //console.log('DrawTree');
     
     that.data.GetVisibleLayer(function(visibleLayers){
         that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
-            that.DrawTree2(visibleLayers,that.defaultOptions, cropMainNode, cropInitNode);
+            that.DrawInner(visibleLayers,that.defaultOptions, cropMainNode, cropInitNode);
         });
     });
     
 },
 
-Visualizer.prototype.DrawTree2= function (visibleLayers,defaultOptions, cropMainNode, cropInitNode) {
+Visualizer.prototype.DrawInner= function (visibleLayers,defaultOptions, cropMainNode, cropInitNode) {
    // console.log('drawtree');
     var containsLevel = function(layers, id){
         var idx =0;
