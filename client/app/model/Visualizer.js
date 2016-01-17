@@ -84,7 +84,7 @@ Visualizer.prototype.SetDefaultOptions= function (defaultOptions) {
 
 Visualizer.prototype.DrawTree= function () {
     
-    requestAnimationFrame(this.DrawOuter);
+    requestAnimationFrame($.proxy(this.DrawOuter, this) );
 },
 
 Visualizer.prototype.DrawOuter= function () {
