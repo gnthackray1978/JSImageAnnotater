@@ -71,8 +71,8 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     });
   
     this._channel.subscribe("nullselection", function(data, envelope) {
-        that._state =0;
-        that.UpdateState();
+        // that._state =0;
+        // that.UpdateState();
     });
     this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {});
     
