@@ -9,8 +9,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 
     this.nodeManager = nodeDataManager;
     this.meta = metadata;
-    this.options = options;
-    this.newOptions;
+    this.options;// = options;
+    //this.newOptions;
     
     this.stateCache =0;
     
@@ -46,7 +46,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that._view.DisplaySelectionDelete(true);
     });
     
-    
     this._channel.subscribe("mouseClickLock", function(data, envelope) {
         that._mouseClickLocked =data.value;
     });
@@ -71,7 +70,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.selectionChange(data.value);
         
     });
-    
     // delete node
     this._channel.subscribe("focusednode", function(data, envelope) {
         //node contained with clicked pointer but wasnt selected.
@@ -83,7 +81,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         
         that.updateState();
     });
-    
     
     this._channel.subscribe("nullselection", function(data, envelope) {
         
@@ -98,7 +95,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         
         that.updateState();
     });
-    
     //edit existing node
     this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {
         
@@ -109,9 +105,11 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.updateState();
     });
     
-    this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {
-        that.newOptions = data.value;
+    this._channel.subscribe("newOptionsLoaded", function(data, envelope) {
+        that.options = data.value;
     });
+    
+    
 
     this.state = 0;
     
@@ -221,6 +219,8 @@ NodeManagerController.prototype = {
         //     });
         // }
        
+        that.options = that.selectedNote.Options;
+        
         that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));
         
         that.selectedNote.Editting = true;
@@ -242,7 +242,7 @@ NodeManagerController.prototype = {
         
         that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
-        that._view.AddDisplayNodeSelection(70,25,0,'',that.newOptions,$.proxy(that.nodeTextChanged, that));
+        that._view.AddDisplayNodeSelection(70,25,0,'',that.options,$.proxy(that.nodeTextChanged, that));
         
         that.meta.Load([]);
     },
@@ -329,15 +329,12 @@ NodeManagerController.prototype = {
         
         this.nodeManager.GetActiveLayer(function(layerId){
             that.meta.QryNodeMetaData(function(data){
-                    that.options.QrySaveData(function(options){
-                        saveData.options = options;
-    
-                        var index = (that.selectedNote) ? that.selectedNote.Index : undefined;
-    
-                        that.nodeManager.WriteNote(index,saveData.x,
-                            saveData.y, saveData.width,saveData.height,saveData.d,
-                            saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-                    });
+                    saveData.options = that.options;
+                    var index = (that.selectedNote) ? that.selectedNote.Index : undefined;
+                    that.nodeManager.WriteNote(index,saveData.x,
+                        saveData.y, saveData.width,saveData.height,saveData.d,
+                        saveData.text,saveData.options,layerId, data, false,true, saveCallback);
+               
             }); 
         });
         

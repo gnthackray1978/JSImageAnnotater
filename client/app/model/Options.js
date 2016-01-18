@@ -6,8 +6,8 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     
     this.view = view;
     
-    this.optionMode =false;
-    this.addNode =false;
+  //  this.optionMode =false;
+  //  this.addNode =false;
     //this.pickMode =false;
     
     //this.options = {};
@@ -38,27 +38,24 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     });
     
     this._channel.subscribe("nodeedit", function(data, envelope) {
-        that.SetDefaultOptionState(false);                
-        //that.SetState(true,data.value,true);
+        that.view.SetDefaultOptionsUI(false);
         that._state =1;
         that.UpdateState();
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
-        that.SetDefaultOptionState(true);            
-        //that.SetState(true,data.value,true);
+        that.view.SetDefaultOptionsUI(true);
         that._state =2;
         that.UpdateState();
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
-        that.SetDefaultOptionState(false);
-        //that.SetState(false);
+        that.view.SetDefaultOptionsUI(false);
         that._state =0;
         that.UpdateState();
     });
     
-    this._channel.subscribe("multiselectingstart", function(data, envelope) {});
+ 
     this._channel.subscribe("multiselectingend", function(data, envelope) {
         calcState(data.value);
         that.UpdateState();
@@ -72,7 +69,7 @@ var Options = function (optionsDll,nodeManager, view, channel) {
         calcState(data.value);
         that.UpdateState();
     });
-    this._channel.subscribe("focusednode", function(data, envelope) {});
+  
     this._channel.subscribe("nullselection", function(data, envelope) {
         that._state =0;
         that.UpdateState();
@@ -87,14 +84,22 @@ Options.prototype.UpdateState= function (){
     
     switch(this._state){
         case 0:
-            this.LoadDefaultOptions();
+            this.LoadDefaultOptions(function(){
+                that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
+            });
             console.log('OPTIONS default state 0');
             break;
         case 1:
             that._nodeManager.GetSelectedNodes(function(selection){
                 if(selection.length > 0){
-                   that.currentNode = selection[0]; 
-                   that._updateOptionsToView(that.currentNode.Options);
+                    that.currentNode = selection[0]; 
+                   
+                    if(!that.currentNode.Options) 
+                        that.currentNode.Options =  JSON.parse(JSON.stringify(this.defaultOptions));
+                    
+                    that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
+                    
+                    that._updateOptionsToView(that.currentNode.Options);
                 }
             });
             console.log('OPTIONS edit state 1');
@@ -135,48 +140,7 @@ Options.prototype.CreateComponentList = function(){
     this.view.SetColourComponents(component);
 };
 
-Options.prototype.SetDefaultOptionState = function(state){
-    //after option button clicked then its text changed to cancel thats
-    //how this method is called for cancel and options add
-    this.optionMode =state;
-    
-    this.view.SetDefaultOptionsUI(state);
-};
-
-// Options.prototype.SetState = function(addNode,currentNode, refreshView){
-//     this.currentNode = currentNode;
-//     this.addNode = addNode;
-    
-//     // if(this.addNode)
-//     // {
-//     //     if(this.tempOptions == undefined)
-//     //         this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions)); 
-        
-//     // }
-     
-//     if(refreshView){
-//         if(currentNode != undefined)
-//             this._updateOptionsToView(this.currentNode.options);
-//         else
-//             this._updateOptionsToView(this.tempOptions);
-        
-//     }
-    
-// };
-
-// Options.prototype.GetState = function(addNode,callback){
-    
-    
-//     return {
-//     //    pickMode: this.pickMode,
-//         defaultOptions: this.defaultOptions,
-//         tempOptions: this.tempOptions
-//     };
-// };
-
-
-
-Options.prototype.LoadDefaultOptions =function(){
+Options.prototype.LoadDefaultOptions =function(callback){
     
     var that = this;
     
@@ -191,7 +155,9 @@ Options.prototype.LoadDefaultOptions =function(){
             that.defaultOptions.Selector.BorderWidth = 3;
             that.defaultOptions.Selector.Colour = 'grey';
             
-            that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
+            
+            
+            callback();
         }
         
     });
@@ -246,6 +212,16 @@ Options.prototype._translateViewOptions =function(voptions,moptions){
                 break;
             case 4:
                 moptions.DefaultNoteFontColour = voptions.hexval;
+                break;
+          
+            case 5:
+                moptions.SelectionBox = voptions.hexval;
+                break;
+            case 6:
+                moptions.CropBox = voptions.hexval;
+                break;
+            case 7:
+                moptions.SelectedNode = voptions.hexval;
                 break;
         }
     }
@@ -328,8 +304,16 @@ Options.prototype._updateOptionsToView =function(options){
         case 4:
             hex = options.DefaultNoteFontColour;
             break;
+        case 5:
+            hex = options.SelectionBox;
+            break;
+        case 6:
+            hex = options.CropBox;
+            break;
+        case 7:
+            hex = options.SelectedNode;
+            break;
     }
-    
     
     this.view.SetOptions(options,hex);
 };
@@ -354,32 +338,40 @@ Options.prototype._updateOptions =function(options, withUpdate){
         finalAction(this.defaultOptions);
     }
     
-    if(this._state !=0){
-        if(this.currentNode !== undefined)
-        {
-            if(this.currentNode.Options != undefined){
-            
-                this._translateViewOptions(options, this.currentNode.Options);
-                finalAction(this.currentNode.Options);
-            }
-            else
-            {
-                //historic data might not have any options set for the note
-                this._translateViewOptions(options,this.tempOptions);
-                finalAction(this.tempOptions);
-            }
-        }
-        else
-        {
-            this._translateViewOptions(options,this.tempOptions);
-            finalAction(this.tempOptions);
-        }
+    if(this._state == 1) // edit
+    {
+        this._translateViewOptions(options, this.currentNode.Options);
+        
+        finalAction(this.currentNode.Options);
     }
-};
-
-// Options.prototype.setPickState = function(state){
-     
-//     this.pickMode =state;
     
-// };
+    if(this._state == 2) // new
+    {
+        this._translateViewOptions(options,this.tempOptions);
+        this._channel.publish( "newOptionsLoaded", { value: this.tempOptions } );
+        finalAction(this.tempOptions);
+    }
+    
+    // if(this._state !=0){
+    //     if(this.currentNode !== undefined)
+    //     {
+    //         if(this.currentNode.Options != undefined){
+            
+    //             this._translateViewOptions(options, this.currentNode.Options);
+    //             finalAction(this.currentNode.Options);
+    //         }
+    //         else
+    //         {
+    //             //historic data might not have any options set for the note
+    //             this._translateViewOptions(options,this.tempOptions);
+    //             finalAction(this.tempOptions);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         this._translateViewOptions(options,this.tempOptions);
+    //         finalAction(this.tempOptions);
+    //     }
+    // }
+};
 
