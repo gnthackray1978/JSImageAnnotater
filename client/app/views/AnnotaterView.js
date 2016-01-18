@@ -71,6 +71,7 @@ function AnnotaterView(channel) {
     this.canvasMousemoveLock ='';
     this.canvasMousemoveLocks = [];
    
+    this.canvasMouseClickLocks = [];
    
     this.canvasMouseLastXClick;
     this.canvasMouseLastYClick;
@@ -146,7 +147,7 @@ function AnnotaterView(channel) {
     
     this.InitSelectionRectangle();
     
-    this.InitGenericMouseClicks();
+    //this.InitGenericMouseClicks();
     
     this.InitNodePositioning();
     
@@ -156,42 +157,42 @@ function AnnotaterView(channel) {
 } 
 
 
-AnnotaterView.prototype.InitGenericMouseClicks = function (){
+// AnnotaterView.prototype.InitGenericMouseClicks = function (){
     
-    var that = this;
-    //here look multiple event firing problems    
-    $("#myCanvas").click(function (evt) {
+//     var that = this;
+//     //here look multiple event firing problems    
+//     $("#myCanvas").click(function (evt) {
         
-        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
-        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
         
-        that._channel.publish( "singleClick", { value: 
-            {
-                x : that.canvasMouseLastXClick,
-                y : that.canvasMouseLastYClick
-            } 
-        } );
+//         that._channel.publish( "singleClick", { value: 
+//             {
+//                 x : that.canvasMouseLastXClick,
+//                 y : that.canvasMouseLastYClick
+//             } 
+//         } );
         
-    });
+//     });
 
-    $("#myCanvas").dblclick(function (evt) {
-        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+//     $("#myCanvas").dblclick(function (evt) {
+//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
-        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
         
-        that._channel.publish( "doubleClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
+//         that._channel.publish( "doubleClick", { value: 
+//                 {
+//                     x : that.canvasMouseLastXClick,
+//                     y : that.canvasMouseLastYClick
+//                 } 
+//             } );
         
-    });
+//     });
     
-},
+// },
 
 AnnotaterView.prototype.InitOptions = function (state){
     var that = this;
