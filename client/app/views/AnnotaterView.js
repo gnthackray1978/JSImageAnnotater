@@ -303,27 +303,27 @@ AnnotaterView.prototype.InitVis = function (state){
     var that = this;
     var key = '';
    
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.GetKey(that.canvasMousedownLocks) == key)
-            that._channel.publish( "visMouseDown", { value: evt } );
-    });
+    // $("#myCanvas").mousedown(function (evt) {
+    //     if(that.GetKey(that.canvasMousedownLocks) == key)
+    //         that._channel.publish( "visMouseDown", { value: evt } );
+    // });
 
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.GetKey(that.canvasMouseupLocks) == key)
-            that._channel.publish( "visMouseUp", { value: evt } );
-    });
+    // $("#myCanvas").mouseup(function (evt) {
+    //     if(that.GetKey(that.canvasMouseupLocks) == key)
+    //         that._channel.publish( "visMouseUp", { value: evt } );
+    // });
 
-    $("#myCanvas").mousemove(function (evt) {
+    // $("#myCanvas").mousemove(function (evt) {
         
-        if(that.GetKey(that.canvasMousemoveLocks) == key){
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    //     if(that.GetKey(that.canvasMousemoveLocks) == key){
+    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
-            var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
+    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
         
-            that._channel.publish( "visMouseMove", { value: _point } );
-        }
+    //         that._channel.publish( "visMouseMove", { value: _point } );
+    //     }
          
-    });
+    // });
 
 
 },
@@ -1223,7 +1223,6 @@ AnnotaterView.prototype.SetAddButtonAdd = function(){
     $("#btnAddCropping").prop('value', 'Add'); 
 };
 
-
 AnnotaterView.prototype.SetCropSaveEnabled = function(){
     $("#btnSaveCrop").show(); 
 };
@@ -1231,8 +1230,6 @@ AnnotaterView.prototype.SetCropSaveEnabled = function(){
 AnnotaterView.prototype.SetCropSaveDisabled = function(){
     $("#btnSaveCrop").hide(); 
 };
-
-
 
 AnnotaterView.prototype.QryCropSaveButton = function(action){
    
@@ -1257,8 +1254,6 @@ AnnotaterView.prototype.QryCropDeleteButton = function(action){
         action();
     });   
 };
-
-
 
 AnnotaterView.prototype.QryCropSaveButton = function(action){
 
@@ -1432,8 +1427,6 @@ AnnotaterView.prototype.QrySaveButtonState = function (callback){
 
 
 //OPTIONS
-
-
 AnnotaterView.prototype._getOptionDetails= function (includeColour){
     var currentComponent =1;
 
@@ -1451,8 +1444,6 @@ AnnotaterView.prototype._getOptionDetails= function (includeColour){
     
     return options;
 };
-
-//
 
 AnnotaterView.prototype.AngleChangeClicked = function (action) {
     
@@ -1484,14 +1475,6 @@ AnnotaterView.prototype.AngleChangeClicked = function (action) {
             e.preventDefault();
         });
 };
-
-
-
-/*COMMANDS*/
-
-// AnnotaterView.prototype.SetOptionsState= function (state){
-  
-// };
 
 AnnotaterView.prototype.SetOptions = function(options, currentColour){
 
@@ -1535,47 +1518,24 @@ AnnotaterView.prototype.SetColourComponents = function (data){
    // myDDL[0].selectedIndex = 0;
 }
 
-AnnotaterView.prototype.SetDefaultOptionsUI = function (state) {
+AnnotaterView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
         
-    // this clicks turns on and off default option mode.
-   
-    // if(state){
-    //     $("#optionGroup").hide();
-    //     $("#btnAddNote").show();
-    //     $("#btnDeleteNote").show();
-    //     $('#btnSaveOptions').hide();
-    //     $('#btnPickColour').hide();
-    //     $("#btnOptions").val('Options');
-    // }
-    // else
-    // {
-    //     $("#optionGroup").show();
-    //     $("#btnAddNote").hide();
-    //     $("#btnDeleteNote").hide();
-    //     $('#btnSaveOptions').show();
-    //     $('#btnPickColour').show();
-    //     $("#btnOptions").val('Cancel');
-    // }
-    
-    // var myDDL = $('#colourComponentList');
-    // myDDL[0].selectedIndex = 0;
     $("#angleGroup").show(); 
     $("#optionGroup").show();
     $('#btnPickColour').show();
         
     if(state)
     {
-        $("#options-label").html('Options');
+        if(nodeCount && nodeCount > 0)
+            $("#options-label").html('Options ' + nodeCount + 'n');
+        else
+            $("#options-label").html('New Options');
     }
     else
     {
         $("#options-label").html('Default Options');
     }
 };
-
-
-/*QUERIES*/
-
 //LIST CHANGED AND UI UPDATED
 AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
     //var that = this;
@@ -1595,7 +1555,6 @@ AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
     })
     .change();
 };
-
 // when picker button clicked this triggers event on model
 AnnotaterView.prototype.QryPickedColour = function (clickResult) {
             
@@ -1660,13 +1619,6 @@ AnnotaterView.prototype.QryPickedColour = function (clickResult) {
     });
 
 };
-
-AnnotaterView.prototype.QryPickState = function (callback) {
-    var that = this;
-    
-    
-};
-
 //SAVE DEFAULT OPTIONS CLICKED
 AnnotaterView.prototype.QryDefaultOptions = function(action){
     var that = this;
@@ -1677,19 +1629,11 @@ AnnotaterView.prototype.QryDefaultOptions = function(action){
 };
  
 AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
-     var that = this;
-    // $("#fontSelect")
-    //   .change(function () {
-    //     action(that._getOptionDetails());
-    // })
-    // .change();
-    
+    var that = this;
     this.selectedFontChanged = function(style){
         console.log('font changed');
         action($('#fontSelect').fontSelector('selected'));
     };
-    
-    
 };
 
 AnnotaterView.prototype.QryTransparencyChanged = function (action) {
@@ -1700,6 +1644,9 @@ AnnotaterView.prototype.QryTransparencyChanged = function (action) {
     })
     .change();
 };
+
+
+
 
 /*
 URL
@@ -1805,7 +1752,6 @@ AnnotaterView.prototype.ActivateNodePositioning = function (action) {
         action();
     });
 };
-
 
 AnnotaterView.prototype.DisplaySingleSelection= function (state) {
     

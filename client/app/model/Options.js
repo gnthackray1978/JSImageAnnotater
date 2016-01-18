@@ -38,19 +38,19 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     });
     
     this._channel.subscribe("nodeedit", function(data, envelope) {
-        that.view.SetDefaultOptionsUI(false);
+        //that.view.SetDefaultOptionsUI(false);
         that._state =1;
         that.UpdateState();
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
-        that.view.SetDefaultOptionsUI(true);
+        //that.view.SetDefaultOptionsUI(true);
         that._state =2;
         that.UpdateState();
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
-        that.view.SetDefaultOptionsUI(false);
+        //that.view.SetDefaultOptionsUI(false);
         that._state =0;
         that.UpdateState();
     });
@@ -87,6 +87,7 @@ Options.prototype.UpdateState= function (){
             this.LoadDefaultOptions(function(){
                 that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
             });
+            that.view.SetDefaultOptionsUI(false,0);
             console.log('OPTIONS default state 0');
             break;
         case 1:
@@ -98,7 +99,7 @@ Options.prototype.UpdateState= function (){
                         that.currentNode.Options =  JSON.parse(JSON.stringify(this.defaultOptions));
                     
                     that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
-                    
+                    that.view.SetDefaultOptionsUI(true,selection.length);
                     that._updateOptionsToView(that.currentNode.Options);
                 }
             });
@@ -112,6 +113,7 @@ Options.prototype.UpdateState= function (){
                 this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions));
             
             this._channel.publish( "newOptionsLoaded", { value: this.tempOptions } );
+            that.view.SetDefaultOptionsUI(true,0);
             this._updateOptionsToView(this.tempOptions);
             break;
         case 3:
