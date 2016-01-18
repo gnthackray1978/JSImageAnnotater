@@ -74,7 +74,19 @@ var Options = function (optionsDll,nodeManager, view, channel) {
         // that._state =0;
         // that.UpdateState();
     });
+    
     this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {});
+    
+    this._channel.subscribe("colourSelection", function(data, envelope) {
+        var options = {
+            "hexval": '#'+data.hex,
+            "DefaultFont" :  undefined,
+            "IsTransparent" : undefined,
+            "componentId" : undefined
+        };
+       
+        that._updateOptions(options,true);
+    });
     
     this.UpdateState();
 };
@@ -229,25 +241,6 @@ Options.prototype._translateViewOptions =function(voptions,moptions){
     }
     
     return moptions;
-};
-
-//called from colour picker when colour changed
-Options.prototype.updateOptionColour =function(rgb,hex){
-
-    //this.setPickState(false);
-    
-    this._channel.publish( "mouseClickLock", { value: false } );
-
-
-    var options = {
-        "hexval": '#'+hex,
-        "DefaultFont" :  undefined,
-        "IsTransparent" : undefined,
-        "componentId" : undefined
-    };
-   
-    this._updateOptions(options,true);
-
 };
 
 Options.prototype.updateOptionFont =function(font){

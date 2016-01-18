@@ -195,13 +195,48 @@ AnnotaterView.prototype.InitGenericMouseClicks = function (){
 
 AnnotaterView.prototype.InitOptions = function (state){
     var that = this;
+    var key = 'COLP';
+    var pickEnabled = false;
     
     $('#btnPickColour').click(function (e) {
-        //that._pickEnabled =true;
-        
-        that._channel.publish( "mouseClickLock", { value: true } );
+        pickEnabled =true;
+        that._channel.publish( "lockmouseup", { value: 'COLP' } );
+        that._channel.publish( "lockmousedown", { value: 'COLP' } );
         
     });  
+
+    
+
+    //here look multiple event firing problems        
+    $('#myCanvas').mouseup(function(event){
+        
+        if(that.GetKey(that.canvasMouseupLocks)== key)
+        {
+            if(pickEnabled)
+            {
+                event.stopImmediatePropagation();
+    
+                var x = event.pageX - this.offsetLeft;
+                var y = event.pageY - this.offsetTop;
+                
+                var c = new CanvasTools();
+                
+                var r = c.GetCanvasPointColour('myCanvas',x,y);
+                
+                // making the color the value of the input
+                that.SetChosenColour(r.hex);
+                  
+                that._channel.publish( "colourSelection", { value: r } );    
+                    
+                that._channel.publish( "lockmouseup", { value: '' } );
+                that._channel.publish( "lockmousedown", { value: '' } );
+                
+                pickEnabled =false;
+            }
+        }
+    });
+    
+    
 },
  
 AnnotaterView.prototype.GetKey = function (array){
@@ -1558,65 +1593,60 @@ AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
 // when picker button clicked this triggers event on model
 AnnotaterView.prototype.QryPickedColour = function (clickResult) {
             
-    var that = this;
+    // var that = this;
     
-    var pickEnabled = false;
+    // var pickEnabled = false;
         
-    that._channel.subscribe("mouseClickLock", function(data, envelope) {
-        pickEnabled = data.value;
-    });
+    // that._channel.subscribe("mouseClickLock", function(data, envelope) {
+    //     pickEnabled = data.value;
+    // });
         
-    // http://www.javascripter.net/faq/rgbtohex.htm
-    function rgbToHex(R,G,B) {
+    // // http://www.javascripter.net/faq/rgbtohex.htm
+    // function rgbToHex(R,G,B) {
         
-        return toHex(R)+toHex(G)+toHex(B)
+    //     return toHex(R)+toHex(G)+toHex(B)
         
-    }
+    // }
             
-    function toHex(n) {
-        n = parseInt(n,10);
-        if (isNaN(n)) return "00";
-        n = Math.max(0,Math.min(n,255));
-        return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
-    }
+    // function toHex(n) {
+    //     n = parseInt(n,10);
+    //     if (isNaN(n)) return "00";
+    //     n = Math.max(0,Math.min(n,255));
+    //     return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
+    // }
             
-    //here look multiple event firing problems        
-    $('#myCanvas').click(function(event){
-        // getting user coordinates
-        
-       // console.log("QryPickedColour.click");
-       //pickEnabled
-        //if(that._pickEnabled)
-        if(pickEnabled)
-        {
-            event.stopImmediatePropagation();
+    // //here look multiple event firing problems        
+    // $('#myCanvas').click(function(event){
 
-            var canvas = document.getElementById('myCanvas').getContext('2d');
+    //     if(pickEnabled)
+    //     {
+    //         event.stopImmediatePropagation();
+
+    //         var canvas = document.getElementById('myCanvas').getContext('2d');
             
-            var x = event.pageX - this.offsetLeft;
-            var y = event.pageY - this.offsetTop;
+    //         var x = event.pageX - this.offsetLeft;
+    //         var y = event.pageY - this.offsetTop;
             
-            // getting image data and RGB values
-            var img_data = canvas.getImageData(x, y, 1, 1).data;
+    //         // getting image data and RGB values
+    //         var img_data = canvas.getImageData(x, y, 1, 1).data;
           
-            var R = img_data[0];
-            var G = img_data[1];
-            var B = img_data[2];  
-            var rgb = R + ',' + G + ',' + B;
+    //         var R = img_data[0];
+    //         var G = img_data[1];
+    //         var B = img_data[2];  
+    //         var rgb = R + ',' + G + ',' + B;
             
-            // convert RGB to HEX
-            var hex = rgbToHex(R,G,B);
-            // making the color the value of the input
+    //         // convert RGB to HEX
+    //         var hex = rgbToHex(R,G,B);
+    //         // making the color the value of the input
            
-            that.SetChosenColour(hex);
+    //         that.SetChosenColour(hex);
            
-            if(clickResult)
-                clickResult(rgb,hex);
-            
-            //that._pickEnabled = false;     
-            that._channel.publish( "mouseClickLock", { value: false } );
-        }
-    });
+    //         if(clickResult)
+    //             clickResult(rgb,hex);
+                
+    //         that._channel.publish( "mouseClickLock", { value: false } );
+    //     }
+    // });
 
 };
 //SAVE DEFAULT OPTIONS CLICKED
