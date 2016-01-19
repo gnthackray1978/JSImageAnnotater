@@ -1,36 +1,3 @@
-//var postal;
-
-var AngleUtils = function() {};
-
-
-AngleUtils.prototype = {
-
-    getAngle: function () {
-        var tr = $('textarea.info').css('transform');
-
-        if(tr){
-            var values = tr.split('(')[1];
-                values = values.split(')')[0];
-                values = values.split(',');
-            
-            var a = values[0]; // 0.866025
-            var b = values[1]; // 0.5
-            var c = values[2]; // -0.5
-            var d = values[3]; // 0.866025
-            
-            var angle = Math.round(Math.asin(b) * (180/Math.PI));
-            
-            return angle;
-        }
-            
-        return 1000;
-    }
-};
-
-
-
-
-  
 
 /** @constructor */
 function AnnotaterView(channel) {       
@@ -210,45 +177,48 @@ AnnotaterView.prototype.InitGenericMouseClicks = function (){
     
 },
 
-AnnotaterView.prototype.InitOptions = function (state){
-    var that = this;
-    var key = 'COLP';
-    var pickEnabled = false;
+// AnnotaterView.prototype.InitOptions = function (state){
+//     var that = this;
+//     var key = 'COLP';
+//     var pickEnabled = false;
     
-    $('#btnPickColour').click(function (e) {
-        pickEnabled =true;
-        that._channel.publish( "lockmouseclick", { value: 'COLP' } );
-        that._channel.publish( "lockmouseup", { value: 'COLP' } );
-        that._channel.publish( "lockmousedown", { value: 'COLP' } );
-    });  
+//     $('#btnPickColour').click(function (e) {
+//         pickEnabled =true;
+//         that._channel.publish( "lockmouseclick", { value: 'COLP' } );
+//         that._channel.publish( "lockmouseup", { value: 'COLP' } );
+//         that._channel.publish( "lockmousedown", { value: 'COLP' } );
+//     });  
 
     
-    $("#myCanvas").click(function (evt) {
-        if(that.GetKey(that.canvasMouseClickLocks) == key) {
-            if(pickEnabled)
-            {
-                evt.stopImmediatePropagation();
+//     $("#myCanvas").click(function (evt) {
+//         if(that.GetKey(that.canvasMouseClickLocks) == key) {
+//             if(pickEnabled)
+//             {
+//                 evt.stopImmediatePropagation();
     
-                var x = evt.pageX - this.offsetLeft;
-                var y = evt.pageY - this.offsetTop;
+//                 var x = evt.pageX - this.offsetLeft;
+//                 var y = evt.pageY - this.offsetTop;
                 
-                var c = new CanvasTools();
+//                 var c = new CanvasTools();
                 
-                var r = c.GetCanvasPointColour('myCanvas',x,y);
+//                 var r = c.GetCanvasPointColour('myCanvas',x,y);
                 
-                // making the color the value of the input
-                that.SetChosenColour(r.hex);
+//                 // making the color the value of the input
+//                 that.SetChosenColour(r.hex);
                   
-                that._channel.publish( "colourSelection", { value: r } );    
+//                 that._channel.publish( "colourSelection", { value: r } );    
                     
-                that._channel.publish( "lockmouseclick", { value: '' } );
-                that._channel.publish( "lockmouseup", { value: '' } );
-                that._channel.publish( "lockmousedown", { value: '' } );
-                pickEnabled =false;
-            } 
-        }
-    });
-},
+//                 that._channel.publish( "lockmouseclick", { value: '' } );
+//                 that._channel.publish( "lockmouseup", { value: '' } );
+//                 that._channel.publish( "lockmousedown", { value: '' } );
+//                 pickEnabled =false;
+//             } 
+//         }
+//     });
+    
+    
+    
+// },
  
 AnnotaterView.prototype.GetKey = function (array){
     return array[array.length-1]!=undefined ? array[array.length-1] : '';
@@ -1520,221 +1490,164 @@ AnnotaterView.prototype.QrySaveButtonState = function (callback){
 
 
 
-//OPTIONS
-AnnotaterView.prototype._getOptionDetails= function (includeColour){
-    var currentComponent =1;
+// //OPTIONS
+// AnnotaterView.prototype._getOptionDetails= function (includeColour){
+//     var currentComponent =1;
 
-    $( "#colourComponentList option:selected" ).each(function() {
-        currentComponent = $( this ).val();
-    });
+//     $( "#colourComponentList option:selected" ).each(function() {
+//         currentComponent = $( this ).val();
+//     });
 
 
-    var options = {
-        "hexval": (includeColour ? $("#txtChosenColour").val() : undefined) ,
-        "DefaultFont" :  $('#fontSelect').fontSelector('selected'),
-        "IsTransparent" : $("#chkTransparentBackground").is(":checked"),
-        "componentId" : currentComponent
-    };
+//     var options = {
+//         "hexval": (includeColour ? $("#txtChosenColour").val() : undefined) ,
+//         "DefaultFont" :  $('#fontSelect').fontSelector('selected'),
+//         "IsTransparent" : $("#chkTransparentBackground").is(":checked"),
+//         "componentId" : currentComponent
+//     };
     
-    return options;
-};
+//     return options;
+// };
 
-AnnotaterView.prototype.AngleChangeClicked = function (action) {
+// AnnotaterView.prototype.AngleChangeClicked = function (action) {
     
-    var moveTextArea = function(offset){
+//     var moveTextArea = function(offset){
         
-        var angleUtils = new AngleUtils();
+//         var angleUtils = new AngleUtils();
         
-        var a = angleUtils.getAngle();
+//         var a = angleUtils.getAngle();
         
-        if(a!= 1000){
-            a = a + offset;
-            var newprop =  'rotate('+ a  +'deg)';
-            $('textarea.info').css('transform',newprop);
-        }
+//         if(a!= 1000){
+//             a = a + offset;
+//             var newprop =  'rotate('+ a  +'deg)';
+//             $('textarea.info').css('transform',newprop);
+//         }
         
-    };
+//     };
     
-    $('#btnAngleDown').click(function (e) {
-        action('down');
+//     $('#btnAngleDown').click(function (e) {
+//         action('down');
        
-        moveTextArea(-1);
+//         moveTextArea(-1);
         
-        e.preventDefault();
-    });
+//         e.preventDefault();
+//     });
     
-    $('#btnAngleUp').click(function (e) {
-            action('up');
-            moveTextArea(1);
-            e.preventDefault();
-        });
-};
+//     $('#btnAngleUp').click(function (e) {
+//             action('up');
+//             moveTextArea(1);
+//             e.preventDefault();
+//         });
+// };
 
-AnnotaterView.prototype.SetOptions = function(options, currentColour){
-    console.log('Options.SetOptions');
+// AnnotaterView.prototype.SetOptions = function(options, currentColour){
+//     console.log('Options.SetOptions');
 
-    // the other defaults only updated when combo box gets changed         
-    $("#txtChosenColour").css("background-color", currentColour);
-    $("#txtChosenColour").val(currentColour);
+//     // the other defaults only updated when combo box gets changed         
+//     $("#txtChosenColour").css("background-color", currentColour);
+//     $("#txtChosenColour").val(currentColour);
 
-    $("#chkTransparentBackground").val(options.IsTransparent);
+//     $("#chkTransparentBackground").val(options.IsTransparent);
     
-    $('#fontSelect').fontSelector('select',options.DefaultFont);
+//     $('#fontSelect').fontSelector('select',options.DefaultFont);
     
-    $('textarea.info').css('color',options.DefaultEditorFontColour);
+//     $('textarea.info').css('color',options.DefaultEditorFontColour);
     
-    $('textarea.info').css('font-family',$('#fontSelect').fontSelector('selected'));
+//     $('textarea.info').css('font-family',$('#fontSelect').fontSelector('selected'));
  
-    if(!options.IsTransparent)
-        $('textarea.info').css('background-color',options.DefaultNoteColour);
-    else
-        $('textarea.info').css('background-color','transparent');
+//     if(!options.IsTransparent)
+//         $('textarea.info').css('background-color',options.DefaultNoteColour);
+//     else
+//         $('textarea.info').css('background-color','transparent');
   
-    $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
-};
+//     $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
+// };
 
-AnnotaterView.prototype.SetChosenColour = function (hex) {
-    console.log('Options.SetChosenColour');
-    $("#txtChosenColour").val(hex);
-    $("#txtChosenColour").css("background-color", "#"+hex);
-};
+// AnnotaterView.prototype.SetChosenColour = function (hex) {
+//     console.log('Options.SetChosenColour');
+//     $("#txtChosenColour").val(hex);
+//     $("#txtChosenColour").css("background-color", "#"+hex);
+// };
 
-AnnotaterView.prototype.SetColourComponents = function (data){
+// AnnotaterView.prototype.SetColourComponents = function (data){
  
-    var output = [];
+//     var output = [];
     
-    $.each(data, function(key, value)
-    {
-      output.push('<option value="'+ value.id +'">'+ value.name +'</option>');
-    });
+//     $.each(data, function(key, value)
+//     {
+//       output.push('<option value="'+ value.id +'">'+ value.name +'</option>');
+//     });
 
-    $('#colourComponentList').html(output.join(''));
+//     $('#colourComponentList').html(output.join(''));
 
-  //  var myDDL = $('#colourComponentList');
-   // myDDL[0].selectedIndex = 0;
-}
+//   //  var myDDL = $('#colourComponentList');
+//   // myDDL[0].selectedIndex = 0;
+// }
 
-AnnotaterView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
+// AnnotaterView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
         
-    $("#angleGroup").show(); 
-    $("#optionGroup").show();
-    $('#btnPickColour').show();
+//     $("#angleGroup").show(); 
+//     $("#optionGroup").show();
+//     $('#btnPickColour').show();
         
-    if(state)
-    {
-        if(nodeCount && nodeCount > 0)
-            $("#options-label").html('Options ' + nodeCount + 'n');
-        else
-            $("#options-label").html('New Options');
-    }
-    else
-    {
-        $("#options-label").html('Default Options');
-    }
-};
-//LIST CHANGED AND UI UPDATED
-AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
-    //var that = this;
-    var currentComponent =1;
+//     if(state)
+//     {
+//         if(nodeCount && nodeCount > 0)
+//             $("#options-label").html('Options ' + nodeCount + 'n');
+//         else
+//             $("#options-label").html('New Options');
+//     }
+//     else
+//     {
+//         $("#options-label").html('Default Options');
+//     }
+// };
+// //LIST CHANGED AND UI UPDATED
+// AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
+//     //var that = this;
+//     var currentComponent =1;
 
-    $( "#colourComponentList option:selected" ).each(function() {
-        currentComponent = $( this ).val();
-    });
+//     $( "#colourComponentList option:selected" ).each(function() {
+//         currentComponent = $( this ).val();
+//     });
     
-    $("#colourComponentList")
-      .change(function () {
-        // console.log('colour component changed: '+ str);
+//     $("#colourComponentList")
+//       .change(function () {
+//         // console.log('colour component changed: '+ str);
         
-        currentComponent = $( "#colourComponentList option:selected" ).val();
+//         currentComponent = $( "#colourComponentList option:selected" ).val();
         
-        action(currentComponent);
-    })
-    .change();
-};
-// when picker button clicked this triggers event on model
-AnnotaterView.prototype.QryPickedColour = function (clickResult) {
-            
-    // var that = this;
-    
-    // var pickEnabled = false;
-        
-    // that._channel.subscribe("mouseClickLock", function(data, envelope) {
-    //     pickEnabled = data.value;
-    // });
-        
-    // // http://www.javascripter.net/faq/rgbtohex.htm
-    // function rgbToHex(R,G,B) {
-        
-    //     return toHex(R)+toHex(G)+toHex(B)
-        
-    // }
-            
-    // function toHex(n) {
-    //     n = parseInt(n,10);
-    //     if (isNaN(n)) return "00";
-    //     n = Math.max(0,Math.min(n,255));
-    //     return "0123456789ABCDEF".charAt((n-n%16)/16)  + "0123456789ABCDEF".charAt(n%16);
-    // }
-            
-    // //here look multiple event firing problems        
-    // $('#myCanvas').click(function(event){
+//         action(currentComponent);
+//     })
+//     .change();
+// };
 
-    //     if(pickEnabled)
-    //     {
-    //         event.stopImmediatePropagation();
 
-    //         var canvas = document.getElementById('myCanvas').getContext('2d');
-            
-    //         var x = event.pageX - this.offsetLeft;
-    //         var y = event.pageY - this.offsetTop;
-            
-    //         // getting image data and RGB values
-    //         var img_data = canvas.getImageData(x, y, 1, 1).data;
-          
-    //         var R = img_data[0];
-    //         var G = img_data[1];
-    //         var B = img_data[2];  
-    //         var rgb = R + ',' + G + ',' + B;
-            
-    //         // convert RGB to HEX
-    //         var hex = rgbToHex(R,G,B);
-    //         // making the color the value of the input
-           
-    //         that.SetChosenColour(hex);
-           
-    //         if(clickResult)
-    //             clickResult(rgb,hex);
-                
-    //         that._channel.publish( "mouseClickLock", { value: false } );
-    //     }
-    // });
-
-};
-//SAVE DEFAULT OPTIONS CLICKED
-AnnotaterView.prototype.QryDefaultOptions = function(action){
-    var that = this;
-    $('#btnSaveOptions').click(function (e) {            
-        e.preventDefault();
-        action(that._getOptionDetails());
-    });   
-};
+// //SAVE DEFAULT OPTIONS CLICKED
+// AnnotaterView.prototype.QryDefaultOptions = function(action){
+//     var that = this;
+//     $('#btnSaveOptions').click(function (e) {            
+//         e.preventDefault();
+//         action(that._getOptionDetails());
+//     });   
+// };
  
-AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
-    var that = this;
-    this.selectedFontChanged = function(style){
-        console.log('font changed');
-        action($('#fontSelect').fontSelector('selected'));
-    };
-};
+// AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
+//     var that = this;
+//     this.selectedFontChanged = function(style){
+//         console.log('font changed');
+//         action($('#fontSelect').fontSelector('selected'));
+//     };
+// };
 
-AnnotaterView.prototype.QryTransparencyChanged = function (action) {
-    var that = this;
-    $("#chkTransparentBackground")
-      .change(function () {
-        action($("#chkTransparentBackground").is(":checked"));
-    })
-    .change();
-};
+// AnnotaterView.prototype.QryTransparencyChanged = function (action) {
+//     var that = this;
+//     $("#chkTransparentBackground")
+//       .change(function () {
+//         action($("#chkTransparentBackground").is(":checked"));
+//     })
+//     .change();
+// };
 
 
 

@@ -88,7 +88,31 @@ var Options = function (optionsDll,nodeManager, view, channel) {
         that._updateOptions(options,true);
     });
     
+    this._channel.subscribe("selectedColourComponentChanged", function(data, envelope) {
+        that.updateSelectedComponentId(data.value);
+    });
+    
+    this._channel.subscribe("SaveOptions", function(data, envelope) {
+        that.saveDefaultOptions(data.value);
+    });
+    
+    //FontChanged
+    this._channel.subscribe("FontChanged", function(data, envelope) {
+        that.updateOptionFont(data.value);
+    });
+    
+    //TransparencyChanged
+    this._channel.subscribe("TransparencyChanged", function(data, envelope) {
+        that.updateOptionTransparency(data.value);
+    });
+    
+    //Angle Changed
+    this._channel.subscribe("AngleChanged", function(data, envelope) {
+        that.ChangeAngle(data.value);
+    });
+    
     this.UpdateState();
+    this.CreateComponentList();
 };
 
 Options.prototype.UpdateState= function (){
