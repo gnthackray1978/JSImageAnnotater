@@ -83,7 +83,7 @@
             var that =this;
             
             if (this.model !== null) {
-                if(this._isMultiSelecting)
+                if(this.isStarted)
                 {
                     this.lockMouse(that._mouseLockKey);
                     
@@ -106,7 +106,7 @@
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
                 
-                if(this._isMultiSelecting)
+                if(this.isStarted)
                 {
                     var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
         	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
