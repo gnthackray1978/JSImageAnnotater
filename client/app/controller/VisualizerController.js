@@ -29,6 +29,10 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that.canvasMouseMove(data.value);
     });
     
+    this.channel.subscribe("visSingleClick", function(data, envelope) {
+        that.canvasClick(data.value.x, data.value.y);
+    });
+    
     this.channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
         that.graphicsContext.SetDefaultOptions(data.value);
     });
@@ -45,9 +49,7 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that.graphicsContext.SetLocked(data.value);
     });
     
-    this.channel.subscribe("visSingleClick", function(data, envelope) {
-        that.canvasClick(data.value.x, data.value.y);
-    });
+
             
     this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
     this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
