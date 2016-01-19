@@ -218,6 +218,8 @@ AnnotaterView.prototype.InitOptions = function (state){
     $('#btnPickColour').click(function (e) {
         pickEnabled =true;
         that._channel.publish( "lockmouseclick", { value: 'COLP' } );
+        that._channel.publish( "lockmouseup", { value: 'COLP' } );
+        that._channel.publish( "lockmousedown", { value: 'COLP' } );
     });  
 
     
@@ -240,7 +242,8 @@ AnnotaterView.prototype.InitOptions = function (state){
                 that._channel.publish( "colourSelection", { value: r } );    
                     
                 that._channel.publish( "lockmouseclick", { value: '' } );
-                
+                that._channel.publish( "lockmouseup", { value: '' } );
+                that._channel.publish( "lockmousedown", { value: '' } );
                 pickEnabled =false;
             } 
         }
