@@ -79,7 +79,7 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     
     this._channel.subscribe("colourSelection", function(data, envelope) {
         var options = {
-            "hexval": '#'+data.hex,
+            "hexval": '#'+data.value.hex,
             "DefaultFont" :  undefined,
             "IsTransparent" : undefined,
             "componentId" : undefined
