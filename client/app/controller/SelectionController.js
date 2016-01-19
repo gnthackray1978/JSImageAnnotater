@@ -160,6 +160,12 @@
 	    	this.isStarted = false;
 	    	
 	    	this._isMultiSelecting =false;
+	    	
+	    	this._channel.publish( "drawtree", { value: this.model } );
+	    	
+	    	this._state =1;
+	    	
+	    	this.updateState();
         },
 
         clickAction:function(x,y){
