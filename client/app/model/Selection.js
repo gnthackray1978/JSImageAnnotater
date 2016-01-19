@@ -27,7 +27,8 @@
 		this.mouse.x = mx;
 		this.mouse.y = my;
 		
-		this.updateSelectArea();
+		if(this.selectionnode.IsOpen)
+			this.updateSelectArea();
 	},
 
 	Selection.prototype.SetMouseStartPosition = function(mx,my){
