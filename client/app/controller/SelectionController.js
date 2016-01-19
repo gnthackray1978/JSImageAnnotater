@@ -39,7 +39,7 @@
             that.qryCanvasMouseMove(data.value);
         });
         
-        this._channel.subscribe("singleClick", function(data, envelope) {
+        this._channel.subscribe("selectionClick", function(data, envelope) {
             that.clickAction(data.value.x, data.value.y);
         });
     
@@ -138,6 +138,7 @@
             this._channel.publish( "lockmouseup", { value: val } );
 	    	this._channel.publish( "lockmousedown", { value: val} );
 	    	this._channel.publish( "lockmousemove", { value: val } );
+	    	this._channel.publish( "lockmouseclick", { value: val } );
         },
         
         finishSelecting : function(){
@@ -158,8 +159,6 @@
         clickAction:function(x,y){
             var that = this;
          
-            if(this._mouseClickLocked) return;
-            
             if(this._isMultiSelecting)
             {
                 this.finishSelecting();

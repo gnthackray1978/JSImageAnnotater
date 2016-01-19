@@ -45,7 +45,7 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that.graphicsContext.SetLocked(data.value);
     });
     
-    this.channel.subscribe("singleClick", function(data, envelope) {
+    this.channel.subscribe("visSingleClick", function(data, envelope) {
         that.canvasClick(data.value.x, data.value.y);
     });
             

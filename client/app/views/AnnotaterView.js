@@ -70,7 +70,8 @@ function AnnotaterView(channel) {
     
     this.canvasMousemoveLock ='';
     this.canvasMousemoveLocks = [];
-   
+    
+    this.canvasMouseClickLock ='';
     this.canvasMouseClickLocks = [];
    
     this.canvasMouseLastXClick;
@@ -107,6 +108,19 @@ function AnnotaterView(channel) {
             else{
                 if(that.canvasMousedownLocks.indexOf(key)==-1)
                     that.canvasMousedownLocks.push(key);
+            }
+        });
+        
+        this._channel.subscribe("lockmouseclick", function(data, envelope) {
+            var key = data.value ? data.value : '';
+            
+            that.canvasMouseClickLock = key;
+            
+            if(key == '')
+                that.canvasMouseClickLocks.pop();
+            else{
+                if(that.canvasMouseClickLocks.indexOf(key)==-1)
+                    that.canvasMouseClickLocks.push(key);
             }
         });
         
@@ -147,7 +161,7 @@ function AnnotaterView(channel) {
     
     this.InitSelectionRectangle();
     
-    //this.InitGenericMouseClicks();
+    this.InitGenericMouseClicks();
     
     this.InitNodePositioning();
     
@@ -157,42 +171,44 @@ function AnnotaterView(channel) {
 } 
 
 
-// AnnotaterView.prototype.InitGenericMouseClicks = function (){
+AnnotaterView.prototype.InitGenericMouseClicks = function (){
+    var key = '';
     
-//     var that = this;
-//     //here look multiple event firing problems    
-//     $("#myCanvas").click(function (evt) {
+    var that = this;
+    //here look multiple event firing problems    
+    // $("#myCanvas").click(function (evt) {
         
-//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-        
-//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-        
-//         that._channel.publish( "singleClick", { value: 
-//             {
-//                 x : that.canvasMouseLastXClick,
-//                 y : that.canvasMouseLastYClick
-//             } 
-//         } );
-        
-//     });
+    //     if(that.GetKey(that.canvasMouseClickLocks) == key) {
+    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            
+    //         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+    //         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+    //         that._channel.publish( "singleClick", { value: 
+    //             {
+    //                 x : that.canvasMouseLastXClick,
+    //                 y : that.canvasMouseLastYClick
+    //             } 
+    //         } );
+    //     }
+    // });
 
-//     $("#myCanvas").dblclick(function (evt) {
-//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+    $("#myCanvas").dblclick(function (evt) {
+        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
-//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
         
-//         that._channel.publish( "doubleClick", { value: 
-//                 {
-//                     x : that.canvasMouseLastXClick,
-//                     y : that.canvasMouseLastYClick
-//                 } 
-//             } );
+        that._channel.publish( "doubleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
         
-//     });
+    });
     
-// },
+},
 
 AnnotaterView.prototype.InitOptions = function (state){
     var that = this;
@@ -201,18 +217,12 @@ AnnotaterView.prototype.InitOptions = function (state){
     
     $('#btnPickColour').click(function (e) {
         pickEnabled =true;
-        that._channel.publish( "lockmouseup", { value: 'COLP' } );
-        that._channel.publish( "lockmousedown", { value: 'COLP' } );
-        
+        that._channel.publish( "lockmouseclick", { value: 'COLP' } );
     });  
 
     
-
-    //here look multiple event firing problems        
-    $('#myCanvas').mouseup(function(event){
-        
-        if(that.GetKey(that.canvasMouseupLocks)== key)
-        {
+    $("#myCanvas").click(function (evt) {
+        if(that.GetKey(that.canvasMouseClickLocks) == key) {
             if(pickEnabled)
             {
                 event.stopImmediatePropagation();
@@ -229,15 +239,12 @@ AnnotaterView.prototype.InitOptions = function (state){
                   
                 that._channel.publish( "colourSelection", { value: r } );    
                     
-                that._channel.publish( "lockmouseup", { value: '' } );
-                that._channel.publish( "lockmousedown", { value: '' } );
+                that._channel.publish( "lockmouseclick", { value: '' } );
                 
                 pickEnabled =false;
-            }
+            } 
         }
     });
-    
-    
 },
  
 AnnotaterView.prototype.GetKey = function (array){
@@ -250,7 +257,21 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
     var that = this;
     var key = 'NP';
     
-    
+    $("#myCanvas").click(function (evt) {
+        if(that.GetKey(that.canvasMouseClickLocks) == key) {
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            
+            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+            that._channel.publish( "positionClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+        }
+    });
     
     $("#myCanvas").mousedown(function (evt) {
         if(that.GetKey(that.canvasMousedownLocks) == key){
@@ -278,6 +299,23 @@ AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
     var that = this;
     var key = 'RS';
+    
+    $("#myCanvas").click(function (evt) {
+        if(that.GetKey(that.canvasMouseClickLocks) == key) {
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            
+            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+            that._channel.publish( "selectionClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+        }
+    });
+    
     
     $("#myCanvas").mousedown(function (evt) {
         if(that.GetKey(that.canvasMousedownLocks) == key){
@@ -338,29 +376,22 @@ AnnotaterView.prototype.InitCrop = function (state){
 AnnotaterView.prototype.InitVis = function (state){
     var that = this;
     var key = '';
-   
-    // $("#myCanvas").mousedown(function (evt) {
-    //     if(that.GetKey(that.canvasMousedownLocks) == key)
-    //         that._channel.publish( "visMouseDown", { value: evt } );
-    // });
-
-    // $("#myCanvas").mouseup(function (evt) {
-    //     if(that.GetKey(that.canvasMouseupLocks) == key)
-    //         that._channel.publish( "visMouseUp", { value: evt } );
-    // });
-
-    // $("#myCanvas").mousemove(function (evt) {
-        
-    //     if(that.GetKey(that.canvasMousemoveLocks) == key){
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
     
-    //         var _point = new Array(evt.clientX - boundingrec.left, evt.clientY - boundingrec.top);
-        
-    //         that._channel.publish( "visMouseMove", { value: _point } );
-    //     }
-         
-    // });
-
+    $("#myCanvas").click(function (evt) {
+        if(that.GetKey(that.canvasMouseClickLocks) == key) {
+            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+            
+            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            
+            that._channel.publish( "visSingleClick", { value: 
+                {
+                    x : that.canvasMouseLastXClick,
+                    y : that.canvasMouseLastYClick
+                } 
+            } );
+        }
+    });
 
 },
 

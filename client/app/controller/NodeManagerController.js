@@ -210,15 +210,7 @@ NodeManagerController.prototype = {
         var that =this;
         
         that._channel.publish( "lock", { value: true } );
-                            
-        // if(that.selectedNote.options == undefined){
-        //     that.selectedNote.options = that.options.GetState().defaultOptions;
-        //     // I believe this is to save the options if they weren't already set
-        //     that.nodeManager.WriteToDB(that.selectedNote, function(){
-        //         console.log('node saved');
-        //     });
-        // }
-       
+        
         that.options = that.selectedNote.Options;
         
         that.deletedNodeCache = JSON.parse(JSON.stringify(that.selectedNote));

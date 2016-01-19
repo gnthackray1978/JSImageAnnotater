@@ -33,7 +33,7 @@
             that.qryCanvasMouseMove(data.value);
         });
 	    
-	    this._channel.subscribe("singleClick", function(data, envelope) {
+	    this._channel.subscribe("positionClick", function(data, envelope) {
             that.clickAction(data.value.x, data.value.y);
         });
 	    
@@ -65,6 +65,7 @@
         this._channel.publish( "lockmouseup", { value: val } );
     	this._channel.publish( "lockmousedown", { value: val} );
     	this._channel.publish( "lockmousemove", { value: val } );
+    	this._channel.publish( "lockmouseclick", { value: val } );
     },
 
     NodePositioningController.prototype.qryCanvasMouseDown = function(evt){
@@ -84,7 +85,7 @@
             
             // signal model we've started to move.
             this.model.StartMove();
-            this._channel.publish( "mouseClickLock", { value: true } );
+            
         }
     },
         
@@ -125,9 +126,6 @@
 	},
 
     NodePositioningController.prototype.clickAction = function(x,y){
-        
-        
-        this._channel.publish( "mouseClickLock", { value: false } );
         
 		if(this.isStarted) {
 			//this.finishSelecting();      

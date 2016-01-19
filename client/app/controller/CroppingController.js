@@ -43,8 +43,9 @@
                 
                 if(this.model.addMode) return;
                 
+                this.lockMouse('CROP');
                 
-                this._channel.publish( "lockmousemove", { value: 'CROP' } );
+               // this._channel.publish( "lockmousemove", { value: 'CROP' } );
                 
                 var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
     	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
@@ -58,9 +59,11 @@
                 
                 if(this.model.addMode) return;
                 
-                this._channel.publish( "lockmousemove", { value: '' } );
-    	        this._channel.publish( "lockmouseup", { value: '' } );
-                this._channel.publish( "lockmousedown", { value: '' } );
+            //     this._channel.publish( "lockmousemove", { value: '' } );
+    	       // this._channel.publish( "lockmouseup", { value: '' } );
+            //     this._channel.publish( "lockmousedown", { value: '' } );
+                
+                this.lockMouse('');
                 
                 if(this.model.ValidCropNode()){
                     this._channel.publish( "setcropsaveenabled", { value: '' } );
@@ -87,22 +90,35 @@
             this._channel.publish( "setaddbuttoncancel", { value: this.model } );
             
             this.model.GetNode(function(){
-    	        that._channel.publish( "lockmouseup", { value: 'CROP' } );
-	    	    that._channel.publish( "lockmousedown", { value: 'CROP' } );
+    	   //     that._channel.publish( "lockmouseup", { value: 'CROP' } );
+	    	  //  that._channel.publish( "lockmousedown", { value: 'CROP' } );
+	    	    
+	    	    that.lockMouse('CROP');
     	    });
     	    
     	    this.model.addMode =false;
         },
         _setCancelMode:function(){
             
-            this._channel.publish( "lockmouseup", { value: '' } );
-            this._channel.publish( "lockmousedown", { value: '' } );
-            this._channel.publish( "lockmousemove", { value: '' } );
+            // this._channel.publish( "lockmouseup", { value: '' } );
+            // this._channel.publish( "lockmousedown", { value: '' } );
+            // this._channel.publish( "lockmousemove", { value: '' } );
+            
+            this.lockMouse('');
+            
             this._channel.publish( "setaddbuttonadd", { value: this.model } );
             this._channel.publish( "setcropsavedisabled", { value: this.model } );
             
             this.model.Cancel();
             this.model.addMode =true;
+        },
+        
+        lockMouse : function(val){
+            //console.log('locked mouse: ' + val);
+            this._channel.publish( "lockmouseup", { value: val } );
+	    	this._channel.publish( "lockmousedown", { value: val} );
+	    	this._channel.publish( "lockmousemove", { value: val } );
+	    	this._channel.publish( "lockmouseclick", { value: val } );
         },
         
         qryCropACModeButton:function(){
