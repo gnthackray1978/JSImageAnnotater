@@ -227,10 +227,10 @@ AnnotaterView.prototype.InitOptions = function (state){
         if(that.GetKey(that.canvasMouseClickLocks) == key) {
             if(pickEnabled)
             {
-                event.stopImmediatePropagation();
+                evt.stopImmediatePropagation();
     
-                var x = event.pageX - this.offsetLeft;
-                var y = event.pageY - this.offsetTop;
+                var x = evt.pageX - this.offsetLeft;
+                var y = evt.pageY - this.offsetTop;
                 
                 var c = new CanvasTools();
                 
