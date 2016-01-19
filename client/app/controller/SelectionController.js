@@ -121,8 +121,9 @@
             if(that.isStarted){
                 // get a node that we'll use to draw the rectangle
                 this.model.GetNode(function(){
-        	        that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
-    	    	    that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
+        	       // that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
+    	    	    //that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
+    	    	    that.lockMouse();
     	    	    that._view.DisplayRectangleSelection(true);
     	    	    that._channel.publish( "multiselectingstart", { value: this.model } );
     	    	    that._isMultiSelecting =true;
@@ -300,16 +301,16 @@
                     this.lockMouse('');
                     break;
                 case 1:
-                    this.lockMouse('ss');
+                    this.lockMouse(this._mouseLockKey);
                     this._view.DisplaySingleSelection(true);
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
                 case 2:// non select selections
-                    this.lockMouse('nf');
+                    this.lockMouse(this._mouseLockKey);
                     // code
                     break;
                 case 3: // empty space selections
-                    this.lockMouse('es');
+                    this.lockMouse(this._mouseLockKey);
                     // code
                     break;
             }
