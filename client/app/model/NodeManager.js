@@ -32,7 +32,8 @@ NodeManager.prototype = {
 
     SelectNode : function(node, selected, deselected, state){
         
-        
+        //hack incase something fucks up with total.
+        if(this._selectionCount<0) this._selectionCount =0;
     
     
         if(node){        
