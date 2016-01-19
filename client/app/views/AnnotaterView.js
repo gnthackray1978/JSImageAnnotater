@@ -1571,6 +1571,7 @@ AnnotaterView.prototype.AngleChangeClicked = function (action) {
 };
 
 AnnotaterView.prototype.SetOptions = function(options, currentColour){
+    console.log('Options.SetOptions');
 
     // the other defaults only updated when combo box gets changed         
     $("#txtChosenColour").css("background-color", currentColour);
@@ -1593,6 +1594,7 @@ AnnotaterView.prototype.SetOptions = function(options, currentColour){
 };
 
 AnnotaterView.prototype.SetChosenColour = function (hex) {
+    console.log('Options.SetChosenColour');
     $("#txtChosenColour").val(hex);
     $("#txtChosenColour").css("background-color", "#"+hex);
 };
