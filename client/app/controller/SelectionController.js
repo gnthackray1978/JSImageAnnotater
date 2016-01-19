@@ -149,7 +149,7 @@
         
         finishSelecting : function(){
             
-            this.lockMouse('');
+          //  this.lockMouse('');
            
 	    	this._view.DisplayRectangleSelection(false);
 	    	

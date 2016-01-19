@@ -27,7 +27,7 @@
 		this.mouse.x = mx;
 		this.mouse.y = my;
 		
-		if(this.selectionnode.IsOpen)
+		if(this.selectionnode.IsOpen)//hack fix me
 			this.updateSelectArea();
 	},
 
