@@ -83,15 +83,17 @@
             var that =this;
             
             if (this.model !== null) {
-                
-                this.lockMouse(that._mouseLockKey);
-                
-                var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
-    	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
-                
-                this.model.SetMouseStartPosition(mx,my);
-                
-                this.model.OpenSelection();
+                if(this._isMultiSelecting)
+                {
+                    this.lockMouse(that._mouseLockKey);
+                    
+                    var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
+        	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
+                    
+                    this.model.SetMouseStartPosition(mx,my);
+                    
+                    this.model.OpenSelection();
+                }
             }
         },
         
@@ -104,11 +106,14 @@
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
                 
-                var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
-    	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
-    	        
-                this.model.SetMouseMovingPosition(mx,my);
-                this._channel.publish( "drawtree", { value: this.model } );
+                if(this._isMultiSelecting)
+                {
+                    var mx = typeof evt.offsetX !== 'undefined' ? evt.offsetX : evt.layerX;
+        	        var my = typeof evt.offsetY !== 'undefined' ? evt.offsetY : evt.layerY;
+        	        
+                    this.model.SetMouseMovingPosition(mx,my);
+                    this._channel.publish( "drawtree", { value: this.model } );
+                }
             }
         },
 
