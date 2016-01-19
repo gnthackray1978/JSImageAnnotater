@@ -123,7 +123,7 @@
                 this.model.GetNode(function(){
         	       // that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
     	    	    //that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
-    	    	    that.lockMouse();
+    	    	    that.lockMouse(that._mouseLockKey);
     	    	    that._view.DisplayRectangleSelection(true);
     	    	    that._channel.publish( "multiselectingstart", { value: this.model } );
     	    	    that._isMultiSelecting =true;
