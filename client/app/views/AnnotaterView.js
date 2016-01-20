@@ -516,29 +516,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         });
 
-		$('#fontSelect').fontSelector({
-			'hide_fallbacks' : true,
-			'initial' : 'Courier New,Courier New,Courier,monospace',
-			'selected' : function(style) { 
-			    that.selectedFontChanged(style);
-			},
-			'fonts' : [
-				'Arial,Arial,Helvetica,sans-serif',
-				'Arial Black,Arial Black,Gadget,sans-serif',
-				'Comic Sans MS,Comic Sans MS,cursive',
-				'Courier New,Courier New,Courier,monospace',
-				'Georgia,Georgia,serif',
-				'Impact,Charcoal,sans-serif',
-				'Lucida Console,Monaco,monospace',
-				'Lucida Sans Unicode,Lucida Grande,sans-serif',
-				'Palatino Linotype,Book Antiqua,Palatino,serif',
-				'Tahoma,Geneva,sans-serif',
-				'Times New Roman,Times,serif',
-				'Trebuchet MS,Helvetica,sans-serif',
-				'Verdana,Geneva,sans-serif',
-				'Gill Sans,Geneva,sans-serif'
-				]
-		});
+
 
 
         $('#show_layers').click(function (e) {
