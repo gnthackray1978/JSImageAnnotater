@@ -223,47 +223,14 @@ Options.prototype.LoadDefaultOptions =function(callback){
 Options.prototype.saveDefaultOptions =function(options){
    
     console.log('save option ' +options);
- 
-    this.optionsDll.SaveOptions(this.defaultOptions);
-};
-
-Options.prototype._translateViewOptions =function(voptions,moptions){
-
-     if(voptions.IsTransparent !== undefined)
-        moptions.IsTransparent = voptions.IsTransparent;
+    var that = this;
+    
+    this.optionsDll.SaveOptions(this.defaultOptions, function(){
+        that._channel.publish( "drawtree", { value: this.model } ); 
+    });
      
-     if(voptions.DefaultFont)
-        moptions.DefaultFont = voptions.DefaultFont;
-    
-     if(moptions!=null && voptions.hexval){
-        switch(Number(this.selectedColourComponentId)){
-            case 1:
-                moptions.DefaultNoteColour = voptions.hexval;
-                break;
-            case 2:
-                moptions.DefaultEditorFontColour = voptions.hexval;
-                break;
-            case 3:
-                moptions.DefaultEditorBorderColour = voptions.hexval;
-                break;
-            case 4:
-                moptions.DefaultNoteFontColour = voptions.hexval;
-                break;
-          
-            case 5:
-                moptions.SelectionBox = voptions.hexval;
-                break;
-            case 6:
-                moptions.CropBox = voptions.hexval;
-                break;
-            case 7:
-                moptions.SelectedNode = voptions.hexval;
-                break;
-        }
-    }
-    
-    return moptions;
 };
+
 
 Options.prototype.updateOptionFont =function(font){
 
@@ -371,3 +338,40 @@ Options.prototype._updateOptions =function(options, withUpdate){
     
 };
 
+Options.prototype._translateViewOptions =function(voptions,moptions){
+
+     if(voptions.IsTransparent !== undefined)
+        moptions.IsTransparent = voptions.IsTransparent;
+     
+     if(voptions.DefaultFont)
+        moptions.DefaultFont = voptions.DefaultFont;
+    
+     if(moptions!=null && voptions.hexval){
+        switch(Number(this.selectedColourComponentId)){
+            case 1:
+                moptions.DefaultNoteColour = voptions.hexval;
+                break;
+            case 2:
+                moptions.DefaultEditorFontColour = voptions.hexval;
+                break;
+            case 3:
+                moptions.DefaultEditorBorderColour = voptions.hexval;
+                break;
+            case 4:
+                moptions.DefaultNoteFontColour = voptions.hexval;
+                break;
+          
+            case 5:
+                moptions.SelectionBox = voptions.hexval;
+                break;
+            case 6:
+                moptions.CropBox = voptions.hexval;
+                break;
+            case 7:
+                moptions.SelectedNode = voptions.hexval;
+                break;
+        }
+    }
+    
+    return moptions;
+};

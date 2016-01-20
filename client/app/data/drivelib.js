@@ -779,7 +779,7 @@ MyDrive.prototype.SaveLayers= function (layers, cacheOnly){
 };
 
 
-MyDrive.prototype.SaveOptions= function (options){
+MyDrive.prototype.SaveOptions= function (options, callback){
     this.options[0] = options;
     
      var c = {
@@ -791,7 +791,7 @@ MyDrive.prototype.SaveOptions= function (options){
         
         
     this._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, this.CONFIGFILEID, JSON.stringify(c),function(){
-        
+        callback();
     });
 };
 
