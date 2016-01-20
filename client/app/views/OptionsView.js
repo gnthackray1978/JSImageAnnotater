@@ -303,7 +303,7 @@ OptionsView.prototype.PublishAngleChangeClicked = function (action) {
         
         angle = moveTextArea(-1);
         
-        that._channel.publish( "AngleChanged", { value: angle } );
+        that._channel.publish( "AngleChanged", { value: -1 } );
         
         e.preventDefault();
     });
@@ -313,7 +313,7 @@ OptionsView.prototype.PublishAngleChangeClicked = function (action) {
         
         angle = moveTextArea(1);
         
-        that._channel.publish( "AngleChanged", { value: angle } );
+        that._channel.publish( "AngleChanged", { value: 1 } );
         
         e.preventDefault();
     });
