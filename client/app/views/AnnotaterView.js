@@ -123,9 +123,7 @@ function AnnotaterView(channel) {
         
     }
     
-   
-    this.InitOptions();
-    
+
     this.InitSelectionRectangle();
     
     this.InitGenericMouseClicks();
