@@ -125,7 +125,16 @@ SelectionView.prototype.InitSelectionRectangle = function (state){
         that._channel.publish( "selectionRectangleActivated", { value: evt } );
     });   
 
-
+    $("#selectnodebtn").click(function (evt) {
+        //action();
+        
+        that._channel.publish( "selectnodebtn", { value: 
+            {
+                x : that.canvasMouseLastXClick,
+                y : that.canvasMouseLastYClick
+            } 
+        } );
+    });
 
 };
 
@@ -221,4 +230,9 @@ SelectionView.prototype.DisplaySingleSelection= function (state) {
         $("#selectnodebtn").val('[SN]');
 };
 
-
+SelectionView.prototype.SelectNodeButton = function (action) {
+    //here look multiple event firing problems    
+    $("#selectnodebtn").click(function (evt) {
+        action();
+    });
+};

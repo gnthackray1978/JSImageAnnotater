@@ -17,7 +17,11 @@
         this.init();
         var that = this;
         
-        this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
+        //this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
+        
+        this._channel.subscribe("selectNodeAction", function(data, envelope) {
+            that.selectNodeAction();
+        });
         
         this._channel.subscribe("selectionRectangleActivated", function(data, envelope) {
             //console.log('s_selectionRectangleActivated');
