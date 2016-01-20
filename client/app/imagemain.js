@@ -42,7 +42,7 @@ function loadAll (drive){
     
     
     var appView = new AnnotaterView(channel);
-    
+    var optionsView = new OptionsView(appView,channel);
     
     
     
@@ -65,8 +65,9 @@ function loadAll (drive){
         
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
         
-        var options = new Options(data,nodeManager, appView,channel);
-        var optionsController = new OptionsController(appView,options);
+        var options = new Options(data,nodeManager,channel);
+        
+        //var optionsController = new OptionsController(appView,options);
 
         var cropper = new Crop(nodeManager,data);
         var crapperController = new CroppingController(appView,channel, cropper);

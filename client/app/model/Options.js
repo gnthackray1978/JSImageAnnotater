@@ -1,16 +1,9 @@
-var Options = function (optionsDll,nodeManager, view, channel) {
+var Options = function (optionsDll,nodeManager, channel) {
     
     this._nodeManager = nodeManager;
     this.optionsDll = optionsDll;
     this._channel = channel;
-    
-    this.view = view;
-    
-  //  this.optionMode =false;
-  //  this.addNode =false;
-    //this.pickMode =false;
-    
-    //this.options = {};
+
     this.defaultOptions;
     this.tempOptions;
     this.selectedColourComponentId =1;// not zero based
@@ -38,19 +31,19 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     });
     
     this._channel.subscribe("nodeedit", function(data, envelope) {
-        //that.view.SetDefaultOptionsUI(false);
+      
         that._state =1;
         that.UpdateState();
     });    
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
-        //that.view.SetDefaultOptionsUI(true);
+   
         that._state =2;
         that.UpdateState();
     });
     
     this._channel.subscribe("nodeinit", function(data, envelope) {
-        //that.view.SetDefaultOptionsUI(false);
+       
         that._state =0;
         that.UpdateState();
     });
@@ -115,6 +108,30 @@ var Options = function (optionsDll,nodeManager, view, channel) {
     this.CreateComponentList();
 };
 
+Options.prototype.SetOptions= function (options, currentColour){
+    this._channel.publish( "OptionsChanged", { 
+        options: options , 
+        currentColour: currentColour 
+    } );
+},
+Options.prototype.SetChosenColour= function (hex){
+    this._channel.publish( "ColourChanged", { 
+        value: hex
+    } );
+},
+Options.prototype.SetColourComponents= function (data){
+    this._channel.publish( "ColourComponentChanged", { 
+        value: data
+    } );
+},
+Options.prototype.SetDefaultOptionsUI= function (state, nodeCount){
+    this._channel.publish( "DefaultOptionsChanged", { 
+        state: state,
+        nodeCount: nodeCount
+    } );
+},
+
+
 Options.prototype.UpdateState= function (){
     var that = this;
     
@@ -123,7 +140,8 @@ Options.prototype.UpdateState= function (){
             this.LoadDefaultOptions(function(){
                 that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
             });
-            that.view.SetDefaultOptionsUI(false,0);
+            that.SetDefaultOptionsUI(false,0);
+            
             console.log('OPTIONS default state 0');
             break;
         case 1:
@@ -135,7 +153,7 @@ Options.prototype.UpdateState= function (){
                         that.currentNode.Options =  JSON.parse(JSON.stringify(this.defaultOptions));
                     
                     that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
-                    that.view.SetDefaultOptionsUI(true,selection.length);
+                    that.SetDefaultOptionsUI(true,selection.length);
                     that._updateOptionsToView(that.currentNode.Options);
                 }
             });
@@ -149,7 +167,7 @@ Options.prototype.UpdateState= function (){
                 this.tempOptions = JSON.parse(JSON.stringify(this.defaultOptions));
             
             this._channel.publish( "newOptionsLoaded", { value: this.tempOptions } );
-            that.view.SetDefaultOptionsUI(true,0);
+            that.SetDefaultOptionsUI(true,0);
             this._updateOptionsToView(this.tempOptions);
             break;
         case 3:
@@ -175,7 +193,7 @@ Options.prototype.CreateComponentList = function(){
     component.push({id: 6, name: 'Crop Box'});
     component.push({id: 7, name: 'Selected Node'});
     
-    this.view.SetColourComponents(component);
+    this.SetColourComponents(component);
 };
 
 Options.prototype.LoadDefaultOptions =function(callback){
@@ -209,28 +227,8 @@ Options.prototype.saveDefaultOptions =function(options){
     this.optionsDll.SaveOptions(this.defaultOptions);
 };
 
-Options.prototype.QrySaveData =  function(callback){
-    
-    if( this.currentNode!=undefined && this.currentNode.options!=undefined)
-    {
-        //saveData.options = this._translateViewOptions(saveData.options,saveData.options);
-        callback(this.currentNode.options);
-    }
-    else
-    {
-        callback(this.tempOptions);
-    }
-};
- 
-
 Options.prototype._translateViewOptions =function(voptions,moptions){
-    //  var options = {
-    //     "hexval": $("#txtChosenColour").val(),
-    //     "font" :  $('#fontSelect').fontSelector('selected'),
-    //     "isTransparent" : $("#chkTransparentBackground").val(),
-    //     "componentId" : currentComponent
-    // };
-     
+
      if(voptions.IsTransparent !== undefined)
         moptions.IsTransparent = voptions.IsTransparent;
      
@@ -334,7 +332,7 @@ Options.prototype._updateOptionsToView =function(options){
             break;
     }
     
-    this.view.SetOptions(options,hex);
+    this.SetOptions(options,hex);
 };
 
 Options.prototype._updateOptions =function(options, withUpdate){
@@ -371,26 +369,5 @@ Options.prototype._updateOptions =function(options, withUpdate){
         finalAction(this.tempOptions);
     }
     
-    // if(this._state !=0){
-    //     if(this.currentNode !== undefined)
-    //     {
-    //         if(this.currentNode.Options != undefined){
-            
-    //             this._translateViewOptions(options, this.currentNode.Options);
-    //             finalAction(this.currentNode.Options);
-    //         }
-    //         else
-    //         {
-    //             //historic data might not have any options set for the note
-    //             this._translateViewOptions(options,this.tempOptions);
-    //             finalAction(this.tempOptions);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         this._translateViewOptions(options,this.tempOptions);
-    //         finalAction(this.tempOptions);
-    //     }
-    // }
 };
 

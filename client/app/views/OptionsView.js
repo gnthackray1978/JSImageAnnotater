@@ -44,7 +44,7 @@ var OptionsView = function (view, channel) {
     
     this._channel.subscribe("OptionsChanged", function(data, envelope) {
         //options, currentColour
-        that.SetOptions(data.value.options, data.value.currentColour);            
+        that.SetOptions(data.options, data.currentColour);            
     });
     
     this._channel.subscribe("ColourChanged", function(data, envelope) {
@@ -56,7 +56,7 @@ var OptionsView = function (view, channel) {
     });
     
     this._channel.subscribe("DefaultOptionsChanged", function(data, envelope) {
-        that.SetDefaultOptionsUI(data.value.state, data.value.nodeCount);
+        that.SetDefaultOptionsUI(data.state, data.nodeCount);
     });
 };
 
