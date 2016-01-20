@@ -280,6 +280,7 @@ OptionsView.prototype.PublishTransparencyChanged = function (action) {
 //AngleChangeClicked
 OptionsView.prototype.PublishAngleChangeClicked = function (action) {
     var that = this;
+    var angle;
     
     var moveTextArea = function(offset){
         
@@ -293,21 +294,27 @@ OptionsView.prototype.PublishAngleChangeClicked = function (action) {
             $('textarea.info').css('transform',newprop);
         }
         
+        return a;
     };
     
     $('#btnAngleDown').click(function (e) {
         //action('down');
-        that._channel.publish( "AngleChanged", { value: 'down' } );
         
-        moveTextArea(-1);
+        
+        angle = moveTextArea(-1);
+        
+        that._channel.publish( "AngleChanged", { value: angle } );
         
         e.preventDefault();
     });
     
     $('#btnAngleUp').click(function (e) {
         //action('up');
-        that._channel.publish( "AngleChanged", { value: 'up' } );
-        moveTextArea(1);
+        
+        angle = moveTextArea(1);
+        
+        that._channel.publish( "AngleChanged", { value: angle } );
+        
         e.preventDefault();
     });
 };

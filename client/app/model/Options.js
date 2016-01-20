@@ -179,6 +179,10 @@ Options.prototype.UpdateState= function (){
 
 Options.prototype.ChangeAngle= function (direction){
     
+    if(this.currentNode){
+        this.currentNode.D = direction;
+        this._channel.publish( "drawtree", { value: this.model } );
+    }
 },
  
 Options.prototype.CreateComponentList = function(){
