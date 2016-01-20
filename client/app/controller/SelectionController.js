@@ -1,8 +1,8 @@
 (function(exports){
 
-    var SelectionController = function (view, channel, model,nodeDataManager) {
+    var SelectionController = function (channel, model,nodeDataManager) {
         this._isMultiSelecting =false;
-        this._view = view;
+        
         this._state =0;
         this._mouseClickLocked =false;
         this._nodeManager = nodeDataManager;
@@ -97,12 +97,6 @@
             }
         },
         
-        // qryCanvasMouseUp:function(evt){
-        //     if (this.model !== null) {
-        //         this.finishSelecting();
-        //     }
-        // },
-    
         qryCanvasMouseMove:function(evt){
             if (this.model !== null) {
                 
@@ -129,7 +123,8 @@
         	       // that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
     	    	    //that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
     	    	    that.lockMouse(that._mouseLockKey);
-    	    	    that._view.DisplayRectangleSelection(true);
+    	    	    //that._view.DisplayRectangleSelection(true);
+    	    	    that._channel.publish( "DisplayRectangleSelection", { value: true } );
     	    	    that._channel.publish( "multiselectingstart", { value: this.model } );
     	    	    that._isMultiSelecting =true;
         	    });
@@ -151,7 +146,8 @@
             
           //  this.lockMouse('');
            
-	    	this._view.DisplayRectangleSelection(false);
+	    	//this._view.DisplayRectangleSelection(false);
+	    	this._channel.publish( "DisplayRectangleSelection", { value: false} );
 	    	
 	    	this.model.CloseSelection();
 	    	
@@ -300,7 +296,8 @@
             
             switch (this._state) {
                 case 0:// SELECTIONS DEACTIVATED nothing can be selected now.
-                    this._view.DisplaySingleSelection(false);// turn off ui button
+                    //this._view.DisplaySingleSelection(false);// turn off ui button
+                    this._channel.publish( "DisplaySingleSelection", { value: false} );// turn off ui button
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
                     // if there was something selected deselect it.
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
@@ -313,7 +310,8 @@
                     break;
                 case 1:
                     this.lockMouse(this._mouseLockKey);
-                    this._view.DisplaySingleSelection(true);
+                    //this._view.DisplaySingleSelection(true);
+                    this._channel.publish( "DisplaySingleSelection", { value: true} );// turn off ui button
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;
                 case 2:// non select selections

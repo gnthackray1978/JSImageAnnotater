@@ -124,7 +124,7 @@ function AnnotaterView(channel) {
     }
     
 
-    this.InitSelectionRectangle();
+    //this.InitSelectionRectangle();
     
     this.InitGenericMouseClicks();
     
@@ -266,56 +266,56 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
 
 },
 
-AnnotaterView.prototype.InitSelectionRectangle = function (state){
+// AnnotaterView.prototype.InitSelectionRectangle = function (state){
     
-    var that = this;
-    var key = 'RS';
+//     var that = this;
+//     var key = 'RS';
     
-    $("#myCanvas").click(function (evt) {
-        if(that.GetKey(that.canvasMouseClickLocks) == key) {
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+//     $("#myCanvas").click(function (evt) {
+//         if(that.GetKey(that.canvasMouseClickLocks) == key) {
+//             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
             
-            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+//             that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+//             that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
             
-            that._channel.publish( "selectionClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
-        }
-    });
+//             that._channel.publish( "selectionClick", { value: 
+//                 {
+//                     x : that.canvasMouseLastXClick,
+//                     y : that.canvasMouseLastYClick
+//                 } 
+//             } );
+//         }
+//     });
     
     
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.GetKey(that.canvasMousedownLocks) == key){
-            that._channel.publish( "selectionMouseDown", { value: evt } );
-        }
-    });
+//     $("#myCanvas").mousedown(function (evt) {
+//         if(that.GetKey(that.canvasMousedownLocks) == key){
+//             that._channel.publish( "selectionMouseDown", { value: evt } );
+//         }
+//     });
 
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.GetKey(that.canvasMouseupLocks) == key)
-            that._channel.publish( "selectionMouseUp", { value: evt } );
-    });
+//     $("#myCanvas").mouseup(function (evt) {
+//         if(that.GetKey(that.canvasMouseupLocks) == key)
+//             that._channel.publish( "selectionMouseUp", { value: evt } );
+//     });
 
-    $("#myCanvas").mousemove(function (evt) {
-        //argh argh
-        if(that.GetKey(that.canvasMousemoveLocks) == key){
-           that._channel.publish( "selectionMouseMove", { value: evt } );
-        }
+//     $("#myCanvas").mousemove(function (evt) {
+//         //argh argh
+//         if(that.GetKey(that.canvasMousemoveLocks) == key){
+//           that._channel.publish( "selectionMouseMove", { value: evt } );
+//         }
         
-        evt.stopPropagation();
-    });
+//         evt.stopPropagation();
+//     });
     
-    $('#rectselstart').click(function (evt) {            
-        evt.preventDefault();
-        that._channel.publish( "selectionRectangleActivated", { value: evt } );
-    });   
+//     $('#rectselstart').click(function (evt) {            
+//         evt.preventDefault();
+//         that._channel.publish( "selectionRectangleActivated", { value: evt } );
+//     });   
 
 
 
-},
+// },
  
 AnnotaterView.prototype.InitCrop = function (state){
     var that = this;
@@ -1466,280 +1466,115 @@ AnnotaterView.prototype.QrySaveButtonState = function (callback){
 
 
 
-// //OPTIONS
-// AnnotaterView.prototype._getOptionDetails= function (includeColour){
-//     var currentComponent =1;
+// /*selection stuff*/
 
-//     $( "#colourComponentList option:selected" ).each(function() {
-//         currentComponent = $( this ).val();
-//     });
-
-
-//     var options = {
-//         "hexval": (includeColour ? $("#txtChosenColour").val() : undefined) ,
-//         "DefaultFont" :  $('#fontSelect').fontSelector('selected'),
-//         "IsTransparent" : $("#chkTransparentBackground").is(":checked"),
-//         "componentId" : currentComponent
-//     };
-    
-//     return options;
-// };
-
-// AnnotaterView.prototype.AngleChangeClicked = function (action) {
-    
-//     var moveTextArea = function(offset){
-        
-//         var angleUtils = new AngleUtils();
-        
-//         var a = angleUtils.getAngle();
-        
-//         if(a!= 1000){
-//             a = a + offset;
-//             var newprop =  'rotate('+ a  +'deg)';
-//             $('textarea.info').css('transform',newprop);
-//         }
-        
-//     };
-    
-//     $('#btnAngleDown').click(function (e) {
-//         action('down');
-       
-//         moveTextArea(-1);
-        
-//         e.preventDefault();
-//     });
-    
-//     $('#btnAngleUp').click(function (e) {
-//             action('up');
-//             moveTextArea(1);
-//             e.preventDefault();
-//         });
-// };
-
-// AnnotaterView.prototype.SetOptions = function(options, currentColour){
-//     console.log('Options.SetOptions');
-
-//     // the other defaults only updated when combo box gets changed         
-//     $("#txtChosenColour").css("background-color", currentColour);
-//     $("#txtChosenColour").val(currentColour);
-
-//     $("#chkTransparentBackground").val(options.IsTransparent);
-    
-//     $('#fontSelect').fontSelector('select',options.DefaultFont);
-    
-//     $('textarea.info').css('color',options.DefaultEditorFontColour);
-    
-//     $('textarea.info').css('font-family',$('#fontSelect').fontSelector('selected'));
- 
-//     if(!options.IsTransparent)
-//         $('textarea.info').css('background-color',options.DefaultNoteColour);
+// AnnotaterView.prototype.DisplayRectangleSelection= function (state) {
+//     console.log('View DisplayRectangleSelection');
+//     if(!state)
+//         $("#rectselstart").val('RS');
 //     else
-//         $('textarea.info').css('background-color','transparent');
-  
-//     $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
+//         $("#rectselstart").val('[RS]');
 // };
 
-// AnnotaterView.prototype.SetChosenColour = function (hex) {
-//     console.log('Options.SetChosenColour');
-//     $("#txtChosenColour").val(hex);
-//     $("#txtChosenColour").css("background-color", "#"+hex);
-// };
-
-// AnnotaterView.prototype.SetColourComponents = function (data){
- 
-//     var output = [];
-    
-//     $.each(data, function(key, value)
-//     {
-//       output.push('<option value="'+ value.id +'">'+ value.name +'</option>');
-//     });
-
-//     $('#colourComponentList').html(output.join(''));
-
-//   //  var myDDL = $('#colourComponentList');
-//   // myDDL[0].selectedIndex = 0;
-// }
-
-// AnnotaterView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
-        
-//     $("#angleGroup").show(); 
-//     $("#optionGroup").show();
-//     $('#btnPickColour').show();
-        
-//     if(state)
-//     {
-//         if(nodeCount && nodeCount > 0)
-//             $("#options-label").html('Options ' + nodeCount + 'n');
-//         else
-//             $("#options-label").html('New Options');
-//     }
-//     else
-//     {
-//         $("#options-label").html('Default Options');
-//     }
-// };
-// //LIST CHANGED AND UI UPDATED
-// AnnotaterView.prototype.QrySelectedColourComponent = function (action) {
-//     //var that = this;
-//     var currentComponent =1;
-
-//     $( "#colourComponentList option:selected" ).each(function() {
-//         currentComponent = $( this ).val();
-//     });
-    
-//     $("#colourComponentList")
-//       .change(function () {
-//         // console.log('colour component changed: '+ str);
-        
-//         currentComponent = $( "#colourComponentList option:selected" ).val();
-        
-//         action(currentComponent);
-//     })
-//     .change();
-// };
-
-
-// //SAVE DEFAULT OPTIONS CLICKED
-// AnnotaterView.prototype.QryDefaultOptions = function(action){
-//     var that = this;
-//     $('#btnSaveOptions').click(function (e) {            
-//         e.preventDefault();
-//         action(that._getOptionDetails());
-//     });   
-// };
- 
-// AnnotaterView.prototype.QrySelectedFontChanged = function (action) {
-//     var that = this;
-//     this.selectedFontChanged = function(style){
-//         console.log('font changed');
-//         action($('#fontSelect').fontSelector('selected'));
-//     };
-// };
-
-// AnnotaterView.prototype.QryTransparencyChanged = function (action) {
-//     var that = this;
-//     $("#chkTransparentBackground")
-//       .change(function () {
-//         action($("#chkTransparentBackground").is(":checked"));
-//     })
-//     .change();
-// };
-
-
-
-
-/*
-URL
-
-*/
-
-AnnotaterView.prototype.DisplayRectangleSelection= function (state) {
-    console.log('View DisplayRectangleSelection');
-    if(!state)
-        $("#rectselstart").val('RS');
-    else
-        $("#rectselstart").val('[RS]');
-};
-
-AnnotaterView.prototype.DisplaySelectionState= function () {
-    console.log('View DisplaySelectionState');
-    $("#selectnodebtn").val('[SN]');
+// AnnotaterView.prototype.DisplaySelectionState= function () {
+//     console.log('View DisplaySelectionState');
+//     $("#selectnodebtn").val('[SN]');
      
 
-};
+// };
 
-AnnotaterView.prototype.DisplaySelectionDelete= function (state) {
-    console.log('View DisplaySelectionDelete');
+// AnnotaterView.prototype.DisplaySelectionDelete= function (state) {
+//     console.log('View DisplaySelectionDelete');
     
-    $("#delnodebtn").prop('disabled', state); 
+//     $("#delnodebtn").prop('disabled', state); 
 
-};
+// };
 
-AnnotaterView.prototype.DisplayDeleteState= function () {
-    console.log('View DisplayDeleteState');
-    $("#delsinglenodebtn").val('[DC]');
+// AnnotaterView.prototype.DisplayDeleteState= function () {
+//     console.log('View DisplayDeleteState');
+//     $("#delsinglenodebtn").val('[DC]');
 
-};
+// };
 
-AnnotaterView.prototype.DisplayAddState= function () {
-    console.log('View DisplayAddState');
-    $("#addnodebtn").val('[AD]');
-    // $("#imagelabel").html('click drawing to add');
+// AnnotaterView.prototype.DisplayAddState= function () {
+//     console.log('View DisplayAddState');
+//     $("#addnodebtn").val('[AD]');
+//     // $("#imagelabel").html('click drawing to add');
     
-    // $("#btnDeleteNote").hide();
-    // $("#btnAddNote").hide();
-    // $("#btnOptions").hide();
+//     // $("#btnDeleteNote").hide();
+//     // $("#btnAddNote").hide();
+//     // $("#btnOptions").hide();
     
-    // $("#btnCancel").show();
-    // $("#btnSaveNote").hide();
+//     // $("#btnCancel").show();
+//     // $("#btnSaveNote").hide();
     
-    $("#btnNodeCancel").show();
-};
+//     $("#btnNodeCancel").show();
+// };
 
-AnnotaterView.prototype.DisplaySaveState= function () {
-    console.log('View DisplaySaveState');
+// AnnotaterView.prototype.DisplaySaveState= function () {
+//     console.log('View DisplaySaveState');
   
-    // $("#imagelabel").html('click drawing to add');
+//     // $("#imagelabel").html('click drawing to add');
     
-    // $("#btnDeleteNote").hide();
-    // $("#btnAddNote").hide();
-    // $("#btnOptions").hide();
+//     // $("#btnDeleteNote").hide();
+//     // $("#btnAddNote").hide();
+//     // $("#btnOptions").hide();
     
-    $("#btnNodeCancel").show();
-    $("#btnSave").show();
+//     $("#btnNodeCancel").show();
+//     $("#btnSave").show();
 
-};
+// };
 
-AnnotaterView.prototype.DisplayNeutralState= function () {
-    console.log('View DisplayNeutralState');
+// AnnotaterView.prototype.DisplayNeutralState= function () {
+//     console.log('View DisplayNeutralState');
 
-    $("#delsinglenodebtn").val('DC');
+//     $("#delsinglenodebtn").val('DC');
     
-    $("#delnodebtn").prop('disabled', true); 
+//     $("#delnodebtn").prop('disabled', true); 
     
-    $("#addnodebtn").val('AD');
+//     $("#addnodebtn").val('AD');
     
     
 
-    $("#btnNodeCancel").hide();
+//     $("#btnNodeCancel").hide();
     
-    $("#btnSave").hide();
+//     $("#btnSave").hide();
 
-};
+// };
 
-AnnotaterView.prototype.DisableNodePositioning = function (state) {
+// AnnotaterView.prototype.DisableNodePositioning = function (state) {
     
-    if(!state)
-        $("#enableNodePositioning").prop('disabled', false);
-    else
-    {
-        $("#enableNodePositioning").val('PN');
-        $("#enableNodePositioning").prop('disabled', true);
-    }
-};
+//     if(!state)
+//         $("#enableNodePositioning").prop('disabled', false);
+//     else
+//     {
+//         $("#enableNodePositioning").val('PN');
+//         $("#enableNodePositioning").prop('disabled', true);
+//     }
+// };
 
-AnnotaterView.prototype.ToggleNodePositioning = function (state) {
+// AnnotaterView.prototype.ToggleNodePositioning = function (state) {
     
-    if(!state)
-        $("#enableNodePositioning").val('PN');
-    else
-        $("#enableNodePositioning").val('[PN]');
-};
+//     if(!state)
+//         $("#enableNodePositioning").val('PN');
+//     else
+//         $("#enableNodePositioning").val('[PN]');
+// };
 
-AnnotaterView.prototype.ActivateNodePositioning = function (action) {
-    //here look multiple event firing problems    
-    $("#enableNodePositioning").click(function (evt) {
-        action();
-    });
-};
+// AnnotaterView.prototype.ActivateNodePositioning = function (action) {
+//     //here look multiple event firing problems    
+//     $("#enableNodePositioning").click(function (evt) {
+//         action();
+//     });
+// };
 
-AnnotaterView.prototype.DisplaySingleSelection= function (state) {
+// AnnotaterView.prototype.DisplaySingleSelection= function (state) {
     
-    if(!state)
-        $("#selectnodebtn").val('SN');
-    else
-        $("#selectnodebtn").val('[SN]');
-};
+//     if(!state)
+//         $("#selectnodebtn").val('SN');
+//     else
+//         $("#selectnodebtn").val('[SN]');
+// };
 
 
 
@@ -1891,45 +1726,3 @@ AnnotaterView.prototype.RunButtonClicked = function (action) {
     });        
 };
 
-
-/*
-
-bus
-
-*/
-
- AnnotaterView.prototype.UpdateCanvas = function (caller, data) {
-     
-    console.log('method deleted');
-//     if(this.channel){
-//         this.channel.publish("canvas", {
-//             caller: caller,
-//             data: data
-//         });
-//     }
- };
-
- AnnotaterView.prototype.ScaleToScreen = function (caller, data) {
-     console.log('method deleted');
-//   // console.log('canvas publish');
-//     if(this.channel){
-//         this.channel.publish("scale", {
-//             caller: caller,
-//             data: data
-//         });
-//     }
- };
-
-
-
-// AnnotaterView.prototype.BusSubCanvasUpdated = function (action) {
-    
-//     if(this.channel){
-//         var subscription = this.channel.subscribe("canvas", function(data, envelope) {
-//             /*do stuff with data */
-//         //    console.log('calling draw');
-//             action();
-//         });
-//     }
-
-// };

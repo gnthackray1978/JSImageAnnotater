@@ -57,19 +57,21 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.updateState();
     });
     
-    this._channel.subscribe("multiselectingend", function(data, envelope) {
-        that.selectionChange(data.value);
-    });
+    // this._channel.subscribe("multiselectingend", function(data, envelope) {
+    //     that.selectionChange(data.value);
+    // });
     
-    this._channel.subscribe("nodeselected", function(data, envelope) {
-        that.selectionChange(data.value);
-    });
+    // this._channel.subscribe("nodeselected", function(data, envelope) {
+    //     that.selectionChange(data.value);
+    // });
     
-    this._channel.subscribe("nodedeselected", function(data, envelope) {
-        console.log('node deselected caught');
-        that.selectionChange(data.value);
+    // this._channel.subscribe("nodedeselected", function(data, envelope) {
+    //     console.log('node deselected caught');
+    //     that.selectionChange(data.value);
         
-    });
+    // });
+    
+    
     // delete node
     this._channel.subscribe("focusednode", function(data, envelope) {
         //node contained with clicked pointer but wasnt selected.
@@ -118,17 +120,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 
 NodeManagerController.prototype = {
     
-    selectionChange : function(count){
-        console.log('selectionChange: ' + count);
-        
-        if(count >0){
-            this._view.DisplaySelectionDelete(false);
-        }
-        else
-        {
-            this._view.DisplaySelectionDelete(true);
-        }
-    },
+
     
     updateState :function(){
         var that = this;
@@ -140,27 +132,31 @@ NodeManagerController.prototype = {
                 this.meta.Unload();
                 this._channel.publish( "lock", { value: false } );
                 
-                this._view.DisplayNeutralState();
+                //this._view.DisplayNeutralState();
+                this._channel.publish( "DisplayNeutralState", { value: true } );
                 this._view.ClearActiveTextArea();
                 this._channel.publish( "drawtree", { value: this.model } ); 
                 break;
             case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
-                this._view.DisplayAddState();
+                //this._view.DisplayAddState();
+                this._channel.publish( "DisplayAddState", { value: true } );
                 this._channel.publish( "activateNullSelection", { value: true } );
               
                 break;
                 
-            case 2: //FREE TO DELETE MODE
+            case 2: //FREE TO DELETE MODEyou
             
-                this._view.DisplayDeleteState();
+                //this._view.DisplayDeleteState();
+                this._channel.publish( "DisplayDeleteState", { value: true } );
                 this._channel.publish( "activateFocusedSelection", { value: true } );
                 
                 break;
                 
             case 3: //VALID TO SAVE
                 console.log('updateState: valid to save');
-                this._view.DisplaySaveState();
+                //this._view.DisplaySaveState();
+                this._channel.publish( "DisplaySaveState", { value: true } );
                 break;
                 
             case 4: //EDITTING
@@ -184,7 +180,8 @@ NodeManagerController.prototype = {
                 break;
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');
-                this._view.DisplaySelectionState();
+                 console.log('removed DisplaySelectionState');
+                //this._view.DisplaySelectionState();
                 this._channel.publish( "activateStandardSelection", { value: true } );
                 break;     
                 

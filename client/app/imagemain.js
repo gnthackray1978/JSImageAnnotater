@@ -43,7 +43,7 @@ function loadAll (drive){
     
     var appView = new AnnotaterView(channel);
     var optionsView = new OptionsView(appView,channel);
-    
+    var selectionView = new SelectionView(appView,channel);
     
     
     data.init(function(){
@@ -79,7 +79,7 @@ function loadAll (drive){
         var layerController = new LayerController(appView,layer);
 
         var selector = new Selection(nodeManager,options);
-        var selectorController = new SelectionController(appView,channel,selector,nodeManager);
+        var selectorController = new SelectionController(channel,selector,nodeManager);
 
         var nodePositioning = new NodePositioning(nodeManager,channel);
         var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);

@@ -24,9 +24,7 @@
         this.mouseDown = c;
     };
     
-    mockView.prototype.UpdateCanvas = function(model, param2){
-        this.model = model;
-    };
+ 
 
     mockView.prototype.SetAddButtonCancel= function(){
         this.addButtonCancel++;

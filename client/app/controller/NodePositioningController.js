@@ -19,9 +19,14 @@
       
 	    var that = this;
 	    
-	    that._view.ActivateNodePositioning(function(){
+	    // that._view.ActivateNodePositioning(function(){
+	    //     that.PositioningActivated();
+	    // });
+	    
+	    this._channel.publish( "ActivateNodePositioning", { value: function(){
 	        that.PositioningActivated();
-	    });
+	    } } );
+	    
 	    
 	    this._channel.subscribe("positionMouseDown", function(data, envelope) {
             //console.log('s_selectionMouseDown');
@@ -148,19 +153,23 @@
 	    // if selection is enabled.
 	    switch(this._state){
 	       case 0: // positioning not allowed
-	           this._view.DisableNodePositioning(true);
+	           //this._view.DisableNodePositioning(true);
+	           this._channel.publish( "DisableNodePositioning", { value: true } );
 	           break;
 	       case 1: // positioning allowed but unset
-	           this._view.DisableNodePositioning(false);
+	           //this._view.DisableNodePositioning(false);
+	           this._channel.publish( "DisableNodePositioning", { value: false } );
 	           break;
 	           
            case 2: // positioning switched on
-	           this._view.ToggleNodePositioning(true);
+	           //this._view.ToggleNodePositioning(true);
+	           this._channel.publish( "ToggleNodePositioning", { value: true } );
 	           this._channel.publish( "lockmouseup", { value: this._mouseLockKey } );
     	       this._channel.publish( "lockmousedown", { value: this._mouseLockKey} );
 	           break;
 	       case 3: // positioning switched off
-	           this._view.ToggleNodePositioning(false);
+	           //this._view.ToggleNodePositioning(false);
+	           this._channel.publish( "ToggleNodePositioning", { value: false } );
 	           this.finishSelecting();
 	           break;         
 	       
