@@ -57,6 +57,8 @@ var OptionsView = function (view, channel) {
     this._channel.subscribe("DefaultOptionsChanged", function(data, envelope) {
         that.SetDefaultOptionsUI(data.state, data.nodeCount);
     });
+    
+    this.InitOptions();
 };
 
 
