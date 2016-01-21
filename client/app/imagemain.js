@@ -44,7 +44,7 @@ function loadAll (drive){
     var appView = new AnnotaterView(channel);
     var optionsView = new OptionsView(appView,channel);
     var selectionView = new SelectionView(appView,channel);
-    var layerView = new SelectionView(appView,channel);
+    var layerView = new LayerView(appView,channel);
     
     data.init(function(){
         
