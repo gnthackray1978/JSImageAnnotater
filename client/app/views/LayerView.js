@@ -4,14 +4,20 @@ var LayerView = function (view, channel) {
     this._baseView = view;
     this._channel = channel;
     
-    this._channel.subscribe("SetLayers", function(data, envelope) {
-        that.SetLayers(data.value);
-    });
+
     
     this.PublishNewState();
     this.PublishSaveState();
     this.PublishInputState();
     this.PublishLayerButtonState();
+};
+
+LayerView.prototype.Init= function (){
+    var that = this;
+    
+    this._channel.subscribe("SetLayers", function(data, envelope) {
+        that.SetLayers(data.value);
+    });
 };
 
 LayerView.prototype.SetLayers= function (layers){
