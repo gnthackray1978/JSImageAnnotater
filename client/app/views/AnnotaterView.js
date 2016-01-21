@@ -1050,10 +1050,6 @@ AnnotaterView.prototype.GetTextAreaDetails = function (callback) {
             callback(result);
         });
         
-
-        
-        
-        return result;
     }
 };
 
