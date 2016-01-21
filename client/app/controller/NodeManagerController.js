@@ -6,6 +6,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._channel = channel;
     this._view = view;
     this._mouseClickLocked =false;
+    this._mouseClickPoint ={x:0,y:0};
 
     this.nodeManager = nodeDataManager;
     this.meta = metadata;
@@ -87,6 +88,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._channel.subscribe("nullselection", function(data, envelope) {
         
         console.log('null selection caught');
+        
+        that._mouseClickPoint = data.value;
         
         if(that.state == 4) //if were editting something
         {
@@ -231,7 +234,7 @@ NodeManagerController.prototype = {
         
         that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
-        that._view.AddDisplayNodeSelection(70,25,0,'',that.options,$.proxy(that.nodeTextChanged, that));
+        that._view.AddDisplayNodeSelection(that._mouseClickPoint.x, that._mouseClickPoint.y, 70,25,0,'',that.options,$.proxy(that.nodeTextChanged, that));
         
         that.meta.Load([]);
     },

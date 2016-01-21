@@ -170,7 +170,11 @@
 
         clickAction:function(x,y){
             var that = this;
-         
+            var point = {
+                x:x,
+                y:y
+            };
+            
             if(this._isMultiSelecting)
             {
                 this.finishSelecting();
@@ -189,7 +193,7 @@
                             }
                             else
                             {
-                                that._channel.publish( "nullselection", { value: undefined } ); 
+                                that._channel.publish( "nullselection", { value: point } ); 
                             }
                             break;
                         case 2:// no selecting selection ie you point to a node return it so it can be deleted.
@@ -199,7 +203,7 @@
                             }
                             else
                             {
-                                that._channel.publish( "nullselection", { value: undefined } ); 
+                                that._channel.publish( "nullselection", { value: point } ); 
                             }
                             break;
                         case 3:// only interested in null selections
@@ -207,7 +211,7 @@
                                 if(that._state == 3)
                                 {
                                     that._state = 0;
-                                    that._channel.publish( "nullselection", { value: undefined } ); 
+                                    that._channel.publish( "nullselection", { value: point } ); 
                                 }
                             }
                             break;
