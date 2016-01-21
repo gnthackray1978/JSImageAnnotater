@@ -989,154 +989,154 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
  
 
 // LAYERS
-AnnotaterView.prototype.SetLayers= function (layers){
+// AnnotaterView.prototype.SetLayers= function (layers){
     
         
-    var idx =0;
+//     var idx =0;
     
-    var constructRow = function(id, name, visible, current,order){
+//     var constructRow = function(id, name, visible, current,order){
         
-        var html = '<div class = "row">';
+//         var html = '<div class = "row">';
         
        
-        if(current)
-            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "S" style="color:green "></div>';
-        else
-            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "s" style="color: red"></div>';
+//         if(current)
+//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "S" style="color:green "></div>';
+//         else
+//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "s" style="color: red"></div>';
             
-        if(visible)
-            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible" value = "V" style="color: green"></div>';
-        else
-            html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible"  value = "v" style="color: red"></div>';
+//         if(visible)
+//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible" value = "V" style="color: green"></div>';
+//         else
+//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible"  value = "v" style="color: red"></div>';
 
-        html +=  '<div class = "col name"><input type="text" data-id = "'+ id +'" data-prop = "name"  value = "'+ name +'"/></div>';
-        html +=  '<div class = "col order"><input  type="text" data-id = "'+ id +'" data-prop = "order"  value = "'+ order +'"/></div>';
+//         html +=  '<div class = "col name"><input type="text" data-id = "'+ id +'" data-prop = "name"  value = "'+ name +'"/></div>';
+//         html +=  '<div class = "col order"><input  type="text" data-id = "'+ id +'" data-prop = "order"  value = "'+ order +'"/></div>';
         
       
-        html +=  '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
+//         html +=  '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
         
-        html += '</div>';
-        html += '<br/>';
+//         html += '</div>';
+//         html += '<br/>';
         
-        return html;
-    };
+//         return html;
+//     };
     
-    var content ='';
-    while(idx < layers.length){
-        content += constructRow(layers[idx].id, layers[idx].name, layers[idx].visible, layers[idx].current,layers[idx].order);
-        idx++;
-    }
+//     var content ='';
+//     while(idx < layers.length){
+//         content += constructRow(layers[idx].id, layers[idx].name, layers[idx].visible, layers[idx].current,layers[idx].order);
+//         idx++;
+//     }
     
-    $('#layerslist').html(content);
+//     $('#layerslist').html(content);
     
-    if(this.layerInputCallback)
-        this.QryInputState(this.layerInputCallback)
+//     if(this.layerInputCallback)
+//         this.QryInputState(this.layerInputCallback)
     
-    if(this.layerButtonCallback)
-        this.QryLayerButtonState(this.layerButtonCallback)
-};
+//     if(this.layerButtonCallback)
+//         this.QryLayerButtonState(this.layerButtonCallback)
+// };
 
-AnnotaterView.prototype.QryNewState = function (callback) {
+// AnnotaterView.prototype.QryNewState = function (callback) {
    
-    $('#btnNewLayer').click(function (e) {
-        callback();
-    });
-};
+//     $('#btnNewLayer').click(function (e) {
+//         callback();
+//     });
+// };
 
-AnnotaterView.prototype.QrySaveState = function (callback) {
+// AnnotaterView.prototype.QrySaveState = function (callback) {
    
-    $('#btnSaveLayers').click(function (e) {
-        callback();
-    });
-};
+//     $('#btnSaveLayers').click(function (e) {
+//         callback();
+//     });
+// };
 
-AnnotaterView.prototype.QryInputState = function (callback) {
+// AnnotaterView.prototype.QryInputState = function (callback) {
    
    
     
-    this.layerInputCallback=callback;
+//     this.layerInputCallback=callback;
    
-    $( "#layerslist input[type='text']" ).change(function(e) {
-        var d;
+//     $( "#layerslist input[type='text']" ).change(function(e) {
+//         var d;
  
-        if($(e.target).data().prop == 'name'){
-            d = {
-                id: $(e.target).data().id,
-                value: $(e.target).val(),
-                type : 'name'
-            };
-            callback(d);
-        }
+//         if($(e.target).data().prop == 'name'){
+//             d = {
+//                 id: $(e.target).data().id,
+//                 value: $(e.target).val(),
+//                 type : 'name'
+//             };
+//             callback(d);
+//         }
         
-        if($(e.target).data().prop == 'order'){
+//         if($(e.target).data().prop == 'order'){
            
-            d = {
-                id: $(e.target).data().id,
-                value: $(e.target).val(),
-                type : 'order'
-            };
+//             d = {
+//                 id: $(e.target).data().id,
+//                 value: $(e.target).val(),
+//                 type : 'order'
+//             };
             
-            callback(d);
-        }
-    });
+//             callback(d);
+//         }
+//     });
 
    
-};
+// };
 
-AnnotaterView.prototype.QryLayerButtonState = function (callback) {
+// AnnotaterView.prototype.QryLayerButtonState = function (callback) {
    
-    this.layerButtonCallback=callback;
+//     this.layerButtonCallback=callback;
    
-    $('#layerslist input').click(function (e) {
-        console.log(e);
-        //which button was pressed 
-        //rowid
-        //property being changed
-        //new value
-        var n,d;
+//     $('#layerslist input').click(function (e) {
+//         console.log(e);
+//         //which button was pressed 
+//         //rowid
+//         //property being changed
+//         //new value
+//         var n,d;
  
         
-        if($(e.target).data().prop == 'current'){
-            if($(e.target).val() =='S')
-                n= false;
-            else
-                n =true;
+//         if($(e.target).data().prop == 'current'){
+//             if($(e.target).val() =='S')
+//                 n= false;
+//             else
+//                 n =true;
                 
-            d = {
-                id: $(e.target).data().id,
-                value: n,
-                type : 'current'
-            };
-            callback(d);
-        }
+//             d = {
+//                 id: $(e.target).data().id,
+//                 value: n,
+//                 type : 'current'
+//             };
+//             callback(d);
+//         }
         
-        if($(e.target).data().prop == 'visible'){
-            if($(e.target).val() =='V')
-                n= false;
-            else
-                n =true;
+//         if($(e.target).data().prop == 'visible'){
+//             if($(e.target).val() =='V')
+//                 n= false;
+//             else
+//                 n =true;
         
-            d = {
-                id: $(e.target).data().id,
-                value: n,
-                type : 'visible'
-            };
+//             d = {
+//                 id: $(e.target).data().id,
+//                 value: n,
+//                 type : 'visible'
+//             };
             
-            callback(d);
-        }
+//             callback(d);
+//         }
         
-        if($(e.target).data().prop == 'delete'){
-            d = {
-                id: $(e.target).data().id,
-                value: '',
-                type : 'delete'
-            };
+//         if($(e.target).data().prop == 'delete'){
+//             d = {
+//                 id: $(e.target).data().id,
+//                 value: '',
+//                 type : 'delete'
+//             };
             
-            callback(d);
-        }
+//             callback(d);
+//         }
         
-    }); 
-};
+//     }); 
+// };
 
 //CROPPER
 
