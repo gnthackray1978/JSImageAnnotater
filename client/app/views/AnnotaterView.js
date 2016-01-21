@@ -1019,18 +1019,21 @@ AnnotaterView.prototype.ClearActiveTextArea = function () {
 
 AnnotaterView.prototype.GetTextAreaDetails = function (callback) {
     
+    
     if(this.textarea!= null)
     {
+        var that = this;
+        
         this._channel.publish( "RequestOptions", { value: true } );
         
         this._channel.subscribe("SelectedOptions", function(data, envelope) {
             
-            var y = $(this.textarea).css( "top").replace("px","");
-            var h = $(this.textarea).css( "height").replace("px","");
-            var x = $(this.textarea).css( "left").replace("px","");
-            var w = $(this.textarea).css( "width").replace("px","");
+            var y = $(that.textarea).css( "top").replace("px","");
+            var h = $(that.textarea).css( "height").replace("px","");
+            var x = $(that.textarea).css( "left").replace("px","");
+            var w = $(that.textarea).css( "width").replace("px","");
             
-            var text = $(this.textarea).val();
+            var text = $(that.textarea).val();
              
             
             var angleUtils = new AngleUtils();
