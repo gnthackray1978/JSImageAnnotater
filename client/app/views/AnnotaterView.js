@@ -802,7 +802,10 @@ AnnotaterView.prototype.SaveNote = function (action) {
 
     var that = this;
     $('#btnSave').click(function (e) {
-        action(that.GetTextAreaDetails());
+        that.GetTextAreaDetails(function(data){
+           action(data); 
+        });
+        
         e.preventDefault();
     });               
 };
@@ -862,12 +865,7 @@ AnnotaterView.prototype.NodeEditorClosed = function (caller) {
 // if so get the dims for that node.
 
 
-AnnotaterView.prototype.SelectNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#selectnodebtn").click(function (evt) {
-        action();
-    });
-};
+
 
 AnnotaterView.prototype.DeleteNodeButton = function (action) {
     //here look multiple event firing problems    
@@ -1019,32 +1017,40 @@ AnnotaterView.prototype.ClearActiveTextArea = function () {
     }
 };
 
-AnnotaterView.prototype.GetTextAreaDetails = function () {
+AnnotaterView.prototype.GetTextAreaDetails = function (callback) {
     
     if(this.textarea!= null)
     {
-        var y = $(this.textarea).css( "top").replace("px","");
-        var h = $(this.textarea).css( "height").replace("px","");
-        var x = $(this.textarea).css( "left").replace("px","");
-        var w = $(this.textarea).css( "width").replace("px","");
+        this._channel.publish( "RequestOptions", { value: true } );
         
-        var text = $(this.textarea).val();
-         
+        this._channel.subscribe("SelectedOptions", function(data, envelope) {
+            
+            var y = $(this.textarea).css( "top").replace("px","");
+            var h = $(this.textarea).css( "height").replace("px","");
+            var x = $(this.textarea).css( "left").replace("px","");
+            var w = $(this.textarea).css( "width").replace("px","");
+            
+            var text = $(this.textarea).val();
+             
+            
+            var angleUtils = new AngleUtils();
+            
+            // this needs changing to get this stuff out of the model!
+           
+            var result = {
+                "x" : x,
+                "y" : y,
+                "width" : Number(w)+5,
+                "height" : h,
+                "d":angleUtils.getAngle(),
+                "text" : text,
+                "options" : data.value
+            };
+            
+            callback(result);
+        });
         
-        var angleUtils = new AngleUtils();
-        
-        // this needs changing to get this stuff out of the model!
-        var options = this._getOptionDetails(true);
-        
-        var result = {
-            "x" : x,
-            "y" : y,
-            "width" : Number(w)+5,
-            "height" : h,
-            "d":angleUtils.getAngle(),
-            "text" : text,
-            "options" : options
-        };
+
         
         
         return result;

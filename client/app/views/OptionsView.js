@@ -58,6 +58,10 @@ var OptionsView = function (view, channel) {
         that.SetDefaultOptionsUI(data.state, data.nodeCount);
     });
     
+    this._channel.subscribe("RequestOptions", function(data, envelope) {
+        that._channel.publish( "SelectedOptions", { value: that._getOptionDetails() } );
+    });
+    
     this.InitOptions();
 };
 
