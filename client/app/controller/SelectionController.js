@@ -19,7 +19,7 @@
         
         //this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
         
-        this._channel.subscribe("selectNodeAction", function(data, envelope) {
+        this._channel.subscribe("selectnodebtn", function(data, envelope) {
             that.selectNodeAction();
         });
         
