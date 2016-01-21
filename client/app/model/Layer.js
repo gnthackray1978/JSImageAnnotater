@@ -1,7 +1,8 @@
-var Layer = function (layerDll,view, image) {
+var Layer = function (layerDll,channel, image) {
     this.layerDll = layerDll;
-    this.layerData = 1;  
-    this.view = view;
+    this.layerData = 1;
+    this._channel = channel;
+    
     //obviously this needs reworking
     //but lets get functionality correct first
     this.image = image;
@@ -12,7 +13,9 @@ Layer.prototype.GetData = function(){
     
      this.layerDll.GetLayers(function(data){
         that.layerData = data;    
-        that.view.SetLayers(data);
+        //that.view.SetLayers(data);
+        //SetLayers
+        that._channel.publish( "SetLayers", { value: data } );
      });
      
 };
@@ -28,7 +31,8 @@ Layer.prototype.SetName = function(layerId, name){
     }
     this.layerDll.SaveLayers(this.layerData,true);
     
-    this.view.SetLayers(this.layerData);
+    //this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
 };
 
 Layer.prototype.SetOrder = function(layerId, order){
@@ -43,7 +47,8 @@ Layer.prototype.SetOrder = function(layerId, order){
     
     this.layerDll.SaveLayers(this.layerData,true);
     
-    this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
+    //this.view.SetLayers(this.layerData);
     this.image.DrawTree();
 };
 
@@ -63,8 +68,8 @@ Layer.prototype.SetCurrent = function(layerId, current){
         idx++;
     }
     this.layerDll.SaveLayers(this.layerData,true);
-    
-    this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
+    //this.view.SetLayers(this.layerData);
     this.image.DrawTree();
     
 };
@@ -82,7 +87,8 @@ Layer.prototype.SetVisible = function(layerId, visible){
     
     this.layerDll.SaveLayers(this.layerData,true);
   
-    this.view.SetLayers(this.layerData);
+    //this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
     this.image.DrawTree();
 };
 

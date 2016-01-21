@@ -140,23 +140,6 @@ AnnotaterView.prototype.InitGenericMouseClicks = function (){
     var key = '';
     
     var that = this;
-    //here look multiple event firing problems    
-    // $("#myCanvas").click(function (evt) {
-        
-    //     if(that.GetKey(that.canvasMouseClickLocks) == key) {
-    //         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            
-    //         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-    //         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-            
-    //         that._channel.publish( "singleClick", { value: 
-    //             {
-    //                 x : that.canvasMouseLastXClick,
-    //                 y : that.canvasMouseLastYClick
-    //             } 
-    //         } );
-    //     }
-    // });
 
     $("#myCanvas").dblclick(function (evt) {
         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
@@ -175,48 +158,6 @@ AnnotaterView.prototype.InitGenericMouseClicks = function (){
     
 },
 
-// AnnotaterView.prototype.InitOptions = function (state){
-//     var that = this;
-//     var key = 'COLP';
-//     var pickEnabled = false;
-    
-//     $('#btnPickColour').click(function (e) {
-//         pickEnabled =true;
-//         that._channel.publish( "lockmouseclick", { value: 'COLP' } );
-//         that._channel.publish( "lockmouseup", { value: 'COLP' } );
-//         that._channel.publish( "lockmousedown", { value: 'COLP' } );
-//     });  
-
-    
-//     $("#myCanvas").click(function (evt) {
-//         if(that.GetKey(that.canvasMouseClickLocks) == key) {
-//             if(pickEnabled)
-//             {
-//                 evt.stopImmediatePropagation();
-    
-//                 var x = evt.pageX - this.offsetLeft;
-//                 var y = evt.pageY - this.offsetTop;
-                
-//                 var c = new CanvasTools();
-                
-//                 var r = c.GetCanvasPointColour('myCanvas',x,y);
-                
-//                 // making the color the value of the input
-//                 that.SetChosenColour(r.hex);
-                  
-//                 that._channel.publish( "colourSelection", { value: r } );    
-                    
-//                 that._channel.publish( "lockmouseclick", { value: '' } );
-//                 that._channel.publish( "lockmouseup", { value: '' } );
-//                 that._channel.publish( "lockmousedown", { value: '' } );
-//                 pickEnabled =false;
-//             } 
-//         }
-//     });
-    
-    
-    
-// },
  
 AnnotaterView.prototype.GetKey = function (array){
     return array[array.length-1]!=undefined ? array[array.length-1] : '';
@@ -266,56 +207,6 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
 
 },
 
-// AnnotaterView.prototype.InitSelectionRectangle = function (state){
-    
-//     var that = this;
-//     var key = 'RS';
-    
-//     $("#myCanvas").click(function (evt) {
-//         if(that.GetKey(that.canvasMouseClickLocks) == key) {
-//             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            
-//             that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-//             that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-            
-//             that._channel.publish( "selectionClick", { value: 
-//                 {
-//                     x : that.canvasMouseLastXClick,
-//                     y : that.canvasMouseLastYClick
-//                 } 
-//             } );
-//         }
-//     });
-    
-    
-//     $("#myCanvas").mousedown(function (evt) {
-//         if(that.GetKey(that.canvasMousedownLocks) == key){
-//             that._channel.publish( "selectionMouseDown", { value: evt } );
-//         }
-//     });
-
-//     $("#myCanvas").mouseup(function (evt) {
-//         if(that.GetKey(that.canvasMouseupLocks) == key)
-//             that._channel.publish( "selectionMouseUp", { value: evt } );
-//     });
-
-//     $("#myCanvas").mousemove(function (evt) {
-//         //argh argh
-//         if(that.GetKey(that.canvasMousemoveLocks) == key){
-//           that._channel.publish( "selectionMouseMove", { value: evt } );
-//         }
-        
-//         evt.stopPropagation();
-//     });
-    
-//     $('#rectselstart').click(function (evt) {            
-//         evt.preventDefault();
-//         that._channel.publish( "selectionRectangleActivated", { value: evt } );
-//     });   
-
-
-
-// },
  
 AnnotaterView.prototype.InitCrop = function (state){
     var that = this;
@@ -942,70 +833,59 @@ AnnotaterView.prototype.AddDisplayNodeSelection = function (x,y,width,height,ang
 
 AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,angle,note,options, keyChanged) {
 
-        if(x == undefined) x = this.canvasMouseLastXClick;
-        if(y == undefined) y = this.canvasMouseLastYClick;
-
-        var that = this;
-        var mouseDownOnTextarea = function (e) {
-                var x = that.textarea.offsetLeft - e.clientX,
-                    y = that.textarea.offsetTop - e.clientY;
-                function drag(e) {
-                    that.textarea.style.left = e.clientX + x + 'px';
-                    that.textarea.style.top = e.clientY + y + 'px';
-                }
-                function stopDrag() {
-                    document.removeEventListener('mousemove', drag);
-                    document.removeEventListener('mouseup', stopDrag);
-                }
-
-                document.addEventListener('mousemove', drag);
-                document.addEventListener('mouseup', stopDrag);
-        };
-
-        if (!that.textarea) {
-            that.textarea = document.createElement('textarea');
-            that.textarea.className = 'info';
-            that.textarea.addEventListener('mousedown', mouseDownOnTextarea);
-            that.textarea.addEventListener('keyup', keyChanged);
-            document.body.appendChild(that.textarea);
+    var that = this;
+    var mouseDownOnTextarea = function (e) {
+        var x = that.textarea.offsetLeft - e.clientX,
+            y = that.textarea.offsetTop - e.clientY;
+        function drag(e) {
+            that.textarea.style.left = e.clientX + x + 'px';
+            that.textarea.style.top = e.clientY + y + 'px';
+        }
+        function stopDrag() {
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDrag);
         }
 
-        height = height -5;
-        
-        that.textarea.value = note;
-        that.textarea.style.top = y + 'px';
-        that.textarea.style.left = x + 'px';
-        that.textarea.style.height = height + 'px';
-        that.textarea.style.width = width + 'px';
-        that.textarea.style.fontWeight = 'bold';
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
+    };
 
-        that.textarea.style.transform = 'rotate('+ angle +'deg)';
-        that.textarea.style.transformOrigin = '0% 0%';
+    if (!that.textarea) {
+        that.textarea = document.createElement('textarea');
+        that.textarea.className = 'info';
+        that.textarea.addEventListener('mousedown', mouseDownOnTextarea);
+        that.textarea.addEventListener('keyup', keyChanged);
+        document.body.appendChild(that.textarea);
+    }
+
+    height = height -5;
+    
+    that.textarea.value = note;
+    that.textarea.style.top = y + 'px';
+    that.textarea.style.left = x + 'px';
+    that.textarea.style.height = height + 'px';
+    that.textarea.style.width = width + 'px';
+    that.textarea.style.fontWeight = 'bold';
+
+    that.textarea.style.transform = 'rotate('+ angle +'deg)';
+    that.textarea.style.transformOrigin = '0% 0%';
+    
+    if(options.FontSize){
+        if(options.FontSize > 25 ) options.FontSize = 25;
         
-        if(options.FontSize){
-            if(options.FontSize > 25 ) options.FontSize = 25;
-            
-            $('textarea.info').css('font-size',options.FontSize + 'pt');
-        }
-        
-        $('textarea.info').css('color',options.DefaultEditorFontColour);
-        
-      
-       // that.textarea.style.color = options.DefaultEditorFontColour;
-        
-        if(!options.IsTransparent)
-            $('textarea.info').css('background-color',options.DefaultNoteColour);
-        else
-            $('textarea.info').css('background-color','transparent');
-            //that.textarea.style.backgroundColor = 'transparent';  //that.textarea.style.backgroundColor = options.DefaultNoteColour;
-        
-        $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
-       // this.textarea.style.borderColor = options.DefaultEditorBorderColour;
-        
-        
-        
-        // enable buttons to control formatting of newly created textarea
-        
+        $('textarea.info').css('font-size',options.FontSize + 'pt');
+    }
+    
+    $('textarea.info').css('color',options.DefaultEditorFontColour);
+
+    if(!options.IsTransparent)
+        $('textarea.info').css('background-color',options.DefaultNoteColour);
+    else
+        $('textarea.info').css('background-color','transparent');
+        //that.textarea.style.backgroundColor = 'transparent';  //that.textarea.style.backgroundColor = options.DefaultNoteColour;
+    
+    $('textarea.info').css('border-color',options.DefaultEditorBorderColour);
+     
 };
 
 AnnotaterView.prototype.ClearActiveTextArea = function () {
@@ -1469,117 +1349,6 @@ AnnotaterView.prototype.QrySaveButtonState = function (callback){
      });
 }; 
 
-
-
-// /*selection stuff*/
-
-// AnnotaterView.prototype.DisplayRectangleSelection= function (state) {
-//     console.log('View DisplayRectangleSelection');
-//     if(!state)
-//         $("#rectselstart").val('RS');
-//     else
-//         $("#rectselstart").val('[RS]');
-// };
-
-// AnnotaterView.prototype.DisplaySelectionState= function () {
-//     console.log('View DisplaySelectionState');
-//     $("#selectnodebtn").val('[SN]');
-     
-
-// };
-
-// AnnotaterView.prototype.DisplaySelectionDelete= function (state) {
-//     console.log('View DisplaySelectionDelete');
-    
-//     $("#delnodebtn").prop('disabled', state); 
-
-// };
-
-// AnnotaterView.prototype.DisplayDeleteState= function () {
-//     console.log('View DisplayDeleteState');
-//     $("#delsinglenodebtn").val('[DC]');
-
-// };
-
-// AnnotaterView.prototype.DisplayAddState= function () {
-//     console.log('View DisplayAddState');
-//     $("#addnodebtn").val('[AD]');
-//     // $("#imagelabel").html('click drawing to add');
-    
-//     // $("#btnDeleteNote").hide();
-//     // $("#btnAddNote").hide();
-//     // $("#btnOptions").hide();
-    
-//     // $("#btnCancel").show();
-//     // $("#btnSaveNote").hide();
-    
-//     $("#btnNodeCancel").show();
-// };
-
-// AnnotaterView.prototype.DisplaySaveState= function () {
-//     console.log('View DisplaySaveState');
-  
-//     // $("#imagelabel").html('click drawing to add');
-    
-//     // $("#btnDeleteNote").hide();
-//     // $("#btnAddNote").hide();
-//     // $("#btnOptions").hide();
-    
-//     $("#btnNodeCancel").show();
-//     $("#btnSave").show();
-
-// };
-
-// AnnotaterView.prototype.DisplayNeutralState= function () {
-//     console.log('View DisplayNeutralState');
-
-//     $("#delsinglenodebtn").val('DC');
-    
-//     $("#delnodebtn").prop('disabled', true); 
-    
-//     $("#addnodebtn").val('AD');
-    
-    
-
-//     $("#btnNodeCancel").hide();
-    
-//     $("#btnSave").hide();
-
-// };
-
-// AnnotaterView.prototype.DisableNodePositioning = function (state) {
-    
-//     if(!state)
-//         $("#enableNodePositioning").prop('disabled', false);
-//     else
-//     {
-//         $("#enableNodePositioning").val('PN');
-//         $("#enableNodePositioning").prop('disabled', true);
-//     }
-// };
-
-// AnnotaterView.prototype.ToggleNodePositioning = function (state) {
-    
-//     if(!state)
-//         $("#enableNodePositioning").val('PN');
-//     else
-//         $("#enableNodePositioning").val('[PN]');
-// };
-
-// AnnotaterView.prototype.ActivateNodePositioning = function (action) {
-//     //here look multiple event firing problems    
-//     $("#enableNodePositioning").click(function (evt) {
-//         action();
-//     });
-// };
-
-// AnnotaterView.prototype.DisplaySingleSelection= function (state) {
-    
-//     if(!state)
-//         $("#selectnodebtn").val('SN');
-//     else
-//         $("#selectnodebtn").val('[SN]');
-// };
 
 
 

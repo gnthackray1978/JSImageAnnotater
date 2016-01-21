@@ -44,7 +44,7 @@ function loadAll (drive){
     var appView = new AnnotaterView(channel);
     var optionsView = new OptionsView(appView,channel);
     var selectionView = new SelectionView(appView,channel);
-    
+    var layerView = new SelectionView(appView,channel);
     
     data.init(function(){
         
@@ -75,8 +75,9 @@ function loadAll (drive){
         var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
         var urlController = new UrlController(appView,urls,nodeManager.Type());
         
-        var layer = new Layer(data,appView, visualizer);
-        var layerController = new LayerController(appView,layer);
+        
+        var layer = new Layer(data,channel, visualizer);
+        var layerController = new LayerController(channel,layer);
 
         var selector = new Selection(nodeManager,options);
         var selectorController = new SelectionController(channel,selector,nodeManager);

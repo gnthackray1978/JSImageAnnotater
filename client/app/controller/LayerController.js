@@ -1,17 +1,29 @@
-var LayerController = function (view, model) {
-    this._view = view;
+var LayerController = function (channel, model) {
+    var that = this;
+    
+ 
+    this._channel = channel;
 
     this.model = model;
     
     this.init();
+
+    this._channel.subscribe("btnSaveLayers", function(data, envelope) {
+        that.qrySaveState(data.value);
+    });
     
-    this._view.QryLayerButtonState($.proxy(this.qryLayerButtonState, this));
+    this._channel.subscribe("btnNewLayer", function(data, envelope) {
+        that.qryNewState(data.value);
+    });
     
-    this._view.QryInputState($.proxy(this.qryInputState, this));
+    this._channel.subscribe("LayerInputState", function(data, envelope) {
+        that.qryInputState(data.value);
+    });
     
-    this._view.QryNewState($.proxy(this.qryNewState, this));
+    this._channel.subscribe("LayerButtonState", function(data, envelope) {
+        that.qryLayerButtonState(data.value);
+    });
     
-    this._view.QrySaveState($.proxy(this.qrySaveState, this));
 }
 
 LayerController.prototype = {
