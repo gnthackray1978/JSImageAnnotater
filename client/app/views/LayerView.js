@@ -4,12 +4,11 @@ var LayerView = function (view, channel) {
     this._baseView = view;
     this._channel = channel;
     
-
+    this.eventsLoaded = false;
     
     this.PublishNewState();
     this.PublishSaveState();
-    this.PublishInputState();
-    this.PublishLayerButtonState();
+
     
     this.Init();
 };
@@ -62,6 +61,11 @@ LayerView.prototype.SetLayers= function (layers){
     
     $('#layerslist').html(content);
 
+    if(!this.eventsLoaded){
+        this.PublishInputState();
+        this.PublishLayerButtonState();
+        this.eventsLoaded = true;
+    }
 };
 
 
