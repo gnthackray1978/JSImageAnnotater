@@ -61,11 +61,11 @@ LayerView.prototype.SetLayers= function (layers){
     
     $('#layerslist').html(content);
 
-    if(!this.eventsLoaded){
+   // if(!this.eventsLoaded){
         this.PublishInputState();
         this.PublishLayerButtonState();
-        this.eventsLoaded = true;
-    }
+     //   this.eventsLoaded = true;
+    //}
 };
 
 
@@ -93,7 +93,8 @@ LayerView.prototype.PublishInputState = function () {
    
     $( "#layerslist input[type='text']" ).change(function(e) {
         var d;
- 
+        console.log('layerslist input' + e);
+        
         if($(e.target).data().prop == 'name'){
             d = {
                 id: $(e.target).data().id,
@@ -124,7 +125,7 @@ LayerView.prototype.PublishLayerButtonState = function () {
     var that = this;
 
     $('#layerslist input').click(function (e) {
-        console.log(e);
+        console.log('layerslist input' + e);
         //which button was pressed 
         //rowid
         //property being changed
