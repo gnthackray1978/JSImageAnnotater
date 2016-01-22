@@ -10,6 +10,8 @@ var LayerView = function (view, channel) {
     this.PublishSaveState();
     this.PublishInputState();
     this.PublishLayerButtonState();
+    
+    this.Init();
 };
 
 LayerView.prototype.Init= function (){

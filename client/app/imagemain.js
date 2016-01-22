@@ -90,7 +90,7 @@ function loadAll (drive){
         
         
         appView.InitPanelVisibility();
-        layerView.Init();
+        //layerView.Init();
 
         visualizerController.startFromDrive();
 
