@@ -113,7 +113,7 @@ function AnnotaterView(channel) {
     
     this.InitNodePositioning();
     
-    this.InitCrop();
+ //   this.InitCrop();
     
     this.InitVis();
 } 
