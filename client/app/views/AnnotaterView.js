@@ -191,32 +191,32 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
 },
 
  
-AnnotaterView.prototype.InitCrop = function (state){
-    var that = this;
-    var key = 'CROP';
+// AnnotaterView.prototype.InitCrop = function (state){
+//     var that = this;
+//     var key = 'CROP';
    
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.GetKey(that.canvasMousedownLocks) == key)
-            that._channel.publish( "cropMouseDown", { value: evt } );
+//     $("#myCanvas").mousedown(function (evt) {
+//         if(that.GetKey(that.canvasMousedownLocks) == key)
+//             that._channel.publish( "cropMouseDown", { value: evt } );
         
-    });
+//     });
 
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.GetKey(that.canvasMouseupLocks)== key)
-            that._channel.publish( "cropMouseUp", { value: evt } );
-    });
+//     $("#myCanvas").mouseup(function (evt) {
+//         if(that.GetKey(that.canvasMouseupLocks)== key)
+//             that._channel.publish( "cropMouseUp", { value: evt } );
+//     });
 
-    $("#myCanvas").mousemove(function (evt) {
+//     $("#myCanvas").mousemove(function (evt) {
         
-        if(that.GetKey(that.canvasMousemoveLocks) == key){
-            that._channel.publish( "cropMouseMove", { value: evt } );
-        }
+//         if(that.GetKey(that.canvasMousemoveLocks) == key){
+//             that._channel.publish( "cropMouseMove", { value: evt } );
+//         }
         
-        evt.stopPropagation();
-    });
+//         evt.stopPropagation();
+//     });
 
 
-},
+// },
  
 AnnotaterView.prototype.InitVis = function (state){
     var that = this;
@@ -969,63 +969,6 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
         callback(data);
     });
 };
- 
-
-//CROPPER
-
-// AnnotaterView.prototype.SetAddButtonCancel = function(){
-//     $("#btnAddCropping").prop('value', 'Cancel'); 
-// };
-
-// AnnotaterView.prototype.SetAddButtonAdd = function(){
-//     $("#btnAddCropping").prop('value', 'Add'); 
-// };
-
-// AnnotaterView.prototype.SetCropSaveEnabled = function(){
-//     $("#btnSaveCrop").show(); 
-// };
-
-// AnnotaterView.prototype.SetCropSaveDisabled = function(){
-//     $("#btnSaveCrop").hide(); 
-// };
-
-// AnnotaterView.prototype.QryCropSaveButton = function(action){
-   
-//     $('#btnSaveCrop').click(function (e) {            
-//         e.preventDefault();
-//         action();
-//     });   
-// };
-
-// AnnotaterView.prototype.QryCropACModeButton = function(action){
-   
-//     $('#btnAddCropping').click(function (e) {            
-//         e.preventDefault();
-//         action();
-//     });   
-// };
-
-// AnnotaterView.prototype.QryCropDeleteButton = function(action){
-  
-//     $('#btnDeleteCropping').click(function (e) {            
-//         e.preventDefault();
-//         action();
-//     });   
-// };
-
-// AnnotaterView.prototype.QryCropSaveButton = function(action){
-
-//     $('#btnSaveCrop').click(function (e) {            
-//         e.preventDefault();
-//         action();
-//     });   
-// };
-
-
-
-
-
-
 
 //METADATA
 AnnotaterView.prototype.SetMetaData= function (metaData){

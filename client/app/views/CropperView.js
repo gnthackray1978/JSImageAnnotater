@@ -27,6 +27,34 @@ var CropperView = function (view, channel) {
     this.PublishCropACModeButton();
     this.PublishCropDeleteButton();
   
+    this.InitCrop();
+};
+
+CropperView.prototype.InitCrop = function (state){
+    var that = this;
+    var key = 'CROP';
+   
+    $("#myCanvas").mousedown(function (evt) {
+        if(that._baseView.GetKey(that._baseView.canvasMousedownLocks) == key)
+            that._channel.publish( "cropMouseDown", { value: evt } );
+        
+    });
+
+    $("#myCanvas").mouseup(function (evt) {
+        if(that._baseView.GetKey(that._baseView.canvasMouseupLocks)== key)
+            that._channel.publish( "cropMouseUp", { value: evt } );
+    });
+
+    $("#myCanvas").mousemove(function (evt) {
+        
+        if(that._baseView.GetKey(that._baseView.canvasMousemoveLocks) == key){
+            that._channel.publish( "cropMouseMove", { value: evt } );
+        }
+        
+        evt.stopPropagation();
+    });
+
+
 };
 
 CropperView.prototype.SetAddButtonCancel = function(){
