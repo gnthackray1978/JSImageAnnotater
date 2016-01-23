@@ -44,7 +44,8 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("singleSelectionDisabled", function(data, envelope) {
-        that._view.DisplaySelectionDelete(true);
+        //that._view.DisplaySelectionDelete(true);
+        that._channel.publish( "DisplaySelectionDelete", { value: true } );
     });
     
     this._channel.subscribe("mouseClickLock", function(data, envelope) {
