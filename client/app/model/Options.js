@@ -64,8 +64,12 @@ var Options = function (optionsDll,nodeManager, channel) {
     });
   
     this._channel.subscribe("nullselection", function(data, envelope) {
-        // that._state =0;
-        // that.UpdateState();
+        
+        if(that._state != 2){ // if we arent in the process of adding a node 
+            that._state =0;
+            that.UpdateState();    
+        }
+
     });
     
     this._channel.subscribe("doubleClickSelectionChange", function(data, envelope) {});
