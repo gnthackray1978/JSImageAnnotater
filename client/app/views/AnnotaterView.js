@@ -105,16 +105,11 @@ function AnnotaterView(channel) {
         });
 
     }
-    
 
-    //this.InitSelectionRectangle();
-    
     this.InitGenericMouseClicks();
     
     this.InitNodePositioning();
-    
- //   this.InitCrop();
-    
+
     this.InitVis();
 } 
 
@@ -190,34 +185,6 @@ AnnotaterView.prototype.InitNodePositioning = function (state){
 
 },
 
- 
-// AnnotaterView.prototype.InitCrop = function (state){
-//     var that = this;
-//     var key = 'CROP';
-   
-//     $("#myCanvas").mousedown(function (evt) {
-//         if(that.GetKey(that.canvasMousedownLocks) == key)
-//             that._channel.publish( "cropMouseDown", { value: evt } );
-        
-//     });
-
-//     $("#myCanvas").mouseup(function (evt) {
-//         if(that.GetKey(that.canvasMouseupLocks)== key)
-//             that._channel.publish( "cropMouseUp", { value: evt } );
-//     });
-
-//     $("#myCanvas").mousemove(function (evt) {
-        
-//         if(that.GetKey(that.canvasMousemoveLocks) == key){
-//             that._channel.publish( "cropMouseMove", { value: evt } );
-//         }
-        
-//         evt.stopPropagation();
-//     });
-
-
-// },
- 
 AnnotaterView.prototype.InitVis = function (state){
     var that = this;
     var key = '';
@@ -662,10 +629,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         });
     };
 
-
-
-
-
 AnnotaterView.prototype.hideLoader = function (action) {
 
     $("#imageLoader").dialog("close");         
@@ -969,6 +932,8 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
         callback(data);
     });
 };
+
+
 
 //METADATA
 AnnotaterView.prototype.SetMetaData= function (metaData){

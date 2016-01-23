@@ -176,6 +176,25 @@ Options.prototype.UpdateState= function (){
             this._updateOptionsToView(this.tempOptions);
             break;
         case 3:
+            that._nodeManager.GetSelectedNodes(function(selection){
+                if(selection.length > 0){
+                    that.currentNode = selection[0]; 
+                    
+                    that.SelectedNodes = selection[0]; 
+                    
+                    var idx = 0;
+                    
+                    while(idx < that.SelectedNodes.length){
+                        if(!that.SelectedNodes[idx].Options)
+                            that.SelectedNodes[idx].Options =  JSON.parse(JSON.stringify(this.defaultOptions));
+                        idx++;
+                    }
+                    
+                    that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
+                    that.SetDefaultOptionsUI(true,selection.length);
+                    that._updateOptionsToView(that.currentNode.Options);
+                }
+            });
             console.log('OPTIONS multi edit state 3');
             break;
         
@@ -345,6 +364,21 @@ Options.prototype._updateOptions =function(options, withUpdate){
         finalAction(this.tempOptions);
     }
     
+    if(this._state == 3) // multi edit
+    {
+        var idx = 0
+        
+        while(idx < this.SelectedNodes.length){
+            
+            this._translateViewOptions(options, this.SelectedNodes[idx].Options);
+            idx++;
+        }
+        
+      
+        this._channel.publish( "multiOptionsLoaded", { value: this.currentNode.Options } );
+        
+        finalAction(this.currentNode.Options);
+    }
 };
 
 Options.prototype._translateViewOptions =function(voptions,moptions){

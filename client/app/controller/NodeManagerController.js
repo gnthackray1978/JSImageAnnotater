@@ -113,7 +113,9 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._channel.subscribe("newOptionsLoaded", function(data, envelope) {
         that.options = data.value;
     });
-    
+    this._channel.subscribe("multiOptionsLoaded", function(data, envelope) {
+        that.options = data.value;
+    });
     
 
     this.state = 0;
