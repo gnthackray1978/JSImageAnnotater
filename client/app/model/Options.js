@@ -148,6 +148,7 @@ Options.prototype.UpdateState= function (){
         case 0:
             this.LoadDefaultOptions(function(){
                 that._channel.publish( "defaultOptionsLoaded", { value: that.defaultOptions } );
+                that._updateOptionsToView(that.defaultOptions);
             });
             that.SetDefaultOptionsUI(false,0);
             
