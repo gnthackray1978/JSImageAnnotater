@@ -32,14 +32,21 @@
         this._channel.subscribe("cropMouseMove", function(data, envelope) {
             that.qryCanvasMouseMove(data.value);
         });
-    
+        
+        this._channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
+            that.loadOptions(data.value);
+        });
     };
 
     CroppingController.prototype = {
         init:function(){
             
         },
-    
+        loadOptions:function(o){
+            if (this.model !== null) {
+                this.model.options = o;
+            }
+        },
         qryCanvasMouseDown:function(evt){
             if (this.model !== null) {
                 

@@ -6,6 +6,7 @@
 	    this.mouse = {x: 0, y: 0};
 		this.start_mouse = {x: 0, y: 0};
 		this.cropnode;
+		this.options;
 	};
 	
 	Crop.prototype.SetMouseMovingPosition = function(mx,my){
@@ -62,25 +63,19 @@
 	 	var that = this;
 	 
 	    that.nodestore.GetCroppingNode(function(data, initnode){
-	        //console.log('got cropping node: ' + data.Index);
-	        that.optionsDll.GetOptions(function(options){
-				//console.log('got cropping node options: ' + options);
-				that.cropnode = data;
-		 		
-				that.cropnode.LayerId = -4;// put crop node into edit mode.
-				initnode.LayerId = -4;	   // this is to ensure that we dont inadvertantly change stuff 
-				that.cropnode.X = 0;	   //while screen is being redrawn
-				that.cropnode.Y = 0;
-				that.cropnode.Width = 0;
-				that.cropnode.Height = 0;
-		
-				that.cropnode.Options = JSON.parse(JSON.stringify(options));
-	            that.cropnode.Options.DefaultEditorBorderColour = 'red';
-	            that.cropnode.Options.BorderWidth = 5;
-	            that.cropnode.CropArea =true;
-	            that.cropnode.IsOpen =true;
-				complete();
-	        });
+			that.cropnode = data;
+			that.cropnode.LayerId = -4;// put crop node into edit mode.
+			initnode.LayerId = -4;	   // this is to ensure that we dont inadvertantly change stuff 
+			that.cropnode.X = 0;	   //while screen is being redrawn
+			that.cropnode.Y = 0;
+			that.cropnode.Width = 0;
+			that.cropnode.Height = 0;
+	
+			that.cropnode.Options = JSON.parse(JSON.stringify(that.options));
+            that.cropnode.CropArea =true;
+            that.cropnode.IsOpen =true;
+			complete();
+	     
 	    });
 	},
 	
