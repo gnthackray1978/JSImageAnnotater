@@ -185,7 +185,7 @@ Options.prototype.UpdateState= function (){
                 if(selection.length > 0){
                     that.currentNode = selection[0]; 
                     
-                    that.SelectedNodes = selection[0]; 
+                    that.SelectedNodes = selection; 
                     
                     var idx = 0;
                     
