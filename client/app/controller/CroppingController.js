@@ -42,9 +42,9 @@
         init:function(){
             
         },
-        loadOptions:function(o){
+        loadOptions:function(op){
             if (this.model !== null) {
-                this.model.options = o;
+                this.model.options = op;
             }
         },
         qryCanvasMouseDown:function(evt){

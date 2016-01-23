@@ -15,14 +15,14 @@
 		this.mouse.y = my;
 		
 		this.updateCropArea();
-	},
+	};
 	
 	Crop.prototype.ValidCropNode = function(){
 	    if(this.cropnode.X !=0 && this.cropnode.Y!= 0)
 	    	return true;
 	    else
 	    	return false;
-	},
+	};
 	
 	Crop.prototype.SetMouseStartPosition = function(mx,my){
 		this.mouse.x = mx;
@@ -30,7 +30,7 @@
 		
 		this.start_mouse.x = this.mouse.x;
 		this.start_mouse.y = this.mouse.y;
-	},
+	};
 	
 	Crop.prototype.updateCropArea = function() {
 		var tpx = this.start_mouse.x;
@@ -57,7 +57,7 @@
 		this.cropnode.Visible =true;
 		
 		//console.log('cropnode: ' +this.cropnode.X + ' ' + this.cropnode.Y + ' ' + this.cropnode.Width + ' ' + this.cropnode.Height);
-	},
+	};
 	
 	Crop.prototype.GetNode = function(complete){
 	 	var that = this;
@@ -77,7 +77,7 @@
 			complete();
 	     
 	    });
-	},
+	};
 	
 	Crop.prototype.Add = function(complete){
 	    
