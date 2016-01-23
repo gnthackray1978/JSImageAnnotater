@@ -102,7 +102,9 @@ NodeManager.prototype = {
             while(hidx < this.generations[vidx].length){
                 
                 if(intersectRect(this.generations[vidx][hidx], node)){
-                    this.generations[vidx][hidx].Selected = true;
+                    if(this.generations[vidx][hidx].Annotation != '')
+                        this.generations[vidx][hidx].Selected = true;
+                    
                     this._selectionCount++;
                 }
                 else{
