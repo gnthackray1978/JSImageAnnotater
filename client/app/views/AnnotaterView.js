@@ -103,24 +103,7 @@ function AnnotaterView(channel) {
                     that.canvasMousemoveLocks.push(key);
             }
         });
-        
-        this._channel.subscribe("setaddbuttonadd", function(data, envelope) {
-            that.SetAddButtonAdd();
-        });
-        
-        this._channel.subscribe("setcropsavedisabled", function(data, envelope) {
-            that.SetCropSaveDisabled();
-        });
-        
-        this._channel.subscribe("setaddbuttoncancel", function(data, envelope) {
-            that.SetAddButtonCancel();
-        });
-        
-        this._channel.subscribe("setcropsaveenabled", function(data, envelope) {
-            that.SetCropSaveEnabled();
-        });
- 
-        
+
     }
     
 
@@ -988,205 +971,55 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
 };
  
 
-// LAYERS
-// AnnotaterView.prototype.SetLayers= function (layers){
-    
-        
-//     var idx =0;
-    
-//     var constructRow = function(id, name, visible, current,order){
-        
-//         var html = '<div class = "row">';
-        
-       
-//         if(current)
-//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "S" style="color:green "></div>';
-//         else
-//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "current"  value = "s" style="color: red"></div>';
-            
-//         if(visible)
-//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible" value = "V" style="color: green"></div>';
-//         else
-//             html +=  '<div class = "col letter"><input type="submit" data-id = "'+ id +'" data-prop = "visible"  value = "v" style="color: red"></div>';
-
-//         html +=  '<div class = "col name"><input type="text" data-id = "'+ id +'" data-prop = "name"  value = "'+ name +'"/></div>';
-//         html +=  '<div class = "col order"><input  type="text" data-id = "'+ id +'" data-prop = "order"  value = "'+ order +'"/></div>';
-        
-      
-//         html +=  '<div class = "col letter"><input  type="submit" data-id = "'+ id +'"  data-prop = "delete" value = "X"/></div>';
-        
-//         html += '</div>';
-//         html += '<br/>';
-        
-//         return html;
-//     };
-    
-//     var content ='';
-//     while(idx < layers.length){
-//         content += constructRow(layers[idx].id, layers[idx].name, layers[idx].visible, layers[idx].current,layers[idx].order);
-//         idx++;
-//     }
-    
-//     $('#layerslist').html(content);
-    
-//     if(this.layerInputCallback)
-//         this.QryInputState(this.layerInputCallback)
-    
-//     if(this.layerButtonCallback)
-//         this.QryLayerButtonState(this.layerButtonCallback)
-// };
-
-// AnnotaterView.prototype.QryNewState = function (callback) {
-   
-//     $('#btnNewLayer').click(function (e) {
-//         callback();
-//     });
-// };
-
-// AnnotaterView.prototype.QrySaveState = function (callback) {
-   
-//     $('#btnSaveLayers').click(function (e) {
-//         callback();
-//     });
-// };
-
-// AnnotaterView.prototype.QryInputState = function (callback) {
-   
-   
-    
-//     this.layerInputCallback=callback;
-   
-//     $( "#layerslist input[type='text']" ).change(function(e) {
-//         var d;
- 
-//         if($(e.target).data().prop == 'name'){
-//             d = {
-//                 id: $(e.target).data().id,
-//                 value: $(e.target).val(),
-//                 type : 'name'
-//             };
-//             callback(d);
-//         }
-        
-//         if($(e.target).data().prop == 'order'){
-           
-//             d = {
-//                 id: $(e.target).data().id,
-//                 value: $(e.target).val(),
-//                 type : 'order'
-//             };
-            
-//             callback(d);
-//         }
-//     });
-
-   
-// };
-
-// AnnotaterView.prototype.QryLayerButtonState = function (callback) {
-   
-//     this.layerButtonCallback=callback;
-   
-//     $('#layerslist input').click(function (e) {
-//         console.log(e);
-//         //which button was pressed 
-//         //rowid
-//         //property being changed
-//         //new value
-//         var n,d;
- 
-        
-//         if($(e.target).data().prop == 'current'){
-//             if($(e.target).val() =='S')
-//                 n= false;
-//             else
-//                 n =true;
-                
-//             d = {
-//                 id: $(e.target).data().id,
-//                 value: n,
-//                 type : 'current'
-//             };
-//             callback(d);
-//         }
-        
-//         if($(e.target).data().prop == 'visible'){
-//             if($(e.target).val() =='V')
-//                 n= false;
-//             else
-//                 n =true;
-        
-//             d = {
-//                 id: $(e.target).data().id,
-//                 value: n,
-//                 type : 'visible'
-//             };
-            
-//             callback(d);
-//         }
-        
-//         if($(e.target).data().prop == 'delete'){
-//             d = {
-//                 id: $(e.target).data().id,
-//                 value: '',
-//                 type : 'delete'
-//             };
-            
-//             callback(d);
-//         }
-        
-//     }); 
-// };
-
 //CROPPER
 
-AnnotaterView.prototype.SetAddButtonCancel = function(){
-    $("#btnAddCropping").prop('value', 'Cancel'); 
-};
+// AnnotaterView.prototype.SetAddButtonCancel = function(){
+//     $("#btnAddCropping").prop('value', 'Cancel'); 
+// };
 
-AnnotaterView.prototype.SetAddButtonAdd = function(){
-    $("#btnAddCropping").prop('value', 'Add'); 
-};
+// AnnotaterView.prototype.SetAddButtonAdd = function(){
+//     $("#btnAddCropping").prop('value', 'Add'); 
+// };
 
-AnnotaterView.prototype.SetCropSaveEnabled = function(){
-    $("#btnSaveCrop").show(); 
-};
+// AnnotaterView.prototype.SetCropSaveEnabled = function(){
+//     $("#btnSaveCrop").show(); 
+// };
 
-AnnotaterView.prototype.SetCropSaveDisabled = function(){
-    $("#btnSaveCrop").hide(); 
-};
+// AnnotaterView.prototype.SetCropSaveDisabled = function(){
+//     $("#btnSaveCrop").hide(); 
+// };
 
-AnnotaterView.prototype.QryCropSaveButton = function(action){
+// AnnotaterView.prototype.QryCropSaveButton = function(action){
    
-    $('#btnSaveCrop').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
+//     $('#btnSaveCrop').click(function (e) {            
+//         e.preventDefault();
+//         action();
+//     });   
+// };
 
-AnnotaterView.prototype.QryCropACModeButton = function(action){
+// AnnotaterView.prototype.QryCropACModeButton = function(action){
    
-    $('#btnAddCropping').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
+//     $('#btnAddCropping').click(function (e) {            
+//         e.preventDefault();
+//         action();
+//     });   
+// };
 
-AnnotaterView.prototype.QryCropDeleteButton = function(action){
+// AnnotaterView.prototype.QryCropDeleteButton = function(action){
   
-    $('#btnDeleteCropping').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
+//     $('#btnDeleteCropping').click(function (e) {            
+//         e.preventDefault();
+//         action();
+//     });   
+// };
 
-AnnotaterView.prototype.QryCropSaveButton = function(action){
+// AnnotaterView.prototype.QryCropSaveButton = function(action){
 
-    $('#btnSaveCrop').click(function (e) {            
-        e.preventDefault();
-        action();
-    });   
-};
+//     $('#btnSaveCrop').click(function (e) {            
+//         e.preventDefault();
+//         action();
+//     });   
+// };
 
 
 

@@ -1,7 +1,6 @@
 (function(exports){
 
-    var CroppingController = function (view, channel, model) {
-        this._view = view;
+    var CroppingController = function (channel, model) {
         this._channel = channel;
         
         this.model = model;
@@ -9,15 +8,18 @@
         
         this.init();
         
-        if(this._view.QryCropACModeButton)
-            this._view.QryCropACModeButton($.proxy(this.qryCropACModeButton, this));
-            
-        if(this._view.QryCropSaveButton)
-            this._view.QryCropSaveButton($.proxy(this.qryCropSaveButton, this));
+           
+        this._channel.subscribe("CropACModeButton", function(data, envelope) {
+            that.qryCropACModeButton(data.value);
+        });
+         
+        this._channel.subscribe("CropSaveButton", function(data, envelope) {
+            that.qryCropSaveButton(data.value);
+        });
         
-        if(this._view.QryCropDeleteButton)
-            this._view.QryCropDeleteButton($.proxy(this.qryCropDeleteButton, this));
-        
+        this._channel.subscribe("CropDeleteButton", function(data, envelope) {
+            that.qryCropDeleteButton(data.value);
+        });
         
         this._channel.subscribe("cropMouseDown", function(data, envelope) {
             that.qryCanvasMouseDown(data.value);

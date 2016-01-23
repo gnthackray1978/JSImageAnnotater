@@ -45,6 +45,7 @@ function loadAll (drive){
     var optionsView = new OptionsView(appView,channel);
     var selectionView = new SelectionView(appView,channel);
     var layerView = new LayerView(appView,channel);
+    var cropperView = new CropperView(appView,channel);
     
     data.init(function(){
         
@@ -70,7 +71,7 @@ function loadAll (drive){
         //var optionsController = new OptionsController(appView,options);
 
         var cropper = new Crop(nodeManager,data);
-        var crapperController = new CroppingController(appView,channel, cropper);
+        var crapperController = new CroppingController(channel, cropper);
 
         var urls= new Urls(new UrlWriter(),appView,visualizer.setImageObject);
         var urlController = new UrlController(appView,urls,nodeManager.Type());

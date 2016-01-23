@@ -103,7 +103,9 @@ Layer.prototype.SetDeleted = function(layerId){
             break;
         }
    }
-   this.view.SetLayers(this.layerData);
+   //this.view.SetLayers(this.layerData);
+   this._channel.publish( "SetLayers", { value: this.layerData } );
+   
    this.image.DrawTree();
 };
 
@@ -124,12 +126,14 @@ Layer.prototype.SetNewLayer = function(){
     
     this.layerData.push( {id:newId , order:newId , name : 'newlayer', visible: true, current: false});
     
-    this.view.SetLayers(this.layerData);
+    //this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
 };
 
 Layer.prototype.Save = function(){
     
     this.layerDll.SaveLayers(this.layerData);
-    this.view.SetLayers(this.layerData);
+    //this.view.SetLayers(this.layerData);
+    this._channel.publish( "SetLayers", { value: this.layerData } );
 };
 
