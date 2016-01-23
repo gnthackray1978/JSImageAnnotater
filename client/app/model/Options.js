@@ -104,6 +104,11 @@ var Options = function (optionsDll,nodeManager, channel) {
         that.ChangeAngle(data.value);
     });
     
+    this._channel.subscribe("RequestDefaultOptions", function(data, envelope) {
+        that._state =0;
+        that.UpdateState();
+    });
+    
     this.UpdateState();
     this.CreateComponentList();
 };

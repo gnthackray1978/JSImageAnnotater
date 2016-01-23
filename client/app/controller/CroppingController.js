@@ -6,7 +6,7 @@
         this.model = model;
         var that = this;
         
-        this.init();
+        
         
            
         this._channel.subscribe("CropACModeButton", function(data, envelope) {
@@ -36,12 +36,16 @@
         this._channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
             that.loadOptions(data.value);
         });
+        
+        this.init();
     };
 
     CroppingController.prototype = {
+        
         init:function(){
-            
+            this._channel.publish( "RequestDefaultOptions", { value: undefined } );
         },
+        
         loadOptions:function(op){
             if (this.model !== null) {
                 this.model.options = op;
