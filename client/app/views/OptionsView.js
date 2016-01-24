@@ -42,9 +42,8 @@ var OptionsView = function (view, channel) {
     this.PublishAngleChangeClicked();
     
     
-    this._channel.subscribe("OptionsChanged", function(data, envelope) {
+    this._channel.subscribe("RefreshOptions", function(data, envelope) {
         that.SetOptions(data.options, data.currentColour);
-        that.SetEnableSave();
         that._channel.publish( "drawtree", { value: this.model } );
     });
     
@@ -56,8 +55,9 @@ var OptionsView = function (view, channel) {
         that.SetColourComponents(data.value);
     });
     
-    this._channel.subscribe("DefaultOptionsChanged", function(data, envelope) {
+    this._channel.subscribe("DefaultOptionsLoaded", function(data, envelope) {
         that.SetDefaultOptionsUI(data.state, data.nodeCount);
+        that.SetDisableSave();
     });
     
     this._channel.subscribe("RequestOptions", function(data, envelope) {
@@ -69,16 +69,16 @@ var OptionsView = function (view, channel) {
         that.SetDisableSave();
     });
     
-    this._channel.subscribe("DefaultOptionsChanged", function(data, envelope) {
-        that.SetDisableSave();
-    });
-    
     this._channel.subscribe("newOptionsLoaded", function(data, envelope) {
         that.SetDisableSave();
     });
     
     this._channel.subscribe("optionsSaved", function(data, envelope) {
         that.SetDisableSave();
+    });
+    
+    this._channel.subscribe("OptionsChanged", function(data, envelope) {
+        that.SetEnableSave();
     });
     
     

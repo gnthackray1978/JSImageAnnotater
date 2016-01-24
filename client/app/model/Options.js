@@ -58,6 +58,7 @@ var Options = function (optionsDll,nodeManager, channel) {
         calcState(data.value);
         that.UpdateState();
     });
+    
     this._channel.subscribe("nodedeselected", function(data, envelope) {
         calcState(data.value);
         that.UpdateState();
@@ -118,23 +119,23 @@ var Options = function (optionsDll,nodeManager, channel) {
 };
 
 Options.prototype.SetOptions= function (options, currentColour){
-    this._channel.publish( "OptionsChanged", { 
+    this._channel.publish( "RefreshOptions", { 
         options: options , 
         currentColour: currentColour 
     } );
 },
-Options.prototype.SetChosenColour= function (hex){
-    this._channel.publish( "ColourChanged", { 
-        value: hex
-    } );
+
+Options.prototype.OptionsChanged= function (componentName){
+    this._channel.publish( "OptionsChanged", { value: componentName });
 },
+
 Options.prototype.SetColourComponents= function (data){
     this._channel.publish( "ColourComponentChanged", { 
         value: data
     } );
 },
 Options.prototype.SetDefaultOptionsUI= function (state, nodeCount){
-    this._channel.publish( "DefaultOptionsChanged", { 
+    this._channel.publish( "DefaultOptionsLoaded", { 
         state: state,
         nodeCount: nodeCount
     } );
@@ -276,6 +277,7 @@ Options.prototype.updateOptionFont =function(font){
         "componentId" : undefined
     };
    
+    this.OptionsChanged("DefaultFont");
     this._updateOptions(options,true);
 
 };
@@ -288,7 +290,8 @@ Options.prototype.updateOptionTransparency =function(transparency){
         "IsTransparent" : transparency,
         "componentId" : undefined
     };
-   
+    
+    this.OptionsChanged("transparency");
     this._updateOptions(options,true);
 
 };
@@ -302,10 +305,12 @@ Options.prototype.updateSelectedComponentId =function(componentId){
         "componentId" : componentId
     };
    
-   
+    this.OptionsChanged("componentId");
     this._updateOptions(options,true);
 
 };
+
+
 
 Options.prototype._updateOptionsToView =function(options){
     
@@ -338,7 +343,12 @@ Options.prototype._updateOptionsToView =function(options){
 };
 
 Options.prototype._updateOptions =function(options, withUpdate){
+    /*
+    save options from ui(option) to output object (defaultOptions etc)
+    depending on state
     
+    refresh ui afterwards
+    */
   
     var that = this;
 
@@ -347,9 +357,9 @@ Options.prototype._updateOptions =function(options, withUpdate){
         console.log('compid: ' + that.selectedColourComponentId);
     }
     
-    var finalAction = function(options){
+    var finalAction = function(dataOptions){
         if(withUpdate)
-            that._updateOptionsToView(options);
+            that._updateOptionsToView(dataOptions);
     };
     
     if(this._state ==0){
