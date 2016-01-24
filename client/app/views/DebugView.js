@@ -10,5 +10,5 @@ var DebugView = function (view, channel) {
 DebugView.prototype.Init= function (){
     var that = this;
     
-     
+    $('#example').DataTable();
 };
