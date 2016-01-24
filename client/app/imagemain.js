@@ -46,6 +46,8 @@ function loadAll (drive){
     var selectionView = new SelectionView(appView,channel);
     var layerView = new LayerView(appView,channel);
     var cropperView = new CropperView(appView,channel);
+    var debugView = new DebugView(appView,channel);
+    
     
     data.init(function(){
         
