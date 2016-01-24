@@ -1,6 +1,6 @@
 var Debuger = function (channel, dataDll,nodestore,visualizer,nodePositioning) {
     var that = this;
-    
+    this._channel = channel;
     this.dataDll = dataDll;
     this.nodestore = nodestore;
     this.visualizer = visualizer;
