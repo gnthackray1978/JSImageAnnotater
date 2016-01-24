@@ -16,4 +16,13 @@ DebugView.prototype.Init= function (){
         "info":     false,
         "searching": false
     } );
+    
+    var table = $('#example').DataTable();
+    
+    table.row.add( {
+        "name":       "Bob",
+        "position":   "Monkey",
+        "office":     "uhh"
+      
+    } ).draw();
 };
