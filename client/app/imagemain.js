@@ -7,7 +7,7 @@
  NodeManagerController
  VisualizerController
  Crop CroppingController
- 
+ GDLoader
  
  */
 
@@ -33,7 +33,7 @@ function loadAll (drive){
         channel = postal.channel();
 
     if(drive) {
-        data = new MyDrive(channel);
+        data = new GDLoader(channel);
     }
     else {
         data = new MongoNoteData();
