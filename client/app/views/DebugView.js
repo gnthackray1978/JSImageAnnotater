@@ -10,7 +10,5 @@ var DebugView = function (view, channel) {
 DebugView.prototype.Init= function (){
     var that = this;
     
-    this._channel.subscribe("SetLayers", function(data, envelope) {
-   
-    });
+     
 };

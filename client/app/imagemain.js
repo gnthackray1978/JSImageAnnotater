@@ -88,9 +88,10 @@ function loadAll (drive){
         var nodePositioning = new NodePositioning(nodeManager,channel);
         var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
         
-        var debug = new Debuger(data,nodeManager, appView,visualizer,nodePositioningController);
-        var debugController = new DebugController(appView,debug,visualizer);
         
+        
+        var debug = new Debuger(channel, data,nodeManager,visualizer,nodePositioningController);
+   
         
         appView.InitPanelVisibility();
         //layerView.Init();
