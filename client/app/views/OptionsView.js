@@ -43,7 +43,9 @@ var OptionsView = function (view, channel) {
     
     
     this._channel.subscribe("OptionsChanged", function(data, envelope) {
-        that.SetOptions(data.options, data.currentColour);            
+        that.SetOptions(data.options, data.currentColour);
+        that.SetEnableSave();
+        that._channel.publish( "drawtree", { value: this.model } );
     });
     
     this._channel.subscribe("ColourChanged", function(data, envelope) {
@@ -61,6 +63,25 @@ var OptionsView = function (view, channel) {
     this._channel.subscribe("RequestOptions", function(data, envelope) {
         that._channel.publish( "SelectedOptions", { value: that._getOptionDetails() } );
     });
+    
+    
+    this._channel.subscribe("existingOptionsLoaded", function(data, envelope) {
+        that.SetDisableSave();
+    });
+    
+    this._channel.subscribe("DefaultOptionsChanged", function(data, envelope) {
+        that.SetDisableSave();
+    });
+    
+    this._channel.subscribe("newOptionsLoaded", function(data, envelope) {
+        that.SetDisableSave();
+    });
+    
+    this._channel.subscribe("optionsSaved", function(data, envelope) {
+        that.SetDisableSave();
+    });
+    
+    
     
     this.InitOptions();
 };
@@ -219,8 +240,13 @@ OptionsView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
     }
 };
 
+OptionsView.prototype.SetDisableSave = function (hex) {
+    $('#btnSaveOptions').prop('disabled', true); 
+};
 
-
+OptionsView.prototype.SetEnableSave = function (hex) {
+    $('#btnSaveOptions').prop('disabled', false); 
+};
 
 //LIST CHANGED AND UI UPDATED
 OptionsView.prototype.PublishSelectedColourComponent = function () {

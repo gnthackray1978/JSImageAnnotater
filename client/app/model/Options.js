@@ -90,7 +90,7 @@ var Options = function (optionsDll,nodeManager, channel) {
     });
     
     this._channel.subscribe("SaveOptions", function(data, envelope) {
-        that.saveDefaultOptions(data.value);
+        that.SaveOptions(data.value);
     });
     
     //FontChanged
@@ -162,7 +162,7 @@ Options.prototype.UpdateState= function (){
                     if(!that.currentNode.Options) 
                         that.currentNode.Options =  JSON.parse(JSON.stringify(this.defaultOptions));
                     
-                    that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
+                    that._channel.publish( "existingOptionsLoaded", { value: that.currentNode.Options } );
                     that.SetDefaultOptionsUI(true,selection.length);
                     that._updateOptionsToView(that.currentNode.Options);
                 }
@@ -195,7 +195,7 @@ Options.prototype.UpdateState= function (){
                         idx++;
                     }
                     
-                    that._channel.publish( "optionsEditted", { value: that.currentNode.Options } );
+                    that._channel.publish( "existingOptionsLoaded", { value: that.currentNode.Options } );
                     that.SetDefaultOptionsUI(true,selection.length);
                     that._updateOptionsToView(that.currentNode.Options);
                 }
@@ -253,14 +253,16 @@ Options.prototype.LoadDefaultOptions =function(callback){
  
 };
      
-Options.prototype.saveDefaultOptions =function(options){
+Options.prototype.SaveOptions =function(options){
    
     console.log('save option ' +options);
     var that = this;
     
     this.optionsDll.SaveOptions(this.defaultOptions, function(){
-        that._channel.publish( "drawtree", { value: this.model } ); 
+         
+        that._channel.publish( "optionsSaved", { value: this.model } );
     });
+     
      
 };
 
