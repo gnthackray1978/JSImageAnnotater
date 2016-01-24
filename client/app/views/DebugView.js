@@ -28,7 +28,7 @@ DebugView.prototype.AddDebugRow= function (time, name, description){
     
     var row = time + ' - ' + name + ' - ' + description;
     
-    $('#debugoutput').append( "<p>"+ row +"</p>" );
+    $('#debugoutput').append( "<div>"+ row +"</div>" );
      
 }
 
