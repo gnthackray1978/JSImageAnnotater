@@ -17,10 +17,5 @@ DebugView.prototype.Init= function (){
         "searching": false
     } );
    
-    table.row.add( {
-        "name":       "Bob",
-        "position":   "Monkey",
-        "office":     "uhh"
-      
-    } ).draw();
+    table.row.add( [ 1, 2, 3 ] ).draw();
 };
