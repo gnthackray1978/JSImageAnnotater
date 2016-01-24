@@ -82,7 +82,8 @@ var Options = function (optionsDll,nodeManager, channel) {
             "IsTransparent" : undefined,
             "componentId" : undefined
         };
-       
+        
+        that.OptionsChanged("hexval");
         that._updateOptions(options,true);
     });
     
