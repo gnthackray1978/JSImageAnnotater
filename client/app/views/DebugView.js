@@ -14,7 +14,8 @@ DebugView.prototype.Init= function (){
         "paging":   false,
         "ordering": false,
         "info":     false,
-        "searching": false
+        "searching": false,
+        "scrollX": true
     } );
     
     var d = new Date();
