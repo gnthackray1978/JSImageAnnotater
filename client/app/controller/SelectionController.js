@@ -304,7 +304,7 @@
             
             switch (this._state) {
                 case 0:// SELECTIONS DEACTIVATED nothing can be selected now.
-                    //this._view.DisplaySingleSelection(false);// turn off ui button
+                    
                     this._channel.publish( "DisplaySingleSelection", { value: false} );// turn off ui button
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
                     // if there was something selected deselect it.

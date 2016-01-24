@@ -29,15 +29,17 @@ function loadAll (drive){
     console.log('pointess');
     var data, channel;
 
+    if(postal)
+        channel = postal.channel();
+
     if(drive) {
-        data = new MyDrive();
+        data = new MyDrive(channel);
     }
     else {
         data = new MongoNoteData();
     }
     
-    if(postal)
-        channel = postal.channel();
+
     
     
     

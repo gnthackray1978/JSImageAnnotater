@@ -1,6 +1,6 @@
 /*global gapi*/
 
-var MyDrive = function () {
+var GDLoader = function () {
 
     this.CLIENT_ID = '67881158341-i31rcec2rf6bi26elnf8njnrb7v9ij8q.apps.googleusercontent.com';
     this.SCOPES = 'https://www.googleapis.com/auth/drive';
@@ -30,7 +30,7 @@ var MyDrive = function () {
 };
 
 
-MyDrive.prototype.init = function(loaded){
+GDLoader.prototype.init = function(loaded){
     var that = this;
  
     var checkAuth = function() {
@@ -53,7 +53,7 @@ MyDrive.prototype.init = function(loaded){
 
 };
 
-MyDrive.prototype.GAPIStage_Authenticate = function(authenticated){
+GDLoader.prototype.GAPIStage_Authenticate = function(authenticated){
     gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
         function(authResult){
             if (authResult && !authResult.error) {
@@ -67,7 +67,7 @@ MyDrive.prototype.GAPIStage_Authenticate = function(authenticated){
     );
 },
 
-MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
+GDLoader.prototype.GAPIStage_GetConfigFileId = function(ocallback){
     var that = this;
     that.CONFIGFILEID =-1;
     
@@ -116,7 +116,7 @@ MyDrive.prototype.GAPIStage_GetConfigFileId = function(ocallback){
     retrievePageOfFiles(initialRequest, []);
 },
 
-MyDrive.prototype.GAPIStage_ProcessConfigFile = function( loaded){
+GDLoader.prototype.GAPIStage_ProcessConfigFile = function( loaded){
    
     var that =this;
 
@@ -137,7 +137,7 @@ MyDrive.prototype.GAPIStage_ProcessConfigFile = function( loaded){
     
 },
 
-MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
+GDLoader.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
     var that = this;
     
     var searchForId = function(fileList){
@@ -189,7 +189,7 @@ MyDrive.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
     retrievePageOfFiles(initialRequest, []);
 },
 
-MyDrive.prototype.GAPIStage_CreateConfigFile = function(callback){
+GDLoader.prototype.GAPIStage_CreateConfigFile = function(callback){
     var that = this;
     
     var content = this.GAPIStage_CreateDummyFile();
@@ -202,7 +202,7 @@ MyDrive.prototype.GAPIStage_CreateConfigFile = function(callback){
     });
 },
 
-MyDrive.prototype.GAPIStage_CreateDummyFile = function(){
+GDLoader.prototype.GAPIStage_CreateDummyFile = function(){
     var addNode = function(id,fileId,note,x,y,w,h) {
         var node = {
                     Annotation: note,
@@ -255,7 +255,7 @@ MyDrive.prototype.GAPIStage_CreateDummyFile = function(){
     return c;
 },
 
-MyDrive.prototype.GAPIStage_LoadConfigFile = function(loaded){
+GDLoader.prototype.GAPIStage_LoadConfigFile = function(loaded){
     var that = this;
          
     that.ReadConfigFile(that.CONFIGFILEID,function(d){
@@ -267,7 +267,7 @@ MyDrive.prototype.GAPIStage_LoadConfigFile = function(loaded){
      
 },
 
-MyDrive.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
+GDLoader.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
     
     var that = this;
     
@@ -294,7 +294,7 @@ MyDrive.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
     });
 },
     
-MyDrive.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
+GDLoader.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     
     var that = this;
     
@@ -333,7 +333,7 @@ MyDrive.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     });
 },
 
-MyDrive.prototype.GAPIStage_LoadAPI = function(loaded){
+GDLoader.prototype.GAPIStage_LoadAPI = function(loaded){
     //load the drive api api
     gapi.client.load('drive', 'v2', function(r){
         loaded(r);
@@ -343,7 +343,7 @@ MyDrive.prototype.GAPIStage_LoadAPI = function(loaded){
 
 
 
-MyDrive.prototype.ReadConfigFile = function(configId, callback){
+GDLoader.prototype.ReadConfigFile = function(configId, callback){
     var that = this;        
     var request = gapi.client.drive.files.get({
       'fileId': configId
@@ -365,7 +365,7 @@ MyDrive.prototype.ReadConfigFile = function(configId, callback){
 };
 
 
-MyDrive.prototype.QrySearchCache = function(text, callback){
+GDLoader.prototype.QrySearchCache = function(text, callback){
     var nidx =0;
     var result = [];
     
@@ -381,7 +381,7 @@ MyDrive.prototype.QrySearchCache = function(text, callback){
     
 };
 
-MyDrive.prototype.BuildSearchCache = function(callback){
+GDLoader.prototype.BuildSearchCache = function(callback){
     var that = this;
     this.searchCache =[];
     var fileCount =0;
@@ -448,7 +448,7 @@ MyDrive.prototype.BuildSearchCache = function(callback){
   
 };
 
-MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
+GDLoader.prototype._makeFolder = function(parentId, folderName, callback){
     
     console.log('attempting to make folder');
     
@@ -478,7 +478,7 @@ MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
         
 };
 
-MyDrive.prototype._saveFile = function(parentId, fileName, fileId, content,callback){
+GDLoader.prototype._saveFile = function(parentId, fileName, fileId, content,callback){
     
     console.log('attempting to savefile: ' + parentId + ' filename ' + fileName + ' file id ' + fileId);
  
@@ -521,19 +521,19 @@ MyDrive.prototype._saveFile = function(parentId, fileName, fileId, content,callb
 };
 
 //GetNoteData: function (urlId, callback)
-MyDrive.prototype.GetNoteData = function(urlId, callback){
+GDLoader.prototype.GetNoteData = function(urlId, callback){
    
     
     callback(this.generations);
 };
     
-MyDrive.prototype.GetAccessToken = function(){
+GDLoader.prototype.GetAccessToken = function(){
     return gapi.auth.getToken().access_token;
 };
 
 
 //WriteNoteData: function (note)    
-MyDrive.prototype.WriteNoteData = function(data,callback){
+GDLoader.prototype.WriteNoteData = function(data,callback){
     // add note into array
     // then update file contents to reflect that
     
@@ -566,7 +566,7 @@ MyDrive.prototype.WriteNoteData = function(data,callback){
     });
 };
 
-MyDrive.prototype.WriteNotesData = function(datas,callback){
+GDLoader.prototype.WriteNotesData = function(datas,callback){
     // add note into array
     // then update file contents to reflect that
     
@@ -607,12 +607,12 @@ MyDrive.prototype.WriteNotesData = function(datas,callback){
 
 
 
-MyDrive.prototype.GetOptions= function (callback){
+GDLoader.prototype.GetOptions= function (callback){
     
     callback(this.options);
 };
 
-MyDrive.prototype.PopulatedDummyLaterData = function () {
+GDLoader.prototype.PopulatedDummyLaterData = function () {
     this.layers =  [
             {id:1 , order:1 , name : 'image', visible: true, current: false},
             {id:2 , order:2 , name : 'notes', visible: true, current: true},
@@ -622,7 +622,7 @@ MyDrive.prototype.PopulatedDummyLaterData = function () {
         ];
 };
 
-MyDrive.prototype.GetLayers = function (callback) {
+GDLoader.prototype.GetLayers = function (callback) {
     
     if(this.layers == 1 || this.layers == undefined){
         this.PopulatedDummyLaterData();
@@ -631,7 +631,7 @@ MyDrive.prototype.GetLayers = function (callback) {
     callback(this.layers);
 };
 
-MyDrive.prototype.GetActiveLayer = function (callback) {
+GDLoader.prototype.GetActiveLayer = function (callback) {
     
     if(this.layers == undefined){
         this.PopulatedDummyLaterData();
@@ -651,7 +651,7 @@ MyDrive.prototype.GetActiveLayer = function (callback) {
     callback(layerId);
 };
 
-MyDrive.prototype.GetVisibleLayer = function (callback) {
+GDLoader.prototype.GetVisibleLayer = function (callback) {
     
     if(this.layers == undefined){
         this.PopulatedDummyLaterData();
@@ -669,7 +669,7 @@ MyDrive.prototype.GetVisibleLayer = function (callback) {
     callback(layerIds);
 };
 
-MyDrive.prototype.GetMetaData=function(callback){
+GDLoader.prototype.GetMetaData=function(callback){
     var metaData =  [
             {id:1 , dts :'6', name : 'image tag'},
             {id:2 , dts :'1,2,3', name : 'witness'},
@@ -686,7 +686,7 @@ MyDrive.prototype.GetMetaData=function(callback){
     callback(metaData);
 };
     
-MyDrive.prototype.GetMetaDataTypes=function(types, callback){
+GDLoader.prototype.GetMetaDataTypes=function(types, callback){
     var dataTypes =  [
         {id:1 , name : 'name name surname', short : 'nns'},
         {id:2 , name : 'name surname', short : 'ns'},
@@ -745,7 +745,7 @@ MyDrive.prototype.GetMetaDataTypes=function(types, callback){
     
     
 
-MyDrive.prototype.SaveLayers= function (layers, cacheOnly){
+GDLoader.prototype.SaveLayers= function (layers, cacheOnly){
     this.layers = layers;
     // when using drive only want to write to disk
     // when save button is pressed
@@ -770,7 +770,7 @@ MyDrive.prototype.SaveLayers= function (layers, cacheOnly){
 };
 
 
-MyDrive.prototype.SaveOptions= function (options, callback){
+GDLoader.prototype.SaveOptions= function (options, callback){
     this.options[0] = options;
     
      var c = {
@@ -787,7 +787,7 @@ MyDrive.prototype.SaveOptions= function (options, callback){
 };
 
 
-MyDrive.prototype.deleteConfig = function(){
+GDLoader.prototype.deleteConfig = function(){
     
       var request = gapi.client.drive.files.delete({
         'fileId': fileId
@@ -797,7 +797,7 @@ MyDrive.prototype.deleteConfig = function(){
     
 };
 
-MyDrive.prototype.GetImageData= function(callback){
+GDLoader.prototype.GetImageData= function(callback){
         
         //dummy values not intended to be used
         var imageData = {
@@ -825,11 +825,11 @@ MyDrive.prototype.GetImageData= function(callback){
 
     };
 
-MyDrive.prototype.Type = function(){
+GDLoader.prototype.Type = function(){
     return 'GDRIVE';
 };
 
-MyDrive.prototype.GetCroppingNode = function (callback) {
+GDLoader.prototype.GetCroppingNode = function (callback) {
     var idx =0;
     while(idx < this.generations.length){
         if(this.generations[idx].CropArea){
@@ -841,7 +841,7 @@ MyDrive.prototype.GetCroppingNode = function (callback) {
     callback();
 };
 
-MyDrive.prototype.CleanGenerations = function () {
+GDLoader.prototype.CleanGenerations = function () {
     
     //always layer 4 and only ever 1
     //generations
@@ -883,7 +883,7 @@ MyDrive.prototype.CleanGenerations = function () {
 
 
 
-MyDrive.prototype.ClearDeleted = function (callback) {
+GDLoader.prototype.ClearDeleted = function (callback) {
     
     //always layer 4 and only ever 1
     //generations
@@ -923,32 +923,3 @@ MyDrive.prototype.ClearDeleted = function (callback) {
 };
  
  
- 
-var GAPILib = function () {
-
-    this.CLIENT_ID = '67881158341-i31rcec2rf6bi26elnf8njnrb7v9ij8q.apps.googleusercontent.com';
-    this.SCOPES = 'https://www.googleapis.com/auth/drive';
-    this.data = null;
-    
-    
-    this.IMAGEURL = '';
-    this.IMAGEWIDTH = 0;
-    this.IMAGEHEIGHT =0;
-    
-    this.CONFIGFILEID = null;
-    this.CONFIGFILEFOLDER = '.meta';
-    this.CONFIGFILEEXT = '.info';
-    this.CONFIGFOLDERID =-1;
-    this.CONFIGFILENAME = 'info.config';
-    this.FILENAME = '';
-    
-    this.PARENTFOLDERID=0;
-    this.FILEID = null;
-    
-    this.authResult = null;
-    
-    this.generations =null;
-    this.options =null;
-    this.layers =null;
-    this.searchCache = [];
-};
