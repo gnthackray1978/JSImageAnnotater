@@ -1,6 +1,7 @@
 var MetaController = function (view, model,channel, nodeManager) {
     this._view = view;
     this._nodeManager = nodeManager;
+    this._channel = channel;
     this.selectedNode;
     this.model = model;
     
