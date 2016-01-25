@@ -1,5 +1,5 @@
-var MetaController = function (view, model,channel, nodeManager) {
-    this._view = view;
+var MetaController = function (model,channel, nodeManager) {
+    
     this._nodeManager = nodeManager;
     this._channel = channel;
     this.selectedNode;
@@ -15,7 +15,7 @@ var MetaController = function (view, model,channel, nodeManager) {
     
     this._view.QryTemplateState($.proxy(this.qryTemplateState, this));
     
-    this._view.QrySaveButtonState($.proxy(this.qryAddButtonState, this));
+    this._view.QrySaveButtonState($.proxy(this.qrySaveButtonState, this));
     
     
     

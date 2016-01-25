@@ -64,8 +64,8 @@ function loadAll (drive){
         
         var nodeManager = new NodeManager(driveLib);
         
-        var metadata = new Meta(driveLib,appView);
-        var metaController = new MetaController(appView,metadata,channel,nodeManager);
+        var metadata = new Meta(driveLib,channel);
+        var metaController = new MetaController(metadata,channel,nodeManager);
         
         var visualizer = new Visualizer(driveLib, nodeManager,  new CanvasTools(),channel);
         

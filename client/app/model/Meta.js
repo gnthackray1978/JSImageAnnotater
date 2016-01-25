@@ -1,4 +1,5 @@
-var Meta = function (metaDataDll,view) {
+var Meta = function (metaDataDll,channel) {
+    this._channel = channel;
     this.metaDataDll = metaDataDll;
     this.metaData = 1;  
     this.selectedMetaData = [];  
@@ -7,26 +8,21 @@ var Meta = function (metaDataDll,view) {
         meta:0
     };
     this.metaDataTypes = 1;
-    
-    this.view = view;
-    //obviously this needs reworking
-    //but lets get functionality correct first
-  
+
 };
 
 Meta.prototype.Load = function(metaData){
     
     if(metaData && metaData.length){
         this.selectedMetaData = metaData;
-        this.view.SetSelectedMetaData(metaData);
+        this._channel.publish( "SetSelectedMetaData", { value: metaData } );
     }
     
-    
-    this.view.SetEnabledState(true);
+    this._channel.publish( "SetEnabledState", { value: true } );
 };
+
 Meta.prototype.Unload = function(){
-    
-    this.view.SetEnabledState(false);
+    this._channel.publish( "SetEnabledState", { value: false } );
 };
 
 Meta.prototype.QryNodeMetaData = function(callback){
@@ -49,7 +45,8 @@ Meta.prototype.GetData = function(){
         if(that.metaData.length >0){
             that.SetCurrentMetaId(that.metaData[0].id);
         }
-        that.view.SetMetaData(data);
+        
+        that._channel.publish( "SetMetaData", { value: data } );
     });
 };
 
@@ -57,11 +54,7 @@ Meta.prototype.SetCurrentMetaId = function(id){
     var that = this;
     var ids;
     var idx =0;
-    /*
-    
-    */
-    
-    
+
     while(this.metaData.length){
         if(this.metaData[idx].id == id){
             this.lastClickedMetaData.meta =this.metaData[idx];
@@ -79,7 +72,7 @@ Meta.prototype.SetCurrentMetaId = function(id){
         if(data.length > 0){
             that.SetCurrentTemplate(data[0].id);
         }
-        that.view.SetTemplates(data);
+        that._channel.publish( "SetTemplates", { value: data } );
     });
 };
 
@@ -117,7 +110,7 @@ Meta.prototype.SetAddButtonState = function(state){
        if(!contains(this.selectedMetaData,this.lastClickedMetaData)){
            this.selectedMetaData.push(JSON.parse(JSON.stringify(this.lastClickedMetaData)));
        }
-       this.view.SetSelectedMetaData(this.selectedMetaData);
+       this._channel.publish( "SetSelectedMetaData", { value: this.selectedMetaData } );
    }
 };
 
