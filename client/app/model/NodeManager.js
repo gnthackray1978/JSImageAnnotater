@@ -705,12 +705,11 @@ NodeManager.prototype = {
     
     GetCroppingNode : function(callback){
         
-       // this._noteDll.CleanGenerations();
-        
-        
         var that = this;
         
         var idx =0;
+        
+        if(that.generations.length ==0 ) return;
         
         while(idx < that.generations[1].length){
             
