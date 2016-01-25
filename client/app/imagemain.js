@@ -10,6 +10,7 @@
  GDLoader
  Layer LayerController
  Selection SelectionController
+ DebugView
  */
 
 function handleClientLoad() {
@@ -32,8 +33,13 @@ function loadAll (drive){
 
     if(postal)
         channel = postal.channel();
-
-
+        
+    /*would be better to start all these things with init methods and not
+    have to worry about putting them in particular orders
+    */
+        
+    var debugView = new DebugView(channel);
+    
     var driveLib = new MyDrive(channel);
 
     if(drive) {
@@ -48,7 +54,7 @@ function loadAll (drive){
     var selectionView = new SelectionView(appView,channel);
     var layerView = new LayerView(appView,channel);
     var cropperView = new CropperView(appView,channel);
-    var debugView = new DebugView(appView,channel);
+    
     
     
     data.init(function(){

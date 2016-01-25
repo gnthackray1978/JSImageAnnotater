@@ -26,7 +26,7 @@ var GDLoader = function (channel, driveLib) {
     this.generations =null;
     this.options =null;
     this.layers =null;
-    //this.searchCache = [];
+   
     
     this._channel = channel;
     this._driveLib = driveLib;
@@ -57,14 +57,16 @@ GDLoader.prototype.init = function(loaded){
 };
 
 GDLoader.prototype.GAPIStage_Authenticate = function(authenticated){
+    var that = this;
+    
     gapi.auth.authorize({'client_id': this.CLIENT_ID, 'scope': this.SCOPES, 'immediate': true},
         function(authResult){
             if (authResult && !authResult.error) {
-                console.log('Authenticated');
+                that._shout('GAPIStage_Authenticate','Authenticated');
                 authenticated(authResult);
             }
             else {
-                console.log('Couldnt authenticate!');
+                that._shout('GAPIStage_Authenticate','Couldnt authenticate!');
             }
         }
     );
@@ -75,16 +77,16 @@ GDLoader.prototype.GAPIStage_GetConfigFileId = function(ocallback){
     that.CONFIGFILEID =-1;
     
     var searchForId = function(fileList){
-        console.log('retrieved list of files');
+        that._shout('GAPIStage_GetConfigFileId','Retrieved list of files');
         var idx =0;
          
         while(idx < fileList.length){
-            console.log(fileList[idx].title);
+            that._shout('GAPIStage_GetConfigFileId',fileList[idx].title + ' present');
             
             if(fileList[idx].title == that.CONFIGFILENAME){
                 that.CONFIGFILEID = fileList[idx].id;
                 ocallback(fileList[idx].id);
-                console.log('found id: '+ fileList[idx].id);
+                that._shout('GAPIStage_GetConfigFileId','ConfigFile ID: ' + fileList[idx].id);
                 return;
             }
             
@@ -113,7 +115,7 @@ GDLoader.prototype.GAPIStage_GetConfigFileId = function(ocallback){
         
     var pstr= '\'' + that.CONFIGFOLDERID+ '\'' + ' in parents';
     
-    console.log('searching for: '+ pstr);   
+    that._shout('GAPIStage_GetConfigFileId','Searching for: '+ pstr);
     
     var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
     retrievePageOfFiles(initialRequest, []);
@@ -124,7 +126,8 @@ GDLoader.prototype.GAPIStage_ProcessConfigFile = function( loaded){
     var that =this;
 
     var loadConfigFile = function(configFileId){
-        //create config file if doesnt exist.            
+        //create config file if doesnt exist.
+        that._shout('GAPIStage_ProcessConfigFile','Attempt Load Config: ' + configFileId);
         if(configFileId == -1){
             that.GAPIStage_CreateConfigFile(function(fileId){
                 that.GAPIStage_LoadConfigFile(loaded);
@@ -144,7 +147,8 @@ GDLoader.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
     var that = this;
     
     var searchForId = function(fileList){
-        console.log('retrieved list of files');
+        that._shout('GAPIStage_GetConfigFolderId','Retrieved File List');
+        
         var idx =0;
         
         // if(fileList[idx].title == that.CONFIGFILEFOLDER){
@@ -152,12 +156,12 @@ GDLoader.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
         // }
             
         while(idx < fileList.length){
-            console.log(fileList[idx].title);
+            that._shout('GAPIStage_GetConfigFolderId',fileList[idx].title + ' present');
             
             if(fileList[idx].title == that.CONFIGFILEFOLDER){
                 //FILEID=resp[idx].id;
                 ocallback(fileList[idx].id);
-                console.log('found id: '+ fileList[idx].id);
+                that._shout('GAPIStage_GetConfigFolderId',fileList[idx].id + ' found ID');
                 return;
             }
             
@@ -186,7 +190,7 @@ GDLoader.prototype.GAPIStage_GetConfigFolderId = function(ocallback){
         
     var pstr= '\'' + that.PARENTFOLDERID+ '\'' + ' in parents';
     
-    console.log('searching for: '+ pstr);   
+    that._shout('GAPIStage_GetConfigFolderId', 'searching for: '+ pstr);
     
     var initialRequest = gapi.client.drive.files.list({ 'q': pstr});
     retrievePageOfFiles(initialRequest, []);
@@ -199,13 +203,19 @@ GDLoader.prototype.GAPIStage_CreateConfigFile = function(callback){
     
     content =JSON.stringify(content);
     
+    that._shout('GAPIStage_CreateConfigFile', 'Creating Config with content');
+    
     this._driveLib._saveFile(this.CONFIGFOLDERID, this.CONFIGFILENAME, null, content,function(id){
         that.CONFIGFILEID = id;
+        that._shout('GAPIStage_CreateConfigFile', 'Config created: ' + id);
         callback(id);
     });
 },
 
 GDLoader.prototype.GAPIStage_CreateDummyFile = function(){
+    
+    this._shout('GAPIStage_CreateDummyFile', 'Creating default content');
+    
     var addNode = function(id,fileId,note,x,y,w,h) {
         var node = {
                     Annotation: note,
@@ -260,7 +270,8 @@ GDLoader.prototype.GAPIStage_CreateDummyFile = function(){
 
 GDLoader.prototype.GAPIStage_LoadConfigFile = function(loaded){
     var that = this;
-         
+    that._shout('GAPIStage_LoadConfigFile', 'Loading config file');     
+    
     that._driveLib.ReadConfigFile(that.CONFIGFILEID,function(d){
         that.generations = d.generations;
         that.options = d.options;
@@ -273,6 +284,7 @@ GDLoader.prototype.GAPIStage_LoadConfigFile = function(loaded){
 GDLoader.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
     
     var that = this;
+    that._shout('GAPIStage_ProcessResponse', 'Getting config file details from response'); 
     
     var stripped =  resp.title.substr(0, resp.title.lastIndexOf('.')) || resp.title;
     
@@ -299,13 +311,18 @@ GDLoader.prototype.GAPIStage_ProcessResponse = function(resp,loaded){
     
 GDLoader.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     
+    
     var that = this;
+    
+    that._shout('GAPIStage_ObtainMainFileInfo', 'Getting file details'); 
+    
     
     var qryString = window.location.search.replace('?','');
         qryString = decodeURI(qryString).replace('state=','');
-      //  console.log('Qry string data: ' + qryString);    
+ 
     var data = JSON.parse(qryString);
-    console.log('Qry string data:' + data);
+ 
+    that._shout('GAPIStage_ObtainMainFileInfo', 'Qry string data:' + data);
     
     that.FILEID = data.ids[0];
     
@@ -317,14 +334,14 @@ GDLoader.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
     
     request.execute(function(resp) {
         
-        console.log('Title: '+resp.title);
-        console.log('Description: '+resp.description);
-        console.log('MimeType: '+resp.mimeType);
-        console.log('DownloadUrl: '+resp.downloadUrl);
-        console.log('ParentFolderId: '+resp.parents[0].id);
-        console.log('WebContentLink: '+resp.webContentLink);
-        console.log('WebViewLink: '+resp.webViewLink);
         
+        that._shout('GAPIStage_ObtainMainFileInfo', 'Title: '+resp.title);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'Description: '+resp.description);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'MimeType: '+resp.mimeType);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'DownloadUrl: '+resp.downloadUrl);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'ParentFolderId: '+resp.parents[0].id);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'WebContentLink: '+resp.webContentLink);
+        that._shout('GAPIStage_ObtainMainFileInfo', 'WebViewLink: '+resp.webViewLink);
         
         that.CONFIGFILENAME = resp.title;
         that.FILENAME = resp.title;
@@ -338,38 +355,17 @@ GDLoader.prototype.GAPIStage_ObtainMainFileInfo = function(loaded){
 
 GDLoader.prototype.GAPIStage_LoadAPI = function(loaded){
     //load the drive api api
+    this._shout('GAPIStage_LoadAPI', 'Drive ');
+    
     gapi.client.load('drive', 'v2', function(r){
         loaded(r);
     });
 },
 
-
-
-
-// GDLoader.prototype.ReadConfigFile = function(configId, callback){
-//     var that = this;        
-//     var request = gapi.client.drive.files.get({
-//       'fileId': configId
-//     });
-    
-//     request.execute(function(resp) {
-//       if (resp.id) {
-//         var token = gapi.auth.getToken();
-        
-//         $.ajax(resp.downloadUrl, {
-//           headers: {Authorization: 'Bearer ' + token.access_token},
-//           success: function(data) {
-//             var d = JSON.parse(data);
-//             callback(d);
-//           }
-//         });
-//       }
-//     });
-// };
-
 GDLoader.prototype._makeFolder = function(parentId, folderName, callback){
     
-    console.log('attempting to make folder');
+    
+    this._shout('_makeFolder', 'Attempting to make folder');
     
     var metadata = {
         title: folderName,
@@ -391,53 +387,15 @@ GDLoader.prototype._makeFolder = function(parentId, folderName, callback){
         success: function(data) {           
             if(callback)
                 callback(data.id);    
-            console.log('Folder created' + data.id);
+            
+            this._shout('_makeFolder', 'Folder created' + data.id);
         }
     });
         
 };
 
-// GDLoader.prototype._saveFile = function(parentId, fileName, fileId, content,callback){
+GDLoader.prototype._shout = function(method, message){
     
-//     console.log('attempting to savefile: ' + parentId + ' filename ' + fileName + ' file id ' + fileId);
- 
-//     var metadata = {
-//       title: fileName,
-//       mimeType: 'application/json',
-//       parents: [{id: parentId}]
-//     };
     
-//     var state = content;
-//     var data = new FormData();
-//     data.append("metadata", new Blob([ JSON.stringify(metadata) ], { type: "application/json" }));
-//     data.append("file", new Blob([ JSON.stringify(state) ], { type: "application/json" }));
-
-//     var token = gapi.auth.getToken();
-    
-//     if(token == null || token == undefined || token.access_token == null){
-//         console.log('TOKEN UNAVAILABLE file not written');
-        
-//         if(callback)
-//             callback();
-//     }
-//     else
-//     {
-//         var up = fileId != null ? '/' + fileId : '';
-        
-//         $.ajax("https://www.googleapis.com/upload/drive/v2/files" + up + "?uploadType=multipart", {
-//           data: data,
-//           headers: {Authorization: 'Bearer ' + token.access_token},
-//           contentType: false,
-//           processData: false,
-//           type: fileId != null ? 'PUT' : 'POST',
-//           success: function(data) {           
-//               console.log('File written');
-//               if(callback)
-//                 callback(data.id);
-//           }
-//         });
-//     }   
-// };
-
-
-
+    this._channel.publish( "DebugMessage", {name : 'App Load' , description : message } );
+};
