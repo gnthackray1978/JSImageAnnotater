@@ -1,6 +1,7 @@
-var MetaController = function (view, model) {
+var MetaController = function (view, model,channel, nodeManager) {
     this._view = view;
-
+    this._nodeManager = nodeManager;
+    this.selectedNode;
     this.model = model;
     
     this.init();
@@ -14,8 +15,46 @@ var MetaController = function (view, model) {
     this._view.QryTemplateState($.proxy(this.qryTemplateState, this));
     
     this._view.QrySaveButtonState($.proxy(this.qryAddButtonState, this));
+    
+    
+    
+    //that.meta.Load([]);
+    //nodecreation
+    
+    var that = this;
+    
+    this._channel.subscribe("nodecreation", function(data, envelope) {
+        that.model.Load([]);
+    });
+    
+    this._channel.subscribe("multiselectingend", function(data, envelope) {
+        that.selectionChanged(function(){
+            that.model.Load(that.selectedNode.MetaData);      
+        });
+    });
+    
+    this._channel.subscribe("nodeselected", function(data, envelope) {
+        that.selectionChanged(function(){
+            that.model.Load(that.selectedNode.MetaData);      
+        });
+    });
+    
+    this._channel.subscribe("nodedeselected", function(data, envelope) {
+        that.selectionChanged(function(){
+            that.model.Load(that.selectedNode.MetaData);      
+        });
+    });
+  
+    this._channel.subscribe("nullselection", function(data, envelope) {
+        that.selectionChanged(function(){
+            that.model.Load(that.selectedNode.MetaData);      
+        }); 
+    });
+    
 };
 
+            
+            
 MetaController.prototype = {
     init:function(){
     
@@ -24,6 +63,16 @@ MetaController.prototype = {
          }
     },
  
+    selectionChanged : function(callback){
+        var that = this;
+        
+        this._nodeManager.GetSelectedNodes(function(selection){
+            if(selection.length > 0){
+                that.selectedNode = selection[0]; 
+                callback();
+            }
+        });
+    },
     
     qryMetaState:function(data){
         

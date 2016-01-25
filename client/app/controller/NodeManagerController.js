@@ -138,14 +138,14 @@ NodeManagerController.prototype = {
                 this.meta.Unload();
                 this._channel.publish( "lock", { value: false } );
                 
-                //this._view.DisplayNeutralState();
+               
                 this._channel.publish( "DisplayNeutralState", { value: true } );
                 this._view.ClearActiveTextArea();
                 this._channel.publish( "drawtree", { value: this.model } ); 
                 break;
             case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
-                //this._view.DisplayAddState();
+                
                 this._channel.publish( "DisplayAddState", { value: true } );
                 this._channel.publish( "activateNullSelection", { value: true } );
               
@@ -153,7 +153,7 @@ NodeManagerController.prototype = {
                 
             case 2: //FREE TO DELETE MODEyou
             
-                //this._view.DisplayDeleteState();
+                
                 this._channel.publish( "DisplayDeleteState", { value: true } );
                 this._channel.publish( "activateFocusedSelection", { value: true } );
                 
@@ -161,7 +161,7 @@ NodeManagerController.prototype = {
                 
             case 3: //VALID TO SAVE
                 console.log('updateState: valid to save');
-                //this._view.DisplaySaveState();
+                
                 this._channel.publish( "DisplaySaveState", { value: true } );
                 break;
                 
@@ -187,7 +187,7 @@ NodeManagerController.prototype = {
             case 8: //FREE TO SELECT
                 console.log('updateState: free to select');
                  console.log('removed DisplaySelectionState');
-                //this._view.DisplaySelectionState();
+                
                 this._channel.publish( "activateStandardSelection", { value: true } );
                 break;     
                 
@@ -239,7 +239,7 @@ NodeManagerController.prototype = {
         
         that._view.AddDisplayNodeSelection(that._mouseClickPoint.x, that._mouseClickPoint.y, 70,25,0,'',that.options,$.proxy(that.nodeTextChanged, that));
         
-        that.meta.Load([]);
+        
     },
     
     deleteNodeAction: function(){

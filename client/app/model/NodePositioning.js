@@ -47,29 +47,15 @@
 	    
 		this._start_mouse.x = this._mouse.x;
 		this._start_mouse.y = this._mouse.y;
-		
-		
 	},
 	
 	NodePositioning.prototype.MoveNodes = function() {
-	    
-	    
-	    
+
 	    var tpx = this._last_mouse.x - this._mouse.x;
 	    var tpy = this._last_mouse.y - this._mouse.y;
-	    
-		// var tpy = this._start_mouse.y;
-		
-	 	//tpx = tpx- this._mouse.x;
-		// tpy = tpy- this._mouse.y;	
-		 
-		 
-		//console.log('set Move Nodes x: ' + this._last_mouse.x + ' ' + this._mouse.x + ' tpx: ' + tpx);
-		
+
 		var idx =0;
-		
-		//console.log('Selected Node 0 X: ' + this._selectedNodes[0].X);
-		
+
 		while(idx < this._selectedNodes.length){
 			this._selectedNodes[idx].IsMove =true;
 			this._selectedNodes[idx].X -= tpx;
@@ -81,9 +67,7 @@
 		
 		this._last_mouse.x = this._mouse.x;
 	    this._last_mouse.y = this._mouse.y;
-	    
-	   // if(this._selectedNodes.length >0)
-	   // 	console.log('MoveNodes: ' + this._selectedNodes[0].X);
+
 	}
 	
 

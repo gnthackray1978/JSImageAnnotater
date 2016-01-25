@@ -41,16 +41,6 @@ Meta.prototype.Save = function(){
     }
 };
 
-Meta.prototype.GetMetaDataTypes = function(){
-    
-    
-};
-
-Meta.prototype.GetDataTypes = function(){
-    
-    
-};
-
 Meta.prototype.GetData = function(){
     var that = this;
     

@@ -680,6 +680,7 @@ NodeManager.prototype = {
     GetImageData: function (callback) {
         this._noteDll.GetImageData(callback);
     },
+    
     Type : function(){
         return this._noteDll.Type();
     },

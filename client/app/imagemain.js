@@ -18,17 +18,8 @@ function handleClientLoad() {
     loadAll(true);
 }
 
-$(document).ready(function () {
-   // loadAll (false){
-   //args
-   //monkey
-});
-
-
- 
- 
 function loadAll (drive){
-    console.log('pointess');
+    
     var data, channel;
 
     if(postal)
@@ -42,12 +33,8 @@ function loadAll (drive){
     
     var driveLib = new MyDrive(channel);
 
-    if(drive) {
-        data = new GDLoader(channel,driveLib);
-    }
-    else {
-        data = new MongoNoteData();
-    }
+ 
+    data = new GDLoader(channel,driveLib);
 
     var appView = new AnnotaterView(channel);
     var optionsView = new OptionsView(appView,channel);
@@ -73,11 +60,13 @@ function loadAll (drive){
             data.generations
         );
         
-        var metadata = new Meta(driveLib,appView);
-        var metaController = new MetaController(appView,metadata);
+
         
         var nodeManager = new NodeManager(driveLib);
-
+        
+        var metadata = new Meta(driveLib,appView);
+        var metaController = new MetaController(appView,metadata,channel,nodeManager);
+        
         var visualizer = new Visualizer(driveLib, nodeManager,  new CanvasTools(),channel);
         
         var matches = new Matches(driveLib,nodeManager);
