@@ -707,10 +707,15 @@ NodeManager.prototype = {
         
         var that = this;
         
+        
+        
+        if(that.generations.length ==0 ) 
+        {
+            console.log('generations not loaded');
+            return;
+        }
+        
         var idx =0;
-        
-        if(that.generations.length ==0 ) return;
-        
         while(idx < that.generations[1].length){
             
             if(that.generations[1][idx].CropArea){
@@ -721,8 +726,8 @@ NodeManager.prototype = {
             idx++;
         }
  
-        callback();
-
+        console.log('cropping node not found');
+        return;
     },
     
     GetSelectionAreaNode : function(callback){
