@@ -395,7 +395,5 @@ GDLoader.prototype._makeFolder = function(parentId, folderName, callback){
 };
 
 GDLoader.prototype._shout = function(method, message){
-    
-    
-    this._channel.publish( "DebugMessage", {name : 'App Load' , description : message } );
+    this._channel.publish( "DebugMessage", {name : 'App Load' , description : method + '.'+ message } );
 };

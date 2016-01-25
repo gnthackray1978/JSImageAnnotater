@@ -3,11 +3,11 @@
 
 var  CanvasTools;
 
-var Visualizer = function (data, nodestore,canvasTools) {
+var Visualizer = function (data, nodestore,canvasTools,channel) {
     //could inject this
     this._drawingQueue = [];
     this._canvasTools = canvasTools;
-    
+    this._channel = channel;
     
    // this.options = options;
     this.nodestore = nodestore;
@@ -237,7 +237,8 @@ Visualizer.prototype.DrawInner= function (visibleLayers,defaultOptions, cropMain
 };
 
 Visualizer.prototype.ClearCache=function () {
-    console.log('clearing cache');
+    
+    this._shout('ClearCache','clearing cache');
     
     var hidx =0;
     var vidx=0;
@@ -352,8 +353,8 @@ Visualizer.prototype.ComputeLocations=function () {
 //run when visibility changed
 Visualizer.prototype.UpdateGenerationState= function () {
     
-      console.log('attempting image data');
-    
+      this._shout('UpdateGenerationState','attempting image data');
+      
       if(!this.imageData) return;
       
       if(!this.nodestore.generations || this.nodestore.generations.length == 0 || this.nodestore.generations[0].length == 0) return;
@@ -371,32 +372,30 @@ Visualizer.prototype.UpdateGenerationState= function () {
       this.nodestore.initialGenerations[0][0].Width= this.imageData.width;
       this.nodestore.initialGenerations[0][0].Height = this.imageData.height;
     
-      console.log('setting image data succeeded gx1: '+ this.nodestore.generations[0][0].X + 'gx2: '+ this.nodestore.generations[0][0].Width + ' im_wdth: ' + this.imageData.width);
+      //console.log('setting image data succeeded gx1: '+ this.nodestore.generations[0][0].X + 'gx2: '+ this.nodestore.generations[0][0].Width + ' im_wdth: ' + this.imageData.width);
+      this._shout('UpdateGenerationState','setting image data succeeded gx1: '+ this.nodestore.generations[0][0].X + 'gx2: '+ this.nodestore.generations[0][0].Width + ' im_wdth: ' + this.imageData.width);
 };
 
 //options
 Visualizer.prototype.setImageObject = function(urlId, jsonData, callback){
         
-        var that = this;
+    var that = this;
+    
+    that.imageData = jsonData;
+    
+    if(that.imageData == null || that.imageData.url ==null ||  that.imageData.url == '')
+        return;
+    
+    //image url should be property of some sort
+    if(location.origin.indexOf('https') >= 0){
+        that.imageData.url = that.baseUrl  + '/notes/file/'+ that.imageData.urlId;
         
-        that.imageData = jsonData;
+    }
         
-        if(that.imageData == null || that.imageData.url ==null ||  that.imageData.url == '')
-            return;
+    that._shout('setImageObject','setImageObject url: ' + that.imageData.url) ;
         
-        
-        //image url should be property of some sort
-        if(location.origin.indexOf('https') >= 0){
-            that.imageData.url = that.baseUrl  + '/notes/file/'+ that.imageData.urlId;
-            
-        }
-        
-       // that.options.SetOptionsLoad();
-        
-        console.log('setImageObject url: ' + that.imageData.url);
-        
-        // if we couldnt populate image width and height when we got the url 
-        // try and work them out 
+    // if we couldnt populate image width and height when we got the url 
+    // try and work them out 
         
         
         if(that.imageData.width==0 && that.imageData.height ==0)
@@ -406,8 +405,8 @@ Visualizer.prototype.setImageObject = function(urlId, jsonData, callback){
                     
                  that.imageData.width = s.w;
                  that.imageData.height = s.h;
-                  
-                 console.log('setImageObject imageData wdth: ' + that.imageData.width);
+                 
+                 that._shout('setImageObject','setImageObject imageData wdth: ' + that.imageData.width) ;
                  that._imageLoaded(true);
                  
                  that._updateInfo();
@@ -431,7 +430,7 @@ Visualizer.prototype._imageLoaded = function(val){
     if(this.EnableRun)
         this.EnableRun(val);
     else
-        console.log('EnableRun not defined');
+        this._shout('_imageLoaded','EnableRun not defined') ;
 };
     
 Visualizer.prototype._updateInfo = function(val){
@@ -448,7 +447,7 @@ Visualizer.prototype._updateInfo = function(val){
     if(this.UpdateInfo)
         this.UpdateInfo(imdat);
     else
-        console.log('EnableRun not defined');
+        this._shout('_imageLoaded','EnableRun not defined') ;
 };    
     
 
@@ -469,18 +468,11 @@ Visualizer.prototype.LoadBackgroundImage=function(imageLoaded){
 };
 //options
 Visualizer.prototype.SetInitialValues = function (zoomPerc, box_wid, box_hig,  screen_width, screen_height  ) {
-
-        //this.centrePoint = 0.0;
-        this.SetCentreX(0.0);
-        //this.centreVerticalPoint = 0.0;
-        this.SetCentreY(0.0);
-
-        this.screenHeight = screen_height;
-        this.screenWidth = screen_width;
-
-        this.zoomPercentage = zoomPerc;
-
-        //this.options.SetState(this.isLocked,this.currentNode);
+    this.SetCentreX(0.0);
+    this.SetCentreY(0.0);
+    this.screenHeight = screen_height;
+    this.screenWidth = screen_width;
+    this.zoomPercentage = zoomPerc;
 };
     
 Visualizer.prototype.MoveTree = function (direction) {
@@ -584,7 +576,7 @@ Visualizer.prototype.ScaleToScreen = function(debug){
      
      
     that.nodestore.GetCroppingNode(function(cropMainNode, cropInitNode){
-        console.log('scaletoscreen called with: ' + cropMainNode.X + ' ' + cropMainNode.Width);
+        that._shout('ScaleToScreen','scaletoscreen called with: ' + cropMainNode.X + ' ' + cropMainNode.Width) ;
         
         that.ScaleToScreeni(debug, cropMainNode);
     });
@@ -605,11 +597,6 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     var currentDrawingWidth = this.drawingWidth;
     var currentCroppedDrawingWidth = (cropMainNode.X + cropMainNode.Width) - cropMainNode.X;
 
-    console.log('ScaleToScreen: screen width ' + screenWidth);
-    console.log('ScaleToScreen: image width ' + currentDrawingWidth);
-    console.log('ScaleToScreen: cropped width ' + currentCroppedDrawingWidth);
-    
-    
     var sizeDifference = (screenWidth - currentDrawingWidth);
     var croppedSizeDifference = (screenWidth - currentCroppedDrawingWidth);
     
@@ -622,8 +609,8 @@ Visualizer.prototype.ScaleToScreeni = function(debug,cropMainNode){
     if((croppedSizeDifference / currentCroppedDrawingWidth) !=0)
         croppedPercentageDiff = (croppedSizeDifference / currentCroppedDrawingWidth) * 100;  
     
-    console.log('ScaleToScreen: set zoom ' + percentageDiff + '% ' + croppedPercentageDiff + '%');
-      
+    
+    this._shout('ScaleToScreen','ScaleToScreen: set zoom ' + percentageDiff + '% ' + croppedPercentageDiff + '%') ;  
       
     this.mouseXPercLocat = 0;
     this.mouseYPercLocat = 0;
@@ -699,10 +686,8 @@ Visualizer.prototype.GetPercDistances = function () {
     },
    
 Visualizer.prototype.SetMouse = function (x, y) {
- 
-        this.mouse_x = x;
-        this.mouse_y = y;
-
+    this.mouse_x = x;
+    this.mouse_y = y;
 };
     
     
@@ -788,6 +773,6 @@ Visualizer.prototype.ZoomOut = function () {
         //  SetZoom(zoomAmount - (zoomAmount * 2));
     };
    
-
-    
-   
+Visualizer.prototype._shout = function(method, message){
+    this._channel.publish( "DebugMessage", {name : 'Visualizer' , description : method + '.'+ message } );
+};
