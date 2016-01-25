@@ -78,7 +78,7 @@ function loadAll (drive){
         
         var nodeManager = new NodeManager(driveLib);
 
-        var visualizer = new Visualizer(driveLib, nodeManager,  new CanvasTools());
+        var visualizer = new Visualizer(driveLib, nodeManager,  new CanvasTools(),channel);
         
         var matches = new Matches(driveLib,nodeManager);
         var matchesController = new MatchesController(appView,matches,visualizer);
