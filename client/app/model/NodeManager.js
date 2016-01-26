@@ -421,6 +421,10 @@ NodeManager.prototype = {
         var idx =0;
         var responseCount=0;
         
+        if(nodes && !nodes.length)
+            nodes = [nodes];
+        
+        
         console.log('AddNodes: ' + nodes.length);
         
         while(idx < nodes.length){
@@ -530,7 +534,7 @@ NodeManager.prototype = {
                 that.initialGenerations[1][index]= initialValueNode;
             }
            
-            that.WriteToDB(initialValueNode,callback);
+            that._WriteToDB(initialValueNode,callback);
         };
 
 
@@ -669,8 +673,22 @@ NodeManager.prototype = {
             callback(false);
     },
     
-    WriteToDB: function(note,callback){
+    
+    
+    _WriteToDB: function(note,callback){
+        
+       
+        
         this._noteDll.WriteNoteData(note,callback);
+    },
+    
+    
+    
+    DeleteNode: function(node,callback){
+        
+        node.Visible =false;
+        
+        this._noteDll.WriteNoteData(node,callback);
     },
     
     WriteNotesToDB: function(notes,callback){

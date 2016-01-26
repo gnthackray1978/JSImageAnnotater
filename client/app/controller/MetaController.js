@@ -36,12 +36,12 @@ var MetaController = function (model,channel, nodeManager) {
     
     this._channel.subscribe("MetaSaveButtonState", function(data, envelope) {
         that.model.Save(function(metaData){
-            that.selectedNode.MetaData  = metaData;
+            that.selectedNode.MetaData = metaData;
             
-            that._nodeManager.WriteToDB(that.selectedNode, function(){
-                that._shout('MetaSaveButtonState','WriteToDB finished');
+            that._nodeManager.AddNodes(true,that.selectedNode, function(){
+                that._shout('MetaSaveButtonState','AddNodes finished');
             });
-            that._channel.publish( "MetaDataRefreshed", { value: that.selectedNode.metaData } );
+            that._channel.publish( "MetaDataRefreshed", { value: that.selectedNode.MetaData } );
         });
         
         

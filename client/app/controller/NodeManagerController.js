@@ -164,9 +164,8 @@ NodeManagerController.prototype = {
                 
             case 6: //DELETING
                 if(that.selectedNote){
-                    that.selectedNote.Visible =false;
-                    that.nodeManager.WriteToDB(that.selectedNote, function(){
-                        console.log('node deleted');
+                    that.nodeManager.DeleteNode(that.selectedNote, function(){
+                        that._shout('updateState','node deleted');
                     });
                     that.selectedNote = undefined;
                 }
