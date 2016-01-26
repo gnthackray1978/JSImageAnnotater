@@ -25,16 +25,11 @@ Meta.prototype.Unload = function(){
     this._channel.publish( "SetEnabledState", { value: false } );
 };
 
-Meta.prototype.QryNodeMetaData = function(callback){
-    
-     callback(this.selectedMetaData);
-};
-
-Meta.prototype.Save = function(){
-    
-    if(this.noteModelSaveCallback){
-        this.noteModelSaveCallback(this.selectedMetaData);
-    }
+Meta.prototype.Save = function(callback){
+    // doesnt do anything yet
+    // need to save back to drive here!
+    this._shout('Save','meta saved');
+    callback(this.selectedMetaData);
 };
 
 Meta.prototype.GetData = function(){
@@ -138,4 +133,8 @@ Meta.prototype.SetDeleteButtonState = function(state){
             this.view.SetSelectedMetaData(this.selectedMetaData);
        }
    }
+};
+
+Meta.prototype._shout = function(method, message){
+    this._channel.publish( "DebugMessage", {name : 'MET' , description : method + '.'+ message } );
 };

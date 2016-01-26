@@ -73,7 +73,7 @@ function loadAll (drive){
         var matchesController = new MatchesController(appView,matches,visualizer);
         
         
-        var nodeController = new NodeManagerController(appView, nodeManager, metadata,options,channel);
+        var nodeController = new NodeManagerController(appView, nodeManager,options,channel);
         
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
         

@@ -1,4 +1,4 @@
-var NodeManagerController = function (view, nodeDataManager, metadata,options,channel) {
+var NodeManagerController = function (view, nodeDataManager,options,channel) {
  
     this.deletedNodeCache;
     this.selectedNote; 
@@ -9,7 +9,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     this._mouseClickPoint ={x:0,y:0};
 
     this.nodeManager = nodeDataManager;
-    this.meta = metadata;
+    
     this.options;// = options;
     //this.newOptions;
     
@@ -44,7 +44,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     });
     
     this._channel.subscribe("singleSelectionDisabled", function(data, envelope) {
-        //that._view.DisplaySelectionDelete(true);
         that._channel.publish( "DisplaySelectionDelete", { value: true } );
     });
     
@@ -58,21 +57,6 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         
         that.updateState();
     });
-    
-    // this._channel.subscribe("multiselectingend", function(data, envelope) {
-    //     that.selectionChange(data.value);
-    // });
-    
-    // this._channel.subscribe("nodeselected", function(data, envelope) {
-    //     that.selectionChange(data.value);
-    // });
-    
-    // this._channel.subscribe("nodedeselected", function(data, envelope) {
-    //     console.log('node deselected caught');
-    //     that.selectionChange(data.value);
-        
-    // });
-    
     
     // delete node
     this._channel.subscribe("focusednode", function(data, envelope) {
@@ -88,7 +72,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
     
     this._channel.subscribe("nullselection", function(data, envelope) {
         
-        console.log('null selection caught');
+        that._shout("nullselection","null selection handled");
         
         that._mouseClickPoint = data.value;
         
@@ -118,6 +102,11 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
         that.options = data.value;
     });
     
+    this._channel.subscribe("MetaDataRefreshed", function(data, envelope) {
+        that._shout("MetaDataRefreshed","got meta data");
+        that.metaData = data.value;
+        
+    });
 
     this.state = 0;
     
@@ -125,9 +114,7 @@ var NodeManagerController = function (view, nodeDataManager, metadata,options,ch
 };
 
 NodeManagerController.prototype = {
-    
 
-    
     updateState :function(){
         var that = this;
         
@@ -135,7 +122,7 @@ NodeManagerController.prototype = {
             case 0: //UI MODE ACTIVE
                 this._channel.publish( "nodeinit", { value: false } );
                 
-                this.meta.Unload();
+                
                 this._channel.publish( "lock", { value: false } );
                 
                
@@ -201,13 +188,11 @@ NodeManagerController.prototype = {
         
     },
 
-    
     nodeTextChanged: function(e){
         //console.log('text changed: ' + e);
         this.state =3;
         this.updateState();
     },
-    
     
     editNode:function(){
         var that =this;
@@ -227,10 +212,8 @@ NodeManagerController.prototype = {
                 that.selectedNote.Height,that.selectedNote.D,
                 that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
             
-        that.meta.Load(that.selectedNote.MetaData);
         
     },
-    
     
     addNode:function(){
         var that =this;
@@ -266,14 +249,12 @@ NodeManagerController.prototype = {
         this.updateState();
     },
     
-    
     addToolbarNode : function(){
         
         if(this.state == 0)
             this.state = 1;
         else
             this.state = 0;
-        
         
         this.updateState();
     },
@@ -322,19 +303,20 @@ NodeManagerController.prototype = {
             that.updateState();
         };
         
+        
         this.nodeManager.GetActiveLayer(function(layerId){
-            that.meta.QryNodeMetaData(function(data){
-                    saveData.options = that.options;
-                    var index = (that.selectedNote) ? that.selectedNote.Index : undefined;
-                    that.nodeManager.WriteNote(index,saveData.x,
-                        saveData.y, saveData.width,saveData.height,saveData.d,
-                        saveData.text,saveData.options,layerId, data, false,true, saveCallback);
-               
-            }); 
+            saveData.options = that.options;
+            var index = (that.selectedNote) ? that.selectedNote.Index : undefined;
+            that.nodeManager.WriteNote(index,saveData.x,
+                saveData.y, saveData.width,saveData.height,saveData.d,
+                saveData.text,saveData.options,layerId, that.metaData, false,true, saveCallback);
         });
         
-    }
+    },
 
+    _shout:function(method, message){
+        this._channel.publish( "DebugMessage", {name : 'NMC' , description : method + '.'+ message } );
+    }
 };
 
 

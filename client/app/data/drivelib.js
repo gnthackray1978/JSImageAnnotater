@@ -136,36 +136,6 @@ MyDrive.prototype.BuildSearchCache = function(callback){
 
 
 
-// MyDrive.prototype._makeFolder = function(parentId, folderName, callback){
-    
-//     console.log('attempting to make folder');
-    
-//     var metadata = {
-//         title: folderName,
-//         mimeType: 'application/vnd.google-apps.folder',
-//         parents: [{id: parentId}]
-//     };
-    
-//     var data = new FormData();
-//     data.append("metadata", new Blob([ JSON.stringify(metadata) ], { type: "application/json" }));
-    
-//     var token = gapi.auth.getToken();
-    
-//     $.ajax("https://www.googleapis.com/upload/drive/v2/files", {
-//         data: data,
-//         headers: {Authorization: 'Bearer ' + token.access_token},
-//         contentType: false,
-//         processData: false,
-//         type: 'POST',
-//         success: function(data) {           
-//             if(callback)
-//                 callback(data.id);    
-//             console.log('Folder created' + data.id);
-//         }
-//     });
-        
-// };
-
 MyDrive.prototype._saveFile = function(parentId, fileName, fileId, content,callback){
     
     console.log('attempting to savefile: ' + parentId + ' filename ' + fileName + ' file id ' + fileId);
@@ -218,8 +188,6 @@ MyDrive.prototype.GetAccessToken = function(){
     return gapi.auth.getToken().access_token;
 };
 
-
-//WriteNoteData: function (note)    
 MyDrive.prototype.WriteNoteData = function(data,callback){
     // add note into array
     // then update file contents to reflect that

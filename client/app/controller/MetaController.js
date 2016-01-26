@@ -6,22 +6,7 @@ var MetaController = function (model,channel, nodeManager) {
     this.model = model;
     
     this.init();
-    
-    this._view.QryDeleteButtonState($.proxy(this.qryDeleteButtonState, this));
-    
-    this._view.QryAddButtonState($.proxy(this.qryAddButtonState, this));
-    
-    this._view.QryMetaState($.proxy(this.qryMetaState, this));
-    
-    this._view.QryTemplateState($.proxy(this.qryTemplateState, this));
-    
-    this._view.QrySaveButtonState($.proxy(this.qrySaveButtonState, this));
-    
-    
-    
-    //that.meta.Load([]);
-    //nodecreation
-    
+
     var that = this;
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
@@ -29,29 +14,50 @@ var MetaController = function (model,channel, nodeManager) {
     });
     
     this._channel.subscribe("multiselectingend", function(data, envelope) {
-        that.selectionChanged(function(){
-            that.model.Load(that.selectedNode.MetaData);      
-        });
+        that.selectionChanged(function(){});
     });
     
     this._channel.subscribe("nodeselected", function(data, envelope) {
-        that.selectionChanged(function(){
-            that.model.Load(that.selectedNode.MetaData);      
-        });
+        that.selectionChanged(function(){});
     });
     
     this._channel.subscribe("nodedeselected", function(data, envelope) {
-        that.selectionChanged(function(){
-            that.model.Load(that.selectedNode.MetaData);      
-        });
+        that.selectionChanged(function(){});
     });
   
     this._channel.subscribe("nullselection", function(data, envelope) {
-        that.selectionChanged(function(){
-            that.model.Load(that.selectedNode.MetaData);      
-        }); 
+        that.selectionChanged(function(){}); 
     });
     
+    
+    this._channel.subscribe("MetaAddButtonState", function(data, envelope) {
+       that.model.SetAddButtonState(data);
+    });
+    
+    this._channel.subscribe("MetaSaveButtonState", function(data, envelope) {
+        that.model.Save(function(metaData){
+            that.selectedNode.metaData  = metaData;
+            
+            that.nodeManager.WriteToDB(that.selectedNode, function(){
+                that._shout('MetaSaveButtonState','WriteToDB finished');
+            });
+            that._channel.publish( "MetaDataRefreshed", { value: that.selectedNode.metaData } );
+        });
+        
+        
+    });
+  
+    this._channel.subscribe("MetaDeleteButtonState", function(data, envelope) {
+        that.model.SetDeleteButtonState(data);
+    });
+    
+    this._channel.subscribe("TemplateState", function(data, envelope) {
+        that.model.SetCurrentTemplate(data);
+    });
+    
+    this._channel.subscribe("MetaState", function(data, envelope) {
+        that.model.SetCurrentMetaId(data);
+    });
 };
 
             
@@ -70,32 +76,17 @@ MetaController.prototype = {
         this._nodeManager.GetSelectedNodes(function(selection){
             if(selection.length > 0){
                 that.selectedNode = selection[0]; 
+                that.model.Load(that.selectedNode);
                 callback();
+            }
+            else
+            {
+                that.model.Unload();  
             }
         });
     },
-    
-    qryMetaState:function(data){
-        
-        this.model.SetCurrentMetaId(data);
-          
-    },
-    
-    qryTemplateState:function(data){
-        
-        this.model.SetCurrentTemplate(data);
-          
-    },
-    
-    qryAddButtonState:function(data){
-        this.model.SetAddButtonState(data);
-    },
-    
-    qryDeleteButtonState:function(data){
-        this.model.SetDeleteButtonState(data);
-    },
-    
-    qrySaveButtonState:function(){
-        this.model.Save();
+
+    _shout : function(method, message){
+        this._channel.publish( "DebugMessage", {name : 'MCT' , description : method + '.'+ message } );
     }
 };
