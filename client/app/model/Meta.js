@@ -73,7 +73,7 @@ Meta.prototype.SetCurrentMetaId = function(id){
 
 Meta.prototype.SetCurrentTemplate = function(id){
     var idx =0;
-    while(this.metaDataTypes.length){
+    while(idx < this.metaDataTypes.length){
         if(this.metaDataTypes[idx].id == id){
             this.lastClickedMetaData.template =this.metaDataTypes[idx];
             
