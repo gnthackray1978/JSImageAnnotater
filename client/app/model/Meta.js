@@ -50,7 +50,7 @@ Meta.prototype.SetCurrentMetaId = function(id){
     var ids;
     var idx =0;
 
-    while(this.metaData.length){
+    while(idx < this.metaData.length){
         if(this.metaData[idx].id == id){
             this.lastClickedMetaData.meta =this.metaData[idx];
             
