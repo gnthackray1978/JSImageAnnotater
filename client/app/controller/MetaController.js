@@ -38,7 +38,7 @@ var MetaController = function (model,channel, nodeManager) {
         that.model.Save(function(metaData){
             that.selectedNode.metaData  = metaData;
             
-            that.nodeManager.WriteToDB(that.selectedNode, function(){
+            that._nodeManager.WriteToDB(that.selectedNode, function(){
                 that._shout('MetaSaveButtonState','WriteToDB finished');
             });
             that._channel.publish( "MetaDataRefreshed", { value: that.selectedNode.metaData } );
