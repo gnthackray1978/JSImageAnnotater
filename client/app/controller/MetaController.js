@@ -76,7 +76,7 @@ MetaController.prototype = {
         this._nodeManager.GetSelectedNodes(function(selection){
             if(selection.length > 0){
                 that.selectedNode = selection[0]; 
-                that.model.Load(that.selectedNode.metaData);
+                that.model.Load(that.selectedNode.MetaData);
                 callback();
             }
             else
