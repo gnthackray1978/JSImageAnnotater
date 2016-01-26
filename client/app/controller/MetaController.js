@@ -31,7 +31,7 @@ var MetaController = function (model,channel, nodeManager) {
     
     
     this._channel.subscribe("MetaAddButtonState", function(data, envelope) {
-       that.model.SetAddButtonState(data);
+       that.model.SetAddButtonState(data.value);
     });
     
     this._channel.subscribe("MetaSaveButtonState", function(data, envelope) {
@@ -48,15 +48,15 @@ var MetaController = function (model,channel, nodeManager) {
     });
   
     this._channel.subscribe("MetaDeleteButtonState", function(data, envelope) {
-        that.model.SetDeleteButtonState(data);
+        that.model.SetDeleteButtonState(data.value);
     });
     
     this._channel.subscribe("TemplateState", function(data, envelope) {
-        that.model.SetCurrentTemplate(data);
+        that.model.SetCurrentTemplate(data.value);
     });
     
     this._channel.subscribe("MetaState", function(data, envelope) {
-        that.model.SetCurrentMetaId(data);
+        that.model.SetCurrentMetaId(data.value);
     });
 };
 
