@@ -1,0 +1,43 @@
+/* meta data buttons etc*/
+
+.meta-top-label{
+    
+}
+
+
+.mSave{
+    float: left;
+    width: 88px;
+    margin-top : 10px;
+    margin-right:5px;
+}
+
+.mAdd{
+    float: left;
+    width: 88px;
+    margin-top : 10px;
+    margin-right:5px;
+}
+
+.mCancel{
+    float: left;
+    width: 88px;
+    margin-top : 10px;
+   
+}
+
+
+
+.metaDrops{
+    width: 285px;
+}
+
+
+.borderedSelectionBox{
+    border:thin;
+    border-color: black;
+    border-style: solid;
+    width: 285px;
+}
+
+

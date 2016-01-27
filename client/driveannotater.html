@@ -5,9 +5,12 @@
 <head> 
 <title>Drive loader</title>
 
+<link href="css/control.css" rel="stylesheet" />
 <link href="css/box.css" rel="stylesheet" />
-<link href="css/selection_widget.css" rel="stylesheet" />
+<link href="css/meta.css" rel="stylesheet" />
+<link href="css/general.css" rel="stylesheet" />
 <link href="css/fontselector.css" rel="stylesheet" >
+
 <link href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" >
 <link rel="icon" type="image/png" href="Images/favicon-32x32.png" sizes="32x32" />
 
@@ -80,74 +83,19 @@
 <body> 
     
     <div id ="minimized_options" class ="hidePanel">
-        <!--<input id ="show_dataLoader" class ="options_button" type="submit" value="Load Data" />               -->
         <input id ="show_tools" class ="options_button" type="submit" value="Tool Bar" />
         <input id ="show_controls" class ="options_button" type="submit" value="Controls" />
         <input id ="show_debugbox" class ="options_button" type="submit" value="Debug Window" />
-        <!--<input id ="show_imageUI" class ="options_button" type="submit" value="Image UI" />-->
         <input id ="show_layers" class ="options_button" type="submit" value="Layers" />
-        <!--<input id ="show_meta" class ="options_button" type="submit" value="Meta" />-->
-        <!--<input id ="show_options" class ="options_button" type="submit" value="Options" />-->
         <input id ="show_cropper" class ="options_button" type="submit" value="Cropper" />
-        <!--<input id ="show_edges" class ="edges_button" type="submit" value="Edges" />-->
         <input id ="show_matcher" class ="options_button" type="submit" value="Matches" />
         <input id ="show_textCreator" class ="options_button" type="submit" value="Create Text" />
-        
         <input id ="btnSave" class ="options_button" type="submit" value="Save" />
         <input id ="btnNodeCancel" class ="options_button" type="submit" value="Cancel" />
     </div>
      
     
-    <div id="imageLoader" class="hidePanel" title="Load IMAGE">
-        <div id ="topbar"> 
-        <a id ='chooseFileLnk' href ="">Choose File</a> 
-        <a id ='selectPersonLnk' href ="">Add file</a>
-        </div>
-        <div id="panelA" class="displayPanel">
-            <b>Filter:</b>
-            <br/>
-            <input id="txtFilter" type="text" /><input id="btnFilterUrl" type="submit" value="?" />
-            <br/>
-            <b>Select File:</b>
-            <br/>
-            <select id="fileList" name="sometext" size="3">
-              <option>text1</option>
-              <option>text2</option>
-              <option>text3</option> 
-            </select>
-            <br/>
-            <br/>
-            <input id="btnRunImage" type="submit" value="Run" />
-        </div>
-
-        <div id="panelB" class="hidePanel">
-          <b>ID:</b>
-          <br/>
-          <input id="txtUrlId" type="text" />
-          <br/>
-          <b>Name:</b>
-          <br/>
-          <input id="txtName" type="text" />
-          <br/>
-          <b>URL:</b>
-          <br/>
-          <input id="txtUrl" type="text" />
-          <br/>
-          <b>Group:</b>
-          <br/>
-          <input id="txtGroup" type="text" />
-          <br/>
-          <input type="checkbox" id="txtDefault">Default
-          <br/>
-          <div>
-              <input id ="btnNewURL" type="submit" value="New" />
-              <input id ="btnSaveURL" type="submit" value="Save" />
-              <input id ="btnDelURL" type="submit" value="Delete" />
-          </div>
-        </div>
-    </div>
-    
-    <div id ="map_layers" class ="hidePanel" title="Layer Info">
+    <div id = "map_layers" class ="hidePanel" title="Layer Info">
        <b id = "controllabel">Select layer</b>
      
        <br/>
@@ -172,12 +120,7 @@
     </div>
 
     <div id = "map_message" class ="hidePanel" title="Diag Info">
-        <!--<div class = "map_year"><span></span><span id ="map_image" >unknown</span></div> -->
-        <!--<div class = "map_year"><span>Zoom level: </span><span id ="map_zoom" >0</span></div> -->
-        <!--<div class = "map_year"><span>Image dims: </span><span id ="map_dims" >0</span></div> -->
-        <!--<div class = "map_year"><span>Note Count: </span><span id ="map_noteCount" >0</span></div> -->
-        <!--<div class = "map_year"><span>Size KB: </span><span id ="map_count" >0</span></div> -->
-        
+
         <b id = "debug-label">Output</b>
         
         <div id ='debugoutput'></div>
@@ -240,8 +183,6 @@
         </div>
     </div>
     
-    
-
     <div id = "map_options" class ="hidePanel" title="Options">
         <b id = "options-label">Default Options</b>
         

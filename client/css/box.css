@@ -1,11 +1,6 @@
 /*BORDERS*/
 
-.borderedSelectionBox{
-    border:thin;
-    border-color: black;
-    border-style: solid;
-    width: 285px;
-}
+
 
 .dataBorder{
     border-top: thin;

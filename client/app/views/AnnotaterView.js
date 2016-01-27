@@ -237,23 +237,15 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         var that = this;
         
         var panels = new Panels();
-        
-        $('body').on("click", "#chooseFileLnk", $.proxy(function () { panels.masterShowTab('1'); return false; }, panels));
 
-        $('body').on("click", "#selectPersonLnk", $.proxy(function () { panels.masterShowTab('2'); return false; }, panels));
-        
         $("#minimized_options").removeClass("hidePanel").addClass("displayPanel");
       
         $('#show_controls').click(function (e) {
 
             if (that.showMapControls) {
-              //  $("#map_control").removeClass("hidePanel").addClass("displayPanel");
-                
+          
                 $("#map_control").dialog();
-                
-          //   $(".ui-widget-header").css("border", "none" );
-                //   $(".ui-widget-header").css("background", "none");
-             
+          
                  $(".ui-widget-header").css("height", "7px");
                 
                  $(".ui-dialog-title").css("position", "absolute");
@@ -265,41 +257,9 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 
                 that.showMapControls = false;
             } else {
-             //   $("#map_control").removeClass("displayPanel").addClass("hidePanel");
+          
                 $("#map_control").dialog("close");
                 that.showMapControls = true;
-            }
-        });
-
-        $('#show_dataLoader').click(function (e) {
-
-
-
-            if (that.dataLoader) {
-
-                $("#imageLoader").dialog();
-
-                that.dataLoader = false;
-
-                $(".ui-widget-header").css("height", "7px");
-
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
-
-                $('*[aria-describedby="imageLoader"]').css("width", "270px");
-                $('*[aria-describedby="imageLoader"]').css("height", "310px");
-                
-                $("#fileList").css("width", "260px");
-                $("#fileList").css("height", "130px");
-                
-                $("#imageLoader").css("padding", "0px");
-
-            } else {
-
-
-                $("#imageLoader").dialog("close");
-                that.dataLoader = true;
             }
         });
 
@@ -317,7 +277,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $(".ui-dialog-title").css("left", "0px");
 
                  $('*[aria-describedby="map_message"]').css("width", "330px");
-                 //$('*[aria-describedby="map_message"]').css("height", "300px");
+                 
 
             } else {
                  $("#map_message").dialog("close");
@@ -352,9 +312,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         });
 
-
-
-
         $('#show_layers').click(function (e) {
 
             if (that.showLayers) {
@@ -378,12 +335,9 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         });
         
-       
         $('#map_layers').live("dialogclose", function(){
            that.showLayers = true;
         });
-
-
 
         $('#show_meta').click(function (e) {
 
@@ -485,8 +439,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             $("#map_crop").dialog("close");
             that.showCropper = true;
         });
-
-
 
         $('#show_edges').click(function (e) {
 

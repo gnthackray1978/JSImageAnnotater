@@ -34,38 +34,6 @@
 }
 
 
-/* meta data buttons etc*/
-.meta-top-label{
-    
-}
-
-
-.mSave{
-    float: left;
-    width: 88px;
-    margin-top : 10px;
-    margin-right:5px;
-}
-
-.mNew{
-    float: left;
-    width: 88px;
-    margin-top : 10px;
-    margin-right:5px;
-}
-
-.mCancel{
-    float: left;
-    width: 88px;
-    margin-top : 10px;
-   
-}
-
-
-
-.metaDrops{
-    width: 285px;
-}
 
 
 .save{
