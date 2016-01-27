@@ -1,8 +1,8 @@
 .matchesdialog{
-    width: 350px !important; /* // jquery is shit!*/
+    width: 350px !important; /*jquery is shit! so need this hack*/
 }
 
-#map_edge_add{
+#map_matches{
     padding:0px;
-    height: 150px;
+    height: 150px !important; /*jquery is shit! so need this hack*/
 }
