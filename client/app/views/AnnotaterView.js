@@ -234,13 +234,11 @@ AnnotaterView.prototype.InitVis = function (state){
 AnnotaterView.prototype.InitPanelVisibility = function () {
 
 
-        var that = this;
-        
-        var panels = new Panels();
+    var that = this;
 
-        $("#minimized_options").removeClass("hidePanel").addClass("displayPanel");
+    $("#minimized_options").removeClass("hidePanel").addClass("displayPanel");
       
-        var createDialog = function(buttonId,dialogUI, displaySwitch, className, closeButton){
+    var createDialog = function(buttonId,dialogUI, displaySwitch, className, closeButton){
             
             $(buttonId).click(function (e) {
                 if (displaySwitch) {
@@ -268,87 +266,29 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         };
         
-        createDialog('#show_controls',"#map_control",that.showMapControls,'controldialog');
-  
-        createDialog('#show_debugbox',"#map_message",that.showDebug,'debugdialog');
+    createDialog('#show_controls',"#map_control",that.showMapControls,'controldialog');
 
-        $('#show_imageUI').click(function (e) {
+    createDialog('#show_debugbox',"#map_message",that.showDebug,'debugdialog');
 
-            if (that.showImageUI) {
-                $("#map_imageUI").dialog();
+    createDialog('#show_imageUI',"#map_imageUI",that.showImageUI,'uidialog');
+    
+    createDialog('#show_layers',"#map_layers",that.showLayers,'layersdialog');
 
-                $('*[aria-describedby="map_imageUI"]').css("width", "265px");
-           
-                $("#map_imageUI").css("padding", "0px");
-                
-                //font-size: 1.1em; */
-                that.showImageUI = false;
-                if(that.closeNodeEditor)
-                    that.closeNodeEditor();
-            } else {
-                if(that.openNodeEditor)
-                    that.openNodeEditor();
-                    
-                that.showImageUI = true;
-            }
-        });
+    createDialog('#show_meta',"#map_metadata",that.showmeta,'metadialog','#btnCancelMetaInfo');
 
+    createDialog('#show_options',"#map_options",that.showoptions,'optionsdialog','#btnCancelOptions');
 
-        createDialog('#show_layers',"#map_layers",that.showLayers,'layersdialog');
+    createDialog('#show_cropper',"#map_crop",that.showCropper,'cropdialog','#btnCancelCropper');
 
-        createDialog('#show_meta',"#map_metadata",that.showmeta,'metadialog','#btnCancelMetaInfo');
-        
-        // $('#btnCancelMetaInfo').click(function (e) {
-        //      $("#map_metadata").dialog("close");
-        //         that.showmeta = true;
-        // });
+    createDialog('#show_edges',"#map_edge_add",that.showEdges,'edgesdialog','#btnCancelEdge');
 
-        createDialog('#show_options',"#map_options",that.showoptions,'optionsdialog');
+    createDialog('#show_matcher',"#map_matches",that.showMatches,'matchesdialog','#btnCancelMatches');
 
+    createDialog('#show_textCreator',"#map_textFiles",that.showTextCreator,'textdialog','#btnCancelTextFile');
 
-        $('#btnCancelOptions').click(function (e) {
-             $("#map_options").dialog("close");
-                that.showoptions = true;
-         });
+    createDialog('#show_tools',"#map_toolbar",that.showToolBar,'toolbardialog','#btnCancelToolBar');
 
-        
-        createDialog('#show_cropper',"#map_crop",that.showCropper,'cropdialog');
-
-        $('#btnCancelCropper').click(function (e) {
-            $("#map_crop").dialog("close");
-            that.showCropper = true;
-        });
-
-        createDialog('#show_edges',"#map_edge_add",that.showEdges,'edgesdialog');
-
-        $('#btnCancelEdge').click(function (e) {
-            $("#map_edge_add").dialog("close");
-            that.showEdges = true;
-        });
-        
-        
-        createDialog('#show_matcher',"#map_matches",that.showMatches,'matchesdialog');
-
-        $('#btnCancelMatches').click(function (e) {
-            $("#map_matches").dialog("close");
-            that.showMatches = true;
-        });
-        
-        createDialog('#show_textCreator',"#map_textFiles",that.showTextCreator,'textdialog');
-
-        $('#btnCancelTextFile').click(function (e) {
-            $("#map_textFiles").dialog("close");
-            that.showTextCreator = true;
-        });
-        
-        
-        createDialog('#show_tools',"#map_toolbar",that.showToolBar,'toolbardialog');
-
-        $('#btnCancelToolBar').click(function (e) {
-            $("#map_toolbar").dialog("close");
-            that.showToolBar = true;
-        });
-    };
+};
 
 AnnotaterView.prototype.hideLoader = function (action) {
 
@@ -396,27 +336,6 @@ AnnotaterView.prototype.Delete = function (action) {
         e.preventDefault();
     });        
 };
-
-
-
-
-
-AnnotaterView.prototype.NodeEditorOpen = function (caller) {
-   this.openNodeEditor = caller;
-    
-},
-
-
-AnnotaterView.prototype.NodeEditorClosed = function (caller) {
-   this.closeNodeEditor = caller;
-},
-
-
-
-
-
-
-
 
 // ok so when this click happens we need to determine 
 // if we're inside an existing node
@@ -653,156 +572,3 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
         callback(data);
     });
 };
-
-
-
-
-
-
-//TRIGGERED BY MODEL WHEN DIAGRAM IS READY/NOT READY TO BE RUN
-AnnotaterView.prototype.DisplayUpdateRunButton= function (status) {
-
-    console.log('View DisplayUpdateRunButton: ' + status);
- 
-    if(status){
-        $("#btnRunImage").val('Run');
-        $("#btnRunImage").removeAttr('disabled');
-    }
-    else
-    {
-        $("#btnRunImage").val('loading');
-        $("#btnRunImage").attr('disabled','disabled');
-    }
-    
-};
-
-AnnotaterView.prototype.URLNew = function (action) {
-        var that = this;
-        $('#btnNewURL').click(function (e) {
-            // get values
-            
-            $('#txtName').val('');
-            $('#txtUrl').val('');
-            $('#txtGroup').val('');
-            $('#txtDefault').val('');
-            $('#txtUrlId').val('-1');
-
-            action();
-
-            e.preventDefault();
-        });
-    };
-
-AnnotaterView.prototype.URLSave = function (urlSaveAction, urlListRefreshAction) {
-        var that = this;
-        $('#btnSaveURL').click(function (e) {
-            // get values
-            
-            var isDefault = $('.myCheckbox').is(':checked');
-            
-            
-            
-            urlSaveAction(  $('#txtName').val() , $('#txtUrl').val(), $('#txtGroup').val(),isDefault, function(id){
-                $('#txtUrlId').val(id);
-                 
-                 urlListRefreshAction($('#txtFilter').val());
-                 
-                 
-            } );
-
-            e.preventDefault();
-        });
-    };
-
-AnnotaterView.prototype.URLDelete = function (action) {
-    var that = this;
-    $('#btnDelURL').click(function (e) {            
-        action();
-        e.preventDefault();
-    });        
-};
-
-AnnotaterView.prototype.URLChanged = function (action) {
-    var that = this;
-    
-   $("#fileList")
-      .change(function () {
-        var str = "";
-        $( "#fileList option:selected" ).each(function() {
-          str = $( this ).val();
-        });
-      
-        action(str, function(result) {
-             if(result != undefined)
-                {
-                    $('#txtUrlId').val(result.urlId);
-                    $('#txtName').val(result.urlName);
-                    $('#txtUrl').val(result.url);
-                    $('#txtGroup').val(result.urlGroup);
-                    
-                    if(String(result.urlDefault) == "true")
-                        $('#txtDefault').prop('checked', true);
-                    else
-                        $('#txtDefault').prop('checked', false);
-                    
-                    
-                }       
-                
-                console.log(result);
-            
-        });
-        
-       
-        
-      })
-      .change();
-      
-  
-};
-
-AnnotaterView.prototype.FillUrls = function (data) {
-    var that = this;
-    
-  //  $("#fileList option").remove();
-    
-    var output = [];
-    
-    $.each(data, function(key, value)
-    {
-      output.push('<option value="'+ value.urlId +'">'+ value.urlName +'</option>');
-    });
-
-    $('#fileList').html(output.join(''));
-
-
-    var myDDL = $('#fileList');
-    myDDL[0].selectedIndex = 0;
-};
-
-AnnotaterView.prototype.URLFilterList = function (action) {
-    var that = this;
-    $('#btnFilterUrl').click(function (e) {            
-        action($('#txtFilter').val());
-        e.preventDefault();
-    });        
-};
-
-AnnotaterView.prototype.RunButtonClicked = function (action) {
-    var that = this;
-    
-    $('#btnRunImage').click(function (e) {            
-        
-        var urlId = "";
-        $( "select option:selected" ).each(function() {
-          urlId = $( this ).val();
-        });
-        
-      
-        action(urlId);
-        
-        that.hideLoader();
-        
-        e.preventDefault();
-    });        
-};
-
