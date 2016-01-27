@@ -1,0 +1,8 @@
+.textdialog{
+    width: 350px !important; /* // jquery is shit!*/
+}
+
+#map_textFiles{
+    padding:0px;
+    height: 150px;
+}

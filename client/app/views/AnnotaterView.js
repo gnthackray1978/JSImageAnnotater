@@ -403,53 +403,55 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                 that.showoptions = true;
          });
 
-
-        $('#show_cropper').click(function (e) {
-
-            if (that.showCropper) {
-                $("#map_crop").dialog();
-
-                $('*[aria-describedby="map_options"]').css("width", "293px");
-           
-                $("#map_crop").css("padding", "0px");
-                
-                //font-size: 1.1em; */
-                that.showCropper = false;
-            } else {
-                $("#map_crop").dialog("close");
-                that.showCropper = true;
-            }
-        });
         
-        $('#map_crop').live("dialogclose", function(){
-           that.showCropper = true;
-        });
+        createDialog('#show_cropper',"#map_crop",that.showCropper,'cropdialog');
+        // $('#show_cropper').click(function (e) {
+
+        //     if (that.showCropper) {
+        //         $("#map_crop").dialog();
+
+        //         $('*[aria-describedby="map_options"]').css("width", "293px");
+           
+        //         $("#map_crop").css("padding", "0px");
+                
+        //         //font-size: 1.1em; */
+        //         that.showCropper = false;
+        //     } else {
+        //         $("#map_crop").dialog("close");
+        //         that.showCropper = true;
+        //     }
+        // });
+        // $('#map_crop').live("dialogclose", function(){
+        //   that.showCropper = true;
+        // });
 
         $('#btnCancelCropper').click(function (e) {
             $("#map_crop").dialog("close");
             that.showCropper = true;
         });
 
-        $('#show_edges').click(function (e) {
+        createDialog('#show_edges',"#map_edge_add",that.showEdges,'edgesdialog');
 
-            if (that.showEdges) {
-                $("#map_edge_add").dialog();
+        // $('#show_edges').click(function (e) {
 
-                $('*[aria-describedby="map_edge_add"]').css("width", "293px");
+        //     if (that.showEdges) {
+        //         $("#map_edge_add").dialog();
+
+        //         $('*[aria-describedby="map_edge_add"]').css("width", "293px");
            
-                $("#map_edge_add").css("padding", "0px");
+        //         $("#map_edge_add").css("padding", "0px");
                 
-                //font-size: 1.1em; */
-                that.showEdges = false;
-            } else {
-                $("#map_edge_add").dialog("close");
-                that.showEdges = true;
-            }
-        });
+        //         //font-size: 1.1em; */
+        //         that.showEdges = false;
+        //     } else {
+        //         $("#map_edge_add").dialog("close");
+        //         that.showEdges = true;
+        //     }
+        // });
 
-        $('#map_edge_add').live("dialogclose", function(){
-           that.showEdges = true;
-        });
+        // $('#map_edge_add').live("dialogclose", function(){
+        //   that.showEdges = true;
+        // });
 
         $('#btnCancelEdge').click(function (e) {
             $("#map_edge_add").dialog("close");
@@ -457,61 +459,63 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         });
         
         
-        $('#show_matcher').click(function (e) {
+        createDialog('#show_matcher',"#map_matches",that.showMatches,'matchesdialog');
+        
+        // $('#show_matcher').click(function (e) {
 
-            if (that.showMatches) {
-                $("#map_matches").dialog();
+        //     if (that.showMatches) {
+        //         $("#map_matches").dialog();
 
-                $('*[aria-describedby="map_matches"]').css("width", "350px");
+        //         $('*[aria-describedby="map_matches"]').css("width", "350px");
            
-                $("#map_matches").css("padding", "0px");
-                $("#map_matches").css("height", "150px");
-                //font-size: 1.1em; */
-                that.showMatches = false;
-            } else {
-                $("#map_matches").dialog("close");
-                that.showMatches = true;
-            }
-        });
+        //         $("#map_matches").css("padding", "0px");
+        //         $("#map_matches").css("height", "150px");
+        //         //font-size: 1.1em; */
+        //         that.showMatches = false;
+        //     } else {
+        //         $("#map_matches").dialog("close");
+        //         that.showMatches = true;
+        //     }
+        // });
 
-        $('#map_matches').live("dialogclose", function(){
-           that.showMatches = true;
-        });
+        // $('#map_matches').live("dialogclose", function(){
+        //   that.showMatches = true;
+        // });
 
         $('#btnCancelMatches').click(function (e) {
             $("#map_matches").dialog("close");
             that.showMatches = true;
         });
         
+        createDialog('#show_textCreator',"#map_textFiles",that.showTextCreator,'textdialog');
         
-        
-        $('#show_textCreator').click(function (e) {
+        // $('#show_textCreator').click(function (e) {
 
-            if (that.showTextCreator) {
-                $("#map_textFiles").dialog();
+        //     if (that.showTextCreator) {
+        //         $("#map_textFiles").dialog();
 
-                // $(".ui-widget-header").css("height", "7px");
+        //         // $(".ui-widget-header").css("height", "7px");
 
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
+        //         // $(".ui-dialog-title").css("position", "absolute");
+        //         // $(".ui-dialog-title").css("top", "0px");
+        //         // $(".ui-dialog-title").css("left", "0px");
 
-                $('*[aria-describedby="map_textFiles"]').css("width", "293px");
+        //         $('*[aria-describedby="map_textFiles"]').css("width", "293px");
            
-                $("#map_textFiles").css("padding", "0px");
-                $("#map_textFiles").css("height", "120px");
+        //         $("#map_textFiles").css("padding", "0px");
+        //         $("#map_textFiles").css("height", "120px");
                 
-                //font-size: 1.1em; */
-                that.showTextCreator = false;
-            } else {
-                $("#map_textFiles").dialog("close");
-                that.showTextCreator = true;
-            }
-        });
+        //         //font-size: 1.1em; */
+        //         that.showTextCreator = false;
+        //     } else {
+        //         $("#map_textFiles").dialog("close");
+        //         that.showTextCreator = true;
+        //     }
+        // });
 
-        $('#map_textFiles').live("dialogclose", function(){
-           that.showTextCreator = true;
-        });
+        // $('#map_textFiles').live("dialogclose", function(){
+        //   that.showTextCreator = true;
+        // });
 
         $('#btnCancelTextFile').click(function (e) {
             $("#map_textFiles").dialog("close");
