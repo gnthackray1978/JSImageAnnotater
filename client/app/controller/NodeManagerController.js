@@ -32,10 +32,6 @@ var NodeManagerController = function (view, nodeDataManager,options,channel) {
    
     this._view.Delete($.proxy(this.deleteNote, this));
     
-    this._view.NodeEditorOpen($.proxy(this.start, this));
-    
-    this._view.NodeEditorClosed($.proxy(this.exit, this));
-    
     var that = this;
     
     
