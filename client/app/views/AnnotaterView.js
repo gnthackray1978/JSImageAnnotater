@@ -248,15 +248,16 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                     $(dialogUI).dialog();
                     $(dialogUI).closest('.ui-dialog').addClass(className);
                     
-                    //  $('*[aria-describedby="map_control"]').css("width", "120px");
-                    //  $('*[aria-describedby="map_control"]').css("height", "100px");
-                    
                     displaySwitch = false;
                 } else {
               
                     $(dialogUI).dialog("close");
                     displaySwitch = true;
                 }
+            });
+            
+            $(buttonId).live("dialogclose", function(){
+                displaySwitch = true;
             });
         };
         
@@ -280,35 +281,29 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         //     }
         // });
 
+        createDialog('#show_debugbox',"#map_message",that.showDebug,'debugdialog');
 
-
-        $('#show_debugbox').click(function (e) {
-             if (that.showDebug) {
+        // $('#show_debugbox').click(function (e) {
+        //      if (that.showDebug) {
             
-                $("#map_message").dialog();
-                $('#map_message').closest('.ui-dialog').addClass('debugdialog');
+        //         $("#map_message").dialog();
+        //         $('#map_message').closest('.ui-dialog').addClass('debugdialog');
                  
-                that.showDebug = false;
+        //         that.showDebug = false;
 
-            //     $('*[aria-describedby="map_message"]').css("width", "330px");
+        //     //     $('*[aria-describedby="map_message"]').css("width", "330px");
                  
 
-            } else {
-                 $("#map_message").dialog("close");
-                 that.showDebug = true;
-            }
-        });
+        //     } else {
+        //          $("#map_message").dialog("close");
+        //          that.showDebug = true;
+        //     }
+        // });
 
         $('#show_imageUI').click(function (e) {
 
             if (that.showImageUI) {
                 $("#map_imageUI").dialog();
-
-                $(".ui-widget-header").css("height", "7px");
-
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_imageUI"]').css("width", "265px");
            
@@ -326,83 +321,82 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             }
         });
 
-        $('#show_layers').click(function (e) {
 
-            if (that.showLayers) {
-                $("#map_layers").dialog();
-
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
-
-                $('*[aria-describedby="map_layers"]').css("width", "293px");
-           
-                $("#map_layers").css("padding", "0px");
-                
-                //font-size: 1.1em; */
-                that.showLayers = false;
-            } else {
-                $("#map_layers").dialog("close");
-                that.showLayers = true;
-            }
-        });
+        createDialog('#show_layers',"#map_layers",that.showLayers,'layersdialog');
         
-        $('#map_layers').live("dialogclose", function(){
-           that.showLayers = true;
-        });
+        // $('#show_layers').click(function (e) {
 
-        $('#show_meta').click(function (e) {
+        //     if (that.showLayers) {
+        //         $("#map_layers").dialog();
 
-            if (that.showmeta) {
-                $("#map_metadata").dialog();
-
-                $('*[aria-describedby="map_metadata"]').css("width", "293px");
+        //         $('*[aria-describedby="map_layers"]').css("width", "293px");
            
-                $("#map_metadata").css("padding", "0px");
+        //         $("#map_layers").css("padding", "0px");
                 
-                //font-size: 1.1em; */
-                that.showmeta = false;
-            } else {
-                $("#map_metadata").dialog("close");
-                that.showmeta = true;
-            }
-        });
+        //         //font-size: 1.1em; */
+        //         that.showLayers = false;
+        //     } else {
+        //         $("#map_layers").dialog("close");
+        //         that.showLayers = true;
+        //     }
+        // });
         
-       
-        $('#map_metadata').live("dialogclose", function(){
-           that.showmeta = true;
-        });
+        // $('#map_layers').live("dialogclose", function(){
+        //   that.showLayers = true;
+        // });
 
+
+
+        createDialog('#show_meta',"#map_metadata",that.showmeta,'metadialog');
+        
         $('#btnCancelMetaInfo').click(function (e) {
              $("#map_metadata").dialog("close");
                 that.showmeta = true;
-         });
-
-        
-
-        $('#show_options').click(function (e) {
-
-            if (that.showoptions) {
-                $("#map_options").dialog();
-
-                $('*[aria-describedby="map_options"]').css("width", "293px");
-           
-                $("#map_options").css("padding", "0px");
-                
-                //font-size: 1.1em; */
-                that.showoptions = false;
-            } else {
-                $("#map_options").dialog("close");
-                that.showoptions = true;
-            }
         });
+         
+        // $('#show_meta').click(function (e) {
+
+        //     if (that.showmeta) {
+        //         $("#map_metadata").dialog();
+
+        //         $('*[aria-describedby="map_metadata"]').css("width", "293px");
+           
+        //         $("#map_metadata").css("padding", "0px");
+                
+        //         //font-size: 1.1em; */
+        //         that.showmeta = false;
+        //     } else {
+        //         $("#map_metadata").dialog("close");
+        //         that.showmeta = true;
+        //     }
+        // });
         
        
-        $('#map_options').live("dialogclose", function(){
-           that.showoptions = true;
-        });
+        // $('#map_metadata').live("dialogclose", function(){
+        //   that.showmeta = true;
+        // });
+        
+        createDialog('#show_options',"#map_options",that.showoptions,'optionsdialog');
+
+        // $('#show_options').click(function (e) {
+
+        //     if (that.showoptions) {
+        //         $("#map_options").dialog();
+
+        //         $('*[aria-describedby="map_options"]').css("width", "293px");
+           
+        //         $("#map_options").css("padding", "0px");
+                
+        //         //font-size: 1.1em; */
+        //         that.showoptions = false;
+        //     } else {
+        //         $("#map_options").dialog("close");
+        //         that.showoptions = true;
+        //     }
+        // });
+        // $('#map_options').live("dialogclose", function(){
+        //   that.showoptions = true;
+        // });
 
         $('#btnCancelOptions').click(function (e) {
              $("#map_options").dialog("close");

@@ -1,7 +1,7 @@
-.optionsdialog{
+.cropdialog{
     width: 293px !important; /* // jquery is shit!*/
 }
 
-#map_options{
+#map_crop{
     padding:0px;
 }

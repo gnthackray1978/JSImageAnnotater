@@ -1,5 +1,15 @@
 /* meta data buttons etc*/
 
+.metadialog{
+    width: 293px !important; /* // jquery is shit!*/
+}
+
+#map_metadata{
+    padding:0px;
+}
+
+
+
 .meta-top-label{
     
 }
