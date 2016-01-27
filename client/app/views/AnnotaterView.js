@@ -246,11 +246,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
           
                 $("#map_control").dialog();
           
-                 $(".ui-widget-header").css("height", "7px");
+                //  $(".ui-widget-header").css("height", "7px");
                 
-                 $(".ui-dialog-title").css("position", "absolute");
-                 $(".ui-dialog-title").css("top", "0px");
-                 $(".ui-dialog-title").css("left", "0px");
+                //  $(".ui-dialog-title").css("position", "absolute");
+                //  $(".ui-dialog-title").css("top", "0px");
+                //  $(".ui-dialog-title").css("left", "0px");
                 
                  $('*[aria-describedby="map_control"]').css("width", "120px");
                  $('*[aria-describedby="map_control"]').css("height", "100px");
