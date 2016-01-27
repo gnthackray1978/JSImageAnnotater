@@ -240,31 +240,55 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 
         $("#minimized_options").removeClass("hidePanel").addClass("displayPanel");
       
-        $('#show_controls').click(function (e) {
+        var createDialog = function(buttonId,dialogUI, displaySwitch, className){
+            
+            $(buttonId).click(function (e) {
+                if (displaySwitch) {
+              
+                    $(dialogUI).dialog();
+                    $(dialogUI).closest('.ui-dialog').addClass(className);
+                    
+                    //  $('*[aria-describedby="map_control"]').css("width", "120px");
+                    //  $('*[aria-describedby="map_control"]').css("height", "100px");
+                    
+                    displaySwitch = false;
+                } else {
+              
+                    $(dialogUI).dialog("close");
+                    displaySwitch = true;
+                }
+            });
+        };
+        
+        createDialog('#show_controls',"#map_control",that.showMapControls,'controldialog');
+      
+        // $('#show_controls').click(function (e) {
 
-            if (that.showMapControls) {
+        //     if (that.showMapControls) {
           
-                $("#map_control").dialog();
-
-                 $('*[aria-describedby="map_control"]').css("width", "120px");
-                 $('*[aria-describedby="map_control"]').css("height", "100px");
+        //         $("#map_control").dialog();
+        //         $('#map_control').closest('.ui-dialog').addClass('debugdialog');
                 
-                that.showMapControls = false;
-            } else {
+        //          $('*[aria-describedby="map_control"]').css("width", "120px");
+        //          $('*[aria-describedby="map_control"]').css("height", "100px");
+                
+        //         that.showMapControls = false;
+        //     } else {
           
-                $("#map_control").dialog("close");
-                that.showMapControls = true;
-            }
-        });
+        //         $("#map_control").dialog("close");
+        //         that.showMapControls = true;
+        //     }
+        // });
+
+
 
         $('#show_debugbox').click(function (e) {
              if (that.showDebug) {
             
-                 $("#map_message").dialog();
-                 //$(".ui-dialog").addClass("d1");
-                 $('#map_message').closest('.ui-dialog').addClass('d1');
+                $("#map_message").dialog();
+                $('#map_message').closest('.ui-dialog').addClass('debugdialog');
                  
-                 that.showDebug = false;
+                that.showDebug = false;
 
             //     $('*[aria-describedby="map_message"]').css("width", "330px");
                  
