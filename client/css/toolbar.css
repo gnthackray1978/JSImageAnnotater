@@ -1,0 +1,8 @@
+.toolbardialog{
+    width: 110px !important; /* // jquery is shit!*/
+}
+
+#map_toolbar{
+    padding:0px;
+    height: 400px;
+}

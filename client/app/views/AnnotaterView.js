@@ -523,34 +523,35 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         });
         
         
+        createDialog('#show_tools',"#map_toolbar",that.showToolBar,'toolbardialog');
         
-        $('#show_tools').click(function (e) {
+        // $('#show_tools').click(function (e) {
 
-            if (that.showToolBar) {
-                $("#map_toolbar").dialog();
+        //     if (that.showToolBar) {
+        //         $("#map_toolbar").dialog();
 
-                // $(".ui-widget-header").css("height", "7px");
+        //         // $(".ui-widget-header").css("height", "7px");
 
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
+        //         // $(".ui-dialog-title").css("position", "absolute");
+        //         // $(".ui-dialog-title").css("top", "0px");
+        //         // $(".ui-dialog-title").css("left", "0px");
 
-                $('*[aria-describedby="map_toolbar"]').css("width", "110px");
+        //         $('*[aria-describedby="map_toolbar"]').css("width", "110px");
            
-                $("#map_toolbar").css("padding", "0px");
-                $("#map_toolbar").css("height", "400px");
+        //         $("#map_toolbar").css("padding", "0px");
+        //         $("#map_toolbar").css("height", "400px");
                 
-                //font-size: 1.1em; */
-                that.showToolBar = false;
-            } else {
-                $("#map_toolbar").dialog("close");
-                that.showToolBar = true;
-            }
-        });
+        //         //font-size: 1.1em; */
+        //         that.showToolBar = false;
+        //     } else {
+        //         $("#map_toolbar").dialog("close");
+        //         that.showToolBar = true;
+        //     }
+        // });
 
-        $('#map_toolbar').live("dialogclose", function(){
-           that.showToolBar = true;
-        });
+        // $('#map_toolbar').live("dialogclose", function(){
+        //   that.showToolBar = true;
+        // });
 
         $('#btnCancelToolBar').click(function (e) {
             $("#map_toolbar").dialog("close");
