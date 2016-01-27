@@ -3,8 +3,12 @@
  /*                $(".ui-dialog-title").css("position", "absolute");*/
  /*                $(".ui-dialog-title").css("top", "0px");*/
  /*                $(".ui-dialog-title").css("left", "0px");*/
+   
                  
-                 
+div[aria-describedby="map_message"]{
+    width: 500px;
+}   
+
 .ui-widget-header{
     height: 7px;
 }                
@@ -118,49 +122,14 @@ canvas {
     height: 18px;
 }
 
-
-
-#topbar {
-    display: block;
-    background-color: aliceblue;
-    height: 30px;
-}
-
-#defaultFile {
-    display: inline;
-
-}
-
-#fileinput {
-    display: inline;
-     width: 250px;
-}
-
-  .displayPanel
+.displayPanel
 {
     display: block;
-    
 }
     
 .hidePanel
 {
     display: none;
-        
-    }
+}
     
 .info {position: absolute;}
-
-
-
-
-
-
-
-
-.button_box
-{
-    cursor: pointer;
-    width: 20px;
-    height: 20px;
-    margin:5px;
-}

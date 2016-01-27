@@ -264,7 +264,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  
                  that.showDebug = false;
 
-                 $('*[aria-describedby="map_message"]').css("width", "330px");
+            //     $('*[aria-describedby="map_message"]').css("width", "330px");
                  
 
             } else {
@@ -332,12 +332,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showmeta) {
                 $("#map_metadata").dialog();
 
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
-
                 $('*[aria-describedby="map_metadata"]').css("width", "293px");
            
                 $("#map_metadata").css("padding", "0px");
@@ -367,12 +361,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showoptions) {
                 $("#map_options").dialog();
 
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
-
                 $('*[aria-describedby="map_options"]').css("width", "293px");
            
                 $("#map_options").css("padding", "0px");
@@ -401,12 +389,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showCropper) {
                 $("#map_crop").dialog();
 
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
-
                 $('*[aria-describedby="map_options"]').css("width", "293px");
            
                 $("#map_crop").css("padding", "0px");
@@ -432,12 +414,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 
             if (that.showEdges) {
                 $("#map_edge_add").dialog();
-
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_edge_add"]').css("width", "293px");
            
@@ -465,12 +441,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 
             if (that.showMatches) {
                 $("#map_matches").dialog();
-
-                // $(".ui-widget-header").css("height", "7px");
-
-                // $(".ui-dialog-title").css("position", "absolute");
-                // $(".ui-dialog-title").css("top", "0px");
-                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_matches"]').css("width", "350px");
            
