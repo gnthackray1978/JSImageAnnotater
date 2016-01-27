@@ -9,10 +9,6 @@ var VisualizerController = function (view, graphicsContext, channel) {
 
     var that = this;
 
-    this.graphicsContext.EnableRun = function(param){
-        that._view.DisplayUpdateRunButton(param);
-    };
-
     this.graphicsContext.UpdateInfo = function(imdat){
         that._view.UpdateInfoWindow(imdat);
     };

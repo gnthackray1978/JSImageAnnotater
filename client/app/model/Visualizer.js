@@ -427,10 +427,7 @@ Visualizer.prototype.setImageObject = function(urlId, jsonData, callback){
 };
 
 Visualizer.prototype._imageLoaded = function(val){
-    if(this.EnableRun)
-        this.EnableRun(val);
-    else
-        this._shout('_imageLoaded','EnableRun not defined') ;
+    this._shout('_imageLoaded','Thats great') ;
 };
     
 Visualizer.prototype._updateInfo = function(val){
