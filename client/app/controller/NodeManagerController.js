@@ -1,4 +1,4 @@
-var NodeManagerController = function (view, nodeDataManager,options,channel) {
+var NodeManagerController = function (view, nodeDataManager,channel) {
  
     this.deletedNodeCache;
     this.selectedNote; 
@@ -94,6 +94,7 @@ var NodeManagerController = function (view, nodeDataManager,options,channel) {
     this._channel.subscribe("newOptionsLoaded", function(data, envelope) {
         that.options = data.value;
     });
+    
     this._channel.subscribe("multiOptionsLoaded", function(data, envelope) {
         that.options = data.value;
     });
