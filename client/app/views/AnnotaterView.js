@@ -270,11 +270,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  
                  that.showDebug = false;
                  
-                 $(".ui-widget-header").css("height", "7px");
+                //  $(".ui-widget-header").css("height", "7px");
 
-                 $(".ui-dialog-title").css("position", "absolute");
-                 $(".ui-dialog-title").css("top", "0px");
-                 $(".ui-dialog-title").css("left", "0px");
+                //  $(".ui-dialog-title").css("position", "absolute");
+                //  $(".ui-dialog-title").css("top", "0px");
+                //  $(".ui-dialog-title").css("left", "0px");
 
                  $('*[aria-describedby="map_message"]').css("width", "330px");
                  
