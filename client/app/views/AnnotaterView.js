@@ -245,13 +245,7 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showMapControls) {
           
                 $("#map_control").dialog();
-          
-                //  $(".ui-widget-header").css("height", "7px");
-                
-                //  $(".ui-dialog-title").css("position", "absolute");
-                //  $(".ui-dialog-title").css("top", "0px");
-                //  $(".ui-dialog-title").css("left", "0px");
-                
+
                  $('*[aria-describedby="map_control"]').css("width", "120px");
                  $('*[aria-describedby="map_control"]').css("height", "100px");
                 
@@ -269,12 +263,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
                  $("#map_message").dialog();
                  
                  that.showDebug = false;
-                 
-                //  $(".ui-widget-header").css("height", "7px");
-
-                //  $(".ui-dialog-title").css("position", "absolute");
-                //  $(".ui-dialog-title").css("top", "0px");
-                //  $(".ui-dialog-title").css("left", "0px");
 
                  $('*[aria-describedby="map_message"]').css("width", "330px");
                  
@@ -317,11 +305,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showLayers) {
                 $("#map_layers").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_layers"]').css("width", "293px");
            
@@ -344,11 +332,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showmeta) {
                 $("#map_metadata").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_metadata"]').css("width", "293px");
            
@@ -379,11 +367,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showoptions) {
                 $("#map_options").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_options"]').css("width", "293px");
            
@@ -413,11 +401,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showCropper) {
                 $("#map_crop").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_options"]').css("width", "293px");
            
@@ -445,11 +433,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showEdges) {
                 $("#map_edge_add").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_edge_add"]').css("width", "293px");
            
@@ -478,11 +466,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showMatches) {
                 $("#map_matches").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_matches"]').css("width", "350px");
            
@@ -512,11 +500,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showTextCreator) {
                 $("#map_textFiles").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_textFiles"]').css("width", "293px");
            
@@ -547,11 +535,11 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
             if (that.showToolBar) {
                 $("#map_toolbar").dialog();
 
-                $(".ui-widget-header").css("height", "7px");
+                // $(".ui-widget-header").css("height", "7px");
 
-                $(".ui-dialog-title").css("position", "absolute");
-                $(".ui-dialog-title").css("top", "0px");
-                $(".ui-dialog-title").css("left", "0px");
+                // $(".ui-dialog-title").css("position", "absolute");
+                // $(".ui-dialog-title").css("top", "0px");
+                // $(".ui-dialog-title").css("left", "0px");
 
                 $('*[aria-describedby="map_toolbar"]').css("width", "110px");
            
