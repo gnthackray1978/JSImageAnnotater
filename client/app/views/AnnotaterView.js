@@ -260,7 +260,9 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
         $('#show_debugbox').click(function (e) {
              if (that.showDebug) {
             
-                 $("#map_message").dialog({dialogClass:'d1'});
+                 $("#map_message").dialog();
+                 //$(".ui-dialog").addClass("d1");
+                 $('#map_message').closest('.ui-dialog').addClass('d1');
                  
                  that.showDebug = false;
 
