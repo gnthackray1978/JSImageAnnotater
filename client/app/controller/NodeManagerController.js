@@ -10,9 +10,8 @@ var NodeManagerController = function (view, nodeDataManager,channel) {
 
     this.nodeManager = nodeDataManager;
     
-    this.options;// = options;
-    //this.newOptions;
-    
+    this.options;
+  
     this.stateCache =0;
     
     
