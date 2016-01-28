@@ -94,7 +94,7 @@ function loadAll (drive){
         var nodePositioning = new NodePositioning(nodeManager,channel);
         var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
         
-        var copyPaste = new CopyPasteController(channel);
+        var copyPaste = new CopyPasteController(nodeManager,channel);
         
         var debug = new Debuger(channel, driveLib,nodeManager,visualizer,nodePositioningController);
    
