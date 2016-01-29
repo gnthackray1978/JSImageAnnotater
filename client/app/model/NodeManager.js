@@ -127,21 +127,21 @@ NodeManager.prototype = {
         var vidx =1;
         var hidx =0;
       
-       
+        var deselectionCount =0;
+        
         while(vidx < this.generations.length){
             hidx=0;
             while(hidx < this.generations[vidx].length){
+                if(this.generations[vidx][hidx].Selected)
+                    deselectionCount++;
                 
-               
-                    this.generations[vidx][hidx].Selected = false;
-                
-                
+                this.generations[vidx][hidx].Selected = false;
                 hidx++;
             }
             vidx++;
         }
         
-        callback();
+        callback(deselectionCount);
     },
 
     GetSelectedNodes : function(callback){

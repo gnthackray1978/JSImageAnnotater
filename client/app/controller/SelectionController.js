@@ -220,8 +220,13 @@
                     // if we havent clicked on anything deselect everything
                     // always do this whatever the state.
                     if(node == undefined && !that._isMultiSelecting){
-                        that._nodeManager.DeSelectNodes(function(){
+                        that._nodeManager.DeSelectNodes(function(count){
+                            
+                            if(count >0)
+                                that._channel.publish( "nodedeselected", { value: 0 } );
+                                
                             that._channel.publish( "drawtree", null);
+                            
                         });
                         
                     }
@@ -251,10 +256,10 @@
             var that = this;
             
             this._nodeManager.SelectNode(this._selectedNode, function(node){
-                console.log('selectNode nodeselected');
+                that._shout('selectNode','selectNode node selected');
                 that._channel.publish( "nodeselected", { value: that._nodeManager.SelectionCount() } ); 
             }, function(node){
-                console.log('selectNode nodedeselected');
+                that._shout('selectNode','selectNode node deselected');
                 that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); 
             });   
             
@@ -331,8 +336,11 @@
                     // code
                     break;
             }
-        }
+        },
 
+        _shout : function(method, message){
+            this._channel.publish( "DebugMessage", {name : 'SLC' , description : method + '.'+ message } );
+        }
     };
 
     exports.SelectionController = SelectionController;
