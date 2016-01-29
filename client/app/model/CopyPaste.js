@@ -1,9 +1,7 @@
 
+
 var CopyPaste = function (channel) {
-    
+    this.selectedNodes=[];
+    this.copiedNodes=[];
 };
 
-CopyPaste.prototype.Load = function(metaData){
-    
-
-};
