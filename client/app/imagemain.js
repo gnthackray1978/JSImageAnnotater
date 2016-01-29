@@ -42,7 +42,7 @@ function loadAll (drive){
     var layerView = new LayerView(appView,channel);
     var cropperView = new CropperView(appView,channel);
     var metaView = new MetaView(appView,channel);
-    
+    var copyPasteView = new CopyPasteView(appView,channel);
     
     data.init(function(){
         
