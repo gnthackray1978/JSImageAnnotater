@@ -37,10 +37,10 @@ CopyPasteView.prototype.DisablePaste = function (state){
     $("#pastebtn").prop('disabled',true);
 };
 CopyPasteView.prototype.EnableCut = function (state){
-    $("#cutbtn").prop('disabled',true);
+    $("#cutbtn").prop('disabled',false);
 };
 CopyPasteView.prototype.EnableCopy = function (state){
-    $("#copybtn").prop('disabled',true);
+    $("#copybtn").prop('disabled',false);
 };
 CopyPasteView.prototype.EnablePaste = function (state){
     $("#pastebtn").prop('disabled',false);
