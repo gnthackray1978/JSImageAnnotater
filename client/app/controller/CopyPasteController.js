@@ -75,6 +75,9 @@ var CopyPasteController = function (nodeManager, channel) {
                 that._nodeManager.AddNodes(true,newNodes, function(e){
                     that._shout('PasteClick event','Add Nodes');
                     that._channel.publish( "drawtree", { value: e } );
+                    
+                    that._channel.publish( "positionNodeActivated", { value: true } );
+                    
                 });    
             });
             

@@ -112,10 +112,12 @@
         }
     },
 	
-	NodePositioningController.prototype.PositioningActivated = function(node){
+	NodePositioningController.prototype.PositioningActivated = function(toggleToActive){
 	    console.log('PositioningActivated');
 	    // find all the selected nodes.
 	    // if selection is enabled.
+		
+		if(toggleToActive && this._state == 2) return; // we are already active dont do anything.
 
 	    switch(this._state){
 	        case 1:

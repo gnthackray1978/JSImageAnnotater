@@ -226,7 +226,7 @@ SelectionView.prototype.PublishNodePositioning = function () {
     var that =this;
     
     $("#enableNodePositioning").click(function (evt) {
-        that._channel.publish( "positionNodeActivated", { value: evt} );
+        that._channel.publish( "positionNodeActivated", { value: undefined} );
     });
 };
 
