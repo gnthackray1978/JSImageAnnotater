@@ -23,11 +23,15 @@
 	    //     that.PositioningActivated();
 	    // });
 	    
-	    this._channel.publish( "ActivateNodePositioning", { value: function(){
-	        that.PositioningActivated();
-	    } } );
+	    // this._channel.publish( "ActivateNodePositioning", { value: function(){
+	    //     that.PositioningActivated();
+	    // } } );
 	    
 	    
+	    this._channel.subscribe("positionNodeActivated", function(data, envelope) {
+            that.PositioningActivated(data.value);
+        });
+        
 	    this._channel.subscribe("positionMouseDown", function(data, envelope) {
             //console.log('s_selectionMouseDown');
             that.qryCanvasMouseDown(data.value);

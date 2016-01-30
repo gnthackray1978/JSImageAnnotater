@@ -73,7 +73,7 @@ var SelectionView = function (view, channel) {
     });
     
 
-    
+    this.PublishNodePositioning();
     
     this.InitSelectionRectangle();
 };
@@ -219,6 +219,14 @@ SelectionView.prototype.ActivateNodePositioning = function (action) {
     //here look multiple event firing problems    
     $("#enableNodePositioning").click(function (evt) {
         action();
+    });
+};
+
+SelectionView.prototype.PublishNodePositioning = function () {
+    var that =this;
+    
+    $("#enableNodePositioning").click(function (evt) {
+        that._channel.publish( "positionNodeActivated", { value: evt} );
     });
 };
 
