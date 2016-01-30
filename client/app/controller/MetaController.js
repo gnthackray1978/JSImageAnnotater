@@ -92,7 +92,7 @@ MetaController.prototype = {
                 
                 that.metaObject.Load(tpMeta);
                 
-                if(tpMeta && tpMeta.length)
+                if(tpMeta)// && tpMeta.length
                     that._channel.publish( "SetSelectedMetaData", { value: tpMeta } );
                 
                 that._channel.publish( "SetEnabledState", { value: true } );
