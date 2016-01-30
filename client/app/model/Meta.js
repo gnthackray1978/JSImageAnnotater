@@ -15,10 +15,7 @@ Meta.prototype.Load = function(metaData){
     
     if(metaData && metaData.length){
         this.selectedMetaData = metaData;
-    //    this._channel.publish( "SetSelectedMetaData", { value: metaData } );
     }
-    
-    //this._channel.publish( "SetEnabledState", { value: true } );
 };
 
 Meta.prototype.Unload = function(){
@@ -67,8 +64,7 @@ Meta.prototype.SetCurrentMetaId = function(id,callback){
         if(data.length > 0){
             that.SetCurrentTemplate(data[0].id);
         }
-//        that._channel.publish( "SetTemplates", { value: data } );
-        
+  
         callback(that.metaDataTypes);
     });
 };
@@ -107,8 +103,7 @@ Meta.prototype.SetAddButtonState = function(state, callback){
        if(!contains(this.selectedMetaData,this.lastClickedMetaData)){
            this.selectedMetaData.push(JSON.parse(JSON.stringify(this.lastClickedMetaData)));
        }
-       //this._channel.publish( "SetSelectedMetaData", { value: this.selectedMetaData } );
-       
+  
        callback(this.selectedMetaData);
    }
 };
@@ -134,8 +129,7 @@ Meta.prototype.SetDeleteButtonState = function(state,callback){
        
        if(midx != -1){
             this.selectedMetaData.splice(midx, 1); 
-            //this.view.SetSelectedMetaData(this.selectedMetaData);
-            
+
             callback(this.selectedMetaData);
        }
    }
