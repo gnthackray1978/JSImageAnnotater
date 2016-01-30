@@ -5,3 +5,7 @@ var CopyPaste = function (channel) {
     this.copiedNodes=[];
 };
 
+CopyPaste.prototype.CopyNodes = function(){
+    this.copiedNodes = this.selectedNodes;
+    
+};
