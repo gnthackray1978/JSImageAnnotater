@@ -3,7 +3,7 @@ var MetaController = function (model,channel, nodeManager) {
     this._nodeManager = nodeManager;
     this._channel = channel;
     this.selectedNode;
-    this.model = model;
+    this.metaObject = model;
     
     this.init();
 
@@ -32,13 +32,13 @@ var MetaController = function (model,channel, nodeManager) {
     
     this._channel.subscribe("MetaAddButtonState", function(data, envelope) {
         
-       that.model.SetAddButtonState(data.value, function(selectedMetaData){
+       that.metaObject.SetAddButtonState(data.value, function(selectedMetaData){
            that._channel.publish( "SetSelectedMetaData", { value: selectedMetaData } );
        });
     });
     
     this._channel.subscribe("MetaSaveButtonState", function(data, envelope) {
-        that.model.Save(function(metaData){
+        that.metaObject.Save(function(metaData){
             that.selectedNode.MetaData = metaData;
             
             that._nodeManager.AddNodes(true,that.selectedNode, function(){
@@ -51,17 +51,17 @@ var MetaController = function (model,channel, nodeManager) {
     });
   
     this._channel.subscribe("MetaDeleteButtonState", function(data, envelope) {
-        that.model.SetDeleteButtonState(data.value, function(selectedMetaData){
+        that.metaObject.SetDeleteButtonState(data.value, function(selectedMetaData){
             that._channel.publish( "SetSelectedMetaData", { value: selectedMetaData } );
         });
     });
     
     this._channel.subscribe("TemplateState", function(data, envelope) {
-        that.model.SetCurrentTemplate(data.value);
+        that.metaObject.SetCurrentTemplate(data.value);
     });
     
     this._channel.subscribe("MetaState", function(data, envelope) {
-        that.model.SetCurrentMetaId(data.value, function(metaDataTypes){
+        that.metaObject.SetCurrentMetaId(data.value, function(metaDataTypes){
              that._channel.publish( "SetTemplates", { value: metaDataTypes } );
         });
     });
@@ -74,8 +74,8 @@ MetaController.prototype = {
         
         var that =this;
     
-        if (that.model !== null) {
-            that.model.GetData(function(metaData, metaDataTypes){
+        if (that.metaObject !== null) {
+            that.metaObject.GetData(function(metaData, metaDataTypes){
                 that._channel.publish( "SetMetaData", { value: metaData } );
                 that._channel.publish( "SetTemplates", { value: metaDataTypes } );
             });
@@ -90,7 +90,7 @@ MetaController.prototype = {
                 that.selectedNode = selection[0]; 
                 var tpMeta = that.selectedNode.MetaData;
                 
-                that.model.Load(tpMeta);
+                that.metaObject.Load(tpMeta);
                 
                 if(tpMeta && tpMeta.length)
                     that._channel.publish( "SetSelectedMetaData", { value: tpMeta } );
