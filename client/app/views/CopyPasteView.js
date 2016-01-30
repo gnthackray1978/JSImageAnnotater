@@ -25,6 +25,10 @@ var CopyPasteView = function (view, channel) {
     this._channel.subscribe("PasteEnabled", function(data, envelope) {
         that.EnablePaste();
     });
+    
+    that.PublishCut();
+    that.PublishCopy();
+    that.PublishPaste();
 };
 
 CopyPasteView.prototype.DisableCut = function (state){
