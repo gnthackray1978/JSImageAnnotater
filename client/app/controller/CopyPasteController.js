@@ -71,8 +71,8 @@ var CopyPasteController = function (nodeManager, channel) {
                 idx++;
             }
             
-            that.nodestore.DeSelectNodes(function(count){
-                that.nodestore.AddNodes(true,newNodes, function(e){
+            that._nodeManager.DeSelectNodes(function(count){
+                that._nodeManager.AddNodes(true,newNodes, function(e){
                     that._shout('PasteClick event','Add Nodes');
                     that._channel.publish( "drawtree", { value: e } );
                 });    
