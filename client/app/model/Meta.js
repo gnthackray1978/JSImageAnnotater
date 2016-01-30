@@ -15,14 +15,14 @@ Meta.prototype.Load = function(metaData){
     
     if(metaData && metaData.length){
         this.selectedMetaData = metaData;
-        this._channel.publish( "SetSelectedMetaData", { value: metaData } );
+    //    this._channel.publish( "SetSelectedMetaData", { value: metaData } );
     }
     
-    this._channel.publish( "SetEnabledState", { value: true } );
+    //this._channel.publish( "SetEnabledState", { value: true } );
 };
 
 Meta.prototype.Unload = function(){
-    this._channel.publish( "SetEnabledState", { value: false } );
+    //this._channel.publish( "SetEnabledState", { value: false } );
 };
 
 Meta.prototype.Save = function(callback){
@@ -32,20 +32,20 @@ Meta.prototype.Save = function(callback){
     callback(this.selectedMetaData);
 };
 
-Meta.prototype.GetData = function(){
+Meta.prototype.GetData = function(callback){
     var that = this;
     
-    this.metaDataDll.GetMetaData(function(data){
-        that.metaData = data;
+    this.metaDataDll.GetMetaData(function(metaData){
+        that.metaData = metaData;
         if(that.metaData.length >0){
-            that.SetCurrentMetaId(that.metaData[0].id);
-        }
-        
-        that._channel.publish( "SetMetaData", { value: data } );
+            that.SetCurrentMetaId(that.metaData[0].id, function(metaDataTypes){
+                callback(metaData,metaDataTypes);
+            });
+        } 
     });
 };
 
-Meta.prototype.SetCurrentMetaId = function(id){
+Meta.prototype.SetCurrentMetaId = function(id,callback){
     var that = this;
     var ids;
     var idx =0;
@@ -67,7 +67,9 @@ Meta.prototype.SetCurrentMetaId = function(id){
         if(data.length > 0){
             that.SetCurrentTemplate(data[0].id);
         }
-        that._channel.publish( "SetTemplates", { value: data } );
+//        that._channel.publish( "SetTemplates", { value: data } );
+        
+        callback(that.metaDataTypes);
     });
 };
 
@@ -84,7 +86,7 @@ Meta.prototype.SetCurrentTemplate = function(id){
     
 };
 
-Meta.prototype.SetAddButtonState = function(state){
+Meta.prototype.SetAddButtonState = function(state, callback){
 
    var contains = function(sourceArray, target){
        var idx =0;
@@ -105,11 +107,13 @@ Meta.prototype.SetAddButtonState = function(state){
        if(!contains(this.selectedMetaData,this.lastClickedMetaData)){
            this.selectedMetaData.push(JSON.parse(JSON.stringify(this.lastClickedMetaData)));
        }
-       this._channel.publish( "SetSelectedMetaData", { value: this.selectedMetaData } );
+       //this._channel.publish( "SetSelectedMetaData", { value: this.selectedMetaData } );
+       
+       callback(this.selectedMetaData);
    }
 };
 
-Meta.prototype.SetDeleteButtonState = function(state){
+Meta.prototype.SetDeleteButtonState = function(state,callback){
     
     var contains = function(sourceArray, target){
        var idx =0;
@@ -130,7 +134,9 @@ Meta.prototype.SetDeleteButtonState = function(state){
        
        if(midx != -1){
             this.selectedMetaData.splice(midx, 1); 
-            this.view.SetSelectedMetaData(this.selectedMetaData);
+            //this.view.SetSelectedMetaData(this.selectedMetaData);
+            
+            callback(this.selectedMetaData);
        }
    }
 };

@@ -10,7 +10,7 @@ var MetaController = function (model,channel, nodeManager) {
     var that = this;
     
     this._channel.subscribe("nodecreation", function(data, envelope) {
-        that.model.Load([]);
+        that._channel.publish( "SetEnabledState", { value: true } );
     });
     
     this._channel.subscribe("multiselectingend", function(data, envelope) {
@@ -31,7 +31,10 @@ var MetaController = function (model,channel, nodeManager) {
     
     
     this._channel.subscribe("MetaAddButtonState", function(data, envelope) {
-       that.model.SetAddButtonState(data.value);
+        
+       that.model.SetAddButtonState(data.value, function(selectedMetaData){
+           that._channel.publish( "SetSelectedMetaData", { value: selectedMetaData } );
+       });
     });
     
     this._channel.subscribe("MetaSaveButtonState", function(data, envelope) {
@@ -48,7 +51,9 @@ var MetaController = function (model,channel, nodeManager) {
     });
   
     this._channel.subscribe("MetaDeleteButtonState", function(data, envelope) {
-        that.model.SetDeleteButtonState(data.value);
+        that.model.SetDeleteButtonState(data.value, function(selectedMetaData){
+            that._channel.publish( "SetSelectedMetaData", { value: selectedMetaData } );
+        });
     });
     
     this._channel.subscribe("TemplateState", function(data, envelope) {
@@ -56,7 +61,9 @@ var MetaController = function (model,channel, nodeManager) {
     });
     
     this._channel.subscribe("MetaState", function(data, envelope) {
-        that.model.SetCurrentMetaId(data.value);
+        that.model.SetCurrentMetaId(data.value, function(metaDataTypes){
+             that._channel.publish( "SetTemplates", { value: metaDataTypes } );
+        });
     });
 };
 
@@ -64,10 +71,15 @@ var MetaController = function (model,channel, nodeManager) {
             
 MetaController.prototype = {
     init:function(){
+        
+        var that =this;
     
-         if (this.model !== null) {
-            this.model.GetData();
-         }
+        if (that.model !== null) {
+            that.model.GetData(function(metaData, metaDataTypes){
+                that._channel.publish( "SetMetaData", { value: metaData } );
+                that._channel.publish( "SetTemplates", { value: metaDataTypes } );
+            });
+        }
     },
  
     selectionChanged : function(callback){
@@ -76,12 +88,20 @@ MetaController.prototype = {
         this._nodeManager.GetSelectedNodes(function(selection){
             if(selection.length > 0){
                 that.selectedNode = selection[0]; 
-                that.model.Load(that.selectedNode.MetaData);
+                var tpMeta = that.selectedNode.MetaData;
+                
+                that.model.Load(tpMeta);
+                
+                if(tpMeta && tpMeta.length)
+                    that._channel.publish( "SetSelectedMetaData", { value: tpMeta } );
+                
+                that._channel.publish( "SetEnabledState", { value: true } );
+                    
                 callback();
             }
             else
             {
-                that.model.Unload();  
+                that._channel.publish( "SetEnabledState", { value: false } );
             }
         });
     },

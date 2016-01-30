@@ -13,9 +13,9 @@ var MetaView = function (view, channel) {
         that.SetSelectedMetaData(data.value);
     });
     
-    this._channel.subscribe("SetSelectedMetaData", function(data, envelope) {
-        that.SetSelectedMetaData(data.value);
-    });
+    // this._channel.subscribe("SetSelectedMetaData", function(data, envelope) {
+    //     that.SetSelectedMetaData(data.value);
+    // });
 
     this._channel.subscribe("SetTemplates", function(data, envelope) {
         that.SetTemplates(data.value);

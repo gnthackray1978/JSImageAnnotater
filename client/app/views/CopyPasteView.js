@@ -1,5 +1,11 @@
 
+/*
+model represents what is displayed on the screen!!!
+controller returns populated models to the view
+view dumps model on the screen!
 
+
+*/
 
 var CopyPasteView = function (view, channel) {
     var that = this;
