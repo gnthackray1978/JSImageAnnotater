@@ -16,30 +16,20 @@
         
         this.init();
         var that = this;
-        
-        //this._view.SelectNodeButton($.proxy(this.selectNodeAction, this));
-        
+         
         this._channel.subscribe("selectnodebtn", function(data, envelope) {
             that.selectNodeAction();
         });
         
         this._channel.subscribe("selectionRectangleActivated", function(data, envelope) {
-            //console.log('s_selectionRectangleActivated');
             that.qrySelectionStart(data.value);
         });
         
         this._channel.subscribe("selectionMouseDown", function(data, envelope) {
-            //console.log('s_selectionMouseDown');
             that.qryCanvasMouseDown(data.value);
         });
-        
-        // this._channel.subscribe("selectionMouseUp", function(data, envelope) {
-        //     //console.log('s_selectionMouseUp');
-        //     that.qryCanvasMouseUp(data.value);
-        // });
-        
+         
         this._channel.subscribe("selectionMouseMove", function(data, envelope) {
-            //console.log('s_selectionMouseMove');
             that.qryCanvasMouseMove(data.value);
         });
         
@@ -124,10 +114,9 @@
             if(that.isStarted){
                 // get a node that we'll use to draw the rectangle
                 this.model.GetNode(function(){
-        	       // that._channel.publish( "lockmouseup", { value: that._mouseLockKey } );
-    	    	    //that._channel.publish( "lockmousedown", { value: that._mouseLockKey} );
+        	  
     	    	    that.lockMouse(that._mouseLockKey);
-    	    	    //that._view.DisplayRectangleSelection(true);
+    	    	    
     	    	    that._channel.publish( "DisplayRectangleSelection", { value: true } );
     	    	    that._channel.publish( "multiselectingstart", { value: this.model } );
     	    	    that._isMultiSelecting =true;
@@ -147,10 +136,7 @@
         },
         
         finishSelecting : function(){
-            
-          //  this.lockMouse('');
-           
-	    	//this._view.DisplayRectangleSelection(false);
+
 	    	this._channel.publish( "DisplayRectangleSelection", { value: false} );
 	    	
 	    	this.model.CloseSelection();
@@ -314,7 +300,7 @@
                     this._channel.publish( "singleSelectionDisabled", { value: false} );  // tell the world we are no longer selecting anything
                     // if there was something selected deselect it.
                     this._nodeManager.SelectNode(this._selectedNode, function(node){}, function(node){
-                        //console.log('RectangleSelectController.updateState: nodedeselected '+ that._nodeManager.SelectionCount() );
+                        
                         that._channel.publish( "drawtree", { value: this.model } ); 
                         that._channel.publish( "nodedeselected", { value: that._nodeManager.SelectionCount() } ); //deselect whatever is currently selected
                         
@@ -323,7 +309,7 @@
                     break;
                 case 1:
                     this.lockMouse(this._mouseLockKey);
-                    //this._view.DisplaySingleSelection(true);
+                    
                     this._channel.publish( "DisplaySingleSelection", { value: true} );// turn off ui button
                     this._channel.publish( "singleSelectionEnabled", { value: false} ); 
                     break;

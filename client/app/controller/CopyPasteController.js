@@ -47,18 +47,7 @@ var CopyPasteController = function (nodeManager, channel) {
     });
     
     this._channel.subscribe("PasteClick", function(data, envelope) {
-        // var copyNodes = JSON.parse(JSON.stringify(that._model.selectedNodes));
-        
-        // var idx =0;
-        
-        // while(idx < copyNodes.length){
-        //     copyNodes[idx].X += 50;
-            
-        //     idx++;
-        // }
-        
-        //that._nodeManager
-        
+ 
         var nodeFactory = new Node(that._nodeManager.generations);
         
         nodeFactory.CloneNodes(that._model.selectedNodes, function(newNodes){
