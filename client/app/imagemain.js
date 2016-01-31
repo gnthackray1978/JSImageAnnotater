@@ -77,9 +77,9 @@ function loadAll (drive){
         
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
         
-        var options = new Options(driveLib,nodeManager,channel);
+        //var options = new Options(driveLib,nodeManager,channel);
         
-        //var optionsController = new OptionsController(appView,options);
+        var optionsController = new OptionsController(driveLib,nodeManager,channel);
 
         var cropper = new Crop(nodeManager,driveLib);
         var crapperController = new CroppingController(channel, cropper);
