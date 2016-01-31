@@ -88,7 +88,7 @@ function loadAll (drive){
         var layer = new Layer(driveLib,channel, visualizer);
         var layerController = new LayerController(channel,layer);
 
-        var selector = new Selection(nodeManager,options);
+        var selector = new Selection(nodeManager,optionsController);
         var selectorController = new SelectionController(channel,selector,nodeManager);
 
         var nodePositioning = new NodePositioning(nodeManager,channel);
