@@ -1,26 +1,24 @@
-var Layer = function (layerDll,channel, image) {
+var Layer = function (layerDll) {
     this.layerDll = layerDll;
     this.layerData = 1;
-    this._channel = channel;
-    
+
     //obviously this needs reworking
     //but lets get functionality correct first
-    this.image = image;
+    //this.image = image;
 };
 
-Layer.prototype.GetData = function(){
+Layer.prototype.GetData = function(callback){
      var that = this;
     
-     this.layerDll.GetLayers(function(data){
+    this.layerDll.GetLayers(function(data){
         that.layerData = data;    
-        //that.view.SetLayers(data);
-        //SetLayers
-        that._channel.publish( "SetLayers", { value: data } );
-     });
+        callback(data);
+        
+    });
      
 };
 
-Layer.prototype.SetName = function(layerId, name){
+Layer.prototype.SetName = function(layerId, name, callback){
     var idx =0;
     while(idx < this.layerData.length){
         if(this.layerData[idx].id == layerId){
@@ -31,11 +29,12 @@ Layer.prototype.SetName = function(layerId, name){
     }
     this.layerDll.SaveLayers(this.layerData,true);
     
-    //this.view.SetLayers(this.layerData);
-    this._channel.publish( "SetLayers", { value: this.layerData } );
+    callback();
+    
+    
 };
 
-Layer.prototype.SetOrder = function(layerId, order){
+Layer.prototype.SetOrder = function(layerId, order, callback){
     var idx =0;
     while(idx < this.layerData.length){
         if(this.layerData[idx].id == layerId){
@@ -47,12 +46,12 @@ Layer.prototype.SetOrder = function(layerId, order){
     
     this.layerDll.SaveLayers(this.layerData,true);
     
-    this._channel.publish( "SetLayers", { value: this.layerData } );
-    //this.view.SetLayers(this.layerData);
-    this.image.DrawTree();
+    callback();
+    
+    
 };
 
-Layer.prototype.SetCurrent = function(layerId, current){
+Layer.prototype.SetCurrent = function(layerId, current,callback){
     // we cant make the first one(the image) current
     if(layerId === 1) return;
     
@@ -68,13 +67,12 @@ Layer.prototype.SetCurrent = function(layerId, current){
         idx++;
     }
     this.layerDll.SaveLayers(this.layerData,true);
-    this._channel.publish( "SetLayers", { value: this.layerData } );
-    //this.view.SetLayers(this.layerData);
-    this.image.DrawTree();
+    
+    callback();
     
 };
 
-Layer.prototype.SetVisible = function(layerId, visible){
+Layer.prototype.SetVisible = function(layerId, visible, callback){
     var idx =0;
     
     while(idx < this.layerData.length){
@@ -87,13 +85,12 @@ Layer.prototype.SetVisible = function(layerId, visible){
     
     this.layerDll.SaveLayers(this.layerData,true);
   
-    //this.view.SetLayers(this.layerData);
-    this._channel.publish( "SetLayers", { value: this.layerData } );
-    this.image.DrawTree();
+    callback();
+
 };
 
 
-Layer.prototype.SetDeleted = function(layerId){
+Layer.prototype.SetDeleted = function(layerId,callback){
     
    if(layerId > 3)    
    {
@@ -103,13 +100,11 @@ Layer.prototype.SetDeleted = function(layerId){
             break;
         }
    }
-   //this.view.SetLayers(this.layerData);
-   this._channel.publish( "SetLayers", { value: this.layerData } );
-   
-   this.image.DrawTree();
+
+   callback();
 };
 
-Layer.prototype.SetNewLayer = function(){
+Layer.prototype.SetNewLayer = function(callback){
     
     var idx =0;
     var newId =1;
@@ -125,15 +120,14 @@ Layer.prototype.SetNewLayer = function(){
     newId= newId+1;
     
     this.layerData.push( {id:newId , order:newId , name : 'newlayer', visible: true, current: false});
-    
-    //this.view.SetLayers(this.layerData);
-    this._channel.publish( "SetLayers", { value: this.layerData } );
+
 };
 
-Layer.prototype.Save = function(){
+Layer.prototype.Save = function(callback){
     
     this.layerDll.SaveLayers(this.layerData);
-    //this.view.SetLayers(this.layerData);
-    this._channel.publish( "SetLayers", { value: this.layerData } );
+    
+    callback();
+    
 };
 

@@ -28,36 +28,59 @@ var LayerController = function (channel, model) {
 
 LayerController.prototype = {
     init:function(){
-    
-         if (this.model !== null) {
-            this.model.GetData();
-         }
+        var that = this;
+        
+        if (this.model !== null) {
+            this.model.GetData(function(data){
+                that._channel.publish( "SetLayers", { value: data } );
+            });
+        }
     },
     
     qryLayerButtonState:function(data){
-        console.log('qryLayerButtonState: '+data);
+        var that = this;
+        
+        this._shout('qryLayerButtonState','qryLayerButtonState: '+data);
+        
         switch(data.type){
             case 'current':
-                this.model.SetCurrent(data.id, data.value);
+                this.model.SetCurrent(data.id, data.value, function(){
+                    that._channel.publish( "SetLayers", { value: that.model.layerData } );
+                    that._channel.publish( "drawtree", { value: that.model } );
+                });
                 break;
             case 'visible':
-                this.model.SetVisible(data.id, data.value);
+                this.model.SetVisible(data.id, data.value, function(){
+                    that._channel.publish( "SetLayers", { value: that.model.layerData } );
+                    that._channel.publish( "drawtree", { value: that.model } ); 
+                });
                 break;
             case 'delete':
-                this.model.SetDeleted(data.id);
+                this.model.SetDeleted(data.id, function(){
+                    that._channel.publish( "SetLayers", { value: that.model.layerData } );
+                    that._channel.publish( "drawtree", { value: that.model } );   
+                });
                 break;
         }
          
     },
     
     qryInputState:function(data){
-        console.log('qryInputState:' +data);
+        this._shout('qryInputState','qryInputState:' +data);
+        
+        var that = this;
+        
         switch(data.type){
             case 'order':
-                this.model.SetOrder(data.id, data.value);
+                this.model.SetOrder(data.id, data.value, function(){
+                    that._channel.publish( "SetLayers", { value: that.model.layerData } );
+                    that._channel.publish( "drawtree", { value: that.model } );
+                });
                 break;
             case 'name':
-                this.model.SetName(data.id, data.value);
+                this.model.SetName(data.id, data.value, function(){
+                    that._channel.publish( "SetLayers", { value: that.model.layerData } );
+                });
                 break;
         }
          
@@ -65,15 +88,26 @@ LayerController.prototype = {
     
     qryNewState:function(){
         
+        var that = this;
+        
         if (this.model !== null) {
-            this.model.SetNewLayer();
+            this.model.SetNewLayer(function(){
+                that._channel.publish( "SetLayers", { value: that.model.layerData } );
+            });
         }
     },
     
     qrySaveState:function(){
+        var that = this;
         
         if (this.model !== null) {
-            this.model.Save();
+            this.model.Save(function(){
+                that._channel.publish( "SetLayers", { value: that.model.layerData } );
+            });
         }
+    },
+    
+    _shout : function(method, message){
+        this._channel.publish( "DebugMessage", {name : 'LCT' , description : method + '.'+ message } );
     }
 };

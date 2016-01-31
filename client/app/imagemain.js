@@ -85,7 +85,7 @@ function loadAll (drive){
         var crapperController = new CroppingController(channel, cropper);
 
         
-        var layer = new Layer(driveLib,channel, visualizer);
+        var layer = new Layer(driveLib);
         var layerController = new LayerController(channel,layer);
 
         var selector = new Selection(nodeManager,optionsController);
