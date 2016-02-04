@@ -43,6 +43,7 @@ function loadAll (drive){
     var cropperView = new CropperView(appView,channel);
     var metaView = new MetaView(appView,channel);
     var copyPasteView = new CopyPasteView(appView,channel);
+    var nodePositioningView = new NodePositioningView(appView,channel);
     
     data.init(function(){
         
@@ -73,7 +74,7 @@ function loadAll (drive){
         var matchesController = new MatchesController(appView,matches,visualizer);
         
         
-        var nodeController = new NodeManagerController(appView, nodeManager,channel);
+        var nodeController = new NodeManagerController(nodeManager,channel);
         
         var visualizerController =  new VisualizerController(appView, visualizer, channel);
         
@@ -92,7 +93,7 @@ function loadAll (drive){
         var selectorController = new SelectionController(channel,selector,nodeManager);
 
         var nodePositioning = new NodePositioning(nodeManager,channel);
-        var nodePositioningController = new NodePositioningController(nodeManager,channel, appView,nodePositioning);
+        var nodePositioningController = new NodePositioningController(nodeManager,channel,nodePositioning);
         
         var copyPaste = new CopyPasteController(nodeManager,channel);
         

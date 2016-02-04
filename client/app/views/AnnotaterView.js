@@ -104,13 +104,44 @@ function AnnotaterView(channel) {
             }
         });
 
+        this._channel.subscribe("ClearActiveTextArea", function(data, envelope) {
+            that.ClearActiveTextArea();
+        });
+        
+        this._channel.subscribe("EditDisplayNodeSelection", function(data, envelope) {
+            var p = data.value;
+            
+            that.EditDisplayNodeSelection(p.x,
+                                        p.y,
+                                        p.width,
+                                        p.height,
+                                        p.d,
+                                        p.a,
+                                        p.o,
+                                        p.fnTextChanged);
+        });
+        
+        this._channel.subscribe("AddDisplayNodeSelection", function(data, envelope) {
+            var p = data.value;
+            
+            that.AddDisplayNodeSelection(p.x,
+                                        p.y,
+                                        p.width,
+                                        p.height,
+                                        p.d,
+                                        p.a,
+                                        p.o,
+                                        p.fnTextChanged);
+        });
     }
 
     this.InitGenericMouseClicks();
     
-    this.InitNodePositioning();
+//    this.InitNodePositioning();
 
     this.InitVis();
+    
+    
 } 
 
 
@@ -142,48 +173,7 @@ AnnotaterView.prototype.GetKey = function (array){
     
 },
  
-AnnotaterView.prototype.InitNodePositioning = function (state){
-    
-    var that = this;
-    var key = 'NP';
-    
-    $("#myCanvas").click(function (evt) {
-        if(that.GetKey(that.canvasMouseClickLocks) == key) {
-            var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-            
-            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-            
-            that._channel.publish( "positionClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
-        }
-    });
-    
-    $("#myCanvas").mousedown(function (evt) {
-        if(that.GetKey(that.canvasMousedownLocks) == key){
-            that._channel.publish( "positionMouseDown", { value: evt } );
-        }
-    });
 
-    $("#myCanvas").mouseup(function (evt) {
-        if(that.GetKey(that.canvasMouseupLocks) == key)
-            that._channel.publish( "positionMouseUp", { value: evt } );
-    });
-
-    $("#myCanvas").mousemove(function (evt) {
-        //argh argh
-        if(that.GetKey(that.canvasMousemoveLocks) == key){
-           that._channel.publish( "positionMouseMove", { value: evt } );
-        }
-        
-        evt.stopPropagation();
-    });
-
-},
 
 AnnotaterView.prototype.InitVis = function (state){
     var that = this;
@@ -229,6 +219,52 @@ AnnotaterView.prototype.InitVis = function (state){
     });
     
     
+},
+
+AnnotaterView.prototype.InitNodeManager = function (state){
+    var that = this;
+    
+    $('#btnDeleteNote').click(function (e) {            
+        that._channel.publish( "nmDelete", { value: e} );
+        e.preventDefault();
+    });
+    
+    $('#btnAddNote').click(function (e) {
+        that._channel.publish( "nmAdd", { value: e} );
+        e.preventDefault();
+    });
+    
+    $('#btnCancel').click(function (e) {
+        that._channel.publish( "nmCancel", { value: e} );
+        e.preventDefault();
+    });
+    
+    $("#delnodebtn").click(function (e) {
+        that._channel.publish( "nmDelBtn", { value: e} );
+        e.preventDefault();
+    });
+    
+    $("#delsinglenodebtn").click(function (e) {
+        that._channel.publish( "nmDelSng", { value: e} );
+        e.preventDefault();
+    });
+    
+    $("#addnodebtn").click(function (e) {
+        that._channel.publish( "nmAddNode", { value: e} );
+        e.preventDefault();
+    });
+    
+    $("#btnNodeCancel").click(function (e) {
+        that._channel.publish( "nmNodeCancel", { value: e} );
+        e.preventDefault();
+    });
+    
+    $('#btnSave').click(function (e) {
+        that.GetTextAreaDetails(function(data){
+           that._channel.publish( "nmSave", { value: data} );
+        });
+        e.preventDefault();
+    }); 
 },
 
 AnnotaterView.prototype.InitPanelVisibility = function () {
@@ -293,83 +329,6 @@ AnnotaterView.prototype.InitPanelVisibility = function () {
 AnnotaterView.prototype.hideLoader = function (action) {
 
     $("#imageLoader").dialog("close");         
-};
-    
-    
-AnnotaterView.prototype.SaveNote = function (action) {
-
-    var that = this;
-    $('#btnSave').click(function (e) {
-        that.GetTextAreaDetails(function(data){
-           action(data); 
-        });
-        
-        e.preventDefault();
-    });               
-};
-
-
-
-    
-AnnotaterView.prototype.Cancel = function (action) {
-        var that = this;
-        $('#btnCancel').click(function (e) {
-            action();
-
-            e.preventDefault();
-        });
-    };
-    
-AnnotaterView.prototype.Add = function (action) {
-        var that = this;
-        $('#btnAddNote').click(function (e) {
-            action();
-
-            e.preventDefault();
-        });
-    };
-
-AnnotaterView.prototype.Delete = function (action) {
-    var that = this;
-    $('#btnDeleteNote').click(function (e) {            
-        action();
-        e.preventDefault();
-    });        
-};
-
-// ok so when this click happens we need to determine 
-// if we're inside an existing node
-// if so get the dims for that node.
-
-
-
-
-AnnotaterView.prototype.DeleteNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#delnodebtn").click(function (evt) {
-        action();
-    });
-};
-
-AnnotaterView.prototype.DeleteSingleNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#delsinglenodebtn").click(function (evt) {
-        action();
-    });
-};
-
-AnnotaterView.prototype.AddNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#addnodebtn").click(function (evt) {
-        action();
-    });
-};
-
-AnnotaterView.prototype.CancelNodeButton = function (action) {
-    //here look multiple event firing problems    
-    $("#btnNodeCancel").click(function (evt) {
-        action();
-    });
 };
 
 AnnotaterView.prototype.ButtonPressDown = function (action) {

@@ -1,9 +1,9 @@
 (function(exports){
-	var NodePositioningController = function (nodestore, channel,view,model) {
+	var NodePositioningController = function (nodestore, channel,model) {
 	    
 	    this._nodeStore = nodestore;
 	    this._channel = channel;
-	    this._view = view;
+	    //this._view = view;
 	    this._state =0;
 	    this._mouseLockKey = 'NP';
         this.model = model;

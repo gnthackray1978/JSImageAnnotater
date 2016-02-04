@@ -1,10 +1,10 @@
-var NodeManagerController = function (view, nodeDataManager,channel) {
+var NodeManagerController = function (nodeDataManager,channel) {
  
     this.deletedNodeCache;
     this.selectedNote; 
  
     this._channel = channel;
-    this._view = view;
+    //this._view = view;
     this._mouseClickLocked =false;
     this._mouseClickPoint ={x:0,y:0};
 
@@ -14,24 +14,48 @@ var NodeManagerController = function (view, nodeDataManager,channel) {
   
     this.stateCache =0;
     
+    var that = this;
     
-    this._view.DeleteNodeButton($.proxy(this.deleteNodeAction, this));
+    //this._view.DeleteNodeButton($.proxy(this.deleteNodeAction, this));
     
-    this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNodeAction, this));
-    this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
-    this._view.CancelNodeButton($.proxy(this.cancelNodeButton, this));
+    //this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNodeAction, this));
+    //this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
+    //this._view.CancelNodeButton($.proxy(this.cancelNodeButton, this));
     
    // this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
     
-    this._view.SaveNote($.proxy(this.saveAction, this));
+    //this._view.SaveNote($.proxy(this.saveAction, this));
  
-    this._view.Cancel($.proxy(this.cancelButtonClicked, this));
+    //this._view.Cancel($.proxy(this.cancelButtonClicked, this));
+    //nmSave
+    this._channel.subscribe("nmSave", function(data, envelope) {
+        that.saveAction(data.value);
+    });
     
+    this._channel.subscribe("nmNodeCancel", function(data, envelope) {
+        that.cancelNodeButton(data.value);
+    });
     
-   
-    this._view.Delete($.proxy(this.deleteNote, this));
+    this._channel.subscribe("nmAddNode", function(data, envelope) {
+        that.addToolbarNode(data.value);
+    });
     
-    var that = this;
+    this._channel.subscribe("nmDelSng", function(data, envelope) {
+        that.deleteSingleNodeAction(data.value);
+    });
+    //this._view.Delete($.proxy(this.deleteNote, this));
+    //nmDelBtn
+    this._channel.subscribe("nmDelBtn", function(data, envelope) {
+        that.deleteNodeAction(data.value);
+    });
+    
+    this._channel.subscribe("nmDelete", function(data, envelope) {
+        that.deleteNote(data.value);
+    });
+    
+    this._channel.subscribe("nmCancel", function(data, envelope) {
+        that.cancelButtonClicked(data.value);
+    });
     
     
     this._channel.subscribe("singleSelectionEnabled", function(data, envelope) {
@@ -123,7 +147,9 @@ NodeManagerController.prototype = {
                 
                
                 this._channel.publish( "DisplayNeutralState", { value: true } );
-                this._view.ClearActiveTextArea();
+                //this._view.ClearActiveTextArea();
+                this._channel.publish( "ClearActiveTextArea", { value: true } );
+                
                 this._channel.publish( "drawtree", { value: this.model } ); 
                 break;
             case 1: //FREE TO WRITE MODE
@@ -202,12 +228,24 @@ NodeManagerController.prototype = {
 
         that._channel.publish( "nodeedit", { value: undefined } );
        
-        that._view.EditDisplayNodeSelection(that.selectedNote.X, 
-                that.selectedNote.Y,that.selectedNote.Width, 
-                that.selectedNote.Height,that.selectedNote.D,
-                that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
-            
+       
+        // that._view.EditDisplayNodeSelection(that.selectedNote.X, 
+        //         that.selectedNote.Y,that.selectedNote.Width, 
+        //         that.selectedNote.Height,that.selectedNote.D,
+        //         that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
         
+        var payload ={
+            x: that.selectedNote.X, 
+            y: that.selectedNote.Y,
+            width: that.selectedNote.Width, 
+            height: that.selectedNote.Height,
+            d: that.selectedNote.D,
+            a: that.selectedNote.Annotation,
+            o: that.selectedNote.options, 
+            fnTextChanged: $.proxy(that.nodeTextChanged, that)
+        };
+            
+        that._channel.publish( "EditDisplayNodeSelection", { value: payload } );
     },
     
     addNode:function(){
@@ -215,9 +253,18 @@ NodeManagerController.prototype = {
         
         that._channel.publish( "nodecreation", { value: that.selectedNote } );
         
-        that._view.AddDisplayNodeSelection(that._mouseClickPoint.x, that._mouseClickPoint.y, 70,25,0,'',that.options,$.proxy(that.nodeTextChanged, that));
+        var payload ={
+            x: that._mouseClickPoint.x, 
+            y: that._mouseClickPoint.y,
+            w: 70,
+            h: 25,
+            a: 0,
+            n: '',
+            o: that.options,
+            fnTextChanged: $.proxy(that.nodeTextChanged, that)            
+        };
         
-        
+        that._channel.publish( "AddDisplayNodeSelection", { value: payload } );
     },
     
     deleteNodeAction: function(){

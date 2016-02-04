@@ -43,15 +43,15 @@ var SelectionView = function (view, channel) {
     this._channel.subscribe("DisplayNeutralState", function(data, envelope) {
         that.DisplayNeutralState();            
     });
-    this._channel.subscribe("DisableNodePositioning", function(data, envelope) {
-        that.DisableNodePositioning(data.value);             
-    });
-    this._channel.subscribe("ToggleNodePositioning", function(data, envelope) {
-        that.ToggleNodePositioning(data.value);            
-    });
-    this._channel.subscribe("ActivateNodePositioning", function(data, envelope) {
-        that.ActivateNodePositioning(data.value);            
-    });
+    // this._channel.subscribe("DisableNodePositioning", function(data, envelope) {
+    //     that.DisableNodePositioning(data.value);             
+    // });
+    // this._channel.subscribe("ToggleNodePositioning", function(data, envelope) {
+    //     that.ToggleNodePositioning(data.value);            
+    // });
+    // this._channel.subscribe("ActivateNodePositioning", function(data, envelope) {
+    //     that.ActivateNodePositioning(data.value);            
+    // });
     this._channel.subscribe("DisplaySingleSelection", function(data, envelope) {
         that.DisplaySingleSelection(data.value);            
     });
@@ -73,7 +73,7 @@ var SelectionView = function (view, channel) {
     });
     
 
-    this.PublishNodePositioning();
+    //this.PublishNodePositioning();
     
     this.InitSelectionRectangle();
 };
@@ -196,39 +196,39 @@ SelectionView.prototype.DisplayNeutralState= function () {
 
 };
 
-SelectionView.prototype.DisableNodePositioning = function (state) {
+// SelectionView.prototype.DisableNodePositioning = function (state) {
     
-    if(!state)
-        $("#enableNodePositioning").prop('disabled', false);
-    else
-    {
-        $("#enableNodePositioning").val('PN');
-        $("#enableNodePositioning").prop('disabled', true);
-    }
-};
+//     if(!state)
+//         $("#enableNodePositioning").prop('disabled', false);
+//     else
+//     {
+//         $("#enableNodePositioning").val('PN');
+//         $("#enableNodePositioning").prop('disabled', true);
+//     }
+// };
 
-SelectionView.prototype.ToggleNodePositioning = function (state) {
+// SelectionView.prototype.ToggleNodePositioning = function (state) {
     
-    if(!state)
-        $("#enableNodePositioning").val('PN');
-    else
-        $("#enableNodePositioning").val('[PN]');
-};
+//     if(!state)
+//         $("#enableNodePositioning").val('PN');
+//     else
+//         $("#enableNodePositioning").val('[PN]');
+// };
 
-SelectionView.prototype.ActivateNodePositioning = function (action) {
-    //here look multiple event firing problems    
-    $("#enableNodePositioning").click(function (evt) {
-        action();
-    });
-};
+// SelectionView.prototype.ActivateNodePositioning = function (action) {
+//     //here look multiple event firing problems    
+//     $("#enableNodePositioning").click(function (evt) {
+//         action();
+//     });
+// };
 
-SelectionView.prototype.PublishNodePositioning = function () {
-    var that =this;
+// SelectionView.prototype.PublishNodePositioning = function () {
+//     var that =this;
     
-    $("#enableNodePositioning").click(function (evt) {
-        that._channel.publish( "positionNodeActivated", { value: undefined} );
-    });
-};
+//     $("#enableNodePositioning").click(function (evt) {
+//         that._channel.publish( "positionNodeActivated", { value: undefined} );
+//     });
+// };
 
 SelectionView.prototype.DisplaySingleSelection= function (state) {
     
