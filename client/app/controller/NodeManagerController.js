@@ -105,6 +105,15 @@ var NodeManagerController = function (nodeDataManager,channel) {
         that.options = data.value;
     });
     
+    this._channel.subscribe("defaultOptionsLoaded", function(data, envelope) {
+        that.options = data.value;
+    });
+    
+    this._channel.subscribe("defaultOptionsSaved", function(data, envelope) {
+        that.options = data.value;
+    });
+    
+    
     this._channel.subscribe("multiOptionsLoaded", function(data, envelope) {
         that.options = data.value;
     });

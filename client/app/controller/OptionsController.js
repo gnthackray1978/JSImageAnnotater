@@ -262,7 +262,7 @@ OptionsController.prototype.SaveOptions =function(options){
     
     this.optionsDll.SaveOptions(this.defaultOptions, function(){
          
-        that._channel.publish( "optionsSaved", { value: this.model } );
+        that._channel.publish( "defaultOptionsSaved", { value: this.model } );
     });
      
      

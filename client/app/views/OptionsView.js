@@ -73,7 +73,7 @@ var OptionsView = function (view, channel) {
         that.SetDisableSave();
     });
     
-    this._channel.subscribe("optionsSaved", function(data, envelope) {
+    this._channel.subscribe("defaultOptionsSaved", function(data, envelope) {
         that.SetDisableSave();
     });
     
