@@ -53,6 +53,10 @@
             that.deleteNodeAction();
         });
         
+        this._channel.subscribe("deactivateFocusedSelection", function(data, envelope) {
+            that.deleteNodeAction();           
+        });
+        
         this._channel.subscribe("activateNullSelection", function(data, envelope) {
             that.nullAction();
         });

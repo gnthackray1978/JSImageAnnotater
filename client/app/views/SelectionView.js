@@ -31,9 +31,9 @@ var SelectionView = function (view, channel) {
     this._channel.subscribe("DisplaySelectionDelete", function(data, envelope) {
         that.DisplaySelectionDelete(data.value);            
     });
-    this._channel.subscribe("DisplayDeleteState", function(data, envelope) {
-        that.DisplayDeleteState();            
-    });
+    
+
+    
     this._channel.subscribe("DisplayAddState", function(data, envelope) {
         that.DisplayAddState();            
     });
@@ -43,15 +43,7 @@ var SelectionView = function (view, channel) {
     this._channel.subscribe("DisplayNeutralState", function(data, envelope) {
         that.DisplayNeutralState();            
     });
-    // this._channel.subscribe("DisableNodePositioning", function(data, envelope) {
-    //     that.DisableNodePositioning(data.value);             
-    // });
-    // this._channel.subscribe("ToggleNodePositioning", function(data, envelope) {
-    //     that.ToggleNodePositioning(data.value);            
-    // });
-    // this._channel.subscribe("ActivateNodePositioning", function(data, envelope) {
-    //     that.ActivateNodePositioning(data.value);            
-    // });
+
     this._channel.subscribe("DisplaySingleSelection", function(data, envelope) {
         that.DisplaySingleSelection(data.value);            
     });
@@ -160,11 +152,8 @@ SelectionView.prototype.DisplaySelectionDelete= function (state) {
 
 };
 
-SelectionView.prototype.DisplayDeleteState= function () {
-    console.log('View DisplayDeleteState');
-    $("#delsinglenodebtn").val('[DC]');
 
-};
+
 
 SelectionView.prototype.DisplayAddState= function () {
     console.log('View DisplayAddState');
@@ -184,8 +173,6 @@ SelectionView.prototype.DisplaySaveState= function () {
 SelectionView.prototype.DisplayNeutralState= function () {
     console.log('View DisplayNeutralState');
 
-    $("#delsinglenodebtn").val('DC');
-    
     $("#delnodebtn").prop('disabled', true); 
     
     $("#addnodebtn").val('AD');
@@ -196,39 +183,7 @@ SelectionView.prototype.DisplayNeutralState= function () {
 
 };
 
-// SelectionView.prototype.DisableNodePositioning = function (state) {
-    
-//     if(!state)
-//         $("#enableNodePositioning").prop('disabled', false);
-//     else
-//     {
-//         $("#enableNodePositioning").val('PN');
-//         $("#enableNodePositioning").prop('disabled', true);
-//     }
-// };
 
-// SelectionView.prototype.ToggleNodePositioning = function (state) {
-    
-//     if(!state)
-//         $("#enableNodePositioning").val('PN');
-//     else
-//         $("#enableNodePositioning").val('[PN]');
-// };
-
-// SelectionView.prototype.ActivateNodePositioning = function (action) {
-//     //here look multiple event firing problems    
-//     $("#enableNodePositioning").click(function (evt) {
-//         action();
-//     });
-// };
-
-// SelectionView.prototype.PublishNodePositioning = function () {
-//     var that =this;
-    
-//     $("#enableNodePositioning").click(function (evt) {
-//         that._channel.publish( "positionNodeActivated", { value: undefined} );
-//     });
-// };
 
 SelectionView.prototype.DisplaySingleSelection= function (state) {
     

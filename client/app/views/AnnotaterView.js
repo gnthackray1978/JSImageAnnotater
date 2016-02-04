@@ -133,6 +133,15 @@ function AnnotaterView(channel) {
                                         p.o,
                                         p.fnTextChanged);
         });
+        
+        
+        this._channel.subscribe("deactivateFocusedSelection", function(data, envelope) {
+            that.DeSelectSingleDelete();            
+        });
+        
+        this._channel.subscribe("activateFocusedSelection", function(data, envelope) {
+            that.SelectSingleDelete();            
+        });
     }
 
     this.InitGenericMouseClicks();
@@ -479,6 +488,14 @@ AnnotaterView.prototype.GetTextAreaDetails = function (callback) {
         });
         
     }
+};
+
+AnnotaterView.prototype.SelectSingleDelete= function () {
+    $("#delsinglenodebtn").val('[DC]');
+};
+
+AnnotaterView.prototype.DeSelectSingleDelete= function () {
+    $("#delsinglenodebtn").val('DC');
 };
 
 

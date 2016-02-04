@@ -141,9 +141,10 @@ NodeManagerController.prototype = {
                 
                 this._channel.publish( "lock", { value: false } );
                 
-               
+                this._channel.publish( "deactivateFocusedSelection", { value: true } );
+                
                 this._channel.publish( "DisplayNeutralState", { value: true } );
-                //this._view.ClearActiveTextArea();
+               
                 this._channel.publish( "ClearActiveTextArea", { value: true } );
                 
                 this._channel.publish( "drawtree", { value: this.model } ); 
@@ -157,11 +158,7 @@ NodeManagerController.prototype = {
                 break;
                 
             case 2: //FREE TO DELETE MODEyou
-            
-                
-                this._channel.publish( "DisplayDeleteState", { value: true } );
                 this._channel.publish( "activateFocusedSelection", { value: true } );
-                
                 break;
                 
             case 3: //VALID TO SAVE
@@ -223,13 +220,7 @@ NodeManagerController.prototype = {
         that.selectedNote.Editting = true;
 
         that._channel.publish( "nodeedit", { value: undefined } );
-       
-       
-        // that._view.EditDisplayNodeSelection(that.selectedNote.X, 
-        //         that.selectedNote.Y,that.selectedNote.Width, 
-        //         that.selectedNote.Height,that.selectedNote.D,
-        //         that.selectedNote.Annotation,that.selectedNote.options, $.proxy(that.nodeTextChanged, that));
-        
+ 
         var payload ={
             x: that.selectedNote.X, 
             y: that.selectedNote.Y,
