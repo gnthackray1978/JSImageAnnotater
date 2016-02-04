@@ -113,8 +113,8 @@ function AnnotaterView(channel) {
             
             that.EditDisplayNodeSelection(p.x,
                                         p.y,
-                                        p.width,
-                                        p.height,
+                                        p.w,
+                                        p.h,
                                         p.d,
                                         p.a,
                                         p.o,
@@ -126,8 +126,8 @@ function AnnotaterView(channel) {
             
             that.AddDisplayNodeSelection(p.x,
                                         p.y,
-                                        p.width,
-                                        p.height,
+                                        p.w,
+                                        p.h,
                                         p.d,
                                         p.a,
                                         p.o,

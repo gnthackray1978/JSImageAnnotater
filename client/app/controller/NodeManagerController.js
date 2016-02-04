@@ -224,8 +224,8 @@ NodeManagerController.prototype = {
         var payload ={
             x: that.selectedNote.X, 
             y: that.selectedNote.Y,
-            width: that.selectedNote.Width, 
-            height: that.selectedNote.Height,
+            w: that.selectedNote.Width, 
+            h: that.selectedNote.Height,
             d: that.selectedNote.D,
             a: that.selectedNote.Annotation,
             o: that.selectedNote.options, 
@@ -245,8 +245,8 @@ NodeManagerController.prototype = {
             y: that._mouseClickPoint.y,
             w: 70,
             h: 25,
-            a: 0,
-            n: '',
+            d: 0,
+            a: '',
             o: that.options,
             fnTextChanged: $.proxy(that.nodeTextChanged, that)            
         };
