@@ -4,7 +4,7 @@ var NodeManagerController = function (nodeDataManager,channel) {
     this.selectedNote; 
  
     this._channel = channel;
-    //this._view = view;
+
     this._mouseClickLocked =false;
     this._mouseClickPoint ={x:0,y:0};
 
@@ -15,19 +15,7 @@ var NodeManagerController = function (nodeDataManager,channel) {
     this.stateCache =0;
     
     var that = this;
-    
-    //this._view.DeleteNodeButton($.proxy(this.deleteNodeAction, this));
-    
-    //this._view.DeleteSingleNodeButton($.proxy(this.deleteSingleNodeAction, this));
-    //this._view.AddNodeButton($.proxy(this.addToolbarNode, this));
-    //this._view.CancelNodeButton($.proxy(this.cancelNodeButton, this));
-    
-   // this._view.MultiSelectNodeButton($.proxy(this.multiSelectNode, this));
-    
-    //this._view.SaveNote($.proxy(this.saveAction, this));
- 
-    //this._view.Cancel($.proxy(this.cancelButtonClicked, this));
-    //nmSave
+
     this._channel.subscribe("nmSave", function(data, envelope) {
         that.saveAction(data.value);
     });
@@ -43,8 +31,7 @@ var NodeManagerController = function (nodeDataManager,channel) {
     this._channel.subscribe("nmDelSng", function(data, envelope) {
         that.deleteSingleNodeAction(data.value);
     });
-    //this._view.Delete($.proxy(this.deleteNote, this));
-    //nmDelBtn
+
     this._channel.subscribe("nmDelBtn", function(data, envelope) {
         that.deleteNodeAction(data.value);
     });

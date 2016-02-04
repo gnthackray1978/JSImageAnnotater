@@ -137,7 +137,7 @@ function AnnotaterView(channel) {
 
     this.InitGenericMouseClicks();
     
-//    this.InitNodePositioning();
+    this.InitNodeManager();
 
     this.InitVis();
     
