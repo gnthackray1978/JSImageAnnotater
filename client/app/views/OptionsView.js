@@ -177,7 +177,7 @@ OptionsView.prototype._getOptionDetails= function (includeColour){
 
 //setters
 OptionsView.prototype.SetOptions = function(options, currentColour){
-    console.log('Options.SetOptions');
+    //console.log('Options.SetOptions');
 
     // the other defaults only updated when combo box gets changed         
     $("#txtChosenColour").css("background-color", currentColour);
@@ -220,7 +220,6 @@ OptionsView.prototype.SetColourComponents = function (data){
    // myDDL[0].selectedIndex = 0;
 }
 
-//SetDefaultOptionsUI
 OptionsView.prototype.SetDefaultOptionsUI = function (state, nodeCount) {
         
     $("#angleGroup").show(); 
@@ -248,7 +247,6 @@ OptionsView.prototype.SetEnableSave = function (hex) {
     $('#btnSaveOptions').prop('disabled', false); 
 };
 
-//LIST CHANGED AND UI UPDATED
 OptionsView.prototype.PublishSelectedColourComponent = function () {
     var that = this;
     var currentComponent =1;
@@ -269,7 +267,6 @@ OptionsView.prototype.PublishSelectedColourComponent = function () {
     .change();
 };
 
-//QryDefaultOptions
 OptionsView.prototype.PublishSaveClick = function(){
     var that = this;
     $('#btnSaveOptions').click(function (e) {            
@@ -280,12 +277,9 @@ OptionsView.prototype.PublishSaveClick = function(){
     });   
 };
 
-//QrySelectedFontChanged
 OptionsView.prototype.PublishFontChanged = function (action) {
     var that = this;
     this.selectedFontChanged = function(style){
-        console.log('font changed');
-        //action($('#fontSelect').fontSelector('selected'));
         
         var selectedFont = $('#fontSelect').fontSelector('selected');
         
@@ -293,7 +287,6 @@ OptionsView.prototype.PublishFontChanged = function (action) {
     };
 };
 
-//QryTransparencyChanged
 OptionsView.prototype.PublishTransparencyChanged = function (action) {
     var that = this;
     $("#chkTransparentBackground")
@@ -307,7 +300,6 @@ OptionsView.prototype.PublishTransparencyChanged = function (action) {
     .change();
 };
 
-//AngleChangeClicked
 OptionsView.prototype.PublishAngleChangeClicked = function (action) {
     var that = this;
     var angle;
