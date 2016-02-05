@@ -9,7 +9,7 @@ var SelectionView = function (view, channel) {
     //this.PublishSelectedColourComponent();
 
     var selectionChange = function(count){
-        console.log('selectionChange: ' + count);
+        //console.log('selectionChange: ' + count);
         
         if(count >0){
             that.DisplaySelectionDelete(false);
@@ -131,7 +131,7 @@ SelectionView.prototype.InitSelectionRectangle = function (state){
 };
 
 SelectionView.prototype.DisplayRectangleSelection= function (state) {
-    console.log('View DisplayRectangleSelection');
+    //console.log('View DisplayRectangleSelection');
     if(!state)
         $("#rectselstart").val('RS');
     else
@@ -139,14 +139,14 @@ SelectionView.prototype.DisplayRectangleSelection= function (state) {
 };
 
 SelectionView.prototype.DisplaySelectionState= function () {
-    console.log('View DisplaySelectionState');
+    //console.log('View DisplaySelectionState');
     $("#selectnodebtn").val('[SN]');
      
 
 };
 
 SelectionView.prototype.DisplaySelectionDelete= function (state) {
-    console.log('View DisplaySelectionDelete');
+    //console.log('View DisplaySelectionDelete');
     
     $("#delnodebtn").prop('disabled', state); 
 
@@ -156,14 +156,14 @@ SelectionView.prototype.DisplaySelectionDelete= function (state) {
 
 
 SelectionView.prototype.DisplayAddState= function () {
-    console.log('View DisplayAddState');
+    //console.log('View DisplayAddState');
     $("#addnodebtn").val('[AD]');
 
     $("#btnNodeCancel").show();
 };
 
 SelectionView.prototype.DisplaySaveState= function () {
-    console.log('View DisplaySaveState');
+    //console.log('View DisplaySaveState');
 
     $("#btnNodeCancel").show();
     $("#btnSave").show();
@@ -171,7 +171,7 @@ SelectionView.prototype.DisplaySaveState= function () {
 };
 
 SelectionView.prototype.DisplayNeutralState= function () {
-    console.log('View DisplayNeutralState');
+    //console.log('View DisplayNeutralState');
 
     $("#delnodebtn").prop('disabled', true); 
     
