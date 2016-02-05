@@ -138,7 +138,6 @@ NodeManagerController.prototype = {
             case 0: //UI MODE ACTIVE
                 this._channel.publish( "nodeinit", { value: false } );
                 
-                
                 this._channel.publish( "lock", { value: false } );
                 
                 this._channel.publish( "deactivateFocusedSelection", { value: true } );
@@ -162,18 +161,14 @@ NodeManagerController.prototype = {
                 break;
                 
             case 3: //VALID TO SAVE
-                console.log('updateState: valid to save');
-                
                 this._channel.publish( "DisplaySaveState", { value: true } );
                 break;
                 
             case 4: //EDITTING
-                console.log('updateState: editting');
                 this.editNode();
                 break;
                 
             case 5: //ADDING
-                console.log('updateState: adding');
                 this.addNode();
                 break;
                 
@@ -187,9 +182,6 @@ NodeManagerController.prototype = {
                 }
                 break;
             case 8: //FREE TO SELECT
-                console.log('updateState: free to select');
-                 console.log('removed DisplaySelectionState');
-                
                 this._channel.publish( "activateStandardSelection", { value: true } );
                 break;     
                 
@@ -264,7 +256,7 @@ NodeManagerController.prototype = {
     },
     
     deleteSingleNodeAction : function(){
-        console.log('delete note'); 
+        //console.log('delete note'); 
     
         switch(this.state){
             case 0:// first click we are neutral go to delete selector
@@ -311,11 +303,11 @@ NodeManagerController.prototype = {
         var that = this;
         
         if(this.deletedNodeCache != undefined){
-            console.log('cancelButtonClicked:  delete node restored');
+            //console.log('cancelButtonClicked:  delete node restored');
             
             this.nodeManager.AddNode(1, true, this.deletedNodeCache, function(){
                 that.deletedNodeCache = undefined;
-                console.log('saved');
+                //console.log('saved');
             });   
             
         }

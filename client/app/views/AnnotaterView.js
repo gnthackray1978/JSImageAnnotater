@@ -269,8 +269,10 @@ AnnotaterView.prototype.InitNodeManager = function (state){
     });
     
     $('#btnSave').click(function (e) {
+        that._shout('View btnSave event','Save pressed');
         that.GetTextAreaDetails(function(data){
-           that._channel.publish( "nmSave", { value: data} );
+            that._shout('View btnSave event','Save Text Area details sent');
+            that._channel.publish( "nmSave", { value: data} );
         });
         e.preventDefault();
     }); 
@@ -547,4 +549,8 @@ AnnotaterView.prototype.QryRunMoveNode = function(callback){
         
         callback(data);
     });
+};
+
+AnnotaterView.prototype._shout = function(method, message){
+    this._channel.publish( "DebugMessage", {name : 'SLC' , description : method + '.'+ message } );
 };
