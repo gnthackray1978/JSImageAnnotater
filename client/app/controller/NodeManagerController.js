@@ -147,7 +147,7 @@ NodeManagerController.prototype = {
                
                 this._channel.publish( "ClearActiveTextArea", { value: true } );
                 
-                this._channel.publish( "drawtree", { value: this.model } ); 
+                this._channel.publish( "drawtree", { value: that.nodeManager } ); 
                 break;
             case 1: //FREE TO WRITE MODE
                 this._channel.publish( "lock", { value: true } );
@@ -180,7 +180,8 @@ NodeManagerController.prototype = {
             case 6: //DELETING
                 if(that.selectedNote){
                     that.nodeManager.DeleteNode(that.selectedNote, function(){
-                        that._shout('updateState','node deleted');
+                        that._shout('updateState','Node Deleted');
+                        that._channel.publish( "drawtree", { value: that.nodeManager } ); 
                     });
                     that.selectedNote = undefined;
                 }
