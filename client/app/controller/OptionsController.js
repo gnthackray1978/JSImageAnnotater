@@ -154,7 +154,7 @@ OptionsController.prototype.UpdateState= function (){
             });
             that.SetDefaultOptionsUI(false,0);
             
-            console.log('OPTIONS default state 0');
+            //console.log('OPTIONS default state 0');
             break;
         case 1:
             that._nodeManager.GetSelectedNodes(function(selection){
@@ -169,10 +169,10 @@ OptionsController.prototype.UpdateState= function (){
                     that._updateOptionsToView(that.currentNode.Options);
                 }
             });
-            console.log('OPTIONS edit state 1');
+            //console.log('OPTIONS edit state 1');
             break;
         case 2:
-            console.log('OPTIONS new state 2');
+            //console.log('OPTIONS new state 2');
             this.addNode = true;
             
             if(this.tempOptions == undefined)
@@ -202,7 +202,7 @@ OptionsController.prototype.UpdateState= function (){
                     that._updateOptionsToView(that.currentNode.Options);
                 }
             });
-            console.log('OPTIONS multi edit state 3');
+            //console.log('OPTIONS multi edit state 3');
             break;
         
     }
@@ -257,7 +257,7 @@ OptionsController.prototype.LoadDefaultOptions =function(callback){
      
 OptionsController.prototype.SaveOptions =function(options){
    
-    console.log('save option ' +options);
+    
     var that = this;
     
     this.optionsDll.SaveOptions(this.defaultOptions, function(){
@@ -355,7 +355,7 @@ OptionsController.prototype._updateOptions =function(options, withUpdate){
 
     if(options.componentId !== undefined){
         that.selectedColourComponentId = options.componentId;
-        console.log('compid: ' + that.selectedColourComponentId);
+        //console.log('compid: ' + that.selectedColourComponentId);
     }
     
     var finalAction = function(dataOptions){
