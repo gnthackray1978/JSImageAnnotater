@@ -2,6 +2,8 @@ var VisualizerController = function (view, graphicsContext, channel) {
  
     this.channel = channel;
     
+    this.millisecondsInterval = 0;
+    
     this._mouseDown = false;
     this._view = view;
 
@@ -45,10 +47,42 @@ var VisualizerController = function (view, graphicsContext, channel) {
         that.graphicsContext.SetLocked(data.value);
     });
     
+    var intervalMove = function(dir){
+        that.millisecondsInterval = setInterval(function () {
+            that.graphicsContext.MoveTree(dir); 
+        }, 100);
+    };
+    
+    this.channel.subscribe("visUpButton", function(data, envelope) {
+        intervalMove('UP');
+    });
+    
+    this.channel.subscribe("visDownButton", function(data, envelope) {
+        intervalMove('DOWN');
+    });
+    
+    this.channel.subscribe("visLeftButton", function(data, envelope) {
+        intervalMove('WEST');
+    });
 
+    this.channel.subscribe("visRightButton", function(data, envelope) {
+        intervalMove('EAST');
+    });
+
+    this.channel.subscribe("visZoomInButton", function(data, envelope) {
+        intervalMove('NORTH');
+    });
+
+    this.channel.subscribe("visZoomOutButton", function(data, envelope) {
+        intervalMove('SOUTH');
+    });
+    
+    this.channel.subscribe("visButtonReleased", function(data, envelope) {
+        clearInterval(that.millisecondsInterval); 
+    });
             
-    this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
-    this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
+    //this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
+    //this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
     
 
 
@@ -91,21 +125,21 @@ VisualizerController.prototype = {
 
     },
     
-    boxButtonUp:function(milliseconds){
-        clearInterval(milliseconds);
+    // boxButtonUp:function(milliseconds){
+    //     clearInterval(milliseconds);
     
-    },
-    boxButtonDown:function(dir){
+    // },
+    // boxButtonDown:function(dir){
         
-        if (this.graphicsContext !== null) {
+    //     if (this.graphicsContext !== null) {
             
-            var that = this;
-            return setInterval(function () {
-                that.graphicsContext.MoveTree(dir); 
+    //         var that = this;
+    //         return setInterval(function () {
+    //             that.graphicsContext.MoveTree(dir); 
                 
-            }, 100);
-        }
-    },
+    //         }, 100);
+    //     }
+    // },
     
     canvasMouseMove:function(_point){
      

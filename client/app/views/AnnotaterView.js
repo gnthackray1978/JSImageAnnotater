@@ -227,7 +227,51 @@ AnnotaterView.prototype.InitVis = function (state){
          
     });
     
+    //var that = this;
     
+    $("#up").mousedown(function (evt) {
+        that._channel.publish( "visUpButton", { value: undefined } );
+    });
+    
+    $("#dn").mousedown(function (evt) {
+        that._channel.publish( "visDownButton", { value: undefined } );
+    });
+    
+    $("#we").mousedown(function (evt) {
+        that._channel.publish( "visLeftButton", { value: undefined } );
+    });
+    
+    $("#es").mousedown(function (evt) {
+        that._channel.publish( "visRightButton", { value: undefined } );
+    });
+    
+    $("#so").mousedown(function (evt) {
+        that._channel.publish( "visZoomOutButton", { value: undefined } );
+    });
+    
+    $("#de").mousedown(function (evt) {
+        that._channel.publish( "visZoomInButton", { value: undefined } );
+    });
+    
+    $(".button_box").mouseup(function () {
+        that._channel.publish( "visButtonReleased", { value: undefined } );
+    });
+    
+    // $(".button_box").mousedown(function (evt) {
+    //     var _dir = '';
+    
+    //     if (evt.target.id == "up") _dir = 'UP';
+    //     if (evt.target.id == "dn") _dir = 'DOWN';
+    //     if (evt.target.id == "we") _dir = 'WEST';
+    //     if (evt.target.id == "no") _dir = 'NORTH';
+    //     if (evt.target.id == "es") _dir = 'EAST';
+    //     if (evt.target.id == "so") _dir = 'SOUTH';
+    //     if (evt.target.id == "de") _dir = 'DEBUG';
+    
+    //     //that.millisecondsInterval = action(_dir);
+        
+        
+    // });
 },
 
 AnnotaterView.prototype.InitNodeManager = function (state){
@@ -342,36 +386,36 @@ AnnotaterView.prototype.hideLoader = function (action) {
     $("#imageLoader").dialog("close");         
 };
 
-AnnotaterView.prototype.ButtonPressDown = function (action) {
+// AnnotaterView.prototype.ButtonPressDown = function (action) {
 
-        var that = this;
-        
-        $(".button_box").mousedown(function (evt) {
-            var _dir = '';
-        
-            if (evt.target.id == "up") _dir = 'UP';
-            if (evt.target.id == "dn") _dir = 'DOWN';
-            if (evt.target.id == "we") _dir = 'WEST';
-            if (evt.target.id == "no") _dir = 'NORTH';
-            if (evt.target.id == "es") _dir = 'EAST';
-            if (evt.target.id == "so") _dir = 'SOUTH';
-            if (evt.target.id == "de") _dir = 'DEBUG';
-        
-            that.millisecondsInterval = action(_dir);
+//     var that = this;
+    
+//     $(".button_box").mousedown(function (evt) {
+//         var _dir = '';
+    
+//         if (evt.target.id == "up") _dir = 'UP';
+//         if (evt.target.id == "dn") _dir = 'DOWN';
+//         if (evt.target.id == "we") _dir = 'WEST';
+//         if (evt.target.id == "no") _dir = 'NORTH';
+//         if (evt.target.id == "es") _dir = 'EAST';
+//         if (evt.target.id == "so") _dir = 'SOUTH';
+//         //if (evt.target.id == "de") _dir = 'DEBUG';
+    
+//         that.millisecondsInterval = action(_dir);
 
-        });
+//     });
         
-};
+// };
 
-AnnotaterView.prototype.ButtonPressUp = function (action) {
+// AnnotaterView.prototype.ButtonPressUp = function (action) {
 
-        var that = this;
+//     var that = this;
+    
+//     $(".button_box").mouseup(function () {
+//         action(that.millisecondsInterval);
+//     });
         
-        $(".button_box").mouseup(function () {
-            action(that.millisecondsInterval);
-        });
-        
-};
+// };
 
 AnnotaterView.prototype.Dispose = function (action) {
 
