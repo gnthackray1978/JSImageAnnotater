@@ -25,9 +25,9 @@ function loadAll (drive){
     if(postal)
         channel = postal.channel();
     
-    channel.prototype._shout = function(name, method, message){
-        this.publish( "DebugMessage", {name : name , description : method + '.'+ message } );
-    };
+    // channel.prototype._shout = function(name, method, message){
+    //     this.publish( "DebugMessage", {name : name , description : method + '.'+ message } );
+    // };
         
     /*would be better to start all these things with init methods and not
     have to worry about putting them in particular orders
