@@ -258,22 +258,7 @@ AnnotaterView.prototype.InitVis = function (state){
     $(".button_box").mouseup(function () {
         that._channel.publish( "visButtonReleased", { value: undefined } );
     });
-    
-    // $(".button_box").mousedown(function (evt) {
-    //     var _dir = '';
-    
-    //     if (evt.target.id == "up") _dir = 'UP';
-    //     if (evt.target.id == "dn") _dir = 'DOWN';
-    //     if (evt.target.id == "we") _dir = 'WEST';
-    //     if (evt.target.id == "no") _dir = 'NORTH';
-    //     if (evt.target.id == "es") _dir = 'EAST';
-    //     if (evt.target.id == "so") _dir = 'SOUTH';
-    //     if (evt.target.id == "de") _dir = 'DEBUG';
-    
-    //     //that.millisecondsInterval = action(_dir);
-        
-        
-    // });
+
 },
 
 AnnotaterView.prototype.InitNodeManager = function (state){
@@ -387,37 +372,6 @@ AnnotaterView.prototype.hideLoader = function (action) {
 
     $("#imageLoader").dialog("close");         
 };
-
-// AnnotaterView.prototype.ButtonPressDown = function (action) {
-
-//     var that = this;
-    
-//     $(".button_box").mousedown(function (evt) {
-//         var _dir = '';
-    
-//         if (evt.target.id == "up") _dir = 'UP';
-//         if (evt.target.id == "dn") _dir = 'DOWN';
-//         if (evt.target.id == "we") _dir = 'WEST';
-//         if (evt.target.id == "no") _dir = 'NORTH';
-//         if (evt.target.id == "es") _dir = 'EAST';
-//         if (evt.target.id == "so") _dir = 'SOUTH';
-//         //if (evt.target.id == "de") _dir = 'DEBUG';
-    
-//         that.millisecondsInterval = action(_dir);
-
-//     });
-        
-// };
-
-// AnnotaterView.prototype.ButtonPressUp = function (action) {
-
-//     var that = this;
-    
-//     $(".button_box").mouseup(function () {
-//         action(that.millisecondsInterval);
-//     });
-        
-// };
 
 AnnotaterView.prototype.Dispose = function (action) {
 
@@ -575,28 +529,7 @@ AnnotaterView.prototype.UpdateInfoWindow = function(data){
     }
 };
 
-
-
-AnnotaterView.prototype.QryRunScaleToScreen = function(callback){
-    
-     $('#btnDebugScaleToScreen').click(function (e) {
-         
-        var data= $("#txtDebugData").val();
-        
-        callback(data);
-    });
-};
  
-AnnotaterView.prototype.QryRunMoveNode = function(callback){
-    
-     $('#btnDebugMoveNode').click(function (e) {
-         
-        var data= $("#txtDebugData").val();
-        
-        callback(data);
-    });
-};
-
 AnnotaterView.prototype._shout = function(method, message){
     this._channel.publish( "DebugMessage", {name : 'SLC' , description : method + '.'+ message } );
 };

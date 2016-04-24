@@ -769,7 +769,13 @@ Visualizer.prototype.ZoomOut = function () {
         this.SetZoom(this.zoomAmount - (this.zoomAmount * 2));
         //  SetZoom(zoomAmount - (zoomAmount * 2));
     };
+  
+  
    
 Visualizer.prototype._shout = function(method, message){
     this._channel.publish( "DebugMessage", {name : 'Visualizer' , description : method + '.'+ message } );
+};
+
+Visualizer.prototype._infoMessage = function(data){
+    this._channel.publish( "InfoMessage", data );
 };

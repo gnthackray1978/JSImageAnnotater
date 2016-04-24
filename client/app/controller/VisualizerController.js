@@ -11,9 +11,9 @@ var VisualizerController = function (view, graphicsContext, channel) {
 
     var that = this;
 
-    this.graphicsContext.UpdateInfo = function(imdat){
-        that._view.UpdateInfoWindow(imdat);
-    };
+    // this.graphicsContext.UpdateInfo = function(imdat){
+    //     that._view.UpdateInfoWindow(imdat);
+    // };
 
     this.channel.subscribe("visMouseDown", function(data, envelope) {
         that.canvasMouseDown(data.value);
@@ -81,11 +81,6 @@ var VisualizerController = function (view, graphicsContext, channel) {
     this.channel.subscribe("visButtonReleased", function(data, envelope) {
         clearInterval(that.millisecondsInterval); 
     });
-            
-    //this._view.ButtonPressDown($.proxy(this.boxButtonDown, this));
-    //this._view.ButtonPressUp($.proxy(this.boxButtonUp, this));
-    
-
 
 };
 
@@ -125,23 +120,7 @@ VisualizerController.prototype = {
             });
 
     },
-    
-    // boxButtonUp:function(milliseconds){
-    //     clearInterval(milliseconds);
-    
-    // },
-    // boxButtonDown:function(dir){
-        
-    //     if (this.graphicsContext !== null) {
-            
-    //         var that = this;
-    //         return setInterval(function () {
-    //             that.graphicsContext.MoveTree(dir); 
-                
-    //         }, 100);
-    //     }
-    // },
-    
+
     canvasMouseMove:function(_point){
      
         if (this.graphicsContext !== null) {
