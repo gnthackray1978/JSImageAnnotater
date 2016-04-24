@@ -54,11 +54,11 @@ var VisualizerController = function (view, graphicsContext, channel) {
     };
     
     this.channel.subscribe("visUpButton", function(data, envelope) {
-        intervalMove('UP');
+        intervalMove('NORTH');
     });
     
     this.channel.subscribe("visDownButton", function(data, envelope) {
-        intervalMove('DOWN');
+        intervalMove('SOUTH');
     });
     
     this.channel.subscribe("visLeftButton", function(data, envelope) {
@@ -69,12 +69,13 @@ var VisualizerController = function (view, graphicsContext, channel) {
         intervalMove('EAST');
     });
 
+
     this.channel.subscribe("visZoomInButton", function(data, envelope) {
-        intervalMove('NORTH');
+        intervalMove('UP');
     });
 
     this.channel.subscribe("visZoomOutButton", function(data, envelope) {
-        intervalMove('SOUTH');
+        intervalMove('DOWN');
     });
     
     this.channel.subscribe("visButtonReleased", function(data, envelope) {
