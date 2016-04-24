@@ -230,12 +230,10 @@ AnnotaterView.prototype.InitVis = function (state){
     //var that = this;
     
     $("#up").mousedown(function (evt) {
-        //that._channel.publish( "visUpButton", { value: undefined } );
         that._channel.publish( "visZoomInButton", { value: undefined } );
     });
     
     $("#dn").mousedown(function (evt) {
-        //that._channel.publish( "visDownButton", { value: undefined } );
         that._channel.publish( "visZoomOutButton", { value: undefined } );
     });
     
