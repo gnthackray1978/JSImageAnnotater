@@ -230,12 +230,16 @@ AnnotaterView.prototype.InitVis = function (state){
     //var that = this;
     
     $("#up").mousedown(function (evt) {
-        that._channel.publish( "visUpButton", { value: undefined } );
+        //that._channel.publish( "visUpButton", { value: undefined } );
+        that._channel.publish( "visZoomInButton", { value: undefined } );
     });
     
     $("#dn").mousedown(function (evt) {
-        that._channel.publish( "visDownButton", { value: undefined } );
+        //that._channel.publish( "visDownButton", { value: undefined } );
+        that._channel.publish( "visZoomOutButton", { value: undefined } );
     });
+    
+    
     
     $("#we").mousedown(function (evt) {
         that._channel.publish( "visLeftButton", { value: undefined } );
@@ -246,11 +250,11 @@ AnnotaterView.prototype.InitVis = function (state){
     });
     
     $("#so").mousedown(function (evt) {
-        that._channel.publish( "visZoomOutButton", { value: undefined } );
+        that._channel.publish( "visDownButton", { value: undefined } );
     });
     
-    $("#de").mousedown(function (evt) {
-        that._channel.publish( "visZoomInButton", { value: undefined } );
+    $("#no").mousedown(function (evt) {
+        that._channel.publish( "visUpButton", { value: undefined } );
     });
     
     $(".button_box").mouseup(function () {
