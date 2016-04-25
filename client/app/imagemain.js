@@ -42,6 +42,7 @@ function loadAll (drive){
  
     data = new GDLoader(channel,driveLib);
 
+    var toolbarView = new ToolbarView(channel);
     var appView = new AnnotaterView(channel);
     var optionsView = new OptionsView(appView,channel);
     var selectionView = new SelectionView(appView,channel);
@@ -106,7 +107,7 @@ function loadAll (drive){
         var debug = new Debuger(channel, driveLib,nodeManager,visualizer,nodePositioningController);
    
         
-        appView.InitPanelVisibility();
+        toolbarView.InitPanelVisibility();
       
 
         visualizerController.startFromDrive();
