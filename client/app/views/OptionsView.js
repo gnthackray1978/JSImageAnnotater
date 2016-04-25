@@ -30,6 +30,8 @@ var OptionsView = function (view, channel) {
     
     this._baseView = view;
     this._channel = channel;
+    this.selectedFontChanged;
+    
     
     this.PublishSelectedColourComponent();
     

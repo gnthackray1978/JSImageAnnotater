@@ -8,31 +8,10 @@ function AnnotaterView(channel) {
    
     this.textarea = null;
     this._channel = channel;
-    //this._pickEnabled =false;
-    
-    // this.showGed = true;
-    // this.showMapControls = true;
-    // this.showDebug = true;
-    // this.showDataControls = true;
-    // this.showImageUI = true;
-    // this.showLayers = true;
-    // this.showmeta = true;
-    // this.showoptions = true;
-    // this.showCropper = true;
-    // this.showEdges =true;
-    // this.showMatches = true;
-    // this.showTextCreator =true;
-    // this.showToolBar =true;
-    
-    this.dataLoader = true;
+
+ 
     this.millisecondsInterval =1000;
-    this.selectedFontChanged;
-    
-    
-    this.layerButtonCallback;
-    this.layerInputCallback;
-    this.metaButtonCallback;
-    
+ 
     this.canvasMouseupLock ='';
     this.canvasMouseupLocks = [];
     
@@ -312,70 +291,6 @@ AnnotaterView.prototype.InitNodeManager = function (state){
         e.preventDefault();
     }); 
 },
-
-// AnnotaterView.prototype.InitPanelVisibility = function () {
-
-
-//     var that = this;
-
-//     $("#minimized_options").removeClass("hidePanel").addClass("displayPanel");
-      
-//     var createDialog = function(buttonId,dialogUI, displaySwitch, className, closeButton){
-            
-//             $(buttonId).click(function (e) {
-//                 if (displaySwitch) {
-              
-//                     $(dialogUI).dialog();
-//                     $(dialogUI).closest('.ui-dialog').addClass(className);
-                    
-//                     displaySwitch = false;
-//                 } else {
-              
-//                     $(dialogUI).dialog("close");
-//                     displaySwitch = true;
-//                 }
-//             });
-            
-//             $(buttonId).live("dialogclose", function(){
-//                 displaySwitch = true;
-//             });
-            
-//             if(closeButton){
-//                 $(closeButton).click(function (e) {
-//                     $(dialogUI).dialog("close");
-//                         displaySwitch = true;
-//                 });
-//             }
-//         };
-        
-//     createDialog('#show_controls',"#map_control",that.showMapControls,'controldialog');
-
-//     createDialog('#show_debugbox',"#map_message",that.showDebug,'debugdialog');
-
-//     createDialog('#show_imageUI',"#map_imageUI",that.showImageUI,'uidialog');
-    
-//     createDialog('#show_layers',"#map_layers",that.showLayers,'layersdialog');
-
-//     createDialog('#show_meta',"#map_metadata",that.showmeta,'metadialog','#btnCancelMetaInfo');
-
-//     createDialog('#show_options',"#map_options",that.showoptions,'optionsdialog','#btnCancelOptions');
-
-//     createDialog('#show_cropper',"#map_crop",that.showCropper,'cropdialog','#btnCancelCropper');
-
-//     createDialog('#show_edges',"#map_edge_add",that.showEdges,'edgesdialog','#btnCancelEdge');
-
-//     createDialog('#show_matcher',"#map_matches",that.showMatches,'matchesdialog','#btnCancelMatches');
-
-//     createDialog('#show_textCreator',"#map_textFiles",that.showTextCreator,'textdialog','#btnCancelTextFile');
-
-//     createDialog('#show_tools',"#map_toolbar",that.showToolBar,'toolbardialog','#btnCancelToolBar');
-
-// };
-
-AnnotaterView.prototype.hideLoader = function (action) {
-
-    $("#imageLoader").dialog("close");         
-};
 
 AnnotaterView.prototype.Dispose = function (action) {
 
