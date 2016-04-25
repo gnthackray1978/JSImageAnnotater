@@ -1,4 +1,8 @@
 
+/*CRUD related
+  add edit delete nodes
+*/
+
 /** @constructor */
 function AnnotaterView(channel) {       
    
@@ -516,19 +520,6 @@ AnnotaterView.prototype.QryClearDeleted = function(callback){
 };
 
 //DEBUG STUFF
-
-//CALLED FROM MODEL AND UPDATES OPTIONS DATA TO UI
-AnnotaterView.prototype.UpdateInfoWindow = function(data){
-    
-    if(data!=undefined){
-        $("#map_image").html(data.title);
-        $("#map_zoom").html(data.zoomlevel);
-        $("#map_dims").html(data.dims);
-        $("#map_noteCount").html(data.noteCount);
-        $("#map_count").html(data.size);
-    }
-};
-
  
 AnnotaterView.prototype._shout = function(method, message){
     this._channel.publish( "DebugMessage", {name : 'SLC' , description : method + '.'+ message } );

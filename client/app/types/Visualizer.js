@@ -47,7 +47,7 @@ var Visualizer = function (data, nodestore,canvasTools,channel) {
     this.imageData = null;
     
     this.EnableRun;
-    this.UpdateInfo;
+    //this.UpdateInfo;
     this.defaultOptions;
     //
     
@@ -440,11 +440,13 @@ Visualizer.prototype._updateInfo = function(val){
          noteCount: this.nodestore.generations.length,
          size : 'unk'
     };
+  
+    this._infoMessage(imdat);
     
-    if(this.UpdateInfo)
-        this.UpdateInfo(imdat);
-    else
-        this._shout('_imageLoaded','EnableRun not defined') ;
+    // if(this.UpdateInfo)
+    //     this.UpdateInfo(imdat);
+    // else
+    //     this._shout('_imageLoaded','EnableRun not defined') ;
 };    
     
 
