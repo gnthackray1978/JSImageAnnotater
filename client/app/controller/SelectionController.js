@@ -37,7 +37,7 @@
             that.clickAction(data.value.x, data.value.y);
         });
     
-        this._channel.subscribe("doubleClick", function(data, envelope) {
+        this._channel.subscribe("selectionDoubleClick", function(data, envelope) {
             that.doubleClickAction(data.value.x, data.value.y);
         });
         

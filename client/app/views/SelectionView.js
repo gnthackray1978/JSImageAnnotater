@@ -1,4 +1,4 @@
-
+/*global $*/
 
 var SelectionView = function (view, channel) {
     var that = this;
@@ -48,7 +48,6 @@ var SelectionView = function (view, channel) {
         that.DisplaySingleSelection(data.value);            
     });
     
-    
     this._channel.subscribe("multiselectingend", function(data, envelope) {
         selectionChange(data.value);
         
@@ -76,17 +75,32 @@ SelectionView.prototype.InitSelectionRectangle = function (state){
     var that = this;
     var key = 'RS';
     
+    $("#myCanvas").dblclick(function (evt) {
+        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+        
+        that._baseView.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+        that._baseView.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+        
+        that._channel.publish( "selectionDoubleClick", { value: 
+            {
+                x : that._baseView.canvasMouseLastXClick,
+                y : that._baseView.canvasMouseLastYClick
+            } 
+        } );
+        
+    });
+    
     $("#myCanvas").click(function (evt) {
         if(that._baseView.GetKey(that._baseView.canvasMouseClickLocks) == key) {
             var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
             
-            that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-            that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+            that._baseView.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+            that._baseView.canvasMouseLastYClick = evt.clientY - boundingrec.top;
             
             that._channel.publish( "selectionClick", { value: 
                 {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
+                    x : that._baseView.canvasMouseLastXClick,
+                    y : that._baseView.canvasMouseLastYClick
                 } 
             } );
         }

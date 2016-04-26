@@ -127,7 +127,7 @@ function AnnotaterView(channel) {
         });
     }
 
-    this.InitGenericMouseClicks();
+    //this.InitGenericMouseClicks();
     
     this.InitNodeManager();
 
@@ -137,27 +137,27 @@ function AnnotaterView(channel) {
 } 
 
 
-AnnotaterView.prototype.InitGenericMouseClicks = function (){
-    var key = '';
+// AnnotaterView.prototype.InitGenericMouseClicks = function (){
+//     var key = '';
     
-    var that = this;
+//     var that = this;
 
-    $("#myCanvas").dblclick(function (evt) {
-        var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
+//     $("#myCanvas").dblclick(function (evt) {
+//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
         
-        that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-        that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
+//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
+//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
         
-        that._channel.publish( "doubleClick", { value: 
-                {
-                    x : that.canvasMouseLastXClick,
-                    y : that.canvasMouseLastYClick
-                } 
-            } );
+//         that._channel.publish( "doubleClick", { value: 
+//                 {
+//                     x : that.canvasMouseLastXClick,
+//                     y : that.canvasMouseLastYClick
+//                 } 
+//             } );
         
-    });
+//     });
     
-},
+// },
 
  
 AnnotaterView.prototype.GetKey = function (array){
@@ -291,14 +291,6 @@ AnnotaterView.prototype.InitNodeManager = function (state){
         e.preventDefault();
     }); 
 },
-
-AnnotaterView.prototype.Dispose = function (action) {
-
-    $("#myCanvas").unbind();
-    $(".button_box").unbind();
-    
-    action();
-};
 
 
 // the options param is only used here for altering the note text area styling
