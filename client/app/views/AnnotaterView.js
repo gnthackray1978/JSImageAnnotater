@@ -127,8 +127,7 @@ function AnnotaterView(channel) {
         });
     }
 
-    //this.InitGenericMouseClicks();
-    
+ 
     this.InitNodeManager();
 
     this.InitVis();
@@ -136,30 +135,6 @@ function AnnotaterView(channel) {
     
 } 
 
-
-// AnnotaterView.prototype.InitGenericMouseClicks = function (){
-//     var key = '';
-    
-//     var that = this;
-
-//     $("#myCanvas").dblclick(function (evt) {
-//         var boundingrec = document.getElementById("myCanvas").getBoundingClientRect();
-        
-//         that.canvasMouseLastXClick = evt.clientX - boundingrec.left;
-//         that.canvasMouseLastYClick = evt.clientY - boundingrec.top;
-        
-//         that._channel.publish( "doubleClick", { value: 
-//                 {
-//                     x : that.canvasMouseLastXClick,
-//                     y : that.canvasMouseLastYClick
-//                 } 
-//             } );
-        
-//     });
-    
-// },
-
- 
 AnnotaterView.prototype.GetKey = function (array){
     return array[array.length-1]!=undefined ? array[array.length-1] : '';
     

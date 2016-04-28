@@ -63,6 +63,13 @@ var SelectionView = function (view, channel) {
         
     });
     
+    // this._channel.subscribe("deactivateFocusedSelection", function(data, envelope) {
+    //     that.DeSelectSingleDelete();            
+    // });
+    
+    // this._channel.subscribe("activateFocusedSelection", function(data, envelope) {
+    //     that.SelectSingleDelete();            
+    // });
 
     //this.PublishNodePositioning();
     
