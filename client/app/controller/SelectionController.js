@@ -65,6 +65,11 @@
             that._state =0;
         });
         
+        // triggered after node saved
+        this._channel.subscribe("DisplayNeutralState", function(data, envelope) {
+            that._state =0;
+        });
+        
         /*
             selection cleared
             selection changed
