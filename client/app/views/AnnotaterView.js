@@ -291,8 +291,8 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
             document.removeEventListener('mouseup', stopDrag);
         }
 
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', stopDrag);
+//        document.addEventListener('mousemove', drag);
+//        document.addEventListener('mouseup', stopDrag);
     };
 
     if (!that.textarea) {
