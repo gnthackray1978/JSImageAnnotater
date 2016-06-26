@@ -278,10 +278,18 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
     var that = this;
     var mouseDownOnTextarea = function (e) {
         console.log('mouse down');
+        
         var x = that.textarea.offsetLeft - e.clientX,
             y = that.textarea.offsetTop - e.clientY;
+            
         function drag(e) {
             console.log('mouse drag');
+            
+            var dragLimitX = that.textarea.offsetLeft + that.textarea.clientWidth - 25;
+            var dragLimitY = that.textarea.offsetTop + that.textarea.clientHeight - 25;
+        
+            if(e.clientX > dragLimitX && e.clientY > dragLimitY) return;
+       
             that.textarea.style.left = e.clientX + x + 'px';
             that.textarea.style.top = e.clientY + y + 'px';
         }
@@ -291,8 +299,8 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
             document.removeEventListener('mouseup', stopDrag);
         }
 
-//        document.addEventListener('mousemove', drag);
-//        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
     };
 
     if (!that.textarea) {
