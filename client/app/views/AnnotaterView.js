@@ -277,13 +277,16 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
 
     var that = this;
     var mouseDownOnTextarea = function (e) {
+        console.log('mouse down');
         var x = that.textarea.offsetLeft - e.clientX,
             y = that.textarea.offsetTop - e.clientY;
         function drag(e) {
+            console.log('mouse drag');
             that.textarea.style.left = e.clientX + x + 'px';
             that.textarea.style.top = e.clientY + y + 'px';
         }
         function stopDrag() {
+            console.log('mouse stop drag');
             document.removeEventListener('mousemove', drag);
             document.removeEventListener('mouseup', stopDrag);
         }
@@ -293,6 +296,7 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
     };
 
     if (!that.textarea) {
+        console.log('!that.textarea');
         that.textarea = document.createElement('textarea');
         that.textarea.className = 'info';
         that.textarea.addEventListener('mousedown', mouseDownOnTextarea);
@@ -301,6 +305,8 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
     }
 
     height = height -5;
+    
+    console.log('EditDisplayNodeSelection');
     
     that.textarea.value = note;
     that.textarea.style.top = y + 'px';
