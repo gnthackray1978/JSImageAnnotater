@@ -317,6 +317,7 @@ AnnotaterView.prototype.EditDisplayNodeSelection = function (x,y,width,height,an
 
     that.textarea.style.transform = 'rotate('+ angle +'deg)';
     that.textarea.style.transformOrigin = '0% 0%';
+    that.textarea.style.resize="both";
     
     if(options.FontSize){
         if(options.FontSize > 25 ) options.FontSize = 25;
